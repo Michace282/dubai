@@ -1,0 +1,36 @@
+version: '3.0'
+
+services:
+    db:
+        image: postgres:11
+        container_name: dev_sampleproject_pg01
+        restart: always
+        env_file: .env
+    django:
+        build:
+            context: backend
+        container_name: dev_sampleproject_dj01
+        command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; python manage.py migrate && python manage.py collectstatic --noinput && gunicorn -b 0.0.0.0:8000 backend.wsgi:application'
+        env_file: .env
+        image: django-image-sampleproject
+        volumes:
+            - ./backend:/app
+        depends_on:
+            - db
+        ports:
+            - "8000:8000"
+    nuxt:
+        build:
+            context: frontend
+        container_name: dev_sampleproject_nx01
+        command: bash -c 'yarn build && yarn start'
+        env_file: .env
+        stdin_open: true
+        tty: true
+        volumes:
+            - ~/.composer-docker/cache:/root/.composer/cache:delegated
+            - ./frontend:/app:cached
+        depends_on:
+            - django
+        ports:
+            - "4444:3000"

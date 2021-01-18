@@ -1,0 +1,27 @@
+{
+  "name": "frontend",
+  "version": "1.13.0",
+  "description": "My neat Nuxt.js project",
+  "author": "krulikovskiy",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate",
+    "buildStart": "npm run build && npm run start"
+  },
+  "dependencies": {
+    "@nuxtjs/apollo": "^4.0.0-rc19",
+    "@nuxtjs/device": "^1.2.4",
+    "@nuxtjs/dotenv": "^1.4.1",
+    "bootstrap": "^4.1.3",
+    "bootstrap-vue": "^2.0.0",
+    "cookie-universal-nuxt": "^2.1.0",
+    "graphql-tag": "^2.10.1",
+    "less": "^3.10.3",
+    "less-loader": "^5.0.0",
+    "nuxt": "^2.0.0"
+  },
+  "devDependencies": {}
+}

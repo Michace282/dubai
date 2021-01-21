@@ -4,7 +4,7 @@
             <div class="footer-group">
                 <ul class="menu">
                     <li>
-                        <nuxt-link to="">Payment & Delivery</nuxt-link>
+                        <nuxt-link to="/payment/">Payment & Delivery</nuxt-link>
                     </li>
                     <li>
                         <nuxt-link to="">Contact us </nuxt-link>

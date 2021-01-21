@@ -71,10 +71,7 @@
             </div>
         </div>
         <div class="advantages-group">
-            <div class="block-title">
-                Our advantages
-                <span class="front-title">Our advantages</span>
-            </div>
+            <base-title title="Our advantages" />
             <div class="advantages">
                 <div class="advantage" v-for="(advantage, index) in advantages" :key="index">
                     <img :src="require(`~/assets/images/icons/${advantage.icon}`)" />

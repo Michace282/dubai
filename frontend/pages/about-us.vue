@@ -1,9 +1,6 @@
 <template>
     <div class="container">
-        <div class="block-title mt-30">
-            about us
-            <span class="front-title">about us</span>
-        </div>
+        <base-title title="about-us" class="mt-30"/>
         <div class="text-box">
             <div class="text">
                 <p>
@@ -47,10 +44,7 @@
                     exchange anything, we can arrange this for you quickly and easily – just follow the section “Contact
                     Us” in the webpage.
                 </p>
-                <div class="block-title mt-30">
-                    Be Unique – be DC&S!
-                    <span class="front-title">Be Unique – be DC&S!</span>
-                </div>
+                <base-title title="Be Unique – be DC&S!" class="mt-30"/>
             </div>
         </div>
     </div>
@@ -66,6 +60,23 @@
         },
     };
 </script>
+<style lang="less">
+    .text {
+        .block-title {
+            font-family: 'Inter-Medium';
+            text-align: center;
+            line-height: 77px;
+
+            .front-title {
+                bottom: unset;
+                top: 30px;
+                left: 0;
+                right: 0;
+                margin: auto;
+            }
+        }
+    }
+</style>
 <style lang="less" scoped>
     @import '../assets/css/colors.less';
 
@@ -79,20 +90,6 @@
             font-family: 'Inter-Light';
             font-size: 18px;
             color: @black;
-
-            .block-title {
-                font-family: 'Inter-Medium';
-                text-align: center;
-                line-height: 77px;
-
-                .front-title {
-                    bottom: unset;
-                    top: 30px;
-                    left: 0;
-                    right: 0;
-                    margin: auto;
-                }
-            }
         }
     }
 </style>

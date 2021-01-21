@@ -1,7 +1,7 @@
 <template>
     <div>
         <TheNavbar />
-        <div class="container p-0">
+        <div class="container">
             <div class="breadcrumbs" v-if="breadcrumbs && breadcrumbs.length > 0">
                 <nuxt-link
                     class="breadcrumb"
@@ -36,7 +36,7 @@
     .breadcrumbs {
         display: flex;
         flex-wrap: wrap;
-        margin: 30px 0px;
+        margin: 30px 0px 20px 0px;
 
         .breadcrumb {
             text-decoration: none;

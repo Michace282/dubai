@@ -1,0 +1,38 @@
+<template>
+    <div class="block-title">
+        {{ title }}
+        <span class="front-title">{{ title }}</span>
+    </div>
+</template>
+<script>
+    export default {
+        name: 'BaseTitle',
+        props: {
+            title: {
+                type: String,
+                required: true,
+                default: '',
+            },
+        },
+    };
+</script>
+<style lang="less" scoped>
+    @import "../assets/css/colors";
+
+    .block-title {
+        position: relative;
+        font-size: 64px;
+        color: @grey3;
+        text-transform: uppercase;
+
+        .front-title {
+            position: absolute;
+            font-family: 'Inter-Medium';
+            color: @black;
+            left: 0;
+            font-size: 36px;
+            left: 30px;
+            bottom: 5px;
+        }
+    }
+</style>

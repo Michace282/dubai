@@ -1,75 +1,76 @@
 // require('dotenv').config()
-const isDev = process.env.NODE_ENV !== 'production'
-
+const isDev = process.env.NODE_ENV !== "production";
 export default {
-  mode: 'universal',
+  mode: "universal",
   ...(!isDev && {
-    modern: 'client'
+    modern: "client"
   }),
   /*
-  ** Headers of the page
-  */
+   ** Headers of the page
+   */
   head: {
-    title: process.env.npm_package_name || '',
+    title: process.env.npm_package_name || "",
     meta: [
-      {charset: 'utf-8'},
-      {name: 'viewport', content: 'width=device-width, initial-scale=1'},
-      {hid: 'description', name: 'description', content: ''},
-      {property: 'og:title', content: 'Быстрый поиск недвижимости - ЮАНИТ',},
-      {property: 'og:description', content: '',},
-      {property: 'og:image', content: ''}
+      { charset: "utf-8" },
+      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { hid: "description", name: "description", content: "" },
+      { property: "og:title", content: "" },
+      { property: "og:description", content: "" },
+      { property: "og:image", content: "" }
     ],
-    link: [
-      {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'}
-    ]
+    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
   },
   /*
-  ** Customize the progress-bar color
-  */
-  loading: {color: '#fff'},
+   ** Customize the progress-bar color
+   */
+  loading: { color: "#fff" },
   /*
-  ** Global CSS
-  */
-  css: [
-    '~assets/css/fonts.less',
-    '~assets/css/main.less',
-  ],
+   ** Global CSS
+   */
+  css: ["~assets/css/fonts.less", "~assets/css/main.less"],
+
   /*
-  ** Plugins to load before mounting the App
-  */
+   ** Plugins to load before mounting the App
+   */
   plugins: [
     // '~plugins/axios',
-    '~plugins/components.server.js',
-    '~plugins/components.client.js',
+    "~plugins/components.server.js",
+    "~plugins/components.client.js"
   ],
   /*
-  ** Nuxt.js dev-modules
-  */
+   ** Nuxt.js dev-modules
+   */
   buildModules: [],
+
   /*
-  ** Nuxt.js modules
-  */
+   ** Nuxt.js modules
+   */
   modules: [
-    'bootstrap-vue/nuxt',
-    'cookie-universal-nuxt',
-    '@nuxtjs/device',
-    '@nuxtjs/apollo',
-    '@nuxtjs/dotenv',
+    "bootstrap-vue/nuxt",
+    "cookie-universal-nuxt",
+    "@nuxtjs/device",
+    "@nuxtjs/apollo",
+    "@nuxtjs/dotenv"
   ],
+
+  styleResources: {
+    less: "./assets/css/colors.less"
+  },
+
   apollo: {
-    tokenName: 'jwt_token',
+    tokenName: "jwt_token",
     cookieAttributes: {
       expires: 6,
-      path: '/',
+      path: "/"
     },
-    errorHandler: '~/plugins/apollo-error-handler.js',
+    errorHandler: "~/plugins/apollo-error-handler.js",
     includeNodeModules: true,
     $query: {
-      loadingKey: 'loading',
+      loadingKey: "loading"
     },
-    authenticationType: 'JWT',
+    authenticationType: "JWT",
     clientConfigs: {
-      default: '~/plugins/apollo.js',
+      default: "~/plugins/apollo.js"
     }
   },
   watchers: {
@@ -79,16 +80,15 @@ export default {
     }
   },
   devServer: {
-    public: process.env.DOCKER_URL || 'localhost:3000',
+    public: process.env.DOCKER_URL || "localhost:3000"
   },
   /*
-  ** Build configuration
-  */
+   ** Build configuration
+   */
   build: {
     /*
-    ** You can extend webpack config here
-    */
-    extend(config, ctx) {
-    }
+     ** You can extend webpack config here
+     */
+    extend(config, ctx) {}
   }
-}
+};

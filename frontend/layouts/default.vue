@@ -4,7 +4,7 @@
         <div class="container">
             <div class="breadcrumbs" v-if="breadcrumbs && breadcrumbs.length > 0">
                 <nuxt-link
-                    class="breadcrumb"
+                    class="breadcrumb mb-0"
                     :to="{ name: breadcrumb.link }"
                     v-for="(breadcrumb, index) in breadcrumbs"
                     :key="index"

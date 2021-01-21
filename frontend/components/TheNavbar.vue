@@ -14,7 +14,7 @@
                         <b-nav-item to="#">Dance shoes</b-nav-item>
                         <b-nav-item to="#">Accessories</b-nav-item>
                         <b-nav-item to="/about-us/">About us</b-nav-item>
-                        <b-nav-item to="#">Contact us</b-nav-item>
+                        <b-nav-item to="/contacts/">Contact us</b-nav-item>
                     </b-navbar-nav>
 
                     <b-navbar-nav class="ml-auto icons">

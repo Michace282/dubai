@@ -7,7 +7,7 @@
                         <nuxt-link to="/payment/">Payment & Delivery</nuxt-link>
                     </li>
                     <li>
-                        <nuxt-link to="">Contact us </nuxt-link>
+                        <nuxt-link to="/contacts/">Contact us </nuxt-link>
                     </li>
                     <li>
                         <nuxt-link to="">Size charts</nuxt-link>
@@ -99,6 +99,12 @@
                         font-size: 14px;
                         text-transform: uppercase;
                         color: @black;
+
+                        &:hover {
+                            border: 1px solid @white;
+                            background: @black;
+                            color: @white;
+                        }
                     }
                 }
             }

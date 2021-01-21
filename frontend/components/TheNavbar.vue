@@ -2,7 +2,7 @@
     <div class="navbar-box">
         <div class="container p-0">
             <b-navbar toggleable="lg" type="dark">
-                <b-navbar-brand href="index"><img src="~/assets/images/logo.png" /></b-navbar-brand>
+                <b-navbar-brand to="/"><img src="~/assets/images/logo.png" /></b-navbar-brand>
 
                 <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -13,7 +13,7 @@
                         <b-nav-item to="#">Mens</b-nav-item>
                         <b-nav-item to="#">Dance shoes</b-nav-item>
                         <b-nav-item to="#">Accessories</b-nav-item>
-                        <b-nav-item to="#">About us</b-nav-item>
+                        <b-nav-item to="/about-us/">About us</b-nav-item>
                         <b-nav-item to="#">Contact us</b-nav-item>
                     </b-navbar-nav>
 

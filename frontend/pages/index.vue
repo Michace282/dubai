@@ -19,7 +19,7 @@
             v-model="slide"
             :interval="4000"
             indicators
-            background="#ababab"
+            class="index-carousel"
             img-width="1024"
             img-height="480"
         >
@@ -33,6 +33,10 @@
                         alt="image slot"
                     />
                 </template>
+                <div>
+                    <nuxt-link to="" class="carousel-link">Dress Damiana Grey</nuxt-link>
+                    <div class="caption">200 AED <img src="~/assets/images/icons/arrow-right.svg" /></div>
+                </div>
             </b-carousel-slide>
             <b-carousel-slide>
                 <template #img>
@@ -116,10 +120,66 @@
                 ],
             };
         },
+        created() {
+            this.$store.commit('set_breadcrumbs', null);
+        },
     };
 </script>
 
 <style lang="less">
+    @import '../assets/css/colors';
+
+    .index-carousel {
+        .carousel-caption {
+            right: 90px;
+            bottom: 30px;
+            left: unset;
+            text-align: left;
+
+            .carousel-link {
+                font-family: 'Inter-ExtraLight';
+                font-size: 14px;
+                text-decoration-line: underline;
+                color: @white;
+            }
+
+            .caption {
+                font-family: 'Inter-ExtraLight';
+                display: flex;
+                align-items: center;
+                margin-top: 5px;
+                font-size: 10px;
+                color: @pink_light;
+
+                img {
+                    margin-left: 15px;
+                }
+            }
+        }
+    }
+
+    .carousel-indicators {
+        display: flex;
+        align-items: center;
+        li {
+            width: 15px;
+            height: 5px;
+            opacity: 1;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+            border: 0px;
+            transition: all 0.5s;
+
+            &.active {
+                width: 30px;
+                height: 7px;
+                background: @black;
+            }
+        }
+    }
+</style>
+
+<style lang="less" scoped>
     @import '../assets/css/colors';
 
     .advantages-group {
@@ -237,32 +297,11 @@
         }
     }
 
-    .carousel-indicators {
-        display: flex;
-        align-items: center;
-        li {
-            width: 15px;
-            height: 5px;
-            opacity: 1;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 5px;
-            border: 0px;
-            transition: all 0.5s;
-
-            &.active {
-                width: 30px;
-                height: 7px;
-                background: @black;
-            }
-        }
-    }
-</style>
-
-<style lang="less" scoped>
     .caption-group {
         width: fit-content;
         margin: 0 auto;
         padding: 15px 0px;
+
         .head-caption {
             display: flex;
             align-items: center;

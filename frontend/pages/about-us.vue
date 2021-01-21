@@ -1,0 +1,98 @@
+<template>
+    <div class="container">
+        <div class="block-title mt-30">
+            about us
+            <span class="front-title">about us</span>
+        </div>
+        <div class="text-box">
+            <div class="text">
+                <p>
+                    “DC&S Company” was founded in 2020 and based in Dubai. Our mission – to bring the freshest clothing,
+                    shoes and accessories for all the dance community in the UAE!
+                </p>
+                <p>
+                    Our team is Kathryn, Oleg and Kateryna. We are professional dancers, competitors and passionate
+                    about dance!
+                </p>
+                <p>
+                    Kathryn started social and ballroom dancing in Dubai 3 years ago and is now a competitive Pro-Am
+                    student in Latin and Standard programs, so she understands the needs of students who are just at the
+                    beginning of their dance journey up to those who are experienced pro-am competitors.
+                </p>
+                <p class="mt-40">
+                    Oleg and Kateryna have been professional dancers for 17 years and continued their professional
+                    career as dance instructors in Dubai training students in Latin, Ballroom and social dances such as
+                    Salsa, Bachata and Argentine Tango. They know how difficult it is for dance instructors, students
+                    and lovers of any style of dance to find dance wear which have the right balance of style, comfort,
+                    quality, diversity and affordability in the UAE.
+                </p>
+                <p>
+                    We have launched our dance shop to deliver high-quality and stylish dance clothes which will be
+                    comfortable to wear for training and performing in any dance style and at any level or which can be
+                    worn even for parties!
+                </p>
+            </div>
+            <div class="photo">
+                <img src="~/assets/images/about-us-photo.jpg" />
+            </div>
+        </div>
+        <div class="text-box">
+            <div class="photo">
+                <img src="~/assets/images/logo-big.png" />
+            </div>
+            <div class="text">
+                <p>
+                    We have a wide range of styles and products which will satisfy any dancer and which we are happy to
+                    deliver to you wherever you are based in the UAE in 1-2 days. Don’t worry - if you need to return or
+                    exchange anything, we can arrange this for you quickly and easily – just follow the section “Contact
+                    Us” in the webpage.
+                </p>
+                <div class="block-title mt-30">
+                    Be Unique – be DC&S!
+                    <span class="front-title">Be Unique – be DC&S!</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+    export default {
+        name: 'about-us',
+        created() {
+            this.$store.commit('set_breadcrumbs', [
+                { link: 'index', name: 'Home' },
+                { link: 'about-us', name: 'About Us' },
+            ]);
+        },
+    };
+</script>
+<style lang="less" scoped>
+    @import '../assets/css/colors.less';
+
+    .text-box {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 60px;
+
+        .text {
+            max-width: 530px;
+            font-family: 'Inter-Light';
+            font-size: 18px;
+            color: @black;
+
+            .block-title {
+                font-family: 'Inter-Medium';
+                text-align: center;
+                line-height: 77px;
+
+                .front-title {
+                    bottom: unset;
+                    top: 30px;
+                    left: 0;
+                    right: 0;
+                    margin: auto;
+                }
+            }
+        }
+    }
+</style>

@@ -6,24 +6,24 @@
             <base-title title="delivery" />
         </div>
         <div class="payment-box mt-45">
-            <div class="payment-group">
+            <div>
                 <div class="title">You can use these payment methods</div>
-                <div class="row mt-40">
-                    <div class="col-auto text-center">
+                <div class="payment-group mt-40" >
+                    <div class="text-center">
                         <img src="~/assets/images/icons/credit-card.svg" />
                         <div class="caption">Credit or Debit card</div>
                     </div>
-                    <div class="col-auto text-center">
+                    <div class="text-center">
                         <img src="~/assets/images/icons/cash.svg" />
                         <div class="caption">Cash on Delivery</div>
                     </div>
-                    <div class="col-auto text-center">
+                    <div class="text-center">
                         <img src="~/assets/images/icons/paypal.svg" />
                         <div class="caption">PayPal</div>
                     </div>
                 </div>
             </div>
-            <div class="payment-group">
+            <div>
                 <div class="title">We are happy to offer you</div>
                 <div class="delivery-group">
                     <img src="~/assets/images/icons/delivery-truck.svg" />
@@ -53,28 +53,40 @@
         flex-wrap: wrap;
 
         .payment-group {
-            .title {
-                font-family: 'Inter-Regular';
-                font-size: 24px;
-                color: @black;
-            }
+            display: flex;
+            flex-wrap: wrap;
 
-            .delivery-group {
-                width: fit-content;
-                text-align: center;
-                margin-top: 40px;
-            }
-
-            .caption {
-                margin-top: 15px;
-                font-family: 'Inter-Light';
-                font-size: 18px;
-                color: @black;
-
-                &.delivery {
-                    max-width: 240px;
-                    margin: 15px auto 0px;
+            .text-center {
+                &:first-child {
+                    margin-right: 40px;
                 }
+                &:nth-child(2) {
+                    margin-right: 90px;
+                }
+            }
+        }
+
+        .title {
+            font-family: 'Inter-Regular';
+            font-size: 24px;
+            color: @black;
+        }
+
+        .delivery-group {
+            width: fit-content;
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .caption {
+            margin-top: 15px;
+            font-family: 'Inter-Light';
+            font-size: 18px;
+            color: @black;
+
+            &.delivery {
+                max-width: 240px;
+                margin: 15px auto 0px;
             }
         }
     }

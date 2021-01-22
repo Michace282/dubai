@@ -1,0 +1,24 @@
+<template>
+    <div class="row">
+        <div class="col-auto caption">
+            With your social network
+        </div>
+        <div class="col-auto">
+            <a href.prevent class="mr-3"><img src="~/assets/images/icons/facebook.svg" /></a>
+            <a href.prevent><img src="~/assets/images/icons/google.svg" /></a>
+        </div>
+    </div>
+</template>
+<script>
+    export default {
+        name: 'SocialsAuth',
+    };
+</script>
+<style lang="less" scoped>
+    .caption {
+        display: flex;
+        align-items: center;
+        font-family: 'Inter-Light';
+        font-size: 18px;
+    }
+</style>

@@ -49,7 +49,7 @@ export default {
     modules: ['bootstrap-vue/nuxt', 'cookie-universal-nuxt', '@nuxtjs/device', '@nuxtjs/apollo', '@nuxtjs/dotenv'],
 
     styleResources: {
-        less: './assets/css/colors.less',
+        less: './assets/css/variables.less',
     },
 
     apollo: {

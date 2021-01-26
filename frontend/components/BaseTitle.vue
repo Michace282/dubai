@@ -17,13 +17,17 @@
     };
 </script>
 <style lang="less" scoped>
-    @import "../assets/css/colors";
+    @import '../assets/css/variables.less';
 
     .block-title {
         position: relative;
         font-size: 64px;
         color: @grey3;
         text-transform: uppercase;
+
+        @media @large {
+            font-size: 36px;
+        }
 
         .front-title {
             position: absolute;
@@ -33,6 +37,12 @@
             font-size: 36px;
             left: 30px;
             bottom: 5px;
+
+            @media @large {
+                font-size: 24px;
+                left: 19px;
+                bottom: 0px;
+            }
         }
     }
 </style>

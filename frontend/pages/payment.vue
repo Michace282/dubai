@@ -45,7 +45,7 @@
     };
 </script>
 <style lang="less" scoped>
-    @import '../assets/css/colors';
+    @import '../assets/css/variables.less';
 
     .payment-box {
         display: flex;

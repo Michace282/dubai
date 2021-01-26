@@ -78,7 +78,7 @@
     }
 </style>
 <style lang="less" scoped>
-    @import '../assets/css/colors.less';
+    @import '../assets/css/variables.less';
 
     .text-box {
         display: flex;

@@ -78,7 +78,7 @@
             font-size: 24px;
             color: @black;
 
-            @media @small {
+            @media @medium {
                 font-size: 18px;
             }
         }
@@ -99,7 +99,7 @@
                 max-width: 240px;
                 margin: 15px auto 0px;
 
-                @media @small {
+                @media @medium {
                     max-width: 155px;
                 }
             }

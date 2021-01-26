@@ -2,7 +2,7 @@
     <footer class="footer">
         <div class="container">
             <div class="row">
-                <div class="col col-lg-auto order-1 order-lg-0 p-0">
+                <div class="col col-md-auto order-1 order-md-0 p-0">
                     <ul class="menu">
                         <li>
                             <nuxt-link to="/payment/">Payment & Delivery</nuxt-link>
@@ -21,20 +21,20 @@
                         </li>
                     </ul>
                 </div>
-                <div class="col-12 col-lg order-0 order-lg-1 p-0">
+                <div class="col-12 col-md order-0 order-md-1 p-0">
                     <div class="form-box">
                         <div class="description">Subscribe to receive updates, access to exclusive deals and more</div>
                         <div class="row form">
-                            <div class="col-auto pr-2 pr-lg-3">
-                                <input placeholder="E-MAIL" v-model="email" class="input" />
+                            <div class="col pr-2 pr-lg-3 d-flex align-items-end">
+                                <base-input class="dark" label="email" name="email" />
                             </div>
-                            <div class="col-auto pr-0">
+                            <div class="col-auto input-box pr-0">
                                 <button class="btn btn-send">Send</button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-auto order-2 order-lg-2 p-0">
+                <div class="col-auto order-2 order-md-2 p-0">
                     <ul class="menu contacts">
                         <li>
                             <a href="tel: +971506553470">+971 50 655 3470</a>
@@ -53,8 +53,10 @@
     </footer>
 </template>
 <script>
+    import BaseInput from './fields/BaseInput.vue';
     export default {
         name: 'TheFooter',
+        components: { BaseInput },
         data() {
             return {
                 email: '',
@@ -69,7 +71,7 @@
         background: @black;
         padding: 45px;
 
-        @media (max-width: 520px) {
+        @media (max-width: 991px) {
             padding: 30px 20px;
         }
 
@@ -92,15 +94,7 @@
             .form {
                 margin-top: 30px;
 
-                .input {
-                    height: 100%;
-                    font-family: 'Inter-Regular';
-                    font-size: 14px;
-                    background: black;
-                    border: 0px;
-                    border-bottom: 1px solid @white;
-                    color: @grey4;
-
+                .dark {
                     @media (max-width: 475px) {
                         max-width: 155px;
                     }

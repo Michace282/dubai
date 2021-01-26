@@ -3,21 +3,30 @@
         <div class="form-modal">
             <a href.prevent class="exit" @click="$emit('hide')"><img src="~/assets/images/icons/exit.svg" /></a>
             <base-title title="Sign up" />
-            <SocialsAuth class="mt-30" />
-            <input type="text" class="input-dark w-100 mt-45" placeholder="e-mail or phone" name="name" />
-            <input type="text" class="input-dark w-100 mt-30" placeholder="Password" name="pass" />
-            <input type="text" class="input-dark w-100 mt-30" placeholder="repeat Password" name="pass2" />
+            <socials-auth class="mt-30" />
+            <div class="input-box">
+                <base-input class="mt-45" label="e-mail or phone" name="email" />
+            </div>
+            <div class="input-box">
+                <base-input class="mt-30" label="Password" name="pass" />
+            </div>
+            <div class="input-box">
+                <base-input class="mt-30" label="repeat Password" name="pass2" />
+            </div>
             <div class="text-right mt-30">
                 <button class="btn btn-black">Sign up</button>
-                <a href.prevent class="link underline mt-45 d-block" @click="$emit('showAuthModal')">Already have an account? Log in</a>
+                <a href.prevent class="link underline mt-45 d-block" @click="$emit('showAuthModal')"
+                    >Already have an account? Log in</a
+                >
             </div>
         </div>
     </div>
 </template>
 <script>
+    import BaseInput from '../fields/BaseInput.vue';
     import SocialsAuth from './SocialsAuth.vue';
     export default {
-        components: { SocialsAuth },
+        components: { SocialsAuth, BaseInput },
         name: 'RegForm',
     };
 </script>

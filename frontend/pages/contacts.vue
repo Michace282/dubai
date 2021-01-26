@@ -25,21 +25,23 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group mt-45 mt-xl-0">
                 <div class="title">Get in touch</div>
                 <div class="row mt-45">
-                    <div class="col-6">
-                        <input type="text" class="input-dark w-100" placeholder="Name" name="name" />
+                    <div class="col-12 col-md-6">
+                        <base-input label="Name" name="name" />
                     </div>
-                    <div class="col-6">
-                        <input type="text" class="input-dark w-100" placeholder="E-mail or phone" name="email" />
+                    <div class="col-12 col-md-6 mt-30 mt-md-0">
+                        <base-input label="E-mail or phone" name="phone" />
                     </div>
                 </div>
                 <div class="row mt-30">
-                    <div class="col-12">
+                    <div class="col-12 textarea-group">
+                        <label for="message" class="label">Message</label>
                         <textarea
                             type="text"
-                            class="input-dark w-100 message"
+                            id="message"
+                            class="w-100"
                             placeholder="Message"
                             name="message"
                         ></textarea>
@@ -53,7 +55,9 @@
     </div>
 </template>
 <script>
+    import BaseInput from '../components/fields/BaseInput.vue';
     export default {
+        components: { BaseInput },
         name: 'contacts',
         created() {
             this.$store.commit('set_breadcrumbs', [
@@ -77,6 +81,10 @@
             display: flex;
             margin-bottom: 30px;
 
+            @media @small {
+                flex-direction: column;
+            }
+
             .label {
                 width: 90px;
                 font-family: 'Inter-Medium';
@@ -86,6 +94,10 @@
                 font-size: 18px;
                 text-align: right;
                 color: @black;
+
+                @media @small {
+                    text-align: left;
+                }
             }
 
             .value {
@@ -109,6 +121,10 @@
         background: @grey3;
         border-radius: 2px;
 
+        @media @medium {
+            padding: 30px 20px;
+        }
+
         .title {
             font-family: 'Inter-Regular';
             font-size: 24px;
@@ -116,12 +132,38 @@
             color: @black;
         }
 
-        .input-dark {
-            background: @grey3;
+        .textarea-group {
+            .label {
+                margin: 0px;
+                font-family: 'Inter-Regular';
+                font-size: 14px;
+                text-transform: uppercase;
+                color: @grey4;
+                text-transform: uppercase;
+                @media @medium {
+                    display: none;
+                }
+            }
 
-            &.message {
-                padding-bottom: 20px;
+            textarea {
+                height: 43px;
+                border: none;
+                text-transform: uppercase;
+                border-bottom: 1px solid @black;
                 resize: none;
+                background: @grey3;
+
+                @media @medium {
+                    height: 77px;
+                }
+
+                &::placeholder {
+                    font-size: 14px;
+                    opacity: 0;
+                    @media @medium {
+                        opacity: 1;
+                    }
+                }
             }
         }
     }

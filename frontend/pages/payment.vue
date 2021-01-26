@@ -1,14 +1,10 @@
 <template>
-    <div class="container">
-        <div class="d-flex justify-content-between">
-            <base-title title="payment" />
-            <base-title title="&" />
-            <base-title title="delivery" />
-        </div>
-        <div class="payment-box mt-45">
+    <div class="container vh">
+        <div class="payment-box">
             <div>
+                <base-title title="payment" />
                 <div class="title">You can use these payment methods</div>
-                <div class="payment-group mt-40" >
+                <div class="payment-group mt-40">
                     <div class="text-center">
                         <img src="~/assets/images/icons/credit-card.svg" />
                         <div class="caption">Credit or Debit card</div>
@@ -17,13 +13,11 @@
                         <img src="~/assets/images/icons/cash.svg" />
                         <div class="caption">Cash on Delivery</div>
                     </div>
-                    <div class="text-center">
-                        <img src="~/assets/images/icons/paypal.svg" />
-                        <div class="caption">PayPal</div>
-                    </div>
                 </div>
             </div>
-            <div>
+            <base-title title="&" class="icon d-none d-lg-block" />
+            <div class="mt-70">
+                <base-title title="delivery" />
                 <div class="title">We are happy to offer you</div>
                 <div class="delivery-group">
                     <img src="~/assets/images/icons/delivery-truck.svg" />
@@ -52,24 +46,41 @@
         justify-content: space-between;
         flex-wrap: wrap;
 
+        .icon {
+            height: fit-content;
+            margin-right: 50px;
+        }
+
+        .mt-70 {
+            @media @large {
+                margin-top: 70px;
+            }
+        }
+
         .payment-group {
             display: flex;
             flex-wrap: wrap;
 
             .text-center {
+                margin-bottom: 20px;
                 &:first-child {
                     margin-right: 40px;
-                }
-                &:nth-child(2) {
-                    margin-right: 90px;
+                    @media (max-width: 470px) {
+                        margin-right: 25px;
+                    }
                 }
             }
         }
 
         .title {
+            margin-top: 45px;
             font-family: 'Inter-Regular';
             font-size: 24px;
             color: @black;
+
+            @media @small {
+                font-size: 18px;
+            }
         }
 
         .delivery-group {
@@ -87,6 +98,10 @@
             &.delivery {
                 max-width: 240px;
                 margin: 15px auto 0px;
+
+                @media @small {
+                    max-width: 155px;
+                }
             }
         }
     }

@@ -14,7 +14,7 @@
                 <b-collapse id="navbar-toggle-collapse" is-nav>
                     <b-navbar-nav class="links m-auto">
                         <b-nav-item to="#">New <img class="star" src="../assets/images/icons/star.png" /></b-nav-item>
-                        <b-nav-item to="#">Ladies</b-nav-item>
+                        <b-nav-item to="/catalog/">Ladies</b-nav-item>
                         <b-nav-item to="#">Mens</b-nav-item>
                         <b-nav-item to="#">Dance shoes</b-nav-item>
                         <b-nav-item to="#">Accessories</b-nav-item>

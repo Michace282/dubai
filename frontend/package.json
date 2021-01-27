@@ -21,7 +21,8 @@
     "graphql-tag": "^2.10.1",
     "less": "^3.10.3",
     "less-loader": "^5.0.0",
-    "nuxt": "^2.0.0"
+    "nuxt": "^2.0.0",
+    "vuejs-paginate": "^2.1.0"
   },
   "devDependencies": {
     "prettier": "2.2.1"

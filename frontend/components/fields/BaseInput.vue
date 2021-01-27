@@ -22,8 +22,6 @@
     };
 </script>
 <style lang="less" scoped>
-    @import '../../assets/css/variables.less';
-
     .input-box {
         display: flex;
         border-bottom: 1px solid @black;

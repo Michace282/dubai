@@ -17,7 +17,6 @@
     };
 </script>
 <style lang="less" scoped>
-    @import '../assets/css/variables.less';
 
     .block-title {
         position: relative;

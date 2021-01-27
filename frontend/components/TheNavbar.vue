@@ -45,7 +45,6 @@
     };
 </script>
 <style lang="less" scoped>
-    @import '../assets/css/variables.less';
     .navbar-box {
         background: @black;
     }

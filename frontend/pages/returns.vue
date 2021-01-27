@@ -177,8 +177,6 @@
     };
 </script>
 <style lang="less">
-    @import '../assets/css/variables.less';
-
     .accordion {
         .card {
             border: 0px;

@@ -52,8 +52,6 @@
     };
 </script>
 <style lang="less" scoped>
-    @import '../assets/css/variables.less';
-
     .categories {
         @media (max-width: 1199px) {
             display: none;

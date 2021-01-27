@@ -59,8 +59,6 @@
     };
 </script>
 <style lang="less" scoped>
-    @import '../assets/css/variables.less';
-
     .breadcrumbs {
         display: flex;
         flex-wrap: wrap;

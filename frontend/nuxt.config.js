@@ -37,12 +37,16 @@ export default {
         '~plugins/components.server.js',
         '~plugins/components.client.js',
         '~/plugins/global-components.js',
-        // { src: '~/plugins/vuejs-paginate.js', ssr: false },
+        { src: '~/plugins/vuejs-paginate.js', ssr: false },
     ],
     /*
      ** Nuxt.js dev-modules
      */
-    buildModules: [],
+    buildModules: ['@nuxtjs/style-resources'],
+
+    styleResources: {
+        less: ['./assets/css/variables.less'],
+    },
 
     /*
      ** Nuxt.js modules

@@ -65,7 +65,6 @@
     };
 </script>
 <style lang="less" scoped>
-    @import '../assets/css/variables.less';
     .footer {
         margin-top: 90px;
         background: @black;

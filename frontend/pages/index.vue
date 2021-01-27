@@ -106,8 +106,6 @@
 </script>
 
 <style lang="less" scoped>
-    @import '../assets/css/variables.less';
-
     .advantages-group {
         margin-top: 90px;
 

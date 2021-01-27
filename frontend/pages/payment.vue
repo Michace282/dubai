@@ -39,8 +39,6 @@
     };
 </script>
 <style lang="less" scoped>
-    @import '../assets/css/variables.less';
-
     .payment-box {
         display: flex;
         justify-content: space-between;

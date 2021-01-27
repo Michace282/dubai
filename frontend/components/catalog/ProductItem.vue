@@ -67,8 +67,6 @@
 </script>
 
 <style lang="less" scoped>
-    @import '../../assets/css/variables';
-
     .link-to-product {
         display: flex;
         flex-direction: column;

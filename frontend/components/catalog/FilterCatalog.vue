@@ -56,8 +56,6 @@
     };
 </script>
 <style lang="less" scoped>
-    @import '../../assets/css/variables';
-
     .btn {
         padding: 11px 15px;
     }

@@ -62,8 +62,6 @@
     };
 </script>
 <style lang="less">
-    @import '../assets/css/variables.less';
-
     .text {
         .block-title {
             font-family: 'Inter-Medium';
@@ -92,8 +90,6 @@
     }
 </style>
 <style lang="less" scoped>
-    @import '../assets/css/variables.less';
-
     .text-box {
         display: flex;
         justify-content: space-between;

@@ -68,8 +68,6 @@
     };
 </script>
 <style lang="less" scoped>
-    @import '../assets/css/variables.less';
-
     .contacts-box {
         display: flex;
         align-items: flex-end;

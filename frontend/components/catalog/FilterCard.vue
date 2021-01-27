@@ -28,8 +28,6 @@
     };
 </script>
 <style lang="less">
-    @import '../../assets/css/variables';
-
     .filter-card {
         border: 0px;
 

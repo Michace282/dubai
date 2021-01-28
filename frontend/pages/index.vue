@@ -32,7 +32,7 @@
                         alt="image slot"
                     />
                 </template>
-                <div>
+                <div class="box">
                     <nuxt-link to="" class="carousel-link">Dress Damiana Grey</nuxt-link>
                     <div class="caption">200 AED <img src="~/assets/images/icons/arrow-right.svg" /></div>
                 </div>
@@ -104,7 +104,10 @@
         },
     };
 </script>
-
+<style lang="less">
+    .index-carousel {
+    }
+</style>
 <style lang="less" scoped>
     .advantages-group {
         margin-top: 90px;

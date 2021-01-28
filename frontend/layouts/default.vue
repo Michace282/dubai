@@ -1,7 +1,7 @@
 <template>
     <div>
         <TheNavbar @showRegModal="showRegForm = true" />
-        <div class="position-relative">
+        <div class="main">
             <RegForm
                 :class="{ active: showRegForm }"
                 @hide="showRegForm = false"
@@ -59,30 +59,34 @@
     };
 </script>
 <style lang="less" scoped>
-    .breadcrumbs {
-        display: flex;
-        flex-wrap: wrap;
-        padding: 30px 0px 20px 0px;
+    .main {
+        min-height: calc(100vh - 462px);
 
-        .breadcrumb {
-            text-decoration: none;
-            padding: 0px;
-            font-family: 'Inter-ExtraLight';
-            background-color: unset;
-            font-size: 14px;
-            text-transform: uppercase;
-            color: @grey4;
+        .breadcrumbs {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 30px 0px 20px 0px;
 
-            .separator {
-                margin: 0px 10px;
+            .breadcrumb {
+                text-decoration: none;
+                padding: 0px;
+                font-family: 'Inter-ExtraLight';
+                background-color: unset;
+                font-size: 14px;
+                text-transform: uppercase;
+                color: @grey4;
+
+                .separator {
+                    margin: 0px 10px;
+                }
             }
         }
-    }
 
-    .content {
-        transition: opacity 0.3s;
-        &.hide {
-            opacity: 0;
+        .content {
+            transition: opacity 0.3s;
+            &.hide {
+                opacity: 0;
+            }
         }
     }
 </style>

@@ -1,10 +1,9 @@
 <template>
     <client-only>
         <paginate
-            :page-count="pageCursor.length"
+            :page-count="8"
             :clickHandler="
                 (page) => {
-                    $scrollTo('#top');
                     $emit('changeCursor', pageCursor[page - 1].cursor);
                 }
             "
@@ -20,33 +19,65 @@
 </template>
 <script>
     export default {
-        name: 'pagination',
+        name: 'Pagination',
         props: ['pageCursor'],
     };
 </script>
 <style lang="less">
-    @import '../assets/css/color';
-
     .pagination {
         width: fit-content;
-        margin: 100px auto 0px auto;
+        margin: 45px auto 0px auto;
         justify-content: space-between;
         align-items: center;
         li {
-            margin-right: 40px;
-            &.active,
-            &:hover {
+            width: 30px;
+            height: 30px;
+            margin-right: 15px;
+
+            &:not(.break) {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: @white;
+                border: 1px solid @black;
+                box-sizing: border-box;
+                border-radius: 2px;
+                cursor: pointer;
+            }
+
+            &.break {
+                position: relative;
+
+                &:after {
+                    content: url("../../assets/images/icons/ellipsis.svg");
+                    position: absolute;
+                    bottom: -5px;
+                }
+
                 a {
-                    color: @black;
-                    font-weight: 500;
+                    display: none;
                 }
             }
+
+            &.prev,
+            &.next {
+                display: none;
+            }
+
+            &.active,
+            &:hover:not(.break), {
+                background: @black;
+                a {
+                    color: @white;
+                    font-weight: 600;
+                }
+            }
+
             a {
                 font-style: normal;
                 font-weight: normal;
                 font-size: 14px;
                 line-height: 16px;
-                color: @grey_dark3;
                 cursor: pointer;
                 text-decoration: none;
             }
@@ -56,33 +87,6 @@
             &:last-child {
                 margin-left: 50px;
                 margin-right: 0px;
-            }
-        }
-        .prev,
-        .next {
-            position: relative;
-            width: 10px;
-            height: 20px;
-            cursor: pointer;
-            &.disabled {
-                opacity: 0.5;
-            }
-            &:before {
-                content: url('/images/pagination-arrow.svg');
-                position: absolute;
-                top: 0px;
-                z-index: -1;
-            }
-            a {
-                user-select: none;
-                color: transparent !important;
-            }
-        }
-
-        .next {
-            &:before {
-                top: -4px;
-                transform: rotate(180deg);
             }
         }
 

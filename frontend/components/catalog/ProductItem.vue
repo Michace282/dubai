@@ -1,5 +1,5 @@
 <template>
-    <div class="position-relative">
+    <div class="product">
         <a hrev.prevent class="favorites-icon"><img src="~/assets/images/icons/favorites-icon.svg" /></a>
         <b-carousel
             :interval="3000"
@@ -67,54 +67,73 @@
 </script>
 
 <style lang="less" scoped>
-    .link-to-product {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        font-size: 18px;
-        color: @black;
-        font-style: normal;
-        margin-top: 10px;
+    .product {
+        position: relative;
+        margin-bottom: 30px;
 
-        .name {
-            font-family: 'Inter-Light';
-        }
+        .link-to-product {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: @black;
+            font-style: normal;
+            margin-top: 10px;
 
-        .price {
-            font-family: 'Inter-Light';
-            font-weight: 600;
-        }
-    }
+            @media @medium {
+                font-size: 13px;
+            }
 
-    .colors {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-wrap: wrap;
-        margin-top: 15px;
+            .name {
+                font-family: 'Inter-Light';
+            }
 
-        .color-box {
-            width: 20px;
-            height: 20px;
-            padding: 2px;
-            border-radius: 50%;
-            border: 1px solid @grey2;
-            margin-right: 10px;
-
-            .color {
-                background: red;
-                border-radius: 50%;
+            .price {
+                font-family: 'Inter-Light';
+                font-weight: 600;
             }
         }
-    }
 
-    .favorites-icon {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        z-index: 100;
-        cursor: pointer;
+        .colors {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 15px;
+
+            .color-box {
+                width: 20px;
+                height: 20px;
+                padding: 2px;
+                border-radius: 50%;
+                border: 1px solid @grey2;
+                margin-right: 10px;
+
+                @media @medium {
+                    width: 13px;
+                    height: 13px;
+                }
+
+                .color {
+                    background: red;
+                    border-radius: 50%;
+                }
+            }
+        }
+
+        .favorites-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 100;
+            cursor: pointer;
+
+            @media @medium {
+                top: 5px;
+                right: 5px;
+            }
+        }
     }
 </style>
 
@@ -139,11 +158,20 @@
                 margin: 0px 2px;
                 border-radius: 5px;
                 background: rgba(0, 0, 0, 0.3);
+                @media @small {
+                    width: 7px;
+                    height: 2px;
+                }
 
                 &.active {
                     width: 15px;
                     height: 5px;
                     background: rgba(0, 0, 0, 0.6);
+
+                    @media @small {
+                        width: 14px;
+                        height: 3px;
+                    }
                 }
             }
         }

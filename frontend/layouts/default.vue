@@ -60,27 +60,9 @@
 </script>
 <style lang="less" scoped>
     .main {
+        position: relative;
         min-height: calc(100vh - 462px);
-
-        .breadcrumbs {
-            display: flex;
-            flex-wrap: wrap;
-            padding: 30px 0px 20px 0px;
-
-            .breadcrumb {
-                text-decoration: none;
-                padding: 0px;
-                font-family: 'Inter-ExtraLight';
-                background-color: unset;
-                font-size: 14px;
-                text-transform: uppercase;
-                color: @grey4;
-
-                .separator {
-                    margin: 0px 10px;
-                }
-            }
-        }
+        padding-bottom: 90px;
 
         .content {
             transition: opacity 0.3s;

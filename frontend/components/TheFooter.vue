@@ -66,7 +66,6 @@
 </script>
 <style lang="less" scoped>
     .footer {
-        margin-top: 90px;
         background: @black;
         padding: 45px;
 

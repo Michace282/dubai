@@ -78,7 +78,7 @@
         created() {
             this.$store.commit('set_breadcrumbs', [
                 { link: 'index', name: 'Home' },
-                { link: 'caatlog', name: 'Catalogue' },
+                { link: 'catatlog', name: 'Catalogue' },
             ]);
         },
     };

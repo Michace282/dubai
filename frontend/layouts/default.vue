@@ -1,24 +1,23 @@
 <template>
     <div>
-        <TheNavbar @showRegModal="showRegForm = true" />
+        <TheNavbar @showRegModal="showModal = 'reg'" @showBasket="showModal = 'basket'" />
         <div class="main">
-            <RegForm
-                :class="{ active: showRegForm }"
-                @hide="showRegForm = false"
-                @showAuthModal="
-                    showRegForm = false;
-                    showAuthForm = true;
-                "
+            <basket-modal
+                :class="{ active: showModal == 'basket' }"
+                @hide="showModal = false"
+                @showRegModal="showModal = 'reg'"
             />
-            <AuthForm
-                :class="{ active: showAuthForm }"
-                @hide="showAuthForm = false"
-                @showRegModal="
-                    showAuthForm = false;
-                    showRegForm = true;
-                "
+            <reg-form
+                :class="{ active: showModal == 'reg' }"
+                @hide="showModal = false"
+                @showAuthModal="showModal = 'auth'"
             />
-            <div class="content" :class="{ hide: showRegForm || showAuthForm }">
+            <auth-form
+                :class="{ active: showModal == 'auth' }"
+                @hide="showModal = false"
+                @showRegModal="showModal = 'reg'"
+            />
+            <div class="content" :class="{ hide: showModal && showModal != 'basket', opacity: showModal == 'basket' }">
                 <div class="container">
                     <div class="breadcrumbs" v-if="breadcrumbs && breadcrumbs.length > 0">
                         <nuxt-link
@@ -43,12 +42,12 @@
     import TheFooter from '~/components/TheFooter.vue';
     import RegForm from '~/components/auth/RegForm';
     import AuthForm from '~/components/auth/AuthForm';
+    import BasketModal from '../components/basket/BasketModal.vue';
     export default {
-        components: { TheNavbar, TheFooter, RegForm, AuthForm },
+        components: { TheNavbar, TheFooter, RegForm, AuthForm, BasketModal },
         data() {
             return {
-                showRegForm: false,
-                showAuthForm: false,
+                showModal: false,
             };
         },
         computed: {
@@ -66,8 +65,13 @@
 
         .content {
             transition: opacity 0.3s;
+
             &.hide {
                 opacity: 0;
+            }
+
+            &.opacity {
+                opacity: 0.5;
             }
         }
     }

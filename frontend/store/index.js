@@ -4,7 +4,6 @@ export const state = () => ({
 
 export const mutations = {
     set_breadcrumbs(state, breadcrumbs) {
-        console.log(state.breadcrumbs);
         state.breadcrumbs = breadcrumbs;
     }
 };

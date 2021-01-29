@@ -53,7 +53,6 @@
         components: { BaseInput },
     };
 </script>
-<style lang="less" scoped></style>
 <style lang="less">
     .account-contact {
         .form-title {

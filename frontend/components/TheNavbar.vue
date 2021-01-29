@@ -25,7 +25,9 @@
                 <b-navbar-nav class="ml-auto icons" :class="{ hide: !showIcons }">
                     <b-nav-item to="#"><img src="../assets/images/icons/heart.svg" /></b-nav-item>
                     <!-- <b-nav-item to="#"><img src="../assets/images/icons/loop.svg" /></b-nav-item> -->
-                    <b-nav-item to="#"><img src="../assets/images/icons/basket.svg" /></b-nav-item>
+                    <b-nav-item to="#" @click="$emit('showBasket')"
+                        ><img src="../assets/images/icons/basket.svg"
+                    /></b-nav-item>
                     <b-nav-item to="#" @click="$emit('showRegModal')"
                         ><img src="../assets/images/icons/account.svg"
                     /></b-nav-item>

@@ -26,7 +26,7 @@
         </filter-accordion>
         <filter-accordion class="mt-30" title="Colors" name="colors">
             <div class="colors">
-                <div class="color-box">
+                <div class="color-group">
                     <input type="checkbox" true-value="true" id="color" />
                     <label class="label-color" for="color">
                         <div class="color"></div>
@@ -146,40 +146,15 @@
         }
     }
 
+    .color-group {
+        margin-right: 15px;
+    }
+
     .colors {
         display: flex;
         align-items: center;
         flex-wrap: wrap;
         justify-content: flex-start;
-
-        .color-box {
-            margin-right: 15px;
-
-            input {
-                display: none;
-
-                &:checked + .label-color {
-                    border-color: @black;
-                }
-            }
-
-            .label-color {
-                width: 30px;
-                height: 30px;
-                border: 1px solid @grey2;
-                box-sizing: border-box;
-                border-radius: 50%;
-                padding: 2px;
-                cursor: pointer;
-
-                .color {
-                    width: 100%;
-                    height: 100%;
-                    background: red;
-                    border-radius: 50%;
-                }
-            }
-        }
     }
 
     .filter-input {

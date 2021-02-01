@@ -7,31 +7,55 @@
             </div>
             <div class="col params">
                 <div class="bold name">Dress</div>
-                <div class="row mt-15 align-items-center">
-                    <div class="col-auto pr-0">
-                        <div class="label">Color</div>
-                    </div>
-                    <div class="col-auto color-group">
-                        <input type="checkbox" disabled id="color" />
-                        <label class="label-color mb-0" for="color">
-                            <div class="color"></div>
-                        </label>
-                    </div>
-                    <div class="col-auto pr-0">
-                        <a href.prevent class="link-grey">Change color</a>
-                    </div>
-                </div>
-                <div class="row mt-15 align-items-center">
-                    <div class="col-auto pr-0">
-                        <div class="label">Size</div>
-                    </div>
-                    <div class="col-auto color-box">
+                <item-param label="Color" linkName="Change color">
+                    <template v-slot:activeItem>
+                        <div class="color-group">
+                            <input type="checkbox" disabled checked id="color" />
+                            <label class="label-color mb-0" for="color">
+                                <div class="color"></div>
+                            </label>
+                        </div>
+                    </template>
+                    <template v-slot:options>
+                        <div class="colors">
+                            <div class="color-group">
+                                <input type="radio" name="colors" id="color" />
+                                <label class="label-color mb-0" for="color">
+                                    <div class="color"></div>
+                                </label>
+                            </div>
+                            <div class="color-group">
+                                <input type="radio" name="colors" id="color2" />
+                                <label class="label-color mb-0" for="color2">
+                                    <div class="color"></div>
+                                </label>
+                            </div>
+                            <div class="color-group">
+                                <input type="radio" name="colors" id="color3" />
+                                <label class="label-color mb-0" for="color3">
+                                    <div class="color"></div>
+                                </label>
+                            </div>
+                        </div>
+                    </template>
+                </item-param>
+                <item-param label="Size" linkName="Change size">
+                    <template v-slot:activeItem>
                         <div class="bold">XS</div>
-                    </div>
-                    <div class="col-auto pr-0">
-                        <a href.prevent class="link-grey">Change size</a>
-                    </div>
-                </div>
+                    </template>
+                    <template v-slot:options>
+                        <div class="sizes">
+                            <div class="size-box">
+                                <input type="radio" name="sizes" id="size3" />
+                                <label class="label-size" for="size3">XS</label>
+                            </div>
+                            <div class="size-box">
+                                <input type="radio" name="sizes" id="size2" />
+                                <label class="label-size" for="size2">S</label>
+                            </div>
+                        </div>
+                    </template>
+                </item-param>
                 <div class="count-group">
                     <a href.prevemt class="control" @click="count > 1 ? count-- : ''">-</a>
                     <input type="text" @input="validate" v-model="count" />
@@ -43,8 +67,11 @@
     </div>
 </template>
 <script>
+    import ItemParam from './ItemParam.vue';
+
     export default {
         name: 'BasketItem',
+        components: { ItemParam },
         data() {
             return {
                 count: 1,
@@ -95,6 +122,17 @@
                 }
             }
 
+            .colors {
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                flex-wrap: wrap;
+
+                .color-group {
+                    margin: 0px 10px 12px 0px;
+                }
+            }
+
             .color-group {
                 display: flex;
                 align-items: center;
@@ -102,7 +140,18 @@
                 .label-color {
                     width: 20px;
                     height: 20px;
-                    border-color: @black;
+                }
+            }
+
+            .sizes {
+                .size-box {
+                    margin-right: 10px;
+
+                    .label-size {
+                        width: 20px;
+                        height: 20px;
+                        text-align: center;
+                    }
                 }
             }
 

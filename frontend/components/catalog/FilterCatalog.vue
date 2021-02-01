@@ -109,43 +109,6 @@
         }
     }
 
-    .sizes {
-        display: flex;
-        align-items: center;
-        flex-wrap: wrap;
-        justify-content: flex-start;
-
-        .size-box {
-            margin-right: 15px;
-            input {
-                display: none;
-
-                &:checked + label {
-                    font-family: 'Inter-Medium';
-                    background: @black;
-                    color: @white;
-                }
-            }
-
-            .label-size {
-                width: 30px;
-                height: 30px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                cursor: pointer;
-                font-size: 14px;
-                font-family: 'Inter-Light';
-                color: @black;
-                background: @white;
-                border: 1px solid @black;
-                box-sizing: border-box;
-                border-radius: 2px;
-                line-height: 17px;
-            }
-        }
-    }
-
     .color-group {
         margin-right: 15px;
     }

@@ -19,31 +19,21 @@
                     <div class="name">Mens</div>
                 </nuxt-link>
             </div>
-            <!-- <b-carousel
-                id="carousel-2"
-                v-model="slide"
-                :interval="4000"
-                indicators
-                class="index-carousel"
-                img-width="1024"
-                img-height="480"
-            >
-                <b-carousel-slide>
-                    <template #img>
-                        <img
-                            class="d-block img-fluid w-100"
-                            width="1024"
-                            height="480"
-                            src="~/assets/images/carouselPhoto.jpg"
-                            alt="image slot"
-                        />
-                    </template>
-                    <nuxt-link to="#" class="category vertical-large">
-                        <div class="name">Ladies</div>
-                    </nuxt-link>
-                </b-carousel-slide>
-            </b-carousel> -->
         </div>
+        <b-carousel id="carousel-2" v-model="slide" :interval="4000" indicators class="categories-carousel">
+            <b-carousel-slide img-src="~/assets/images/accessories.png">
+                <nuxt-link to="index"></nuxt-link>
+            </b-carousel-slide>
+            <b-carousel-slide img-src="~/assets/images/danceshoes.png">
+                <nuxt-link to="index"></nuxt-link>
+            </b-carousel-slide>
+            <b-carousel-slide img-src="~/assets/images/ladies.png">
+                <nuxt-link to="index"></nuxt-link>
+            </b-carousel-slide>
+            <b-carousel-slide img-src="~/assets/images/mens.png">
+                <nuxt-link to="index"></nuxt-link>
+            </b-carousel-slide>
+        </b-carousel>
     </div>
 </template>
 <script>
@@ -51,9 +41,29 @@
         name: 'IndexPageCategories',
     };
 </script>
+<style lang="less">
+    .categories-carousel {
+        display: none;
+
+        @media (max-width: 767px) {
+            display: block;
+        }
+
+        .carousel-caption,
+        .carousel-caption a {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+        }
+    }
+</style>
 <style lang="less" scoped>
     .categories {
-        @media (max-width: 1199px) {
+        justify-content: center;
+
+        @media (max-width: 767px) {
             display: none;
         }
 
@@ -70,12 +80,21 @@
                 text-transform: uppercase;
                 color: @black;
                 z-index: 10;
+
+                @media (max-width: 1199px) {
+                    font-size: 18px;
+                }
+
                 &:after {
                     position: absolute;
                     z-index: -1;
                     text-transform: uppercase;
                     font-size: 48px;
                     color: @grey2;
+
+                    @media (max-width: 1199px) {
+                        font-size: 28px;
+                    }
                 }
             }
 
@@ -83,14 +102,30 @@
                 width: 255px;
                 height: 530px;
 
+                @media (max-width: 1199px) {
+                    width: 150px;
+                    height: 330px;
+                }
+
                 .name {
                     position: absolute;
                     top: 111px;
                     left: 40px;
+
+                    @media (max-width: 1199px) {
+                        top: 64px;
+                        left: 20px;
+                    }
+
                     &:after {
                         content: 'Mens';
                         top: -17px;
                         left: -30px;
+
+                        @media (max-width: 1199px) {
+                            top: -9px;
+                            left: -15px;
+                        }
                     }
                 }
             }
@@ -102,15 +137,29 @@
                 height: 250px;
                 overflow: hidden;
 
+                @media (max-width: 1199px) {
+                    width: 270px;
+                    height: 150px;
+                }
+
                 &.text-left {
                     .name {
                         position: relative;
                         margin-left: 40px;
 
+                        @media (max-width: 1199px) {
+                            margin-left: 20px;
+                        }
+
                         &:after {
                             content: 'Accessories';
                             left: -32px;
                             top: -15px;
+
+                            @media (max-width: 1199px) {
+                                left: -16px;
+                                top: -7px;
+                            }
                         }
                     }
                 }
@@ -118,14 +167,24 @@
                 &.text-right {
                     justify-content: flex-end;
                     margin-top: 30px;
+
                     .name {
                         position: relative;
                         margin-right: 60px;
+
+                        @media (max-width: 1199px) {
+                            margin-right: 17px;
+                        }
 
                         &:after {
                             content: 'Danceshoes';
                             left: -32px;
                             top: -15px;
+
+                            @media (max-width: 1199px) {
+                                left: -15px;
+                                top: -7px;
+                            }
                         }
                     }
                 }
@@ -135,15 +194,30 @@
                 width: 350px;
                 height: 530px;
 
+                @media (max-width: 1199px) {
+                    width: 210px;
+                    height: 330px;
+                }
+
                 .name {
                     position: absolute;
                     bottom: 110px;
                     right: 60px;
 
+                    @media (max-width: 1199px) {
+                        bottom: 68px;
+                        right: 26px;
+                    }
+
                     &:after {
                         content: 'Ladies';
                         left: -37px;
                         top: -15px;
+
+                        @media (max-width: 1199px) {
+                            left: -15px;
+                            top: -9px;
+                        }
                     }
                 }
             }

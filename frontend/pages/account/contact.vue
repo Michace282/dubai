@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <contact-form />
+        <contact-form btnName="save"/>
     </div>
 </template>
 <script>

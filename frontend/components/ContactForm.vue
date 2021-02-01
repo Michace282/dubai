@@ -1,6 +1,7 @@
 <template>
     <div class="account-contact">
         <base-title class="form-title" title="Contact information" />
+        <slot></slot>
         <div class="form-group">
             <div class="row">
                 <div class="col-12 col-md-6">
@@ -40,7 +41,9 @@
             </div>
             <div class="row mt-30 justify-content-center justify-content-lg-end">
                 <div class="col-auto pr-2"><button class="btn btn-outline-black">Cancel</button></div>
-                <div class="col-auto pr-2"><button class="btn btn-black">save</button></div>
+                <div class="col-auto pr-2">
+                    <button class="btn btn-black">{{ btnName }}</button>
+                </div>
             </div>
         </div>
     </div>
@@ -51,6 +54,13 @@
     export default {
         name: 'ContactForm',
         components: { BaseInput },
+        props: {
+            btnName: {
+                type: String,
+                required: false,
+                default: '',
+            },
+        },
     };
 </script>
 <style lang="less">

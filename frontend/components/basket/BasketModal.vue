@@ -3,15 +3,15 @@
         <!-- TODO: Убрать скролл во время анимации -->
         <!-- TODO: Скрывать модалки до перехода на другую страницу -->
         <div class="basket-group">
-            <a href.prevent class="title" @click="$emit('hide')"
+            <a href.prevent class="basket-title" @click="$emit('hide')"
                 ><img src="~/assets/images/icons/arrow-collapse.svg" /> Shopping cart</a
             >
             <div class="mt-30">
                 <basket-item />
             </div>
             <div class="d-flex justify-content-between mt-30">
-                <div class="title">Subtotal</div>
-                <div class="title">1590 aed</div>
+                <div class="basket-title">Subtotal</div>
+                <div class="basket-title">1590 aed</div>
             </div>
             <div class="d-flex justify-content-between align-items-center mt-30">
                 <div>
@@ -21,7 +21,7 @@
                 <button class="btn btn-black">Place the order</button>
             </div>
             <div class="bg-white">
-                <div class="title">Would you like to track your order? Sign Up now!</div>
+                <div class="basket-title">Would you like to track your order? Sign Up now!</div>
                 <div class="text-right mt-30">
                     <button class="btn btn-outline-black" @click="$emit('showRegModal')">Sign Up</button>
                 </div>
@@ -92,15 +92,10 @@
                 }
             }
 
-            .title {
+            .basket-title {
                 display: flex;
                 align-items: center;
                 width: fit-content;
-                font-family: 'Inter-Medium';
-                font-size: 24px;
-                text-transform: uppercase;
-                color: @black;
-                cursor: pointer;
 
                 img {
                     margin-right: 35px;

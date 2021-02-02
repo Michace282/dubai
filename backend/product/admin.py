@@ -35,17 +35,23 @@ class ColorAdmin(admin.ModelAdmin):
 
 class ProductSizeColorInline(admin.TabularInline):
     model = ProductSizeColor
+    show_change_link = True
 
 
 class ProductImageInline(admin.StackedInline):
     model = ProductImage
 
 
+@admin.register(ProductSizeColor)
+class ProductSizeColorAdmin(admin.ModelAdmin):
+    inlines = (ProductImageInline,)
+
+
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('__str__', 'status', 'product_type', 'profile_type', 'price',)
     list_filter = ('status', 'product_type', 'ladies_type', 'mens_type', 'accessories_type', 'dance_shoes_type')
-    inlines = (ProductSizeColorInline, ProductImageInline,)
+    inlines = (ProductSizeColorInline,)
 
     def profile_type(self, obj):
         if obj.product_type == 'ladies':

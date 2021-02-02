@@ -2,10 +2,10 @@
     <div class="item-group">
         <a href.prevent class="delete"><img src="~/assets/images/icons/exit.svg" /></a>
         <div class="row">
-            <div class="col-auto">
+            <div class="col-auto pr-2 pr-sm-3">
                 <img class="photo" src="~/assets/images/product-preview.png" />
             </div>
-            <div class="col params">
+            <div class="col params pr-0">
                 <div class="bold name">Dress</div>
                 <item-param label="Color" linkName="Change color">
                     <template v-slot:activeItem>
@@ -41,7 +41,7 @@
                 </item-param>
                 <item-param label="Size" linkName="Change size">
                     <template v-slot:activeItem>
-                        <div class="bold">XS</div>
+                        <div class="bold d-flex align-items-end d-xs-block">XS</div>
                     </template>
                     <template v-slot:options>
                         <div class="sizes">
@@ -86,12 +86,25 @@
         },
     };
 </script>
+<style lang="less">
+    .params {
+        .link-grey {
+            @media @xs {
+                font-size: 12px;
+            }
+        }
+    }
+</style>
 <style lang="less" scoped>
     .item-group {
         position: relative;
         padding: 15px 30px 15px 15px;
         background: @white;
         margin-bottom: 15px;
+
+        @media @xs {
+            padding: 0px;
+        }
 
         .delete {
             display: flex;
@@ -100,6 +113,11 @@
             top: 15px;
             z-index: 100;
             cursor: pointer;
+
+            @media @xs {
+                top: 0px;
+                right: 0;
+            }
 
             img {
                 height: 15px;
@@ -117,7 +135,12 @@
                 color: @black;
                 text-transform: uppercase;
 
+                @media @xs {
+                    font-size: 14px;
+                }
+
                 &.name {
+                    line-height: 15px;
                     padding-right: 15px;
                 }
             }

@@ -3,7 +3,7 @@
         <!-- TODO: Убрать скролл во время анимации -->
         <!-- TODO: Скрывать модалки до перехода на другую страницу -->
         <div class="basket-group">
-            <a href.prevent class="basket-title" @click="$emit('hide')"
+            <a href.prevent class="basket-title fs-24" @click="$emit('hide')"
                 ><img src="~/assets/images/icons/arrow-collapse.svg" /> Shopping cart</a
             >
             <div class="mt-30">
@@ -20,7 +20,7 @@
                 </div>
                 <button class="btn btn-black">Place the order</button>
             </div>
-            <div class="bg-white">
+            <div class="sign-up-group">
                 <div class="basket-title">Would you like to track your order? Sign Up now!</div>
                 <div class="text-right mt-30">
                     <button class="btn btn-outline-black" @click="$emit('showRegModal')">Sign Up</button>
@@ -64,22 +64,42 @@
             margin-top: 10px;
         }
 
+        .fs-24 {
+            font-size: 24px !important;
+        }
+
         .basket-group {
             max-width: 550px;
             width: 100%;
             padding: 30px 45px;
             background: @grey3;
+            overflow-x: hidden;
+
+            @media @xs {
+                padding: 30px 20px;
+                background: @white;
+            }
 
             .btn-black {
                 padding: 11px 16px 11px 15px;
                 font-size: 14px;
+
+                @media @xs {
+                    padding: 11px 13px;
+                }
             }
 
-            .bg-white {
+            .sign-up-group {
                 margin-top: 60px;
                 padding: 15px;
                 background: @white;
                 border-radius: 2px;
+
+                @media @xs {
+                    padding: 15px 20px;
+                    margin: 90px -20px 0px -20px;
+                    background: @grey3;
+                }
 
                 .title {
                     font-size: 18px;
@@ -100,6 +120,11 @@
                 img {
                     margin-right: 35px;
                     transform: rotate(270deg);
+
+                    @media @xs {
+                        height: 10px;
+                        margin-right: 15px;
+                    }
                 }
             }
         }

@@ -46,6 +46,7 @@ INSTALLED_APPS += [
     'easy_thumbnails',
     'image_cropping',
     'django_summernote',
+    'django_admin_json_editor',
     'colorfield',
     'djmoney'
 ]

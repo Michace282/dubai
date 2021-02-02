@@ -86,6 +86,7 @@ class ProductConnection(graphene.Connection):
         abstract = True
 
     colors_available = graphene.List(ColorType)
+    sizes_available = graphene.List(SizeType)
 
     total_count = graphene.Int()
     edge_count = graphene.Int()
@@ -120,6 +121,33 @@ class ProductConnection(graphene.Connection):
 
         return Color.objects.filter(**options).distinct()
 
+    def resolve_sizes_available(self, info, **kwargs):
+        params = info.variable_values
+        product_type = params.get('product_type', None)
+        ladies_type = params.get('ladies_type', None)
+        mens_type = params.get('mens_type', None)
+        accessories_type = params.get('accessories_type', None)
+        dance_shoes_type = params.get('dance_shoes_type', None)
+
+        options = {}
+
+        if product_type:
+            options['productsizecolor__product__product_type'] = product_type
+
+        if ladies_type:
+            options['productsizecolor__product__ladies_type'] = ladies_type
+
+        if mens_type:
+            options['productsizecolor__product__mens_type'] = mens_type
+
+        if accessories_type:
+            options['productsizecolor__product__accessories_type'] = accessories_type
+
+        if dance_shoes_type:
+            options['productsizecolor__product__dance_shoes_type'] = dance_shoes_type
+
+        return Size.objects.filter(**options).distinct()
+
     def resolve_pages_cursor(self, info, **kwargs):
         params = info.variable_values
         first = params.get('first', 100)
@@ -152,11 +180,6 @@ class ProductConnection(graphene.Connection):
 
 
 class ProductType(DjangoObjectType):
-    colors = graphene.List(ColorType)
-
-    def resolve_colors(self, info):
-        return Color.objects.filter(productsizecolor__product=self).distinct()
-
     class Meta:
         model = Product
         interfaces = (relay.Node,)
@@ -172,14 +195,14 @@ class ProductFilter(django_filters.FilterSet):
         for v in value:
             ids.append(from_global_id(v)[1])
 
-        return queryset.filter(pk__in=ids)
+        return queryset.filter(productsizecolor__color__in=ids)
 
     def sizes_filter(self, queryset, name, value):
         ids = []
         for v in value:
             ids.append(from_global_id(v)[1])
 
-        return queryset.filter(pk__in=ids)
+        return queryset.filter(productsizecolor__sizes__in=ids)
 
     class Meta:
         model = Product

@@ -121,6 +121,8 @@ class Product(TimeStampedModel):
     size_chart = models.ForeignKey(SizeChart, verbose_name='Size Chart', on_delete=models.CASCADE, blank=True,
                                    null=True)
 
+    data = models.TextField(blank=True, null=True)
+
     def __str__(self):
         return self.name
 
@@ -132,14 +134,14 @@ class Product(TimeStampedModel):
 class ProductSizeColor(TimeStampedModel):
     product = models.ForeignKey(Product, verbose_name='Product', on_delete=models.CASCADE)
     color = models.ForeignKey(Color, verbose_name='Color', on_delete=models.CASCADE)
-    size = models.ForeignKey(Size, verbose_name='Size', on_delete=models.CASCADE)
+    sizes = models.ManyToManyField(Size, verbose_name='Size')
     is_available = models.BooleanField(verbose_name='Is it available?', default=True)
 
     class Meta:
-        unique_together = ('product', 'color', 'size')
+        unique_together = ('product', 'color')
 
     def __str__(self):
-        return f'{str(self.color)} - {str(self.size)}'
+        return f'{str(self.color)}'
 
     class Meta:
         verbose_name = 'Product color'
@@ -147,11 +149,11 @@ class ProductSizeColor(TimeStampedModel):
 
 
 class ProductImage(TimeStampedModel):
-    product = models.ForeignKey(Product, verbose_name='Product', on_delete=models.CASCADE)
+    product_size_color = models.ForeignKey(ProductSizeColor, verbose_name='Product Size Color', on_delete=models.CASCADE)
     image = models.ImageField(verbose_name='Image', upload_to='product/image')
 
     def __str__(self):
-        return str(self.product)
+        return str(self.product_size_color)
 
     class Meta:
         verbose_name = 'Product image'

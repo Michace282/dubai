@@ -1,0 +1,16 @@
+query productList($first: Int, $after: String, $productType: String, $ladiesType: String, $mensType: String, $accessoriesType: String, $danceShoesType: String, $colors: [ID], $sizes: [ID]) {
+    productList(first: $first, after: $after, productType: $productType, ladiesType: $ladiesType, mensType: $mensType, accessoriesType: $accessoriesType, danceShoesType: $danceShoesType, colors: $colors, sizes: $sizes) {
+    pageInfo {
+        hasNextPage
+        hasPreviousPage
+        startCursor
+    }
+    edges {
+        node {
+            id
+            name
+            productType
+            price
+        }
+    }
+}

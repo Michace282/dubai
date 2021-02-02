@@ -1,5 +1,8 @@
-# import graphene
-# from graphene_django.debug import DjangoDebug
+import graphene
+from graphene_django.debug import DjangoDebug
+from product.schema import Query as ProductQuery
+
+
 #
 #
 # class Subscription(
@@ -12,10 +15,12 @@
 #     debug = graphene.Field(DjangoDebug, name="_debug")
 #
 #
-# class Query(
-#     graphene.ObjectType):
-#     debug = graphene.Field(DjangoDebug, name="_debug")
+class Query(
+    ProductQuery,
+    graphene.ObjectType):
+    debug = graphene.Field(DjangoDebug, name="_debug")
+
+
 #
-#
-schema = graphene.Schema()
+schema = graphene.Schema(query=Query)
 # schema = graphene.Schema(query=Query, mutation=Mutations, subscription=Subscription)

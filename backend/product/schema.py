@@ -4,6 +4,7 @@ from graphene_django.filter import DjangoFilterConnectionField
 from graphene_django.filter import GlobalIDFilter, GlobalIDMultipleChoiceFilter
 from graphene_django.types import DjangoObjectType
 from graphql_relay.connection.arrayconnection import offset_to_cursor
+from graphql_relay import from_global_id
 import django_filters
 from .models import *
 import math
@@ -84,11 +85,40 @@ class ProductConnection(graphene.Connection):
     class Meta:
         abstract = True
 
+    colors_available = graphene.List(ColorType)
+
     total_count = graphene.Int()
     edge_count = graphene.Int()
 
     pages_cursor = graphene.List(PagesCursor)
     pages_cursor_count = graphene.Int()
+
+    def resolve_colors_available(self, info, **kwargs):
+        params = info.variable_values
+        product_type = params.get('product_type', None)
+        ladies_type = params.get('ladies_type', None)
+        mens_type = params.get('mens_type', None)
+        accessories_type = params.get('accessories_type', None)
+        dance_shoes_type = params.get('dance_shoes_type', None)
+
+        options = {}
+
+        if product_type:
+            options['productsizecolor__product__product_type'] = product_type
+
+        if ladies_type:
+            options['productsizecolor__product__ladies_type'] = ladies_type
+
+        if mens_type:
+            options['productsizecolor__product__mens_type'] = mens_type
+
+        if accessories_type:
+            options['productsizecolor__product__accessories_type'] = accessories_type
+
+        if dance_shoes_type:
+            options['productsizecolor__product__dance_shoes_type'] = dance_shoes_type
+
+        return Color.objects.filter(**options).distinct()
 
     def resolve_pages_cursor(self, info, **kwargs):
         params = info.variable_values
@@ -122,6 +152,11 @@ class ProductConnection(graphene.Connection):
 
 
 class ProductType(DjangoObjectType):
+    colors = graphene.List(ColorType)
+
+    def resolve_colors(self, info):
+        return Color.objects.filter(productsizecolor__product=self).distinct()
+
     class Meta:
         model = Product
         interfaces = (relay.Node,)

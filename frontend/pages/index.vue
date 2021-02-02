@@ -39,17 +39,6 @@
             </b-carousel-slide>
         </b-carousel>
         <index-page-categories />
-        <!-- <div class="advantages-group">
-            <base-title title="Our advantages" />
-            <div class="advantages">
-                <div class="advantage" v-for="(advantage, index) in advantages" :key="index">
-                    <img :src="require(`~/assets/images/icons/${advantage.icon}`)" />
-                    <div class="name">
-                        {{ advantage.name }}
-                    </div>
-                </div>
-            </div>
-        </div> -->
         <div class="advantages-group">
             <base-title title="Our advantages" />
             <div class="row mt-45">

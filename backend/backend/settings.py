@@ -45,6 +45,14 @@ INSTALLED_APPS += [
     'phonenumber_field',
     'easy_thumbnails',
     'image_cropping',
+    'django_summernote',
+    'colorfield',
+    'djmoney'
+]
+
+INSTALLED_APPS += [
+    'product',
+    'account'
 ]
 
 MIDDLEWARE = [

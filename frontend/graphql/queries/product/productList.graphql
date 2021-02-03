@@ -8,6 +8,8 @@ query productList(
     $danceShoesType: String
     $colors: [ID]
     $sizes: [ID]
+    $price_Gte: Float
+    $price_Lte: Float
 ) {
     productList(
         first: $first
@@ -19,6 +21,8 @@ query productList(
         danceShoesType: $danceShoesType
         colors: $colors
         sizes: $sizes
+        price_Gte: $price_Gte
+        price_Lte: $price_Lte
     ) {
         pagesCursor {
             startCursor

@@ -52,10 +52,10 @@
             <div class="d-flex align-items-center">
                 <input
                     placeholder="Min"
-                    v-model="filter.min"
+                    v-model="filter.price_Gte"
                     @input="
-                        filter.min * 1 + 0 != filter.min ? (filter.min = null) : '';
-                        filter.max && parseInt(filter.min) > parseInt(filter.max) ? (filter.min = filter.max) : '';
+                        filter.price_Gte * 1 + 0 != filter.price_Gte ? (filter.price_Gte = null) : '';
+                        filter.price_Lte && parseInt(filter.price_Gte) > parseInt(filter.price_Lte) ? (filter.price_Gte = filter.price_Lte) : '';
                     "
                     type="text"
                     class="filter-input"
@@ -63,8 +63,8 @@
                 <span class="hyphen">-</span>
                 <input
                     placeholder="Max"
-                    v-model="filter.max"
-                    @input="filter.max * 1 + 0 != filter.max ? (filter.max = null) : ''"
+                    v-model="filter.price_Lte"
+                    @input="filter.price_Lte * 1 + 0 != filter.price_Lte ? (filter.price_Lte = null) : ''"
                     type="text"
                     class="filter-input"
                 />
@@ -114,8 +114,8 @@
                     mensType: null,
                     accessoriesType: null,
                     danceShoesType: null,
-                    min: null,
-                    max: null,
+                    price_Gte: null,
+                    price_Lte: null,
                 },
                 categories: [
                     {

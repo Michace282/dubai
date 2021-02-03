@@ -1,6 +1,6 @@
 <template>
     <div>
-        <TheNavbar @showRegModal="showModal = 'reg'" @showBasket="showModal = 'basket'" />
+        <the-navbar @showRegModal="showModal = 'reg'" @showBasket="showModal = 'basket'" />
         <div class="main">
             <basket-modal
                 :class="{ active: showModal == 'basket' }"
@@ -34,7 +34,7 @@
                 <nuxt />
             </div>
         </div>
-        <TheFooter />
+        <the-footer />
     </div>
 </template>
 <script>

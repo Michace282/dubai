@@ -20,15 +20,12 @@ query productList(
         colors: $colors
         sizes: $sizes
     ) {
-        pageInfo {
-            hasNextPage
-            hasPreviousPage
+        pagesCursor {
             startCursor
+            endCursor
+            cursor
         }
-        colorsAvailable {
-            id
-            color
-        }
+
         edges {
             node {
                 id

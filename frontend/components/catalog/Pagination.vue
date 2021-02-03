@@ -1,7 +1,7 @@
 <template>
     <client-only>
         <paginate
-            :page-count="8"
+            :page-count="pageCursor.length"
             :clickHandler="
                 (page) => {
                     $emit('changeCursor', pageCursor[page - 1].cursor);
@@ -20,7 +20,15 @@
 <script>
     export default {
         name: 'Pagination',
-        props: ['pageCursor'],
+        props: {
+            pageCursor: {
+                type: Array,
+                required: true,
+                deafault: () => {
+                    return [];
+                },
+            },
+        },
     };
 </script>
 <style lang="less">
@@ -49,7 +57,7 @@
                 position: relative;
 
                 &:after {
-                    content: url("../../assets/images/icons/ellipsis.svg");
+                    content: url('../../assets/images/icons/ellipsis.svg');
                     position: absolute;
                     bottom: -5px;
                 }
@@ -65,7 +73,7 @@
             }
 
             &.active,
-            &:hover:not(.break), {
+            &:hover:not(.break) {
                 background: @black;
                 a {
                     color: @white;
@@ -74,6 +82,11 @@
             }
 
             a {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
                 font-style: normal;
                 font-weight: normal;
                 font-size: 14px;

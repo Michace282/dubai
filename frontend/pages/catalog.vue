@@ -3,7 +3,14 @@
         <base-title title="Catalogue" class="mt-15" />
         <div class="row mt-45">
             <div class="col-12 col-lg-3 filter-group" :class="{ active: showFilter }">
-                <filter-catalog @closeFilter="showFilter = false" />
+                <filter-catalog
+                    @closeFilter="showFilter = false"
+                    @setBreadcrumbs="
+                        (val) => {
+                            breadcrumbs = [...val];
+                        }
+                    "
+                />
             </div>
             <div class="col">
                 <div class="prudocts-head">
@@ -12,9 +19,12 @@
                         <img src="~/assets/images/icons/filter.svg" />
                     </a>
                     <div class="breadcrumbs">
-                        <div class="breadcrumb">Ladies</div>
-                        <span class="separator">/</span>
-                        <div class="breadcrumb">Body</div>
+                        <template v-if="breadcrumbs && breadcrumbs.length > 0">
+                            <div class="breadcrumb" v-for="(breadcrumb, index) in breadcrumbs" :key="index">
+                                {{ breadcrumb }}
+                                <span class="separator" v-if="index != breadcrumbs.length - 1">/</span>
+                            </div>
+                        </template>
                     </div>
                     <div class="sort">
                         <div class="label">Sort</div>
@@ -38,33 +48,42 @@
                         </div>
                     </div>
                 </div>
-               <!-- <ApolloQuery
+                <ApolloQuery
                     :query="require('~/graphql/queries/product/productList')"
+                    :variables="{
+                        first: 12,
+                        after: cursor,
+                        ...this.$route.query,
+                    }"
+                    @result="updateCursors"
                 >
                     <template v-slot="{ result: { error, data }, isLoading }">
-                        <div v-if="isLoading || error" class="loading apollo mt-85">
-                            123
-                        </div>
-                        <div v-else-if="data" class="result apollo">
-                            {{data}}
-                        </div>
-                        <div v-else class="no-result apollo">
-                            <h3 class="text-center mt-5">Отзывы не найдены :(</h3>
+                        <div v-if="isLoading || error" class="loading apollo mt-85"></div>
+                        <div v-else-if="data && data.productList" class="result apollo">
+                            <div class="row" v-if="data.productList.edges.length > 0">
+                                <div
+                                    class="col-6 col-md-4"
+                                    v-for="product in data.productList.edges"
+                                    :key="product.node.id"
+                                >
+                                    <product-item
+                                        :name="product.node.name"
+                                        :price="product.node.price"
+                                        :colorsGroup="product.node.productsizecolorSet"
+                                    />
+                                </div>
+                            </div>
+                            <div v-else class="no-result apollo">
+                                <h3 class="text-center mt-5">Product not found :(</h3>
+                            </div>
                         </div>
                     </template>
-                </ApolloQuery> -->
-                <div class="row">
-                    <div class="col-6 col-sm-4">
-                        <product-item name="Body Merelyn" :price="900" />
-                    </div>
-                    <div class="col-6 col-sm-4">
-                        <product-item name="Body Alexa" :price="900" />
-                    </div>
-                    <div class="col-6 col-sm-4">
-                        <product-item name="Body Addison" :price="800" />
-                    </div>
-                </div>
-                <pagination :pageCursor="5" />
+                </ApolloQuery>
+                <pagination
+                    v-if="pagesCursor && pagesCursor.length > 1"
+                    @changeCursor="(val) => (cursor = val)"
+                    :pageCursor="pagesCursor"
+                />
             </div>
         </div>
     </div>
@@ -78,6 +97,9 @@
         name: 'catalog',
         data() {
             return {
+                breadcrumbs: null,
+                pagesCursor: null,
+                cursor: null,
                 showDropdown: false,
                 sortVal: { id: 1, label: 'Oldest to Newest' },
                 showFilter: false,
@@ -95,6 +117,15 @@
                 { link: 'index', name: 'Home' },
                 { link: 'catatlog', name: 'Catalogue' },
             ]);
+        },
+        methods: {
+            updateCursors(data) {
+                if (data.data && data.data.productList) {
+                    this.pagesCursor = data.data.productList.pagesCursor;
+                } else {
+                    this.pagesCursor = null;
+                }
+            },
         },
     };
 </script>
@@ -133,6 +164,8 @@
                 left: -1000px;
                 background: @white;
                 transition: left 0.5s;
+                padding-bottom: 20px;
+                overflow: auto;
             }
         }
     }

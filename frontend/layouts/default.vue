@@ -63,6 +63,10 @@
         min-height: calc(100vh - 462px);
         padding-bottom: 90px;
 
+        @media @large {
+            min-height: calc(100vh - 325px);
+        }
+
         .content {
             transition: opacity 0.3s;
 

@@ -2,29 +2,28 @@
     <div class="product">
         <a hrev.prevent class="favorites-icon"><img src="~/assets/images/icons/favorites-icon.svg" /></a>
         <b-carousel
-            :interval="3000"
-            v-model="slide"
+            v-if="activePreviewImages && activePreviewImages.length > 0"
+            :interval="0"
             indicators
+            v-model="slide"
             class="product-carousel"
-            :class="{ 'white-mode': images[slide].type == 1 }"
+            :class="{ 'white-mode': false }"
             img-width="255"
             img-height="300"
         >
-            <b-carousel-slide v-for="(img, index) in images" :key="index">
+            <b-carousel-slide v-for="(img, index) in activePreviewImages" :key="index">
                 <template #img>
-                    <img
-                        class="d-block img-fluid w-100"
-                        width="1024"
-                        height="480"
-                        :src="require(`~/assets/images/${img.url}`)"
-                        alt="image"
-                    />
+                    <img class="d-block img-fluid w-100 preview" :src="img.image" :alt="index" />
                 </template>
             </b-carousel-slide>
         </b-carousel>
-        <div class="colors">
-            <div class="color-box">
-                <div class="color"></div>
+        <img class="preview" src="~/assets/images/no-photo.jpg" v-else />
+        <div class="colors" v-if="colorsGroup && colorsGroup.edges.length > 0">
+            <div class="color-group" v-for="(colorGroup, index) in colorsGroup.edges" :key="index">
+                <input type="radio" v-model="activeColor" :value="index" :id="colorGroup.node.id" />
+                <label class="label-color" :for="colorGroup.node.id">
+                    <div class="color" :style="`background: ${colorGroup.node.color.color}`"></div>
+                </label>
             </div>
         </div>
         <nuxt-link to="" class="link-to-product">
@@ -47,21 +46,43 @@
                 required: true,
                 default: null,
             },
+            colorsGroup: {
+                type: Object,
+                required: false,
+                default: () => {
+                    return {};
+                },
+            },
         },
         data() {
             return {
+                activeColor: 0,
                 slide: 0,
-                images: [
-                    {
-                        url: 'product-preview.png',
-                        type: 0,
-                    },
-                    {
-                        url: 'product-preview2.png',
-                        type: 1,
-                    },
-                ],
             };
+        },
+        computed: {
+            activePreviewImages() {
+                if (
+                    this.colorsGroup &&
+                    this.colorsGroup.edges[this.activeColor] &&
+                    this.colorsGroup.edges[this.activeColor].node.color &&
+                    this.colorsGroup.edges[this.activeColor].node.color.productsizecolorSet.edges
+                ) {
+                    let imagesGroup = this.colorsGroup.edges[this.activeColor].node.color.productsizecolorSet.edges;
+                    let images = [];
+                    this.slide = 0;
+                    for (let i in imagesGroup) {
+                        if (imagesGroup[i].node.productimageSet.edges.length > 0) {
+                            for (let j in imagesGroup[i].node.productimageSet.edges) {
+                                images.push(imagesGroup[i].node.productimageSet.edges[j].node);
+                            }
+                        }
+                    }
+
+                    return images;
+                }
+                return null;
+            },
         },
     };
 </script>
@@ -70,6 +91,16 @@
     .product {
         position: relative;
         margin-bottom: 30px;
+
+        .preview {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+
+            @media (max-width: 767px) {
+                height: 230px;
+            }
+        }
 
         .link-to-product {
             display: flex;
@@ -100,24 +131,21 @@
             align-items: center;
             justify-content: center;
             flex-wrap: wrap;
-            margin-top: 15px;
+            margin-top: 10px;
 
-            .color-box {
-                width: 20px;
-                height: 20px;
-                padding: 2px;
-                border-radius: 50%;
-                border: 1px solid @grey2;
+            .color-group {
+                width: 22px;
+                height: 22px;
                 margin-right: 10px;
+
+                .label-color {
+                    width: 100%;
+                    height: 100%;
+                }
 
                 @media @medium {
                     width: 13px;
                     height: 13px;
-                }
-
-                .color {
-                    background: red;
-                    border-radius: 50%;
                 }
             }
         }

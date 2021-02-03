@@ -46,6 +46,12 @@
             margin-top: 2px;
         }
 
+        &.active {
+            .category-name {
+                color: @yellow;
+            }
+        }
+
         &.arrow-descktop-hide {
             .btn-block {
                 opacity: 0;
@@ -53,6 +59,11 @@
                     @media (min-width: 992px) {
                         content: none;
                     }
+                }
+
+                @media @large {
+                    position: relative;
+                    opacity: 1;
                 }
 
                 &.category-name {
@@ -65,6 +76,16 @@
                     bottom: 0;
                     margin: auto;
                     z-index: 50;
+
+                    @media @large {
+                        top: unset;
+                    }
+
+                    &:after {
+                        @media @large {
+                            content: none;
+                        }
+                    }
                 }
             }
         }
@@ -102,6 +123,7 @@
             background: none;
             border: 0px;
             color: @black;
+            margin: 0px;
 
             @media @large {
                 background: @grey3;

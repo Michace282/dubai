@@ -13,11 +13,16 @@
             v-for="category in categories"
             :key="category.key"
             class="arrow-descktop-hide"
+            :class="{ active: filter.productType == category.key && !filter[category.filterName] }"
             :name="category.label"
             :title="category.label"
             @setCategory="
-                activeCategory = category.key;
-                activeSubCategory = null;
+                filter.productType = category.key;
+                filter.ladiesType = null;
+                filter.mensType = null;
+                filter.accessoriesType = null;
+                filter.danceShoesType = null;
+                breadcrumbs = [category.label];
             "
             visible
             isLink
@@ -26,10 +31,14 @@
                 <ul class="categories">
                     <li
                         class="category"
-                        :class="{ active: subCategory.key == activeSubCategory && activeCategory == category.key }"
+                        :class="{
+                            active:
+                                subCategory.key == filter[category.filterName] && filter.productType == category.key,
+                        }"
                         @click="
-                            activeSubCategory = subCategory.key;
-                            activeCategory = category.key;
+                            filter.productType = category.key;
+                            filter[category.filterName] = subCategory.key;
+                            breadcrumbs = [category.label, subCategory.label];
                         "
                         v-for="subCategory in category.subCategories"
                         :key="subCategory.key"
@@ -41,36 +50,48 @@
         </filter-accordion>
         <filter-accordion class="mt-30" name="price" title="Price range">
             <div class="d-flex align-items-center">
-                <input placeholder="Min" class="filter-input" />
+                <input
+                    placeholder="Min"
+                    v-model="filter.min"
+                    @input="
+                        filter.min * 1 + 0 != filter.min ? (filter.min = null) : '';
+                        filter.max && parseInt(filter.min) > parseInt(filter.max) ? (filter.min = filter.max) : '';
+                    "
+                    type="text"
+                    class="filter-input"
+                />
                 <span class="hyphen">-</span>
-                <input placeholder="Max" class="filter-input" />
+                <input
+                    placeholder="Max"
+                    v-model="filter.max"
+                    @input="filter.max * 1 + 0 != filter.max ? (filter.max = null) : ''"
+                    type="text"
+                    class="filter-input"
+                />
             </div>
         </filter-accordion>
         <filter-accordion class="mt-30" title="Colors" name="colors">
-            <div class="colors">
-                <div class="color-group">
-                    <input type="checkbox" true-value="true" id="color" />
-                    <label class="label-color" for="color">
-                        <div class="color"></div>
+            <div class="colors" v-if="colors && colors.length > 0">
+                <div class="color-group" v-for="color in colors" :key="color.id">
+                    <input type="checkbox" name="checkbox" v-model="filter.colors" :value="color.id" :id="color.id" />
+                    <label class="label-color" :for="color.id">
+                        <div class="color" :style="`background: ${color.color}`"></div>
                     </label>
                 </div>
             </div>
+            <div v-else>No colors</div>
         </filter-accordion>
         <filter-accordion class="mt-30" title="Size" name="size">
-            <div class="sizes">
-                <div class="size-box">
-                    <input type="checkbox" true-value="true" id="size3" />
-                    <label class="label-size" for="size3">XS</label>
-                </div>
-                <div class="size-box">
-                    <input type="checkbox" true-value="true" id="size2" />
-                    <label class="label-size" for="size2">S</label>
+            <div class="sizes" v-if="sizes && sizes.length > 0">
+                <div class="size-box" v-for="(size, index) in sizes" :key="index">
+                    <input type="checkbox" name="sizes" v-model="filter.sizes" :value="size.id" :id="index" />
+                    <label class="label-size" :for="index">{{ size.name }}</label>
                 </div>
             </div>
         </filter-accordion>
         <div class="btn-box">
-            <button class="btn btn-black w-100 mt-45">filter</button>
-            <button class="btn btn-outline-black w-100 mt-30">reset the filter</button>
+            <button class="btn btn-black w-100 mt-45" @click="filterProducts">filter</button>
+            <button class="btn btn-outline-black w-100 mt-30" @click="clearFilter">reset the filter</button>
         </div>
     </div>
 </template>
@@ -82,12 +103,25 @@
         components: { FilterAccordion },
         data() {
             return {
-                activeCategory: null,
-                activeSubCategory: null,
+                colors: null,
+                sizes: null,
+                breadcrumbs: null,
+                filter: {
+                    colors: [],
+                    sizes: [],
+                    productType: null,
+                    ladiesType: null,
+                    mensType: null,
+                    accessoriesType: null,
+                    danceShoesType: null,
+                    min: null,
+                    max: null,
+                },
                 categories: [
                     {
                         key: 'ladies',
                         label: 'Ladies',
+                        filterName: 'ladiesType',
                         subCategories: [
                             { key: 'body', label: 'Body' },
                             { key: 'blouses', label: 'Blouses' },
@@ -102,6 +136,7 @@
                     {
                         key: 'mens',
                         label: 'Mens',
+                        filterName: 'mensType',
                         subCategories: [
                             { key: 'trousers', label: 'Trousers' },
                             { key: 'waistcoasts', label: 'Waistcoasts' },
@@ -112,6 +147,7 @@
                     {
                         key: 'accessories',
                         label: 'Accessories',
+                        filterName: 'accessoriesType',
                         subCategories: [
                             { key: 'shoe_accessories', label: 'Shoe accessories' },
                             { key: 'bags', label: 'Bags' },
@@ -121,6 +157,7 @@
                     {
                         key: 'dance_shoes',
                         label: 'Dance shoes',
+                        filterName: 'danceShoesType',
                         subCategories: [
                             { key: 'ladies', label: 'Ladies' },
                             { key: 'mens', label: 'Mens' },
@@ -128,6 +165,51 @@
                     },
                 ],
             };
+        },
+        created() {
+            for (let key in this.$route.query) {
+                this.filter[key] = this.$route.query[key];
+            }
+        },
+        methods: {
+            filterProducts() {
+                let activeFilter = {};
+                for (let key in this.filter) {
+                    if (Array.isArray(this.filter[key])) {
+                        if (this.filter[key].length > 0) {
+                            activeFilter[key] = this.filter[key];
+                        }
+                    } else if (this.filter[key]) {
+                        activeFilter[key] = this.filter[key];
+                    }
+                }
+                this.$router.push({ query: { ...activeFilter } });
+                this.$emit('setBreadcrumbs', this.breadcrumbs);
+            },
+            clearFilter() {
+                for (let key in this.filter) {
+                    if (Array.isArray(this.filter[key])) {
+                        this.filter = [];
+                    } else if (this.filter[key]) {
+                        this.filter[key] = null;
+                    }
+                }
+                this.breadcrumbs = null;
+                this.$emit('setBreadcrumbs', this.breadcrumbs);
+                this.$router.push({ query: {} });
+            },
+        },
+        apollo: {
+            filterParams: {
+                query: require('../../graphql/queries/product/filterParams'),
+                update(data) {
+                    if (data && data.productList) {
+                        this.colors = [...data.productList.colorsAvailable];
+                        this.sizes = [...data.productList.sizesAvailable];
+                    }
+                    return data;
+                },
+            },
         },
     };
 </script>
@@ -217,7 +299,7 @@
 
     .category-box {
         margin-top: -15px;
-        
+
         .categories {
             &:not(:first-child) {
                 margin-top: 15px;

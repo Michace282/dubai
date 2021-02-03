@@ -23,7 +23,7 @@ from graphene_file_upload.django import FileUploadGraphQLView
 from django.views.decorators.csrf import csrf_exempt
 
 urlpatterns = [
-    path('graphql/', csrf_exempt(jwt_cookie(FileUploadGraphQLView.as_view(graphiql=settings.DEBUG)))),
+    path('graphql', csrf_exempt(jwt_cookie(FileUploadGraphQLView.as_view(graphiql=settings.DEBUG)))),
     path('summernote/', include('django_summernote.urls')),
     path('', admin.site.urls),
 ]

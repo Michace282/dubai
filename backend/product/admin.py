@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Product, ProductSizeColor, ProductImage, Color, SizeChart, Size
+from .models import Product, ProductSizeColor, ProductImage, Color, SizeChart, Size, Feedback, FeedbackImage
 from django_summernote.widgets import SummernoteWidget
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
@@ -76,3 +76,12 @@ class ProductAdmin(admin.ModelAdmin):
             )
         }),
     )
+
+
+class FeedbackImageInline(admin.StackedInline):
+    model = FeedbackImage
+
+
+@admin.register(Feedback)
+class FeedbackAdmin(admin.ModelAdmin):
+    inlines = (FeedbackImageInline,)

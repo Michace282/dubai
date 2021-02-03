@@ -1,6 +1,7 @@
 import graphene
 from graphene import relay
 from graphene_django.filter import DjangoFilterConnectionField
+from graphene_django import DjangoConnectionField
 from graphene_django.filter import GlobalIDFilter, GlobalIDMultipleChoiceFilter
 from graphene_django.types import DjangoObjectType
 from graphql_relay.connection.arrayconnection import offset_to_cursor
@@ -187,8 +188,17 @@ class ProductType(DjangoObjectType):
 
 
 class ProductFilter(django_filters.FilterSet):
+    price__gte = django_filters.NumberFilter(label='После цены', method='price__gte_filter')
+    price__lte = django_filters.NumberFilter(label='До цены', method='price__lte_filter')
+
     colors = GlobalIDMultipleChoiceFilter(method='colors_filter')
     sizes = GlobalIDMultipleChoiceFilter(method='sizes_filter')
+
+    def price__gte_filter(self, queryset, name, value):
+        return queryset.filter(price__gte=value)
+
+    def price__lte_filter(self, queryset, name, value):
+        return queryset.filter(price__lte=value)
 
     def colors_filter(self, queryset, name, value):
         ids = []
@@ -206,7 +216,8 @@ class ProductFilter(django_filters.FilterSet):
 
     class Meta:
         model = Product
-        fields = ['product_type', 'ladies_type', 'mens_type', 'accessories_type', 'dance_shoes_type', 'colors', 'sizes']
+        fields = ['price__gte', 'price__lte', 'product_type', 'ladies_type', 'mens_type', 'accessories_type',
+                  'dance_shoes_type', 'colors', 'sizes']
 
     @property
     def qs(self):
@@ -214,5 +225,24 @@ class ProductFilter(django_filters.FilterSet):
                                  productsizecolor__is_available=True).distinct()
 
 
+class FeedbackType(DjangoObjectType):
+    class Meta:
+        model = Feedback
+        interfaces = (relay.Node,)
+
+
+class FeedbackFilter(django_filters.FilterSet):
+    class Meta:
+        model = Feedback
+        fields = ['product']
+
+    @property
+    def qs(self):
+        return super().qs.filter(status=Feedback.StatusType.published).distinct()
+
+
 class Query(graphene.ObjectType):
     product_list = DjangoFilterConnectionField(ProductType, filterset_class=ProductFilter)
+    product_detail = graphene.relay.Node.Field(ProductType, id=graphene.ID())
+
+    feedback_list = DjangoFilterConnectionField(FeedbackType, filterset_class=FeedbackFilter)

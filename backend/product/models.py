@@ -149,7 +149,8 @@ class ProductSizeColor(TimeStampedModel):
 
 
 class ProductImage(TimeStampedModel):
-    product_size_color = models.ForeignKey(ProductSizeColor, verbose_name='Product Size Color', on_delete=models.CASCADE)
+    product_size_color = models.ForeignKey(ProductSizeColor, verbose_name='Product Size Color',
+                                           on_delete=models.CASCADE)
     image = models.ImageField(verbose_name='Image', upload_to='product/image')
 
     def __str__(self):
@@ -171,3 +172,55 @@ class Basket(TimeStampedModel):
 class ProductBasket(TimeStampedModel):
     basket = models.OneToOneField(Basket, verbose_name='Basket', on_delete=models.CASCADE)
     product = models.OneToOneField(Product, verbose_name='Product', on_delete=models.CASCADE)
+
+
+class Feedback(TimeStampedModel):
+    class StatusType(DjangoChoices):
+        published = ChoiceItem(label='Published', value='published')
+        unpublished = ChoiceItem(label='Unpublished', value='unpublished')
+        moderated = ChoiceItem(label='Moderated', value='moderated')
+
+    class StarType(DjangoChoices):
+        star1 = ChoiceItem(label='star1', value='star1')
+        star2 = ChoiceItem(label='star2', value='star2')
+        star3 = ChoiceItem(label='star3', value='star3')
+        star4 = ChoiceItem(label='star4', value='star4')
+        star5 = ChoiceItem(label='star5', value='star5')
+
+    guest = models.ForeignKey(Guest, verbose_name='Guest', on_delete=models.CASCADE, blank=True, null=True)
+    user = models.ForeignKey(User, verbose_name='User', on_delete=models.CASCADE, blank=True, null=True)
+    product = models.ForeignKey(Product, verbose_name='Product', on_delete=models.CASCADE)
+    size = models.ForeignKey(Size, verbose_name='Size', on_delete=models.CASCADE)
+    color = models.ForeignKey(Color, verbose_name='Color', on_delete=models.CASCADE)
+
+    status = models.CharField(verbose_name='Status',
+                              max_length=30,
+                              choices=StatusType.choices,
+                              default=StatusType.moderated)
+
+    star = models.CharField(verbose_name='Star',
+                            max_length=30,
+                            choices=StarType.choices)
+
+    text = models.TextField(verbose_name='Text')
+
+    def __str__(self):
+        return self.text
+
+    class Meta:
+        verbose_name = 'Feedback'
+        verbose_name_plural = 'Feedbacks'
+
+
+
+class FeedbackImage(TimeStampedModel):
+    feedback = models.ForeignKey(Feedback, verbose_name='Feedback',
+                                 on_delete=models.CASCADE)
+    image = models.ImageField(verbose_name='Image', upload_to='feedback/image')
+
+    def __str__(self):
+        return str(self.feedback)
+
+    class Meta:
+        verbose_name = 'Feedback image'
+        verbose_name_plural = 'Feedback images'

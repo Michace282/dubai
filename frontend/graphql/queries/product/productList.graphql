@@ -35,6 +35,30 @@ query productList(
                 name
                 productType
                 price
+                productsizecolorSet {
+                    edges {
+                        node {
+                            id
+                            color {
+                                id
+                                color
+                                productsizecolorSet {
+                                    edges {
+                                        node {
+                                            productimageSet {
+                                                edges {
+                                                    node {
+                                                        image
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }

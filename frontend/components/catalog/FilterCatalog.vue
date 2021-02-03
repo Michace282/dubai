@@ -9,11 +9,33 @@
                 <img src="~/assets/images/icons/exit.svg" />
             </a>
         </div>
-        <filter-accordion class="arrow-descktop-hide" name="Ladies" title="Ladies" visible>
+        <filter-accordion
+            v-for="category in categories"
+            :key="category.key"
+            class="arrow-descktop-hide"
+            :name="category.label"
+            :title="category.label"
+            @setCategory="
+                activeCategory = category.key;
+                activeSubCategory = null;
+            "
+            visible
+            isLink
+        >
             <div class="category-box">
                 <ul class="categories">
-                    <li class="category active">Body</li>
-                    <li class="category">Blouses</li>
+                    <li
+                        class="category"
+                        :class="{ active: subCategory.key == activeSubCategory && activeCategory == category.key }"
+                        @click="
+                            activeSubCategory = subCategory.key;
+                            activeCategory = category.key;
+                        "
+                        v-for="subCategory in category.subCategories"
+                        :key="subCategory.key"
+                    >
+                        {{ subCategory.label }}
+                    </li>
                 </ul>
             </div>
         </filter-accordion>
@@ -59,7 +81,53 @@
         name: 'FilterCatalog',
         components: { FilterAccordion },
         data() {
-            return {};
+            return {
+                activeCategory: null,
+                activeSubCategory: null,
+                categories: [
+                    {
+                        key: 'ladies',
+                        label: 'Ladies',
+                        subCategories: [
+                            { key: 'body', label: 'Body' },
+                            { key: 'blouses', label: 'Blouses' },
+                            { key: 'skirts', label: 'Skirts' },
+                            { key: 'dresses', label: 'Dresses' },
+                            { key: 'trousers', label: 'Trousers' },
+                            { key: 'jumpsuits', label: 'Jumpsuits' },
+                            { key: 'tops', label: 'Tops' },
+                            { key: 'shorts', label: 'Shorts' },
+                        ],
+                    },
+                    {
+                        key: 'mens',
+                        label: 'Mens',
+                        subCategories: [
+                            { key: 'trousers', label: 'Trousers' },
+                            { key: 'waistcoasts', label: 'Waistcoasts' },
+                            { key: 'shirts', label: 'Skirts' },
+                            { key: 't_shirts', label: 'T-shirts' },
+                        ],
+                    },
+                    {
+                        key: 'accessories',
+                        label: 'Accessories',
+                        subCategories: [
+                            { key: 'shoe_accessories', label: 'Shoe accessories' },
+                            { key: 'bags', label: 'Bags' },
+                            { key: 'ladies_accessories', label: 'Ladies accessories' },
+                        ],
+                    },
+                    {
+                        key: 'dance_shoes',
+                        label: 'Dance shoes',
+                        subCategories: [
+                            { key: 'ladies', label: 'Ladies' },
+                            { key: 'mens', label: 'Mens' },
+                        ],
+                    },
+                ],
+            };
         },
     };
 </script>
@@ -147,25 +215,29 @@
         }
     }
 
-    .categories {
-        &:not(:first-child) {
-            margin-top: 15px;
-        }
-        padding-left: 10px;
-        text-decoration: none;
-        list-style: none;
+    .category-box {
+        margin-top: -15px;
+        
+        .categories {
+            &:not(:first-child) {
+                margin-top: 15px;
+            }
+            padding-left: 10px;
+            text-decoration: none;
+            list-style: none;
 
-        .category {
-            cursor: pointer;
-            margin-top: 5px;
-            line-height: 22px;
-            font-family: 'Inter-Light';
-            font-size: 18px;
-            color: @black;
+            .category {
+                cursor: pointer;
+                margin-top: 5px;
+                line-height: 22px;
+                font-family: 'Inter-Light';
+                font-size: 18px;
+                color: @black;
 
-            &.active {
-                font-family: 'Inter-Regular';
-                color: @yellow;
+                &.active {
+                    font-family: 'Inter-Regular';
+                    color: @yellow;
+                }
             }
         }
     }

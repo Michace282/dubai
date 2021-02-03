@@ -38,6 +38,21 @@
                         </div>
                     </div>
                 </div>
+               <!-- <ApolloQuery
+                    :query="require('~/graphql/queries/product/productList')"
+                >
+                    <template v-slot="{ result: { error, data }, isLoading }">
+                        <div v-if="isLoading || error" class="loading apollo mt-85">
+                            123
+                        </div>
+                        <div v-else-if="data" class="result apollo">
+                            {{data}}
+                        </div>
+                        <div v-else class="no-result apollo">
+                            <h3 class="text-center mt-5">Отзывы не найдены :(</h3>
+                        </div>
+                    </template>
+                </ApolloQuery> -->
                 <div class="row">
                     <div class="col-6 col-sm-4">
                         <product-item name="Body Merelyn" :price="900" />

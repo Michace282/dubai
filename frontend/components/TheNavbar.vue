@@ -14,10 +14,10 @@
                 <b-collapse id="navbar-toggle-collapse" is-nav>
                     <b-navbar-nav class="links m-auto">
                         <b-nav-item to="#">New <img class="star" src="../assets/images/icons/star.png" /></b-nav-item>
-                        <b-nav-item to="/catalog/">Ladies</b-nav-item>
-                        <b-nav-item to="#">Mens</b-nav-item>
-                        <b-nav-item to="#">Dance shoes</b-nav-item>
-                        <b-nav-item to="#">Accessories</b-nav-item>
+                        <b-nav-item to="/catalog/?productType=ladies">Ladies</b-nav-item>
+                        <b-nav-item to="/catalog/?productType=mens">Mens</b-nav-item>
+                        <b-nav-item to="/catalog/?productType=dance_shoes">Dance shoes</b-nav-item>
+                        <b-nav-item to="/catalog/?productType=accessories">Accessories</b-nav-item>
                         <b-nav-item to="/about-us/">About us</b-nav-item>
                         <b-nav-item to="/contacts/">Contact us</b-nav-item>
                     </b-navbar-nav>

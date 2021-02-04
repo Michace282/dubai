@@ -1,22 +1,23 @@
 <template>
     <div class="product">
         <a hrev.prevent class="favorites-icon"><img src="~/assets/images/icons/favorites-icon.svg" /></a>
-        <b-carousel
-            v-if="activePreviewImages && activePreviewImages.length > 0"
-            :interval="0"
-            indicators
-            v-model="slide"
-            class="product-carousel"
-            :class="{ 'white-mode': false }"
-            img-width="255"
-            img-height="300"
-        >
-            <b-carousel-slide v-for="(img, index) in activePreviewImages" :key="index">
-                <template #img>
-                    <img class="d-block img-fluid w-100 preview" :src="img.image" :alt="index" />
-                </template>
-            </b-carousel-slide>
-        </b-carousel>
+        <client-only v-if="activePreviewImages && activePreviewImages.length > 0">
+            <b-carousel
+                :interval="0"
+                indicators
+                v-model="slide"
+                class="product-carousel"
+                :class="{ 'white-mode': false }"
+                img-width="255"
+                img-height="300"
+            >
+                <b-carousel-slide v-for="(img, index) in activePreviewImages" :key="index">
+                    <template #img>
+                        <img class="d-block img-fluid w-100 preview" :src="img.image" :alt="index" />
+                    </template>
+                </b-carousel-slide>
+            </b-carousel>
+        </client-only>
         <img class="preview" src="~/assets/images/no-photo.jpg" v-else />
         <div class="colors" v-if="colorsGroup && colorsGroup.edges.length > 0">
             <div class="color-group" v-for="(colorGroup, index) in colorsGroup.edges" :key="index">

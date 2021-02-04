@@ -52,10 +52,11 @@
             <div class="d-flex align-items-center">
                 <input
                     placeholder="Min"
-                    v-model="filter.price_Gte"
+                    v-model="range.min"
                     @input="
-                        filter.price_Gte * 1 + 0 != filter.price_Gte ? (filter.price_Gte = null) : '';
-                        filter.price_Lte && parseInt(filter.price_Gte) > parseInt(filter.price_Lte) ? (filter.price_Gte = filter.price_Lte) : '';
+                        range.min * 1 + 0 != range.min ? (range.min = null) : '';
+                        range.max && parseInt(range.min) > parseInt(range.max) ? (range.min = range.max) : '';
+                        setMinValue(range.min);
                     "
                     type="text"
                     class="filter-input"
@@ -63,8 +64,11 @@
                 <span class="hyphen">-</span>
                 <input
                     placeholder="Max"
-                    v-model="filter.price_Lte"
-                    @input="filter.price_Lte * 1 + 0 != filter.price_Lte ? (filter.price_Lte = null) : ''"
+                    v-model="range.max"
+                    @input="
+                        range.max * 1 + 0 != range.max ? (range.max = null) : '';
+                        setMaxValue(range.max);
+                    "
                     type="text"
                     class="filter-input"
                 />
@@ -90,7 +94,7 @@
             </div>
         </filter-accordion>
         <div class="btn-box">
-            <button class="btn btn-black w-100 mt-45" @click="filterProducts">filter</button>
+            <!-- <button class="btn btn-black w-100 mt-45" @click="filterProducts">filter</button> -->
             <button class="btn btn-outline-black w-100 mt-30" @click="clearFilter">reset the filter</button>
         </div>
     </div>
@@ -106,6 +110,12 @@
                 colors: null,
                 sizes: null,
                 breadcrumbs: null,
+                timer: null,
+                timer2: null,
+                range: {
+                    max: null,
+                    min: null,
+                },
                 filter: {
                     colors: [],
                     sizes: [],
@@ -166,25 +176,46 @@
                 ],
             };
         },
+        watch: {
+            filter: {
+                handler() {
+                    let activeFilter = {};
+                    for (let key in this.filter) {
+                        if (Array.isArray(this.filter[key])) {
+                            if (this.filter[key].length > 0) {
+                                activeFilter[key] = this.filter[key];
+                            }
+                        } else if (this.filter[key]) {
+                            activeFilter[key] = this.filter[key];
+                        }
+                    }
+                    this.$router.push({ query: { ...activeFilter } });
+                    this.$emit('setBreadcrumbs', this.breadcrumbs);
+                },
+                deep: true,
+            },
+        },
         created() {
             for (let key in this.$route.query) {
                 this.filter[key] = this.$route.query[key];
             }
+            this.range.min = this.$route.query.price_Gte;
+            this.range.max = this.$route.query.price_Lte;
         },
         methods: {
-            filterProducts() {
-                let activeFilter = {};
-                for (let key in this.filter) {
-                    if (Array.isArray(this.filter[key])) {
-                        if (this.filter[key].length > 0) {
-                            activeFilter[key] = this.filter[key];
-                        }
-                    } else if (this.filter[key]) {
-                        activeFilter[key] = this.filter[key];
-                    }
-                }
-                this.$router.push({ query: { ...activeFilter } });
-                this.$emit('setBreadcrumbs', this.breadcrumbs);
+            setMinValue(val) {
+                let v = this;
+                clearTimeout(v.timer);
+                v.timer = setTimeout(() => {
+                    v.filter.price_Gte = val;
+                }, 1000);
+            },
+            setMaxValue(val) {
+                let v = this;
+                clearTimeout(v.timer2);
+                v.timer2 = setTimeout(() => {
+                    v.filter.price_Lte = val;
+                }, 1000);
             },
             clearFilter() {
                 for (let key in this.filter) {
@@ -194,6 +225,8 @@
                         this.filter[key] = null;
                     }
                 }
+                this.range.min = null;
+                this.range.max = null;
                 this.breadcrumbs = null;
                 this.$emit('setBreadcrumbs', this.breadcrumbs);
                 this.$router.push({ query: {} });

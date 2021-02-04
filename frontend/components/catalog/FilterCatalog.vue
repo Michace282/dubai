@@ -225,6 +225,8 @@
                         this.filter[key] = null;
                     }
                 }
+                this.range.min = null;
+                this.range.max = null;
                 this.breadcrumbs = null;
                 this.$emit('setBreadcrumbs', this.breadcrumbs);
                 this.$router.push({ query: {} });

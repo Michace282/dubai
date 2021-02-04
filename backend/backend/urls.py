@@ -21,10 +21,13 @@ from django.conf.urls.static import static
 from graphql_jwt.decorators import jwt_cookie
 from graphene_file_upload.django import FileUploadGraphQLView
 from django.views.decorators.csrf import csrf_exempt
+from product.views import upload_images, upload_images_delete
 
 urlpatterns = [
     path('graphql', csrf_exempt(jwt_cookie(FileUploadGraphQLView.as_view(graphiql=settings.DEBUG)))),
     path('summernote/', include('django_summernote.urls')),
+    path('upload_images', upload_images),
+    path('upload_images_delete', upload_images_delete),
     path('', admin.site.urls),
 ]
 

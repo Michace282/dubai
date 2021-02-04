@@ -210,7 +210,7 @@ class Feedback(TimeStampedModel):
     class Meta:
         verbose_name = 'Feedback'
         verbose_name_plural = 'Feedbacks'
-
+        unique_together = ('product', 'color',)
 
 
 class FeedbackImage(TimeStampedModel):

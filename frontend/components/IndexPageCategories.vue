@@ -2,36 +2,42 @@
     <div class="mt-45">
         <div class="row categories">
             <div class="col-auto">
-                <nuxt-link to="#" class="category vertical-large">
+                <nuxt-link :to="{ name: 'catalog', query: { productType: 'ladies' } }" class="category vertical-large">
                     <div class="name">Ladies</div>
                 </nuxt-link>
             </div>
             <div class="col-auto">
-                <nuxt-link to="#" class="category horizontal text-left">
+                <nuxt-link
+                    :to="{ name: 'catalog', query: { productType: 'accessories' } }"
+                    class="category horizontal text-left"
+                >
                     <div class="name">Accessories</div>
                 </nuxt-link>
-                <nuxt-link to="#" class="category horizontal text-right">
+                <nuxt-link
+                    :to="{ name: 'catalog', query: { productType: 'dance_shoes' } }"
+                    class="category horizontal text-right"
+                >
                     <div class="name">Danceshoes</div>
                 </nuxt-link>
             </div>
             <div class="col-auto">
-                <nuxt-link to="#" class="category vertical">
+                <nuxt-link :to="{ name: 'catalog', query: { productType: 'mens' } }" class="category vertical">
                     <div class="name">Mens</div>
                 </nuxt-link>
             </div>
         </div>
-        <b-carousel id="carousel-2" v-model="slide" :interval="4000" indicators class="categories-carousel">
+        <b-carousel id="carousel-2" :interval="4000" indicators class="categories-carousel">
             <b-carousel-slide img-src="~/assets/images/accessories.png">
-                <nuxt-link to="index"></nuxt-link>
+                <nuxt-link :to="{ name: 'catalog', query: { productType: 'accessories' } }"></nuxt-link>
             </b-carousel-slide>
             <b-carousel-slide img-src="~/assets/images/danceshoes.png">
-                <nuxt-link to="index"></nuxt-link>
+                <nuxt-link :to="{ name: 'catalog', query: { productType: 'dance_shoes' } }"></nuxt-link>
             </b-carousel-slide>
             <b-carousel-slide img-src="~/assets/images/ladies.png">
-                <nuxt-link to="index"></nuxt-link>
+                <nuxt-link :to="{ name: 'catalog', query: { productType: 'ladies' } }"></nuxt-link>
             </b-carousel-slide>
             <b-carousel-slide img-src="~/assets/images/mens.png">
-                <nuxt-link to="index"></nuxt-link>
+                <nuxt-link :to="{ name: 'catalog', query: { productType: 'mens' } }"></nuxt-link>
             </b-carousel-slide>
         </b-carousel>
     </div>

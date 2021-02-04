@@ -21,9 +21,12 @@ services:
         stdin_open: true
         tty: true
         volumes:
-            - ~/.composer-docker/cache:/root/.composer/cache:delegated
-            - ./frontend:/app:cached
+            - ./frontend:/app
+            - exclude:/app/node_modules
         depends_on:
             - django
         ports:
             - "4444:3000"
+
+volumes:
+    exclude:

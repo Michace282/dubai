@@ -97,6 +97,9 @@ class ProductAdmin(admin.ModelAdmin):
         }),
     )
 
+    class Media:
+        js = ("js/product.js",)
+
 
 class FeedbackImageInline(admin.StackedInline):
     model = FeedbackImage

@@ -43,6 +43,7 @@ query productDetail($id: ID!) {
                                     productimageSet {
                                         edges {
                                             node {
+                                                id
                                                 image
                                             }
                                         }

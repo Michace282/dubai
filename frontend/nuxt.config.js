@@ -27,7 +27,7 @@ export default {
     /*
      ** Global CSS
      */
-    css: ['~assets/css/fonts.less', '~assets/css/main.less'],
+    css: ['~assets/css/fonts.less', '~assets/css/main.less', 'vue-slick-carousel/dist/vue-slick-carousel.css'],
 
     /*
      ** Plugins to load before mounting the App
@@ -38,6 +38,7 @@ export default {
         '~plugins/components.client.js',
         '~/plugins/global-components.js',
         { src: '~/plugins/vuejs-paginate.js', ssr: false },
+        { src: '~/plugins/vue-slick-carousel.js' },
     ],
     /*
      ** Nuxt.js dev-modules

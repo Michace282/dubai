@@ -12,7 +12,21 @@
                 <div v-else-if="data && data.productDetail" class="result apollo">
                     <div class="container">
                         <div class="row">
-                            <div class="col-7"></div>
+                            <div class="col-7">
+                                <product-carousel
+                                    v-if="
+                                        data.productDetail.productsizecolorSet.edges[colorVal] &&
+                                        data.productDetail.productsizecolorSet.edges[colorVal].node.color
+                                            .productsizecolorSet.edges.length > 0 &&
+                                        data.productDetail.productsizecolorSet.edges[colorVal].node.color
+                                            .productsizecolorSet.edges[0].node.productimageSet.edges.length > 0
+                                    "
+                                    :images="
+                                        data.productDetail.productsizecolorSet.edges[colorVal].node.color
+                                            .productsizecolorSet.edges[0].node.productimageSet.edges
+                                    "
+                                />
+                            </div>
                             <div class="col">
                                 <div class="head-group">
                                     <div>
@@ -153,10 +167,12 @@
 <script>
     import CommentGroup from '../../components/comment/CommentGroup.vue';
     import RatingGroup from '../../components/comment/RatingGroup.vue';
+    // import { Hooper, Slide } from 'hooper';
+    import ProductCarousel from '../../components/product/ProductCarousel.vue';
 
     export default {
         name: 'product',
-        components: { CommentGroup, RatingGroup },
+        components: { CommentGroup, RatingGroup, ProductCarousel },
         data() {
             return {
                 rating: 0,

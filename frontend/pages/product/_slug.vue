@@ -17,39 +17,8 @@
                                 <div class="head-group">
                                     <div>
                                         <div class="bold text-uppercase">{{ data.productDetail.name }}</div>
-                                        <div class="rating-group">
-                                            <div class="rating">
-                                                <svg
-                                                    v-for="i in rating"
-                                                    :key="i + 'fill'"
-                                                    :class="{ 'mr-0': i == rating }"
-                                                    width="15"
-                                                    height="15"
-                                                    viewBox="0 0 15 15"
-                                                    fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                >
-                                                    <path
-                                                        d="M14.5405 5.37391L10.0383 4.72674L8.01238 0.646688C7.87692 0.366946 7.54031 0.250019 7.26056 0.385528C7.1466 0.440733 7.05455 0.532723 6.9994 0.646688L4.97346 4.72674L0.471314 5.37391C0.258088 5.408 0.0831554 5.56101 0.0211103 5.76783C-0.03361 5.96711 0.01971 6.18049 0.161789 6.3306L3.42583 9.51025L2.66611 13.9842C2.6319 14.199 2.71835 14.4151 2.89123 14.547C3.06148 14.6765 3.29049 14.6983 3.48212 14.6033L7.50589 12.4648L11.5297 14.6033L11.7829 14.6596C11.9061 14.67 12.0282 14.6293 12.1205 14.547C12.2934 14.4151 12.3799 14.199 12.3457 13.9842L11.5859 9.51025L14.85 6.3306C14.9921 6.18049 15.0454 5.96711 14.9907 5.76783C14.9286 5.56107 14.7537 5.408 14.5405 5.37391Z"
-                                                        fill="#E6C643"
-                                                    />
-                                                </svg>
-
-                                                <svg
-                                                    v-for="i in 5 - rating"
-                                                    :key="i"
-                                                    width="15"
-                                                    height="15"
-                                                    viewBox="0 0 15 15"
-                                                    fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                >
-                                                    <path
-                                                        d="M14.5405 5.37391L10.0383 4.72674L8.01238 0.646688C7.87692 0.366946 7.54031 0.250019 7.26056 0.385528C7.1466 0.440733 7.05456 0.532723 6.9994 0.646688L4.97346 4.72674L0.471314 5.37391C0.258088 5.408 0.0831554 5.56101 0.0211103 5.76783C-0.03361 5.96711 0.01971 6.18049 0.161789 6.3306L3.42583 9.51025L2.66611 13.9842C2.6319 14.199 2.71835 14.4151 2.89123 14.547C3.06148 14.6765 3.29049 14.6983 3.48212 14.6033L7.50589 12.4648L11.5297 14.6033L11.7829 14.6596C11.9061 14.67 12.0282 14.6293 12.1205 14.547C12.2934 14.4151 12.3799 14.199 12.3457 13.9842L11.5859 9.51025L14.85 6.3306C14.9921 6.18049 15.0454 5.96711 14.9907 5.76783C14.9286 5.56107 14.7537 5.408 14.5405 5.37391ZM10.573 8.91936C10.4578 9.05024 10.4063 9.22533 10.4323 9.39773L11.0513 13.0557L7.75913 11.3393C7.59885 11.2632 7.41293 11.2632 7.25265 11.3393L3.96043 13.0557L4.57948 9.39773C4.60544 9.22533 4.55396 9.05029 4.43881 8.91936L1.76564 6.33065L5.45178 5.796C5.63296 5.76417 5.78904 5.64972 5.87387 5.48647L7.50589 2.16615L9.13791 5.48647C9.22274 5.64972 9.37877 5.76417 9.56 5.796L13.2461 6.33065L10.573 8.91936Z"
-                                                        fill="#E6C643"
-                                                    />
-                                                </svg>
-                                            </div>
+                                        <div class="d-flex align-items-end mt-15">
+                                            <rating-group :rating="rating" />
                                             <div class="label">
                                                 {{ data.productDetail.feedbackSet.edges.length }} feedbacks
                                             </div>
@@ -148,6 +117,8 @@
                                 <div class="text mw-290">If you have any questions please contact us</div>
                             </div>
                         </div>
+                        <div class="bold text-uppercase mt-90">Reviews</div>
+                        <comment-group :id="data.productDetail.id" />
                     </div>
                 </div>
             </template>
@@ -155,8 +126,12 @@
     </div>
 </template>
 <script>
+    import CommentGroup from '../../components/comment/CommentGroup.vue';
+    import RatingGroup from '../../components/comment/RatingGroup.vue';
+
     export default {
         name: 'product',
+        components: { CommentGroup, RatingGroup },
         data() {
             return {
                 rating: 0,
@@ -192,11 +167,16 @@
                 } else {
                     this.$root.error({ statusCode: 404 });
                 }
+                return data;
             },
         },
     };
 </script>
 <style lang="less" scoped>
+    .mt-90 {
+        margin-top: 90px;
+    }
+
     .bold {
         font-family: 'Inter-Medium';
         font-size: 24px;
@@ -239,24 +219,11 @@
         display: flex;
         justify-content: space-between;
 
-        .rating-group {
-            display: flex;
-            align-items: center;
-            margin-top: 15px;
-
-            .rating {
-                svg {
-                    margin-right: 3px;
-                }
-            }
-
-            .label {
-                font-family: 'Inter-Light';
-                font-size: 14px;
-                line-height: 17px;
-                color: @grey4;
-                margin-left: 10px;
-            }
+        .label {
+            font-family: 'Inter-Light';
+            font-size: 14px;
+            color: @grey4;
+            margin-left: 10px;
         }
 
         .model {

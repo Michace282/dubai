@@ -51,10 +51,21 @@ export default {
     /*
      ** Nuxt.js modules
      */
-    modules: ['bootstrap-vue/nuxt', 'cookie-universal-nuxt', '@nuxtjs/device', '@nuxtjs/apollo', '@nuxtjs/dotenv'],
+    modules: [
+        'bootstrap-vue/nuxt',
+        'cookie-universal-nuxt',
+        '@nuxtjs/device',
+        '@nuxtjs/apollo',
+        '@nuxtjs/dotenv',
+        '@nuxtjs/moment',
+    ],
 
     styleResources: {
         less: './assets/css/variables.less',
+    },
+
+    moment: {
+        locales: ['ru'],
     },
 
     apollo: {

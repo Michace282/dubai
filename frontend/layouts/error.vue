@@ -17,10 +17,10 @@
             <img src="~/assets/images/404.png" />
         </div>
         <div class="row mt-30 btn-box">
-            <div class="col-6">
+            <div class="col-auto">
                 <a class="btn btn-outline-black" href.prevent @click="$router.go(-2)">Back</a>
             </div>
-            <div class="col-6">
+            <div class="col-auto">
                 <nuxt-link class="btn btn-black" :to="{ name: 'index' }">Home</nuxt-link>
             </div>
         </div>

@@ -26,6 +26,7 @@
     "vuejs-paginate": "^2.1.0"
   },
   "devDependencies": {
+    "@nuxtjs/moment": "^1.6.1",
     "@nuxtjs/style-resources": "^1.0.0",
     "prettier": "2.2.1"
   }

@@ -1,0 +1,22 @@
+query feedbackList($product: ID, $after: String, $first: Int) {
+    feedbackList(product: $product, after: $after, first: $first) {
+        pageInfo {
+            hasNextPage
+            endCursor
+        }
+        edges {
+            node {
+                id
+                size {
+                    name
+                }
+                color {
+                    name
+                }
+                createdAt
+                text
+                star
+            }
+        }
+    }
+}

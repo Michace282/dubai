@@ -1,0 +1,58 @@
+query productDetail($id: ID!) {
+    productDetail(id: $id) {
+        id
+        name
+        productType
+        ladiesType
+        mensType
+        accessoriesType
+        danceShoesType
+        article
+        price
+        description
+        sizeChart {
+            id
+            name
+            table
+        }
+        data
+        feedbackSet {
+            edges {
+                node {
+                    star
+                }
+            }
+        }
+        productsizecolorSet {
+            edges {
+                node {
+                    sizes {
+                        edges {
+                            node {
+                                id
+                                name
+                            }
+                        }
+                    }
+                    color {
+                        id
+                        color
+                        productsizecolorSet {
+                            edges {
+                                node {
+                                    productimageSet {
+                                        edges {
+                                            node {
+                                                image
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

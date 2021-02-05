@@ -67,6 +67,7 @@
                                     :key="product.node.id"
                                 >
                                     <product-item
+                                        :id="product.node.id"
                                         :name="product.node.name"
                                         :price="product.node.price"
                                         :colorsGroup="product.node.productsizecolorSet"

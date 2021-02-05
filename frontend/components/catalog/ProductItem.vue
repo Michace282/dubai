@@ -27,7 +27,7 @@
                 </label>
             </div>
         </div>
-        <nuxt-link to="" class="link-to-product">
+        <nuxt-link :to="{ name: 'product-slug', params: { slug: id } }" class="link-to-product">
             <span class="name">{{ name }}</span>
             <span class="price">{{ price }} AED</span>
         </nuxt-link>
@@ -37,6 +37,11 @@
     export default {
         name: 'ProductItem',
         props: {
+            id: {
+                type: String,
+                required: true,
+                default: '',
+            },
             name: {
                 type: String,
                 required: true,

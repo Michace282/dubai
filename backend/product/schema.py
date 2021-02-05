@@ -241,6 +241,12 @@ class FeedbackFilter(django_filters.FilterSet):
         return super().qs.filter(status=Feedback.StatusType.published).distinct()
 
 
+class FeedbackImageType(DjangoObjectType):
+    class Meta:
+        model = FeedbackImage
+        interfaces = (relay.Node,)
+
+
 class Query(graphene.ObjectType):
     product_list = DjangoFilterConnectionField(ProductType, filterset_class=ProductFilter)
     product_detail = graphene.relay.Node.Field(ProductType, id=graphene.ID())

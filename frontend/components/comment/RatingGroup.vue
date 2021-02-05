@@ -4,7 +4,6 @@
             <svg
                 v-for="i in rating"
                 :key="i + 'fill'"
-                :class="{ 'mr-0': i == rating }"
                 :width="size"
                 :height="size"
                 viewBox="0 0 25 25"
@@ -54,6 +53,8 @@
         align-items: center;
 
         .rating {
+            display: flex;
+
             svg {
                 margin-right: 3px;
             }

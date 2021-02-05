@@ -31,7 +31,13 @@
         <div class="text ml-65">
             {{ text }}
         </div>
-        <div class="row ml-65"></div>
+        <div class="row ml-65 mt-15" v-if="images && images.length > 0">
+            <div class="col-auto pl-0" v-for="image in images" :key="image.node.id">
+                <a :href="image.node.image" target="_blank">
+                    <img class="comment-photo" :src="image.node.image" />
+                </a>
+            </div>
+        </div>
     </div>
 </template>
 <script>
@@ -49,6 +55,12 @@
                 type: String,
                 required: true,
                 default: '',
+            },
+            images: {
+                type: Array,
+                default: () => {
+                    return [];
+                },
             },
             color: {
                 type: String,
@@ -109,5 +121,9 @@
         line-height: 22px;
         color: @black;
         margin-top: 15px;
+    }
+
+    .comment-photo {
+        max-width: 160px;
     }
 </style>

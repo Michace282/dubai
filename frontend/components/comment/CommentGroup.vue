@@ -19,6 +19,7 @@
                     :size="comment.node.size.name"
                     :rating="comment.node.star"
                     :publicateDate="comment.node.createdAt"
+                    :images="comment.node.feedbackimageSet.edges"
                 />
                 <button
                     class="btn btn-outline-black"
@@ -30,6 +31,9 @@
                 >
                     Show more
                 </button>
+            </div>
+            <div v-else class="mt-4">
+                <div>Reviews not found :(</div>
             </div>
         </template>
     </ApolloQuery>

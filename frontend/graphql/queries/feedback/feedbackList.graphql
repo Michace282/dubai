@@ -13,6 +13,14 @@ query feedbackList($product: ID, $after: String, $first: Int) {
                 color {
                     name
                 }
+                feedbackimageSet {
+                    edges {
+                        node {
+                            id
+                            image
+                        }
+                    }
+                }
                 createdAt
                 text
                 star

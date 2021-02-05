@@ -118,7 +118,32 @@
                             </div>
                         </div>
                         <div class="bold text-uppercase mt-90">Reviews</div>
-                        <comment-group :id="data.productDetail.id" />
+                        <div class="d-flex justify-content-between w-100">
+                            <comment-group :id="data.productDetail.id" />
+                            <div class="right-block mt-30">
+                                <div class="d-flex align-items-center justify-content-between mb-3">
+                                    <rating-group :rating="rating" :size="20" />
+                                    <div class="bold">{{ rating }}/5</div>
+                                </div>
+                                <template v-if="countRatings && countRatings.length > 0">
+                                    <div
+                                        class="feedback-count-group"
+                                        v-for="(ratingGroup, index) in countRatings"
+                                        :key="index"
+                                    >
+                                        <div class="label">{{ ratingGroup.label }}</div>
+                                        <div class="progress">
+                                            <div
+                                                class="active-progress"
+                                                :style="`width: ${ratingGroup.precent}%`"
+                                            ></div>
+                                        </div>
+                                        <div class="label">{{ ratingGroup.count }}</div>
+                                    </div>
+                                </template>
+                                <button class="btn btn-black">Write a rewiew</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </template>
@@ -135,6 +160,7 @@
         data() {
             return {
                 rating: 0,
+                countRatings: [],
                 colorVal: 0,
                 sizeVal: null,
                 colorsGroup: [],
@@ -150,6 +176,16 @@
             },
         },
         methods: {
+            getRatingPrecent(feedbacks, rating) {
+                return {
+                    count: feedbacks.filter((obj) => obj.node.star == rating).length,
+                    precent: Math.floor(
+                        (parseInt(feedbacks.filter((obj) => obj.node.star == rating).length) /
+                            parseInt(feedbacks.length)) *
+                            100,
+                    ),
+                };
+            },
             result(data) {
                 if (data && data.data.productDetail) {
                     this.$store.commit('set_breadcrumbs', [
@@ -158,11 +194,24 @@
                         { link: '', name: data.data.productDetail.name },
                     ]);
                     let feedbacks = data.data.productDetail.feedbackSet.edges;
-                    let rating = 0;
-                    for (let i in feedbacks) {
-                        rating = rating + parseInt(feedbacks[i].node.star.split('STAR')[1]);
+                    if (feedbacks && feedbacks.length > 0) {
+                        let rating = 0;
+
+                        this.countRatings = [
+                            { label: '5 stars', ...this.getRatingPrecent(feedbacks, 'STAR5') },
+                            { label: '4 stars', ...this.getRatingPrecent(feedbacks, 'STAR4') },
+                            { label: '3 stars', ...this.getRatingPrecent(feedbacks, 'STAR3') },
+                            { label: '2 stars', ...this.getRatingPrecent(feedbacks, 'STAR2') },
+                            { label: '1 star', ...this.getRatingPrecent(feedbacks, 'STAR1') },
+                        ];
+
+                        for (let i in feedbacks) {
+                            rating = rating + parseInt(feedbacks[i].node.star.split('STAR')[1]);
+                        }
+
+                        this.rating = parseInt(rating / feedbacks.length);
                     }
-                    this.rating = parseInt(rating / feedbacks.length);
+
                     this.colorsGroup = data.data.productDetail.productsizecolorSet.edges;
                 } else {
                     this.$root.error({ statusCode: 404 });
@@ -195,6 +244,48 @@
         color: @grey4;
     }
 
+    .right-block {
+        .bold {
+            line-height: 15px;
+            font-size: 18px;
+        }
+
+        .feedback-count-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 10px;
+
+            .label {
+                font-weight: 'Inter-Light';
+                font-size: 12px;
+                line-height: 14px;
+                color: @black;
+            }
+
+            .progress {
+                position: relative;
+                width: 120px;
+                height: 5px;
+                background: @grey2;
+                margin: 0px 5px;
+
+                .active-progress {
+                    position: absolute;
+                    height: 100%;
+                    left: 0;
+                    background: @yellow;
+                }
+            }
+        }
+
+        .btn-black {
+            width: 100%;
+            margin-top: 30px;
+            padding: 10px 27px;
+        }
+    }
+
     .bg-gray {
         display: flex;
         justify-content: space-between;
@@ -224,6 +315,7 @@
             font-size: 14px;
             color: @grey4;
             margin-left: 10px;
+            line-height: 14px;
         }
 
         .model {

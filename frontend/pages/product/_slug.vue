@@ -33,9 +33,9 @@
                                     <div>
                                         <div class="bold text-uppercase">{{ data.productDetail.name }}</div>
                                         <div class="d-flex align-items-end mt-15">
-                                            <rating-group :rating="rating" />
+                                            <rating-group :rating="Math.floor(data.productDetail.avgFeedback)" />
                                             <div class="label">
-                                                {{ data.productDetail.feedbackSet.edges.length }} feedbacks
+                                                {{ Math.floor(data.productDetail.countFeedback) }} feedbacks
                                             </div>
                                         </div>
                                     </div>
@@ -137,8 +137,8 @@
                             <comment-group :id="$route.params.slug" />
                             <div class="right-block mt-30">
                                 <div class="d-flex align-items-center justify-content-between mb-3">
-                                    <rating-group :rating="rating" :size="20" />
-                                    <div class="bold">{{ rating }}/5</div>
+                                    <rating-group :rating="Math.floor(data.productDetail.avgFeedback)" :size="20" />
+                                    <div class="bold">{{ Math.floor(data.productDetail.avgFeedback) }}/5</div>
                                 </div>
                                 <template v-if="countRatings && countRatings.length > 0">
                                     <div
@@ -168,7 +168,6 @@
 <script>
     import CommentGroup from '../../components/comment/CommentGroup.vue';
     import RatingGroup from '../../components/comment/RatingGroup.vue';
-    // import { Hooper, Slide } from 'hooper';
     import ProductCarousel from '../../components/product/ProductCarousel.vue';
 
     export default {
@@ -176,7 +175,6 @@
         components: { CommentGroup, RatingGroup, ProductCarousel },
         data() {
             return {
-                rating: 0,
                 countRatings: [],
                 colorVal: 0,
                 sizeVal: null,
@@ -193,15 +191,8 @@
             },
         },
         methods: {
-            getRatingPrecent(feedbacks, rating) {
-                return {
-                    count: feedbacks.filter((obj) => obj.node.star == rating).length,
-                    precent: Math.floor(
-                        (parseInt(feedbacks.filter((obj) => obj.node.star == rating).length) /
-                            parseInt(feedbacks.length)) *
-                            100,
-                    ),
-                };
+            getRatingPrecent(feedbackCount, allFeedbacksCount) {
+                return Math.floor((feedbackCount / allFeedbacksCount) * 100);
             },
             result(data) {
                 if (data && data.data.productDetail) {
@@ -210,25 +201,19 @@
                         { link: 'catalog', name: 'Catalogue' },
                         { link: '', name: data.data.productDetail.name },
                     ]);
-                    let feedbacks = data.data.productDetail.feedbackSet.edges;
-                    if (feedbacks && feedbacks.length > 0) {
-                        let rating = 0;
-
-                        this.countRatings = [
-                            { label: '5 stars', ...this.getRatingPrecent(feedbacks, 'STAR5') },
-                            { label: '4 stars', ...this.getRatingPrecent(feedbacks, 'STAR4') },
-                            { label: '3 stars', ...this.getRatingPrecent(feedbacks, 'STAR3') },
-                            { label: '2 stars', ...this.getRatingPrecent(feedbacks, 'STAR2') },
-                            { label: '1 star', ...this.getRatingPrecent(feedbacks, 'STAR1') },
-                        ];
-
-                        for (let i in feedbacks) {
-                            rating = rating + parseInt(feedbacks[i].node.star.split('STAR')[1]);
+                    if (data.data.productDetail.countFeedback > 0) {
+                        this.countRatings = [];
+                        for (let i = 5; i > 0; i--) {
+                            this.countRatings.push({
+                                label: `${i} stars`,
+                                count: data.data.productDetail[`countFeedbackStar${i}`],
+                                precent: this.getRatingPrecent(
+                                    data.data.productDetail[`countFeedbackStar${i}`],
+                                    data.data.productDetail.countFeedback,
+                                ),
+                            });
                         }
-
-                        this.rating = parseInt(rating / feedbacks.length);
                     }
-
                     this.colorsGroup = data.data.productDetail.productsizecolorSet.edges;
                 } else {
                     this.$root.error({ statusCode: 404 });

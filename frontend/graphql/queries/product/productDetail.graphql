@@ -9,19 +9,19 @@ query productDetail($id: ID!) {
         article
         price
         description
+        countFeedbackStar1
+        countFeedbackStar2
+        countFeedbackStar3
+        countFeedbackStar4
+        countFeedbackStar5
+        avgFeedback
+        countFeedback
         sizeChart {
             id
             name
             table
         }
         data
-        feedbackSet {
-            edges {
-                node {
-                    star
-                }
-            }
-        }
         productsizecolorSet {
             edges {
                 node {

@@ -13,7 +13,7 @@
                 </div>
                 <div class="row mt-15">
                     <div class="col-auto">
-                        <rating-group :size="20" :rating="parseInt(rating.split('STAR')[1])" />
+                        <rating-group :size="20" :rating="parseInt(rating.split('A_')[1])" />
                     </div>
                     <div class="col-auto d-flex align-items-end">
                         <div class="grey-light">
@@ -31,13 +31,13 @@
         <div class="text ml-65">
             {{ text }}
         </div>
-        <div class="row ml-65 mt-15" v-if="images && images.length > 0">
+        <!-- <div class="row ml-65 mt-15" v-if="images && images.length > 0">
             <div class="col-auto pl-0" v-for="image in images" :key="image.node.id">
                 <a :href="image.node.image" target="_blank">
                     <img class="comment-photo" :src="image.node.image" />
                 </a>
             </div>
-        </div>
+        </div> -->
     </div>
 </template>
 <script>
@@ -56,12 +56,12 @@
                 required: true,
                 default: '',
             },
-            images: {
-                type: Array,
-                default: () => {
-                    return [];
-                },
-            },
+            // images: {
+            //     type: Array,
+            //     default: () => {
+            //         return [];
+            //     },
+            // },
             color: {
                 type: String,
                 default: '',

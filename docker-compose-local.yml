@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+    db:
+        image: postgres:11
+        container_name: dev_dubai_pg01
+        restart: always
+        env_file: .env
+    django:
+        build:
+            context: backend
+        container_name: dev_dubai_dj01
+        command: bash -c 'python manage.py migrate && python manage.py collectstatic --noinput && gunicorn -b 0.0.0.0:8000 backend.wsgi:application'
+        env_file: .env
+        image: django-image-dubai
+        volumes:
+            - ./backend:/app
+        depends_on:
+            - db
+        ports:
+            - "${DOCKER_BACKEND_PORT}:8000"
+    nuxt:
+        build:
+            context: frontend
+        container_name: dev_dubai_nx01
+        command: bash -c 'yarn build && yarn start'
+        env_file: .env
+        stdin_open: true
+        tty: true
+        volumes:
+            - ./frontend:/app
+            - exclude:/app/node_modules
+        depends_on:
+            - django
+        ports:
+            - "${DOCKER_FRONTEND_PORT}:3000"
+
+volumes:
+    exclude:

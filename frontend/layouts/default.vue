@@ -60,8 +60,8 @@
 <style lang="less" scoped>
     .main {
         position: relative;
-        min-height: calc(100vh - 462px);
-        padding-bottom: 90px;
+        min-height: calc(100vh - 434px);
+        padding-bottom: 89px;
 
         @media @large {
             min-height: calc(100vh - 325px);

@@ -41,7 +41,7 @@
                                     </div>
                                     <div>
                                         <div class="bold text-uppercase">{{ data.productDetail.price }} aed</div>
-                                        <div class="model">modal012031230</div>
+                                        <div class="model">{{ data.productDetail.article }}</div>
                                     </div>
                                 </div>
                                 <div class="description">{{ data.productDetail.description }}</div>
@@ -156,7 +156,7 @@
                                         <div class="label">{{ ratingGroup.count }}</div>
                                     </div>
                                 </template>
-                                <button class="btn btn-black">Write a rewiew</button>
+                                <button class="btn btn-black" v-if="false">Write a rewiew</button>
                             </div>
                         </div>
                     </div>

@@ -23,19 +23,16 @@
                     @showRegModal="showModal = 'reg'"
                 />
             </transition>
-
             <div class="content" :class="{ hide: showModal && showModal != 'basket', opacity: showModal == 'basket' }">
                 <div class="container">
-                    <div class="breadcrumbs" v-if="breadcrumbs && breadcrumbs.length > 0">
-                        <nuxt-link
-                            class="breadcrumb mb-0"
-                            :to="{ name: breadcrumb.link }"
-                            v-for="(breadcrumb, index) in breadcrumbs"
-                            :key="index"
-                        >
-                            {{ breadcrumb.name }}
-                            <span class="separator" v-if="index != breadcrumbs.length - 1">/</span>
-                        </nuxt-link>
+                    <div class="breadcrumbs" v-show="breadcrumbs && breadcrumbs.length > 0">
+                        <div v-for="(breadcrumb, index) in breadcrumbs" :key="index">
+                            <nuxt-link class="breadcrumb mb-0" :to="breadcrumb.route" v-if="breadcrumb.route">
+                                {{ breadcrumb.name }}
+                                <span class="separator" v-if="index != breadcrumbs.length - 1">/</span>
+                            </nuxt-link>
+                            <span class="breadcrumb" v-else>{{ breadcrumb.name }}</span>
+                        </div>
                     </div>
                 </div>
                 <nuxt />

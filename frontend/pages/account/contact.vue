@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <contact-form btnName="save"/>
+        <contact-form btnName="save" />
     </div>
 </template>
 <script>
@@ -10,8 +10,8 @@
         name: 'contact',
         created() {
             this.$store.commit('set_breadcrumbs', [
-                { link: 'account', name: 'personal account' },
-                { link: 'contact', name: 'contact information' },
+                { route: { name: 'account' }, name: 'personal account' },
+                { route: { name: 'account-contact' }, name: 'contact information' },
             ]);
         },
     };

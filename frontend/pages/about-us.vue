@@ -55,8 +55,8 @@
         name: 'about-us',
         created() {
             this.$store.commit('set_breadcrumbs', [
-                { link: 'index', name: 'Home' },
-                { link: 'about-us', name: 'About Us' },
+                { route: '/', name: 'Home' },
+                { route: { name: 'about-us' }, name: 'About Us' },
             ]);
         },
     };

@@ -3,8 +3,6 @@
         <div class="container">
             <b-navbar toggleable="lg" type="dark">
                 <b-navbar-brand :to="{ name: 'index' }"><img src="~/assets/images/logo.png" /></b-navbar-brand>
-
-                <!-- <b-navbar-toggle target="nav-collapse"></b-navbar-toggle> -->
                 <b-navbar-toggle target="navbar-toggle-collapse" @click="showIcons = !showIcons">
                     <template>
                         <img v-if="!showIcons" src="~/assets/images/icons/close-icon.svg" />
@@ -24,7 +22,6 @@
                 </b-collapse>
                 <b-navbar-nav class="ml-auto icons" :class="{ hide: !showIcons }">
                     <b-nav-item to="#"><img src="../assets/images/icons/heart.svg" /></b-nav-item>
-                    <!-- <b-nav-item to="#"><img src="../assets/images/icons/loop.svg" /></b-nav-item> -->
                     <b-nav-item to="#" @click="$emit('showBasket')"
                         ><img src="../assets/images/icons/basket.svg"
                     /></b-nav-item>

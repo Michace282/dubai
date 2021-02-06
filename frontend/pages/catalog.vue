@@ -113,16 +113,14 @@
                 ],
             };
         },
-        created() {
-            this.$store.commit('set_breadcrumbs', [
-                { link: 'index', name: 'Home' },
-                { link: 'catatlog', name: 'Catalogue' },
-            ]);
-        },
         methods: {
             updateCursors(data) {
                 if (data.data && data.data.productList) {
                     this.pagesCursor = data.data.productList.pagesCursor;
+                    this.$store.commit('set_breadcrumbs', [
+                        { route: '/', name: 'Home' },
+                        { route: { name: 'catalog' }, name: 'Catalogue' },
+                    ]);
                 } else {
                     this.pagesCursor = null;
                 }

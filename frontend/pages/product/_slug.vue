@@ -197,9 +197,9 @@
             result(data) {
                 if (data && data.data.productDetail) {
                     this.$store.commit('set_breadcrumbs', [
-                        { link: 'index', name: 'Home' },
-                        { link: 'catalog', name: 'Catalogue' },
-                        { link: '', name: data.data.productDetail.name },
+                        { route: '/', name: 'Home' },
+                        { route: { name: 'catalog' }, name: 'Catalogue' },
+                        { route: '', name: data.data.productDetail.name },
                     ]);
                     if (data.data.productDetail.countFeedback > 0) {
                         this.countRatings = [];

@@ -1,0 +1,99 @@
+version: '3'
+
+services:
+    rabbit:
+        image: rabbitmq:3.7-management
+        hostname: rabbit
+        container_name: dev_uanit_rb1
+        env_file: .env
+        ports:
+            - "15672:15672"
+    db:
+        image: postgres:11
+        container_name: dev_uanit_pg01
+        restart: always
+        env_file: .env
+    django:
+        build:
+            context: backend
+        container_name: dev_uanit_dj01
+        command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; python manage.py migrate && python manage.py runserver 0.0.0.0:8000'
+        env_file: .env
+        image: django-image-backend
+        volumes:
+            - ./backend:/app
+        depends_on:
+            - rabbit
+            - db
+    celery_worker:
+        hostname: celery_worker
+        container_name: def_uanit_ce01
+        command: bash -c "while !</dev/tcp/rabbit/5672; do sleep 1; done; while !</dev/tcp/django/8000; do sleep 1; done; celery -A backend worker -l debug"
+        image: django-image-backend
+        env_file: .env
+        depends_on:
+            - django
+        volumes:
+            - ./backend:/app
+    celery_beat:
+        hostname: celery_beat
+        container_name: def_uanit_cb01
+        command: bash -c "while !</dev/tcp/rabbit/5672; do sleep 1; done; while !</dev/tcp/django/8000; do sleep 1; done; rm celerybeat.pid; celery -A backend beat -l debug"
+        image: django-image-backend
+        env_file: .env
+        depends_on:
+            - django
+        volumes:
+            - ./backend:/app
+    celery_flower:
+        hostname: celery_flower
+        container_name: def_uanit_cf01
+        command: bash -c "while !</dev/tcp/rabbit/5672; do sleep 1; done; while !</dev/tcp/django/8000; do sleep 1; done; flower -A backend --port=15555"
+        image: django-image-backend
+        env_file: .env
+        depends_on:
+            - django
+        volumes:
+            - ./backend:/app
+        ports:
+            - "15555:15555"
+    sphinx:
+        build:
+            context: config/dev/sphinx/docker
+        container_name: def_uanit_sp01
+        volumes:
+            - ./config/dev/sphinx/index:/opt/sphinx/index
+            - ./config/dev/sphinx/conf/sphinx.conf:/opt/sphinx/conf/sphinx.conf
+        ports:
+            - "36307:36307"
+    nuxt:
+        build:
+            context: frontend
+        container_name: dev_uanit_nx01
+        command: bash -c 'yarn build && yarn start'
+        env_file: .env
+        stdin_open: true
+        tty: true
+        volumes:
+            - ~/.composer-docker/cache:/root/.composer/cache:delegated
+            - ./frontend:/app:cached
+        depends_on:
+            - django
+    tensorflow:
+        build:
+            context: tensorflow
+        command: python app.py
+        container_name: def_uanit_te01
+        volumes:
+            - ./tensorflow:/app
+    nginx:
+        image: nginx:latest
+        container_name: dev_uanit_ng01
+        ports:
+            - "${DOCKER_BACKEND_PORT}:9000"
+            - "${DOCKER_FRONTEND_PORT}:9001"
+        volumes:
+            - ./config/local/nginx/local:/etc/nginx/conf.d/default.conf
+        depends_on:
+            - django
+            - nuxt

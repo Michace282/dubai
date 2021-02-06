@@ -38,7 +38,7 @@ export default {
         '~plugins/components.client.js',
         '~/plugins/global-components.js',
         { src: '~/plugins/vuejs-paginate.js', ssr: false },
-        { src: '~/plugins/vue-slick-carousel.js' },
+        { src: '~/plugins/vue-slick-carousel.js', ssr: false },
     ],
     /*
      ** Nuxt.js dev-modules

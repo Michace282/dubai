@@ -28,10 +28,13 @@
             update(data) {
                 if (data.data && data.data.pageDetail) {
                     this.$store.commit('set_breadcrumbs', [
-                        { link: 'index', name: 'Home' },
-                        { link: '/page/' + data.data.pageDetail.slug, name: data.data.pageDetail.name },
+                        { route: '/', name: 'Home' },
+                        {
+                            route: { name: 'page-slug', params: { slug: data.data.pageDetail.slug } },
+                            name: data.data.pageDetail.name,
+                        },
                     ]);
-                } 
+                }
             },
         },
     };

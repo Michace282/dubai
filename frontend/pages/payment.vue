@@ -32,8 +32,8 @@
         name: 'payment',
         created() {
             this.$store.commit('set_breadcrumbs', [
-                { link: 'index', name: 'Home' },
-                { link: 'payment', name: 'payment & delivery' },
+                { route: '/', name: 'Home' },
+                { route: { name: 'payment' }, name: 'payment & delivery' },
             ]);
         },
     };

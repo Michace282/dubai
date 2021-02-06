@@ -183,11 +183,11 @@ class Feedback(TimeStampedModel):
         moderated = ChoiceItem(label='Moderated', value='moderated')
 
     class StarType(DjangoChoices):
-        star1 = ChoiceItem(label='star1', value='star1')
-        star2 = ChoiceItem(label='star2', value='star2')
-        star3 = ChoiceItem(label='star3', value='star3')
-        star4 = ChoiceItem(label='star4', value='star4')
-        star5 = ChoiceItem(label='star5', value='star5')
+        star1 = ChoiceItem(label='star1', value=1)
+        star2 = ChoiceItem(label='star2', value=2)
+        star3 = ChoiceItem(label='star3', value=3)
+        star4 = ChoiceItem(label='star4', value=4)
+        star5 = ChoiceItem(label='star5', value=5)
 
     guest = models.ForeignKey(Guest, verbose_name='Guest', on_delete=models.CASCADE, blank=True, null=True)
     user = models.ForeignKey(User, verbose_name='User', on_delete=models.CASCADE, blank=True, null=True)
@@ -200,9 +200,8 @@ class Feedback(TimeStampedModel):
                               choices=StatusType.choices,
                               default=StatusType.moderated)
 
-    star = models.CharField(verbose_name='Star',
-                            max_length=30,
-                            choices=StarType.choices)
+    star = models.IntegerField(verbose_name='Star',
+                               choices=StarType.choices)
 
     text = models.TextField(verbose_name='Text')
 

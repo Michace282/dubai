@@ -181,6 +181,38 @@ class ProductConnection(graphene.Connection):
 
 
 class ProductType(DjangoObjectType):
+    avg_feedback = graphene.Float()
+    count_feedback_star1 = graphene.Int()
+    count_feedback_star2 = graphene.Int()
+    count_feedback_star3 = graphene.Int()
+    count_feedback_star4 = graphene.Int()
+    count_feedback_star5 = graphene.Int()
+    count_feedback = graphene.Int()
+
+    def resolve_avg_feedback(self, info):
+        star = self.feedback_set.filter(status=Feedback.StatusType.published).aggregate(
+            models.Avg('star'))
+        avg_star = star.get('star__avg', 0)
+        return avg_star if avg_star is not None else 0
+
+    def resolve_count_feedback_star1(self, info):
+        return self.feedback_set.filter(status=Feedback.StatusType.published, star=Feedback.StarType.star1).count()
+
+    def resolve_count_feedback_star2(self, info):
+        return self.feedback_set.filter(status=Feedback.StatusType.published, star=Feedback.StarType.star2).count()
+
+    def resolve_count_feedback_star3(self, info):
+        return self.feedback_set.filter(status=Feedback.StatusType.published, star=Feedback.StarType.star3).count()
+
+    def resolve_count_feedback_star4(self, info):
+        return self.feedback_set.filter(status=Feedback.StatusType.published, star=Feedback.StarType.star4).count()
+
+    def resolve_count_feedback_star5(self, info):
+        return self.feedback_set.filter(status=Feedback.StatusType.published, star=Feedback.StarType.star5).count()
+
+    def resolve_count_feedback(self, info):
+        return self.feedback_set.filter(status=Feedback.StatusType.published).count()
+
     class Meta:
         model = Product
         interfaces = (relay.Node,)

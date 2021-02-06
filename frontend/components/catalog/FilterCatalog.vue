@@ -177,6 +177,9 @@
             };
         },
         watch: {
+            '$route.query'() {
+                this.filter.productType = this.$route.query.productType;
+            },
             filter: {
                 handler() {
                     let activeFilter = {};

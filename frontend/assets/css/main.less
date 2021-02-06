@@ -84,17 +84,12 @@ body {
     width: 100%;
     height: 100%;
     position: absolute;
-    top: -2000px;
     z-index: 1000;
-    transition: all 0.5s;
     padding: 0px 20px;
+    transition: all 0.5s ease;
 
     @media (max-width: 320px) {
         padding: 0px 10px;
-    }
-
-    &.active {
-        top: 0;
     }
 
     .form-modal {
@@ -233,6 +228,7 @@ body {
     font-size: 24px;
     text-transform: uppercase;
     color: @black;
+    cursor: pointer;
 
     @media @xs {
         font-size: 18px;
@@ -311,3 +307,4 @@ body {
     color: @grey4;
     cursor: pointer;
 }
+

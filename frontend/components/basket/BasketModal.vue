@@ -40,19 +40,13 @@
 <style lang="less">
     .basket-container {
         position: absolute;
-        width: 0px;
-        height: 0px;
-        right: -100%;
-        transition: all 0.5s;
-        overflow: hidden;
-
-        &.active {
-            width: 100%;
-            height: 100%;
-            right: 0;
-            z-index: 1000;
-            overflow: auto;
-        }
+        right: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        z-index: 1000;
+        overflow: auto;
+        transition: all 0.5s ease;
     }
 </style>
 <style lang="less" scoped>

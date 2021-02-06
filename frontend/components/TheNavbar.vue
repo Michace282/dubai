@@ -2,7 +2,7 @@
     <div class="navbar-box">
         <div class="container">
             <b-navbar toggleable="lg" type="dark">
-                <b-navbar-brand to="/"><img src="~/assets/images/logo.png" /></b-navbar-brand>
+                <b-navbar-brand :to="{ name: 'index' }"><img src="~/assets/images/logo.png" /></b-navbar-brand>
 
                 <!-- <b-navbar-toggle target="nav-collapse"></b-navbar-toggle> -->
                 <b-navbar-toggle target="navbar-toggle-collapse" @click="showIcons = !showIcons">

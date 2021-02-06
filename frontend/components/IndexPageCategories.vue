@@ -26,20 +26,22 @@
                 </nuxt-link>
             </div>
         </div>
-        <b-carousel id="carousel-2" :interval="4000" indicators class="categories-carousel">
-            <b-carousel-slide img-src="~/assets/images/accessories.png">
-                <nuxt-link :to="{ name: 'catalog', query: { productType: 'accessories' } }"></nuxt-link>
-            </b-carousel-slide>
-            <b-carousel-slide img-src="~/assets/images/danceshoes.png">
-                <nuxt-link :to="{ name: 'catalog', query: { productType: 'dance_shoes' } }"></nuxt-link>
-            </b-carousel-slide>
-            <b-carousel-slide img-src="~/assets/images/ladies.png">
-                <nuxt-link :to="{ name: 'catalog', query: { productType: 'ladies' } }"></nuxt-link>
-            </b-carousel-slide>
-            <b-carousel-slide img-src="~/assets/images/mens.png">
-                <nuxt-link :to="{ name: 'catalog', query: { productType: 'mens' } }"></nuxt-link>
-            </b-carousel-slide>
-        </b-carousel>
+        <client-only>
+            <b-carousel id="carousel-2" :interval="4000" indicators class="categories-carousel">
+                <b-carousel-slide img-src="~/assets/images/accessories.png">
+                    <nuxt-link :to="{ name: 'catalog', query: { productType: 'accessories' } }"></nuxt-link>
+                </b-carousel-slide>
+                <b-carousel-slide img-src="~/assets/images/danceshoes.png">
+                    <nuxt-link :to="{ name: 'catalog', query: { productType: 'dance_shoes' } }"></nuxt-link>
+                </b-carousel-slide>
+                <b-carousel-slide img-src="~/assets/images/ladies.png">
+                    <nuxt-link :to="{ name: 'catalog', query: { productType: 'ladies' } }"></nuxt-link>
+                </b-carousel-slide>
+                <b-carousel-slide img-src="~/assets/images/mens.png">
+                    <nuxt-link :to="{ name: 'catalog', query: { productType: 'mens' } }"></nuxt-link>
+                </b-carousel-slide>
+            </b-carousel>
+        </client-only>
     </div>
 </template>
 <script>

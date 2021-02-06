@@ -2,21 +2,28 @@
     <div>
         <the-navbar @showRegModal="showModal = 'reg'" @showBasket="showModal = 'basket'" />
         <div class="main">
-            <basket-modal
-                :class="{ active: showModal == 'basket' }"
-                @hide="showModal = false"
-                @showRegModal="showModal = 'reg'"
-            />
-            <reg-form
-                :class="{ active: showModal == 'reg' }"
-                @hide="showModal = false"
-                @showAuthModal="showModal = 'auth'"
-            />
-            <auth-form
-                :class="{ active: showModal == 'auth' }"
-                @hide="showModal = false"
-                @showRegModal="showModal = 'reg'"
-            />
+            <transition name="toggle-basket">
+                <basket-modal
+                    v-if="showModal == 'basket'"
+                    @hide="showModal = false"
+                    @showRegModal="showModal = 'reg'"
+                />
+            </transition>
+            <transition name="toggle-modal">
+                <reg-form
+                    v-if="showModal == 'reg'"
+                    :key="1"
+                    @hide="showModal = false"
+                    @showAuthModal="showModal = 'auth'"
+                />
+                <auth-form
+                    v-if="showModal == 'auth'"
+                    :key="2"
+                    @hide="showModal = false"
+                    @showRegModal="showModal = 'reg'"
+                />
+            </transition>
+
             <div class="content" :class="{ hide: showModal && showModal != 'basket', opacity: showModal == 'basket' }">
                 <div class="container">
                     <div class="breadcrumbs" v-if="breadcrumbs && breadcrumbs.length > 0">
@@ -78,5 +85,25 @@
                 opacity: 0.5;
             }
         }
+    }
+
+    .toggle-modal-enter,
+    .toggle-modal-leave-to {
+        top: -1000px;
+    }
+
+    .toggle-modal-enter-to,
+    .toggle-modal-leave {
+        top: 0px;
+    }
+
+    .toggle-basket-enter,
+    .toggle-basket-leave-to {
+        right: -1000px;
+    }
+
+    .toggle-basket-enter-to,
+    .toggle-basket-leave {
+        right: 0px;
     }
 </style>

@@ -1,31 +1,29 @@
 <template>
     <div class="row">
         <div class="col-auto">
-            <VueSlickCarousel
-                class="nav-slider"
-                v-bind="slickOptions"
-                :key="images.length"
-                :style="{ 'max-height': '695px' }"
-                @afterChange="
-                    (index) => {
-                        activeIndex = index;
-                    }
-                "
-            >
-                <div v-for="(image, index) in images" :key="index">
-                    <img
-                        class="carousel-img"
-                        :class="{ active: index == activeIndex }"
-                        :src="image.node.image"
-                    />
-                </div>
-                <template #prevArrow>
-                    <div class="custom-arrow prev"><img src="~/assets/images/icons/arrow-collapse.svg" /></div>
-                </template>
-                <template #nextArrow>
-                    <div class="custom-arrow next"><img src="~/assets/images/icons/arrow-collapse.svg" /></div>
-                </template>
-            </VueSlickCarousel>
+            <client-only>
+                <VueSlickCarousel
+                    class="nav-slider"
+                    v-bind="slickOptions"
+                    :key="images.length"
+                    :style="{ 'max-height': '695px' }"
+                    @afterChange="
+                        (index) => {
+                            activeIndex = index;
+                        }
+                    "
+                >
+                    <div v-for="(image, index) in images" :key="index">
+                        <img class="carousel-img" :class="{ active: index == activeIndex }" :src="image.node.image" />
+                    </div>
+                    <template #prevArrow>
+                        <div class="custom-arrow prev"><img src="~/assets/images/icons/arrow-collapse.svg" /></div>
+                    </template>
+                    <template #nextArrow>
+                        <div class="custom-arrow next"><img src="~/assets/images/icons/arrow-collapse.svg" /></div>
+                    </template>
+                </VueSlickCarousel>
+            </client-only>
         </div>
         <div class="col">
             <img class="active-image" v-if="images[activeIndex]" :src="images[activeIndex].node.image" />
@@ -61,8 +59,8 @@
         watch: {
             images() {
                 this.activeIndex = 0;
-            }
-        }
+            },
+        },
     };
 </script>
 <style lang="less" scoped>

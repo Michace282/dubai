@@ -31,7 +31,7 @@
                         { link: 'index', name: 'Home' },
                         { link: '/page/' + data.data.pageDetail.slug, name: data.data.pageDetail.name },
                     ]);
-                }
+                } 
             },
         },
     };

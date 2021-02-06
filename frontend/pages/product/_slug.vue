@@ -26,6 +26,7 @@
                                             .productsizecolorSet.edges[0].node.productimageSet.edges
                                     "
                                 />
+                                <img v-else src="~/assets/images/no-photo.jpg" />
                             </div>
                             <div class="col">
                                 <div class="head-group">
@@ -133,7 +134,7 @@
                         </div>
                         <div class="bold text-uppercase mt-90">Reviews</div>
                         <div class="d-flex justify-content-between w-100">
-                            <comment-group :id="data.productDetail.id" />
+                            <comment-group :id="$route.params.slug" />
                             <div class="right-block mt-30">
                                 <div class="d-flex align-items-center justify-content-between mb-3">
                                     <rating-group :rating="rating" :size="20" />

@@ -1,6 +1,5 @@
 query productDetail($id: ID!) {
     productDetail(id: $id) {
-        id
         name
         productType
         ladiesType

@@ -2,7 +2,6 @@ from django.db import models
 from djchoices import DjangoChoices, ChoiceItem
 from backend.mixin import TimeStampedModel
 from colorfield.fields import ColorField
-from djmoney.models.fields import MoneyField
 from account.models import Guest
 from django.contrib.auth.models import User
 
@@ -33,8 +32,11 @@ class Size(TimeStampedModel):
 
 class Color(TimeStampedModel):
     name = models.CharField(verbose_name='Name color', max_length=30)
-    description = models.CharField(verbose_name='Description', max_length=30)
-    color = ColorField(verbose_name='color', default='#FFFFFF')
+    description = models.CharField(verbose_name='Description', max_length=30, blank=True, null=True)
+    color = ColorField(verbose_name='Color', default='#FFFFFF')
+    image = models.ImageField(verbose_name='Image(64x64)',
+                              help_text='If an image is uploaded, it will be displayed in colors.',
+                              blank=True, null=True)
 
     def __str__(self):
         return self.name

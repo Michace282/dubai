@@ -8,7 +8,7 @@
                             <nuxt-link to="/payment/">Payment & Delivery</nuxt-link>
                         </li>
                         <li>
-                            <nuxt-link to="/contacts/">Contact us </nuxt-link>
+                            <nuxt-link to="/contacts/">Contact us</nuxt-link>
                         </li>
                         <li>
                             <nuxt-link to="">Size charts</nuxt-link>
@@ -19,6 +19,12 @@
                         <li>
                             <nuxt-link to="">Our advantages</nuxt-link>
                         </li>
+                        <li>
+                            <nuxt-link to="/page/privacy_policy">Privacy Policy</nuxt-link>
+                        </li>
+                        <li>
+                            <nuxt-link to="/page/terms_condition">Terms&Condition</nuxt-link>
+                        </li>
                     </ul>
                 </div>
                 <div class="col-12 col-md order-0 order-md-1 p-0">
@@ -26,7 +32,7 @@
                         <div class="description">Subscribe to receive updates, access to exclusive deals and more</div>
                         <div class="row form">
                             <div class="col pr-2 pr-lg-3 d-flex align-items-end">
-                                <base-input class="dark" label="email" name="email" />
+                                <base-input class="dark" label="email" name="email"/>
                             </div>
                             <div class="col-auto input-box pr-0">
                                 <button class="btn btn-send">Send</button>
@@ -43,8 +49,8 @@
                             <a href="tel: +971506553470">+971 50 655 3470</a>
                         </li>
                         <li class="text-right">
-                            <a href="" class="mr-2"><img src="~/assets/images/icons/whatsApp.svg" /></a>
-                            <a href=""><img src="~/assets/images/icons/instagram.svg" /></a>
+                            <a href="" class="mr-2"><img src="~/assets/images/icons/whatsApp.svg"/></a>
+                            <a href=""><img src="~/assets/images/icons/instagram.svg"/></a>
                         </li>
                     </ul>
                 </div>
@@ -54,9 +60,10 @@
 </template>
 <script>
     import BaseInput from './fields/BaseInput.vue';
+
     export default {
         name: 'TheFooter',
-        components: { BaseInput },
+        components: {BaseInput},
         data() {
             return {
                 email: '',
@@ -65,85 +72,90 @@
     };
 </script>
 <style lang="less" scoped>
-    .footer {
-        background: @black;
-        padding: 45px;
+.footer {
+    background: @black;
+    padding: 45px;
 
-        @media (max-width: 991px) {
-            padding: 30px 20px;
+    @media (max-width: 991px) {
+        padding: 30px 20px;
+    }
+
+    .order-0 {
+        @media @large {
+            margin-bottom: 60px;
+        }
+    }
+
+    .form-box {
+        max-width: 400px;
+        margin: 0 auto;
+
+        .description {
+            font-family: 'Inter-Medium';
+            font-size: 14px;
+            text-transform: uppercase;
+            color: @white;
         }
 
-        .order-0 {
-            @media @large {
-                margin-bottom: 60px;
+        .form {
+            margin-top: 30px;
+
+            .dark {
+                @media (max-width: 475px) {
+                    max-width: 155px;
+                }
             }
-        }
 
-        .form-box {
-            max-width: 400px;
-            margin: 0 auto;
-            .description {
-                font-family: 'Inter-Medium';
+            .btn-send {
+                padding: 9px 60px;
+                background: @white;
+                border: 1px solid @white;
+                border-radius: 2px;
+                font-family: 'Inter-SemiBold';
                 font-size: 14px;
                 text-transform: uppercase;
-                color: @white;
-            }
+                color: @black;
 
-            .form {
-                margin-top: 30px;
-
-                .dark {
-                    @media (max-width: 475px) {
-                        max-width: 155px;
-                    }
-                }
-
-                .btn-send {
-                    padding: 9px 60px;
-                    background: @white;
+                &:hover {
                     border: 1px solid @white;
-                    border-radius: 2px;
-                    font-family: 'Inter-SemiBold';
-                    font-size: 14px;
-                    text-transform: uppercase;
-                    color: @black;
-
-                    &:hover {
-                        border: 1px solid @white;
-                        background: @black;
-                        color: @white;
-                    }
-                }
-            }
-        }
-
-        .menu {
-            list-style: none;
-            padding: 0px;
-
-            &.contacts {
-                li {
-                    font-family: 'Inter-Medium';
-                    &:nth-child(2) {
-                        margin-top: 5px !important;
-                    }
-                    &:last-child {
-                        margin-top: 15px;
-                    }
-                }
-            }
-
-            li {
-                font-weight: normal;
-                font-size: 14px;
-                text-transform: uppercase;
-                &:not(:first-child) {
-                    margin-top: 10px;
-                }
-                a {
-                    color: @white !important;
+                    background: @black;
+                    color: @white;
                 }
             }
         }
     }
+
+    .menu {
+        list-style: none;
+        padding: 0px;
+
+        &.contacts {
+            li {
+                font-family: 'Inter-Medium';
+
+                &:nth-child(2) {
+                    margin-top: 5px !important;
+                }
+
+                &:last-child {
+                    margin-top: 15px;
+                }
+            }
+        }
+
+        li {
+            font-weight: normal;
+            font-size: 14px;
+            text-transform: uppercase;
+
+            &:not(:first-child) {
+                margin-top: 10px;
+            }
+
+            a {
+                color: @white !important;
+            }
+        }
+    }
+}
 </style>

@@ -1,0 +1,7 @@
+query pageDetail($slug: String) {
+    pageDetail(slug: $slug) {
+        name
+        slug
+        text
+    }
+}

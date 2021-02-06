@@ -53,7 +53,9 @@ INSTALLED_APPS += [
 
 INSTALLED_APPS += [
     'product',
-    'account'
+    'account',
+    'page',
+    'stock'
 ]
 
 MIDDLEWARE = [
@@ -182,6 +184,12 @@ GRAPHQL_JWT = {
     'JWT_EXPIRATION_DELTA': timedelta(days=7),
     'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=7),
 }
+
+from easy_thumbnails.conf import Settings as thumbnail_settings
+
+THUMBNAIL_PROCESSORS = (
+                           'image_cropping.thumbnail_processors.crop_corners',
+                       ) + thumbnail_settings.THUMBNAIL_PROCESSORS
 
 try:
     from .local_dev import *

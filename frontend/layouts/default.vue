@@ -66,6 +66,7 @@
         position: relative;
         min-height: calc(100vh - 458px);
         padding-bottom: 89px;
+        overflow: hidden;
 
         @media @large {
             min-height: calc(100vh - 325px);

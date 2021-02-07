@@ -1,6 +1,5 @@
 <template>
     <div class="basket-container">
-        <!-- TODO: Убрать скролл во время анимации -->
         <!-- TODO: Скрывать модалки до перехода на другую страницу -->
         <div class="basket-group">
             <a href.prevent class="basket-title fs-24" @click="$emit('hide')"

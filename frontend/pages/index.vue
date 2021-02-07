@@ -117,10 +117,6 @@
         },
     };
 </script>
-<style lang="less">
-    .index-carousel {
-    }
-</style>
 <style lang="less" scoped>
     .advantages-group {
         margin-top: 90px;

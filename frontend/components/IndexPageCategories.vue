@@ -109,6 +109,7 @@
             &.vertical {
                 width: 255px;
                 height: 530px;
+                background-image: url('../assets/images/category-mans.png');
 
                 @media (max-width: 1199px) {
                     width: 150px;
@@ -151,6 +152,7 @@
                 }
 
                 &.text-left {
+                    background-image: url('../assets/images/category-acessories.png');
                     .name {
                         position: relative;
                         margin-left: 40px;
@@ -173,6 +175,7 @@
                 }
 
                 &.text-right {
+                    background-image: url('../assets/images/category-danceshoes.png');
                     justify-content: flex-end;
                     margin-top: 30px;
 
@@ -201,6 +204,8 @@
             &.vertical-large {
                 width: 350px;
                 height: 530px;
+
+                background-image: url('../assets/images/category-ladies.png');
 
                 @media (max-width: 1199px) {
                     width: 210px;

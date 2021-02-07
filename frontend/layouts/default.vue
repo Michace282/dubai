@@ -80,6 +80,7 @@
 
             &.opacity {
                 opacity: 0.5;
+                overflow: hidden;
             }
         }
     }
@@ -96,7 +97,7 @@
 
     .toggle-basket-enter,
     .toggle-basket-leave-to {
-        right: -1000px;
+        right: -100%;
     }
 
     .toggle-basket-enter-to,

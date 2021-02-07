@@ -257,6 +257,18 @@ class ProductFilter(django_filters.FilterSet):
                                  productsizecolor__is_available=True).distinct()
 
 
+class ProductWishlistType(DjangoObjectType):
+    class Meta:
+        model = ProductWishlist
+        interfaces = (relay.Node,)
+
+
+class ProductWishlistFilter(django_filters.FilterSet):
+    class Meta:
+        model = ProductWishlist
+        fields = ['guest']
+
+
 class FeedbackType(DjangoObjectType):
     class Meta:
         model = Feedback
@@ -283,4 +295,27 @@ class Query(graphene.ObjectType):
     product_list = DjangoFilterConnectionField(ProductType, filterset_class=ProductFilter)
     product_detail = graphene.relay.Node.Field(ProductType, id=graphene.ID())
 
+    product_wishlist_list = DjangoFilterConnectionField(ProductWishlistType, filterset_class=ProductWishlistFilter)
+
     feedback_list = DjangoFilterConnectionField(FeedbackType, filterset_class=FeedbackFilter)
+
+    def resolve_product_wishlist_list(self, info, **kwargs):
+        if 'guest' in kwargs:
+            return ProductWishlistFilter(kwargs).qs
+        else:
+            user = info.context.user
+            if user.is_authenticated:
+                return ProductWishlistFilter(kwargs).qs.filter(user=user)
+        return None
+
+#
+# class GuestCreateMutation(graphene.Mutation):
+#     guest = graphene.Field(GuestType)
+#
+#     @classmethod
+#     def mutate(cls, root, info):
+#         return GuestCreateMutation(guest=Guest.objects.create())
+#
+#
+# class Mutation(graphene.ObjectType):
+#     guest_create = GuestCreateMutation.Field()

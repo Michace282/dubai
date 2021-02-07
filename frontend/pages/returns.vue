@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <base-title title="Returns & Refunds" />
+        <base-title title="Returns & Refunds"/>
         <div class="accordion mt-45" role="tablist">
             <b-card no-body class="mb-1">
                 <b-card-header header-tag="header" role="tab">
@@ -38,8 +38,8 @@
 
                             <p></p>
                             <p>
-                                - Face masks <br />
-                                - Beauty or Tanning Products <br />
+                                - Face masks <br/>
+                                - Beauty or Tanning Products <br/>
                                 - Ladies tights
                             </p>
                             <p class="text-uppercase mt-45 mb-0">
@@ -53,7 +53,8 @@
             <b-card no-body class="mb-1">
                 <b-card-header header-tag="header" role="tab">
                     <b-button block v-b-toggle.accordion-2
-                        >Can I return an item for an exchange instead of a refund?</b-button
+                    >Can I return an item for an exchange instead of a refund?
+                    </b-button
                     >
                 </b-card-header>
                 <b-collapse id="accordion-2" accordion="my-accordion" role="tabpanel">
@@ -84,7 +85,8 @@
             <b-card no-body class="mb-1">
                 <b-card-header header-tag="header" role="tab">
                     <b-button block v-b-toggle.accordion-3
-                        >How do I return something to you for exchange or refund?</b-button
+                    >How do I return something to you for exchange or refund?
+                    </b-button
                     >
                 </b-card-header>
                 <b-collapse id="accordion-3" accordion="my-accordion" role="tabpanel">
@@ -105,7 +107,7 @@
                                     <div class="d-flex mr-2">
                                         <div class="mr-3"><b>Phone:</b></div>
                                         <div>
-                                            +971 58 596 7208 <br />
+                                            +971 58 596 7208 <br/>
                                             +971 50 655 3470
                                         </div>
                                     </div>
@@ -168,90 +170,104 @@
 <script>
     export default {
         name: 'returns',
+        head() {
+            return {
+                title: 'Returns',
+                meta: [
+                    {
+                        hid: 'description',
+                        name: 'description',
+                        content: 'Returns',
+                    },
+                ],
+            };
+        },
         created() {
             this.$store.commit('set_breadcrumbs', [
-                { route: '/', name: 'Home' },
-                { route: {name: 'payment'}, name: 'payment & delivery' },
+                {route: '/', name: 'Home'},
+                {route: {name: 'payment'}, name: 'payment & delivery'},
             ]);
         },
     };
 </script>
 <style lang="less">
-    .accordion {
-        .card {
-            border: 0px;
+.accordion {
+    .card {
+        border: 0px;
 
-            &:nth-child(even) {
-                .card-body {
-                    background: @white;
-                }
-                .btn-block {
-                    background: @white;
-                    &:focus {
-                        background: @white;
-                        color: @black;
-                    }
-                }
-            }
-
-            .card-header {
-                border: 0px;
-                padding: 0px;
-            }
-
+        &:nth-child(even) {
             .card-body {
-                padding: 0px 30px 30px 30px;
-                font-family: 'Inter-Light';
-                font-size: 18px;
-                background: @grey3;
-
-                .caption {
-                    max-width: 100px;
-                    width: 100%;
-                    text-align: right;
-                    font-weight: 600;
-                    margin-right: 15px;
-                }
-
-                .btn-black {
-                    padding: 8px 45px;
-                }
+                background: @white;
             }
 
             .btn-block {
-                position: relative;
-                padding: 24px 30px;
-                border: 0px;
-                font-family: 'Inter-Light';
-                font-size: 18px;
-                text-transform: uppercase;
-                color: @black;
-                text-align: left;
-                background: @grey3;
-                font-weight: 600;
+                background: @white;
 
-                &:after {
-                    content: url('../assets/images/icons/arrow-collapse.svg');
-                    position: absolute;
-                    right: 30px;
-                    transition: all 0.5s;
-                }
-
-                &.collapsed {
-                    font-weight: normal;
-
-                    &:after {
-                        transform: rotate(180deg);
-                    }
-                }
-
-                &:focus,
-                &:active {
-                    background: @grey3;
+                &:focus {
+                    background: @white;
                     color: @black;
-                    box-shadow: unset;
                 }
             }
         }
+
+        .card-header {
+            border: 0px;
+            padding: 0px;
+        }
+
+        .card-body {
+            padding: 0px 30px 30px 30px;
+            font-family: 'Inter-Light';
+            font-size: 18px;
+            background: @grey3;
+
+            .caption {
+                max-width: 100px;
+                width: 100%;
+                text-align: right;
+                font-weight: 600;
+                margin-right: 15px;
+            }
+
+            .btn-black {
+                padding: 8px 45px;
+            }
+        }
+
+        .btn-block {
+            position: relative;
+            padding: 24px 30px;
+            border: 0px;
+            font-family: 'Inter-Light';
+            font-size: 18px;
+            text-transform: uppercase;
+            color: @black;
+            text-align: left;
+            background: @grey3;
+            font-weight: 600;
+
+            &:after {
+                content: url('../assets/images/icons/arrow-collapse.svg');
+                position: absolute;
+                right: 30px;
+                transition: all 0.5s;
+            }
+
+            &.collapsed {
+                font-weight: normal;
+
+                &:after {
+                    transform: rotate(180deg);
+                }
+            }
+
+            &:focus,
+            &:active {
+                background: @grey3;
+                color: @black;
+                box-shadow: unset;
+            }
+        }
     }
+}
 </style>

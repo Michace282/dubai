@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <base-title title="about-us" class="mt-30" />
+        <base-title title="about-us" class="mt-30"/>
         <div class="text-box">
             <div class="text mr-60">
                 <p>
@@ -16,7 +16,7 @@
                     student in Latin and Standard programs, so she understands the needs of students who are just at the
                     beginning of their dance journey up to those who are experienced pro-am competitors.
                 </p>
-                <img class="d-block d-lg-none mt-45 w-100" src="~/assets/images/about-us-photo.jpg" />
+                <img class="d-block d-lg-none mt-45 w-100" src="~/assets/images/about-us-photo.jpg"/>
                 <p class="mt-40">
                     Oleg and Kateryna have been professional dancers for 17 years and continued their professional
                     career as dance instructors in Dubai training students in Latin, Ballroom and social dances such as
@@ -31,12 +31,12 @@
                 </p>
             </div>
             <div class="photo d-none d-lg-block">
-                <img src="~/assets/images/about-us-photo.jpg" />
+                <img src="~/assets/images/about-us-photo.jpg"/>
             </div>
         </div>
         <div class="text-box">
             <div class="photo">
-                <img src="~/assets/images/logo-big.png" />
+                <img src="~/assets/images/logo-big.png"/>
             </div>
             <div class="text">
                 <p>
@@ -45,7 +45,7 @@
                     exchange anything, we can arrange this for you quickly and easily – just follow the section “Contact
                     Us” in the webpage.
                 </p>
-                <base-title title="Be Unique – be DC&S!" class="mt-30" />
+                <base-title title="Be Unique – be DC&S!" class="mt-30"/>
             </div>
         </div>
     </div>
@@ -53,87 +53,99 @@
 <script>
     export default {
         name: 'about-us',
+        head() {
+            return {
+                title: 'About as',
+                meta: [
+                    {
+                        hid: 'description',
+                        name: 'description',
+                        content: 'About as',
+                    },
+                ],
+            };
+        },
         created() {
             this.$store.commit('set_breadcrumbs', [
-                { route: '/', name: 'Home' },
-                { route: { name: 'about-us' }, name: 'About Us' },
+                {route: '/', name: 'Home'},
+                {route: {name: 'about-us'}, name: 'About Us'},
             ]);
         },
     };
 </script>
 <style lang="less">
-    .text {
-        .block-title {
-            font-family: 'Inter-Medium';
-            text-align: center;
-            line-height: 77px;
-
-            @media @large {
-                max-width: 335px;
-
-                margin: 0 auto;
-                line-height: 50px;
-            }
-
-            .front-title {
-                bottom: unset;
-                top: 30px;
-                left: 0;
-                right: 0;
-                margin: auto;
-
-                @media @large {
-                    top: 24px;
-                }
-            }
-        }
-    }
-</style>
-<style lang="less" scoped>
-    .text-box {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 60px;
+.text {
+    .block-title {
+        font-family: 'Inter-Medium';
+        text-align: center;
+        line-height: 77px;
 
         @media @large {
-            width: fit-content;
-            flex-direction: column;
-            justify-content: flex-start;
-            margin-top: 45px;
+            max-width: 335px;
+
+            margin: 0 auto;
+            line-height: 50px;
         }
 
-        .text {
-            max-width: 530px;
-            font-family: 'Inter-Light';
-            font-size: 18px;
-            color: @black;
+        .front-title {
+            bottom: unset;
+            top: 30px;
+            left: 0;
+            right: 0;
+            margin: auto;
 
-            @media @medium {
-                line-height: 22px;
-            }
-
-            &.mr-60 {
-                @media (min-width: 992px) {
-                    margin-right: 60px;
-                }
-            }
-        }
-
-        .photo {
             @media @large {
-                width: fit-content;
-                margin: 0px auto 45px;
-            }
-
-            img {
-                @media (max-width: 450px) {
-                    width: 240px;
-                }
-
-                @media (min-width: 992px) {
-                    width: 100%;
-                }
+                top: 24px;
             }
         }
     }
+}
+</style>
+<style lang="less" scoped>
+.text-box {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 60px;
+
+    @media @large {
+        width: fit-content;
+        flex-direction: column;
+        justify-content: flex-start;
+        margin-top: 45px;
+    }
+
+    .text {
+        max-width: 530px;
+        font-family: 'Inter-Light';
+        font-size: 18px;
+        color: @black;
+
+        @media @medium {
+            line-height: 22px;
+        }
+
+        &.mr-60 {
+            @media (min-width: 992px) {
+                margin-right: 60px;
+            }
+        }
+    }
+
+    .photo {
+        @media @large {
+            width: fit-content;
+            margin: 0px auto 45px;
+        }
+
+        img {
+            @media (max-width: 450px) {
+                width: 240px;
+            }
+
+            @media (min-width: 992px) {
+                width: 100%;
+            }
+        }
+    }
+}
 </style>

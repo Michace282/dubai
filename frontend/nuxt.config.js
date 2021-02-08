@@ -9,21 +9,22 @@ export default {
      ** Headers of the page
      */
     head: {
-        title: process.env.npm_package_name || '',
+        title: '',
+        titleTemplate: '%s - DC&S Company',
         meta: [
-            { charset: 'utf-8' },
-            { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-            { hid: 'description', name: 'description', content: '' },
-            { property: 'og:title', content: '' },
-            { property: 'og:description', content: '' },
-            { property: 'og:image', content: '' },
+            {charset: 'utf-8'},
+            {name: 'viewport', content: 'width=device-width, initial-scale=1'},
+            {hid: 'description', name: 'description', content: ''},
+            {property: 'og:title', content: ''},
+            {property: 'og:description', content: ''},
+            {property: 'og:image', content: ''},
         ],
-        link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+        link: [{rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'}],
     },
     /*
      ** Customize the progress-bar color
      */
-    loading: { color: '#fff' },
+    loading: {color: '#fff'},
     /*
      ** Global CSS
      */
@@ -37,17 +38,13 @@ export default {
         '~plugins/components.server.js',
         '~plugins/components.client.js',
         '~/plugins/global-components.js',
-        { src: '~/plugins/vuejs-paginate.js', ssr: false },
-        { src: '~/plugins/vue-slick-carousel.js', ssr: false },
+        {src: '~/plugins/vuejs-paginate.js', ssr: false},
+        {src: '~/plugins/vue-slick-carousel.js', ssr: false},
     ],
     /*
      ** Nuxt.js dev-modules
      */
     buildModules: ['@nuxtjs/style-resources'],
-
-    styleResources: {
-        less: ['./assets/css/variables.less'],
-    },
 
     /*
      ** Nuxt.js modules
@@ -101,6 +98,7 @@ export default {
         /*
          ** You can extend webpack config here
          */
-        extend(config, ctx) {},
+        extend(config, ctx) {
+        },
     },
 };

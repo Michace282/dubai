@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <base-title title="contact us" />
+        <base-title title="contact us"/>
         <div class="contacts-box">
             <div>
                 <div class="contact-group">
@@ -19,8 +19,8 @@
                     <div class="value">
                         UAE, Dubai, Business Bay, Binary Tower, 20th floor
                         <div class="d-flex align-items-center mt-30">
-                            <a href="" class="mr-3"><img src="~/assets/images/icons/whatsApp-gold.svg" /></a>
-                            <a href="" class="ml-1"><img src="~/assets/images/icons/instagram-gold.svg" /></a>
+                            <a href="" class="mr-3"><img src="~/assets/images/icons/whatsApp-gold.svg"/></a>
+                            <a href="" class="ml-1"><img src="~/assets/images/icons/instagram-gold.svg"/></a>
                         </div>
                     </div>
                 </div>
@@ -29,10 +29,10 @@
                 <div class="title">Get in touch</div>
                 <div class="row mt-45">
                     <div class="col-12 col-md-6">
-                        <base-input label="Name" name="name" />
+                        <base-input label="Name" name="name"/>
                     </div>
                     <div class="col-12 col-md-6 mt-30 mt-md-0">
-                        <base-input label="E-mail or phone" name="phone" />
+                        <base-input label="E-mail or phone" name="phone"/>
                     </div>
                 </div>
                 <div class="row mt-30">
@@ -56,113 +56,126 @@
 </template>
 <script>
     import BaseInput from '../components/fields/BaseInput.vue';
+
     export default {
-        components: { BaseInput },
+        components: {BaseInput},
         name: 'contacts',
+        head() {
+            return {
+                title: 'Contacts',
+                meta: [
+                    {
+                        hid: 'description',
+                        name: 'description',
+                        content: 'Contacts',
+                    },
+                ],
+            };
+        },
         created() {
             this.$store.commit('set_breadcrumbs', [
-                { route: '/', name: 'Home' },
-                { route: {name: 'contacts'}, name: 'Contact us' },
+                {route: '/', name: 'Home'},
+                {route: {name: 'contacts'}, name: 'Contact us'},
             ]);
         },
     };
 </script>
 <style lang="less" scoped>
-    .contacts-box {
-        display: flex;
-        align-items: flex-end;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        margin-top: 15px;
+.contacts-box {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 15px;
 
-        .contact-group {
-            display: flex;
-            margin-bottom: 30px;
+    .contact-group {
+        display: flex;
+        margin-bottom: 30px;
+
+        @media @small {
+            flex-direction: column;
+        }
+
+        .label {
+            width: 90px;
+            font-family: 'Inter-Medium';
+            margin-right: 20px;
+            font-style: normal;
+            font-weight: 500;
+            font-size: 18px;
+            text-align: right;
+            color: @black;
 
             @media @small {
-                flex-direction: column;
-            }
-
-            .label {
-                width: 90px;
-                font-family: 'Inter-Medium';
-                margin-right: 20px;
-                font-style: normal;
-                font-weight: 500;
-                font-size: 18px;
-                text-align: right;
-                color: @black;
-
-                @media @small {
-                    text-align: left;
-                }
-            }
-
-            .value {
-                max-width: 290px;
-                font-family: 'Inter-Light';
-                font-size: 18px;
-                color: @black;
-
-                a {
-                    display: block;
-                    color: @black;
-                }
+                text-align: left;
             }
         }
-    }
 
-    .form-group {
-        max-width: 635px;
-        width: 100%;
-        padding: 30px 45px 30px 50px;
-        background: @grey3;
-        border-radius: 2px;
-
-        @media @medium {
-            padding: 30px 20px;
-        }
-
-        .title {
-            font-family: 'Inter-Regular';
-            font-size: 24px;
-            text-transform: uppercase;
+        .value {
+            max-width: 290px;
+            font-family: 'Inter-Light';
+            font-size: 18px;
             color: @black;
+
+            a {
+                display: block;
+                color: @black;
+            }
+        }
+    }
+}
+
+.form-group {
+    max-width: 635px;
+    width: 100%;
+    padding: 30px 45px 30px 50px;
+    background: @grey3;
+    border-radius: 2px;
+
+    @media @medium {
+        padding: 30px 20px;
+    }
+
+    .title {
+        font-family: 'Inter-Regular';
+        font-size: 24px;
+        text-transform: uppercase;
+        color: @black;
+    }
+
+    .textarea-group {
+        .label {
+            margin: 0px;
+            font-family: 'Inter-Regular';
+            font-size: 14px;
+            text-transform: uppercase;
+            color: @grey4;
+            text-transform: uppercase;
+            @media @medium {
+                display: none;
+            }
         }
 
-        .textarea-group {
-            .label {
-                margin: 0px;
-                font-family: 'Inter-Regular';
-                font-size: 14px;
-                text-transform: uppercase;
-                color: @grey4;
-                text-transform: uppercase;
-                @media @medium {
-                    display: none;
-                }
+        textarea {
+            height: 43px;
+            border: none;
+            text-transform: uppercase;
+            border-bottom: 1px solid @black;
+            resize: none;
+            background: @grey3;
+
+            @media @medium {
+                height: 77px;
             }
 
-            textarea {
-                height: 43px;
-                border: none;
-                text-transform: uppercase;
-                border-bottom: 1px solid @black;
-                resize: none;
-                background: @grey3;
-
+            &::placeholder {
+                font-size: 14px;
+                opacity: 0;
                 @media @medium {
-                    height: 77px;
-                }
-
-                &::placeholder {
-                    font-size: 14px;
-                    opacity: 0;
-                    @media @medium {
-                        opacity: 1;
-                    }
+                    opacity: 1;
                 }
             }
         }
     }
+}
 </style>

@@ -120,6 +120,7 @@ class Product(TimeStampedModel):
     article = models.CharField(verbose_name='Article', max_length=30)
     price = models.PositiveIntegerField(verbose_name='Price')
     description = models.TextField(verbose_name='Description')
+    model_description = models.TextField(verbose_name='Model description', blank=True, null=True)
     size_chart = models.ForeignKey(SizeChart, verbose_name='Size Chart', on_delete=models.CASCADE, blank=True,
                                    null=True)
 
@@ -163,17 +164,33 @@ class ProductImage(TimeStampedModel):
         verbose_name_plural = 'Product images'
 
 
-# class ProductSize(TimeStampedModel):
-#     product = models.OneToOneField(Product, verbose_name='Product', on_delete=models.CASCADE)
-
-class Basket(TimeStampedModel):
+class ProductWishlist(TimeStampedModel):
     guest = models.ForeignKey(Guest, verbose_name='Guest', on_delete=models.CASCADE, blank=True, null=True)
     user = models.ForeignKey(User, verbose_name='User', on_delete=models.CASCADE, blank=True, null=True)
+    product = models.ForeignKey(Product, verbose_name='Product', on_delete=models.CASCADE)
+
+
+class Basket(TimeStampedModel):
+    class StatusType(DjangoChoices):
+        published = ChoiceItem(label='Published', value='published')
+        unpublished = ChoiceItem(label='Unpublished', value='unpublished')
+        moderated = ChoiceItem(label='Moderated', value='moderated')
+
+    guest = models.ForeignKey(Guest, verbose_name='Guest', on_delete=models.CASCADE, blank=True, null=True)
+    user = models.ForeignKey(User, verbose_name='User', on_delete=models.CASCADE, blank=True, null=True)
+    status = models.CharField(verbose_name='Status',
+                              max_length=30,
+                              choices=StatusType.choices,
+                              default=StatusType.published)
 
 
 class ProductBasket(TimeStampedModel):
-    basket = models.OneToOneField(Basket, verbose_name='Basket', on_delete=models.CASCADE)
-    product = models.OneToOneField(Product, verbose_name='Product', on_delete=models.CASCADE)
+    basket = models.ForeignKey(Basket, verbose_name='Basket', on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, verbose_name='Product', on_delete=models.CASCADE)
+    price = models.PositiveIntegerField(verbose_name='Price')
+    count = models.PositiveIntegerField(verbose_name='Count')
+    size = models.ForeignKey(Size, verbose_name='Size', on_delete=models.CASCADE)
+    color = models.ForeignKey(Color, verbose_name='Color', on_delete=models.CASCADE)
 
 
 class Feedback(TimeStampedModel):

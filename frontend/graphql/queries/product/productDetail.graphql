@@ -1,5 +1,5 @@
 query productDetail($id: ID!) {
-    productDetail(id: $id) {
+    productDetail: productDetail(id: $id) {
         name
         productType
         ladiesType
@@ -9,6 +9,7 @@ query productDetail($id: ID!) {
         article
         price
         description
+        modelDescription
         countFeedbackStar1
         countFeedbackStar2
         countFeedbackStar3
@@ -53,6 +54,36 @@ query productDetail($id: ID!) {
                     }
                 }
             }
+        }
+    }
+    productProductType: __type(name: "ProductProductType") {
+        enumValues {
+            name
+            description
+        }
+    }
+    productLadiesType: __type(name: "ProductLadiesType") {
+        enumValues {
+            name
+            description
+        }
+    }
+    productMensType: __type(name: "ProductMensType") {
+        enumValues {
+            name
+            description
+        }
+    }
+    productAccessoriesType: __type(name: "ProductAccessoriesType") {
+        enumValues {
+            name
+            description
+        }
+    }
+    productDanceShoesType: __type(name: "ProductDanceShoesType") {
+        enumValues {
+            name
+            description
         }
     }
 }

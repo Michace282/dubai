@@ -2,17 +2,17 @@
     <div class="container">
         <div class="row caption-group">
             <div class="col-auto head-caption">
-                <img src="~/assets/images/icons/truck.svg" />
+                <img src="~/assets/images/icons/truck.svg"/>
                 Free shipping within UAE
             </div>
             <div class="col-auto head-caption">
                 <a href.prevent v-b-modal.present-modal
-                    ><img src="~/assets/images/icons/present.svg" />
+                ><img src="~/assets/images/icons/present.svg"/>
                     Get your present!
                 </a>
             </div>
             <div class="col-auto head-caption">
-                <img src="~/assets/images/icons/line.svg" />
+                <img src="~/assets/images/icons/line.svg"/>
                 Size charts
             </div>
         </div>
@@ -53,7 +53,7 @@
                                         </nuxt-link>
                                         <div class="caption">
                                             {{ stock.node.product.price }} AED
-                                            <img src="~/assets/images/icons/arrow-right.svg" />
+                                            <img src="~/assets/images/icons/arrow-right.svg"/>
                                         </div>
                                     </div>
                                 </b-carousel-slide>
@@ -63,12 +63,12 @@
                 </div>
             </template>
         </ApolloQuery>
-        <index-page-categories />
+        <index-page-categories/>
         <div class="advantages-group">
-            <base-title title="Our advantages" />
+            <base-title title="Our advantages"/>
             <div class="row mt-45">
                 <div class="col-6 col-sm-4 col-lg advantage" v-for="(advantage, index) in advantages" :key="index">
-                    <img :src="require(`~/assets/images/icons/${advantage.icon}`)" />
+                    <img :src="require(`~/assets/images/icons/${advantage.icon}`)"/>
                     <div class="name">
                         {{ advantage.name }}
                     </div>
@@ -103,7 +103,7 @@
 
     export default {
         name: 'index',
-        components: { IndexPageCategories },
+        components: {IndexPageCategories},
         data() {
             return {
                 advantages: [
@@ -134,115 +134,127 @@
                 ],
             };
         },
+        head() {
+            return {
+                title: 'Dance Clothes & Shoes',
+                meta: [
+                    {
+                        hid: 'description',
+                        name: 'description',
+                        content: '“DC&S Company” was founded in 2020 and based in Dubai. Our mission – to bring the freshest clothing, shoes and accessories for all the dance community in the UAE!\n',
+                    },
+                ],
+            };
+        },
         created() {
             this.$store.commit('set_breadcrumbs', null);
         },
     };
 </script>
 <style lang="less">
-    #present-modal {
-        background: #ffffff69;
+#present-modal {
+    background: #ffffff69;
 
-        .modal-dialog {
-            max-width: 540px;
+    .modal-dialog {
+        max-width: 540px;
 
-            .modal-header {
-                padding: 30px;
-                border: 0px;
+        .modal-header {
+            padding: 30px;
+            border: 0px;
 
-                a {
-                    cursor: pointer;
-                }
-
-                h5 {
-                    margin: 0 auto;
-                    font-family: 'Inter-Medium';
-                    font-size: 24px;
-                    line-height: 29px;
-                    text-transform: uppercase;
-                    color: @black;
-                }
-            }
-
-            .modal-body {
-                padding: 0px 45px 30px 45px;
-
-                p {
-                    margin: 0px;
-                    font-family: 'Inter-Light';
-                    font-size: 18px;
-                    line-height: 22px;
-                    color: @black;
-                }
-
-                .btn-black {
-                    margin-top: 30px;
-                    font-size: 14px;
-                    padding: 11px 28px;
-                }
-            }
-        }
-    }
-</style>
-<style lang="less" scoped>
-    .advantages-group {
-        margin-top: 90px;
-
-        .advantage {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-
-            &:first-child {
-                .name {
-                    margin-top: 9px;
-                }
-            }
-
-            @media @large {
-                margin-bottom: 30px;
-            }
-
-            .name {
-                max-width: 140px;
-                margin-top: 15px;
-                text-align: center;
-
-                @media @large {
-                    line-height: 22px;
-                }
-            }
-        }
-    }
-
-    .caption-group {
-        width: fit-content;
-        margin: 0 auto;
-        padding: 15px 0px;
-
-        @media @medium {
-            max-width: 235px;
-            overflow-x: auto;
-            display: flex;
-            flex-wrap: nowrap;
-        }
-
-        .head-caption {
-            display: flex;
-            align-items: center;
-            font-size: 14px;
-
-            &:nth-child(2) {
+            a {
                 cursor: pointer;
             }
 
-            &:last-child {
-                margin-right: 22px;
+            h5 {
+                margin: 0 auto;
+                font-family: 'Inter-Medium';
+                font-size: 24px;
+                line-height: 29px;
+                text-transform: uppercase;
+                color: @black;
+            }
+        }
+
+        .modal-body {
+            padding: 0px 45px 30px 45px;
+
+            p {
+                margin: 0px;
+                font-family: 'Inter-Light';
+                font-size: 18px;
+                line-height: 22px;
+                color: @black;
             }
 
-            img {
-                margin-right: 15px;
+            .btn-black {
+                margin-top: 30px;
+                font-size: 14px;
+                padding: 11px 28px;
             }
         }
     }
+}
+</style>
+<style lang="less" scoped>
+.advantages-group {
+    margin-top: 90px;
+
+    .advantage {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        &:first-child {
+            .name {
+                margin-top: 9px;
+            }
+        }
+
+        @media @large {
+            margin-bottom: 30px;
+        }
+
+        .name {
+            max-width: 140px;
+            margin-top: 15px;
+            text-align: center;
+
+            @media @large {
+                line-height: 22px;
+            }
+        }
+    }
+}
+
+.caption-group {
+    width: fit-content;
+    margin: 0 auto;
+    padding: 15px 0px;
+
+    @media @medium {
+        max-width: 235px;
+        overflow-x: auto;
+        display: flex;
+        flex-wrap: nowrap;
+    }
+
+    .head-caption {
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+
+        &:nth-child(2) {
+            cursor: pointer;
+        }
+
+        &:last-child {
+            margin-right: 22px;
+        }
+
+        img {
+            margin-right: 15px;
+        }
+    }
+}
 </style>

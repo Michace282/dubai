@@ -3,28 +3,22 @@ from graphene_django.debug import DjangoDebug
 from product.schema import Query as ProductQuery
 from stock.schema import Query as StockQuery
 from page.schema import Query as PageQuery
+from account.schema import Query as AccountQuery, Mutation as AccountMutation
 
 
-#
-#
-# class Subscription(
-#     graphene.ObjectType):
-#     debug = graphene.Field(DjangoDebug, name="_debug")
-#
-#
-# class Mutations(
-#     graphene.ObjectType):
-#     debug = graphene.Field(DjangoDebug, name="_debug")
-#
-#
-class Query(
-    ProductQuery,
-    PageQuery,
-    StockQuery,
+class Mutation(
+    AccountMutation,
     graphene.ObjectType):
     debug = graphene.Field(DjangoDebug, name="_debug")
 
 
-#
-schema = graphene.Schema(query=Query)
-# schema = graphene.Schema(query=Query, mutation=Mutations, subscription=Subscription)
+class Query(
+    ProductQuery,
+    PageQuery,
+    StockQuery,
+    AccountQuery,
+    graphene.ObjectType):
+    debug = graphene.Field(DjangoDebug, name="_debug")
+
+
+schema = graphene.Schema(query=Query, mutation=Mutation)

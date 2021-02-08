@@ -384,4 +384,4 @@ class ProductWishlistCreateMutation(DjangoModelFormMutation):
 #
 #
 class Mutation(graphene.ObjectType):
-    productwishlist_create = ProductWishlistCreateMutation.Field()
+    product_wishlist_create = ProductWishlistCreateMutation.Field()

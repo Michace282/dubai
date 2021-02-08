@@ -55,7 +55,7 @@
             colorsGroup: {
                 type: Object,
                 required: false,
-                default: null
+                default: null,
             },
         },
         data() {
@@ -90,7 +90,20 @@
         },
     };
 </script>
+<style lang="less" scoped>
+    .product {
+        &.product-sm {
+            .preview {
+                max-height: 220px;
+            }
 
+            .name,
+            .price {
+                font-size: 14px;
+            }
+        }
+    }
+</style>
 <style lang="less" scoped>
     .product {
         position: relative;

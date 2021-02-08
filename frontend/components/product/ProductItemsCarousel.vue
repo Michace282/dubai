@@ -3,7 +3,7 @@
         <client-only>
             <VueSlickCarousel class="nav-slider" v-bind="slickOptions" :key="1">
                 <div v-for="i in 10" :key="i">
-                    <product-item :id="'1'" :name="'123213'" :price="321321" />
+                    <product-item class="product-sm" :id="'1'" :name="'123213'" :price="321321" />
                 </div>
                 <template #prevArrow>
                     <div class="custom-arrow prev"><img src="~/assets/images/icons/arrow-collapse.svg" /></div>
@@ -36,16 +36,6 @@
 </script>
 <style lang="less">
     .product-item-carousel {
-        .product {
-            .preview {
-                max-height: 220px;
-            }
-
-            .name,
-            .price {
-                font-size: 14px;
-            }
-        }
 
         .custom-arrow {
             display: flex;

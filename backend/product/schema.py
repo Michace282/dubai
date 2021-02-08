@@ -182,6 +182,7 @@ class ProductConnection(graphene.Connection):
 
 
 class ProductType(DjangoObjectType):
+    is_wishlist = graphene.Boolean()
     avg_feedback = graphene.Float()
     count_feedback_star1 = graphene.Int()
     count_feedback_star2 = graphene.Int()
@@ -189,6 +190,17 @@ class ProductType(DjangoObjectType):
     count_feedback_star4 = graphene.Int()
     count_feedback_star5 = graphene.Int()
     count_feedback = graphene.Int()
+
+    def resolve_is_wishlist(self, info):
+        user = info.context.user
+        if user.is_authenticated:
+            return ProductWishlist.objects.filter(product=self, user=user).exists()
+        else:
+            params = info.variable_values
+            guest_uuid = params.get('guestUuid', None)
+            if guest_uuid:
+                return ProductWishlist.objects.filter(product=self, guest__uuid=guest_uuid).exists()
+        return False
 
     def resolve_avg_feedback(self, info):
         star = self.feedback_set.filter(status=Feedback.StatusType.published).aggregate(
@@ -227,6 +239,8 @@ class ProductFilter(django_filters.FilterSet):
     colors = GlobalIDMultipleChoiceFilter(method='colors_filter')
     sizes = GlobalIDMultipleChoiceFilter(method='sizes_filter')
 
+    guest_uuid = django_filters.UUIDFilter(method='guest_uuid_filter')
+
     def price__gte_filter(self, queryset, name, value):
         return queryset.filter(price__gte=value)
 
@@ -246,6 +260,9 @@ class ProductFilter(django_filters.FilterSet):
             ids.append(from_global_id(v)[1])
 
         return queryset.filter(productsizecolor__sizes__in=ids)
+
+    def guest_uuid_filter(self, queryset, name, value):
+        return queryset
 
     class Meta:
         model = Product

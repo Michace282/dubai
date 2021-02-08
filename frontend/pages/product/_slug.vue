@@ -132,6 +132,9 @@
                                 <div class="text mw-290">If you have any questions please contact us</div>
                             </div>
                         </div>
+                        <div class="bold text-uppercase mt-90">Works best with</div>
+                        <product-items-carousel class="mt-45"/>
+
                         <div class="bold text-uppercase mt-90">Reviews</div>
                         <div class="d-flex justify-content-between w-100">
                             <comment-group :id="$route.params.slug" />
@@ -169,10 +172,11 @@
     import CommentGroup from '../../components/comment/CommentGroup.vue';
     import RatingGroup from '../../components/comment/RatingGroup.vue';
     import ProductCarousel from '../../components/product/ProductCarousel.vue';
+    import ProductItemsCarousel from '../../components/product/ProductItemsCarousel.vue';
 
     export default {
         name: 'product',
-        components: { CommentGroup, RatingGroup, ProductCarousel },
+        components: { CommentGroup, RatingGroup, ProductCarousel, ProductItemsCarousel },
         data() {
             return {
                 countRatings: [],

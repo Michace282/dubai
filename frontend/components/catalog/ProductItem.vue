@@ -55,9 +55,7 @@
             colorsGroup: {
                 type: Object,
                 required: false,
-                default: () => {
-                    return {};
-                },
+                default: null
             },
         },
         data() {

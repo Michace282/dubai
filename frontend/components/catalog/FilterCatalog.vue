@@ -36,6 +36,10 @@
                                 subCategory.key == filter[category.filterName] && filter.productType == category.key,
                         }"
                         @click="
+                            filter.ladiesType = null;
+                            filter.mensType = null;
+                            filter.accessoriesType = null;
+                            filter.danceShoesType = null;
                             filter.productType = category.key;
                             filter[category.filterName] = subCategory.key;
                             breadcrumbs = [category.label, subCategory.label];

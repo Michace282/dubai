@@ -1,0 +1,10 @@
+mutation tokenAuth($username: String!, $password: String!) {
+    tokenAuth(username: $username, password: $password) {
+        user {
+            id
+            username
+            firstName
+            lastName
+        }
+    }
+}

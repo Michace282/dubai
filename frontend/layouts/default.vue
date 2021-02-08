@@ -54,6 +54,24 @@
                 showModal: false,
             };
         },
+        created() {
+            if (!this.$cookies.get('guestUuid') && !this.$store.state.user.user) {
+                this.$apollo
+                    .mutate({
+                        mutation: require('~/graphql/mutations/user/questCreate.graphql'),
+                    })
+                    .then((data) => {
+                        if (data && data.data.guestCreate.guest) {
+                            this.$cookies.set('guestUuid', data.data.guestCreate.guest.uuid);
+                            this.$store.user.commit('user/update_guestUuid', data.data.guestCreate.guest.uuid);
+                        }
+                    });
+            } else if (this.$store.state.user.user && this.$cookies.get('guestUuid')) {
+                this.$store.commit('user/update_guestUuid', null);
+            } else if (this.$cookies.get('guestUuid')) {
+                this.$store.commit('user/update_guestUuid', this.$cookies.get('guestUuid'));
+            }
+        },
         computed: {
             breadcrumbs() {
                 return this.$store.state.breadcrumbs;

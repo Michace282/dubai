@@ -70,6 +70,7 @@
                                         :id="product.node.id"
                                         :name="product.node.name"
                                         :price="product.node.price"
+                                        :isWishlist="product.node.isWishlist"
                                         :colorsGroup="product.node.productsizecolorSet"
                                     />
                                 </div>

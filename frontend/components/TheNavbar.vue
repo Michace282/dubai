@@ -21,7 +21,7 @@
                     </b-navbar-nav>
                 </b-collapse>
                 <b-navbar-nav class="ml-auto icons" :class="{ hide: !showIcons }">
-                    <b-nav-item><img src="../assets/images/icons/heart.svg" /></b-nav-item>
+                    <b-nav-item to="/account/wish-list"><img src="../assets/images/icons/heart.svg" /></b-nav-item>
                     <b-nav-item @click="$emit('showBasket')"
                         ><img src="../assets/images/icons/basket.svg"
                     /></b-nav-item>

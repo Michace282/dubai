@@ -36,6 +36,7 @@ query productList(
                 name
                 productType
                 price
+                isWishlist
                 productsizecolorSet {
                     edges {
                         node {

@@ -3,13 +3,14 @@ from graphene import relay
 from graphene_django.filter import DjangoFilterConnectionField
 from graphene_django import DjangoConnectionField
 from graphene_django.filter import GlobalIDFilter, GlobalIDMultipleChoiceFilter
-from graphene_django.types import DjangoObjectType
+from graphene_django.types import DjangoObjectType, ErrorType
 from graphql_relay.connection.arrayconnection import offset_to_cursor
 from graphql_relay import from_global_id
 import django_filters
 from .models import *
 import math
-
+from django import forms
+from backend.mixin import DjangoModelFormMutation
 from django.conf import settings
 from image_cropping.fields import ImageCropField
 from graphene_django.converter import convert_django_field
@@ -264,9 +265,14 @@ class ProductWishlistType(DjangoObjectType):
 
 
 class ProductWishlistFilter(django_filters.FilterSet):
+    guest_uuid = django_filters.UUIDFilter(method='guest_uuid_filter')
+
+    def guest_uuid_filter(self, queryset, name, value):
+        return queryset.filter(guest__uuid=value)
+
     class Meta:
         model = ProductWishlist
-        fields = ['guest']
+        fields = ['guest_uuid']
 
 
 class FeedbackType(DjangoObjectType):
@@ -300,15 +306,75 @@ class Query(graphene.ObjectType):
     feedback_list = DjangoFilterConnectionField(FeedbackType, filterset_class=FeedbackFilter)
 
     def resolve_product_wishlist_list(self, info, **kwargs):
-        if 'guest' in kwargs:
+        if 'guest_uuid' in kwargs:
             return ProductWishlistFilter(kwargs).qs
         else:
             user = info.context.user
             if user.is_authenticated:
                 return ProductWishlistFilter(kwargs).qs.filter(user=user)
-        return None
+        return []
 
-#
+
+class ProductWishlistCreateForm(forms.ModelForm):
+    guest_uuid = forms.UUIDField(required=False)
+
+    class Meta:
+        model = ProductWishlist
+        fields = ('guest_uuid', 'product',)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        guest_uuid = cleaned_data.get("guest_uuid")
+        product = cleaned_data.get("product")
+
+        if guest_uuid:
+            if not Guest.objects.filter(uuid=guest_uuid).exists():
+                self.add_error('guest_uuid', "Такого гостя не существует")
+
+        return cleaned_data
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        return instance
+
+
+class ProductWishlistCreateMutation(DjangoModelFormMutation):
+    @classmethod
+    def perform_mutate(cls, form, info):
+        kwargs = {}
+        errors = []
+        user = info.context.user
+        obj = form.save(commit=False)
+        guest_uuid = form.cleaned_data.get('guest_uuid')
+
+        if user.is_authenticated:
+            if ProductWishlist.objects.filter(product=obj.product, user=user).exists():
+                errors.append(ErrorType(field='product', messages=['Этот продукт уже добавлен в избранное']))
+            else:
+                obj.user = user
+                obj.save()
+                kwargs = {cls._meta.return_field_name: obj}
+        else:
+            if guest_uuid:
+                guest = Guest.objects.filter(uuid=guest_uuid).first()
+                if guest:
+                    if ProductWishlist.objects.filter(product=obj.product, guest=guest).exists():
+                        errors.append(ErrorType(field='product', messages=['Этот продукт уже добавлен в избранное']))
+                    else:
+                        obj.guest = guest
+                        obj.save()
+                        kwargs = {cls._meta.return_field_name: obj}
+                else:
+                    errors.append(ErrorType(field='user', messages=['Такого гостя не существует']))
+            else:
+                errors.append(ErrorType(field='user', messages=['Вы не авторизованы']))
+
+        return cls(errors=errors, **kwargs)
+
+    class Meta:
+        form_class = ProductWishlistCreateForm
+
+
 # class GuestCreateMutation(graphene.Mutation):
 #     guest = graphene.Field(GuestType)
 #
@@ -317,5 +383,5 @@ class Query(graphene.ObjectType):
 #         return GuestCreateMutation(guest=Guest.objects.create())
 #
 #
-# class Mutation(graphene.ObjectType):
-#     guest_create = GuestCreateMutation.Field()
+class Mutation(graphene.ObjectType):
+    productwishlist_create = ProductWishlistCreateMutation.Field()

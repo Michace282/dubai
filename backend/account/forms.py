@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from .models import Subscribe, Contact, Guest
+from .models import Subscribe, Contact, Guest, Profile
 
 
 class SubscribeForm(ModelForm):

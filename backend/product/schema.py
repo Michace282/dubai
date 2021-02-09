@@ -295,10 +295,52 @@ class ProductFilter(django_filters.FilterSet):
                                  productsizecolor__is_available=True).distinct()
 
 
+class ProductWishlistConnection(graphene.Connection):
+    class Meta:
+        abstract = True
+
+    total_count = graphene.Int()
+    edge_count = graphene.Int()
+
+    pages_cursor = graphene.List(PagesCursor)
+    pages_cursor_count = graphene.Int()
+
+    def resolve_pages_cursor(self, info, **kwargs):
+        params = info.variable_values
+        first = params.get('first', 100)
+        count_page = math.ceil(self.length / first)
+
+        pages_cursor = []
+
+        for i in range(count_page):
+            cursor = i * first - 1
+            if cursor < 0:
+                cursor = 0
+            pages_cursor.append(
+                PagesCursor(start_cursor=offset_to_cursor(i * first),
+                            end_cursor=offset_to_cursor((i + 1) * first - 1),
+                            cursor=offset_to_cursor(cursor)))
+
+        return pages_cursor
+
+    def resolve_pages_cursor_count(self, info, **kwargs):
+        params = info.variable_values
+        first = params.get('first', 100)
+        count_page = math.ceil(self.length / first)
+        return count_page
+
+    def resolve_total_count(self, info, **kwargs):
+        return self.length
+
+    def resolve_edge_count(self, info, **kwargs):
+        return len(self.edges)
+
+
 class ProductWishlistType(DjangoObjectType):
     class Meta:
         model = ProductWishlist
         interfaces = (relay.Node,)
+        connection_class = ProductWishlistConnection
 
 
 class ProductWishlistFilter(django_filters.FilterSet):

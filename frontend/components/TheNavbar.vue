@@ -22,7 +22,7 @@
                 </b-collapse>
                 <b-navbar-nav class="ml-auto icons" :class="{ hide: !showIcons }">
                     <b-nav-item to="/account/wish-list"><img src="../assets/images/icons/heart.svg" /></b-nav-item>
-                    <b-nav-item @click="$emit('showBasket')"
+                    <b-nav-item @click="user ? $router.push({ name: 'wish-list' }) : $emit('showBasket')"
                         ><img src="../assets/images/icons/basket.svg"
                     /></b-nav-item>
                     <b-nav-item @click="$emit('showRegModal')"
@@ -40,6 +40,11 @@
             return {
                 showIcons: true,
             };
+        },
+        computed: {
+            user() {
+                return this.$store.state.user.user;
+            },
         },
     };
 </script>

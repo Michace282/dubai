@@ -72,6 +72,11 @@
                 this.$store.commit('user/update_guestUuid', this.$cookies.get('guestUuid'));
             }
         },
+        watch: {
+            $route() {
+                this.showModal = false;
+            },
+        },
         computed: {
             breadcrumbs() {
                 return this.$store.state.breadcrumbs;
@@ -94,7 +99,7 @@
             transition: opacity 0.3s;
 
             &.hide {
-                opacity: 0;
+                opacity: 0.1;
             }
 
             &.opacity {

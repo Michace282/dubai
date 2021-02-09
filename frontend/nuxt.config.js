@@ -37,6 +37,7 @@ export default {
         // '~plugins/axios',
         '~plugins/components.server.js',
         '~/plugins/global-components.js',
+        {src:'~/plugins/vuelidate.js', mode: 'client'},
         { src: '~plugins/components.client.js', ssr: false },
         { src: '~/plugins/vuejs-paginate.js', ssr: false },
         { src: '~/plugins/vue-slick-carousel.js', ssr: false },

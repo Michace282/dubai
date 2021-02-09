@@ -69,38 +69,49 @@
         },
         methods: {
             signUp() {
-                this.$v.$touch();
-                if (!this.$v.$error) {
-                    this.$apollo
+                let v = this;
+                v.$v.$touch();
+                if (!v.$v.$error) {
+                    v.$apollo
                         .mutate({
                             mutation: require('~/graphql/mutations/user/registration.graphql'),
                             variables: {
-                                name: this.email,
-                                email: this.email,
-                                password: this.pass,
-                                passwordRepeat: this.pass2,
-                                guestUuid: this.$store.state.user.guestUuid,
+                                name: v.email,
+                                email: v.email,
+                                password: v.pass,
+                                passwordRepeat: v.pass2,
+                                guestUuid: v.$store.state.user.guestUuid,
                             },
                         })
                         .then((data) => {
-                            console.log(data);
                             if (data && data.data.registration && data.data.registration.errors.length > 0) {
-                                this.$bvToast.toast(data.data.registration.errors[0].messages, {
+                                v.$bvToast.toast(data.data.registration.errors[0].messages, {
                                     title: 'Sign up',
                                     variant: 'danger',
                                 });
                             } else {
-                                this.$apollo
-                                    .mutate({
-                                        mutation: require('~/graphql/mutations/user/tokenAuth.graphql'),
-                                        variables: {
-                                            username: this.email,
-                                            password: this.pass,
-                                        },
-                                    })
-                                    .then((data) => {
-                                        console.log(data);
-                                    });
+                                v.$cookies.set('guestUuid', null);
+                                v.$store.commit('user/update_guestUuid', null);
+                                const observer = v.$apollo.subscribe({
+                                    query: require('~/graphql/mutations/user/tokenAuth.graphql'),
+                                    variables: {
+                                        username: v.email,
+                                        password: v.pass,
+                                    },
+                                });
+                                observer.subscribe({
+                                    next({ data: { tokenAuth } }) {
+                                        v.$apolloHelpers.onLogin(tokenAuth.token);
+                                        v.$store.commit('user/update_user', tokenAuth.user);
+                                        v.$emit('hide');
+                                    },
+                                    error(error) {
+                                        v.$bvToast.toast('Сouldnt log in', {
+                                            title: 'Log in',
+                                            variant: 'danger',
+                                        });
+                                    },
+                                });
                             }
                         });
                 }

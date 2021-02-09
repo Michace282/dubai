@@ -25,7 +25,7 @@
                     <b-nav-item @click="user ? $router.push({ name: 'wish-list' }) : $emit('showBasket')"
                         ><img src="../assets/images/icons/basket.svg"
                     /></b-nav-item>
-                    <b-nav-item @click="$emit('showRegModal')"
+                    <b-nav-item @click="!$store.state.user.user? $emit('showRegModal'): $router.push({name: 'account-contact'})"
                         ><img src="../assets/images/icons/account.svg"
                     /></b-nav-item>
                 </b-navbar-nav>

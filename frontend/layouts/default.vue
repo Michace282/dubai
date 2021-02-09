@@ -63,7 +63,7 @@
                     .then((data) => {
                         if (data && data.data.guestCreate.guest) {
                             this.$cookies.set('guestUuid', data.data.guestCreate.guest.uuid);
-                            this.$store.user.commit('user/update_guestUuid', data.data.guestCreate.guest.uuid);
+                            this.$store.commit('user/update_guestUuid', data.data.guestCreate.guest.uuid);
                         }
                     });
             } else if (this.$store.state.user.user && this.$cookies.get('guestUuid')) {

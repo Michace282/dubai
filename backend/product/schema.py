@@ -10,11 +10,31 @@ import django_filters
 from .models import *
 import math
 from django import forms
-from backend.mixin import DjangoModelFormMutation
+from backend.mixin import DjangoModelFormMutation, ClientIDMutation
 from django.conf import settings
 from image_cropping.fields import ImageCropField
+from graphene_django.forms.converter import convert_form_field
 from graphene_django.converter import convert_django_field
+from graphene_file_upload.scalars import Upload
 from django.db import models
+
+
+class FileUploadField(forms.FileField):
+    pass
+
+
+@convert_form_field.register(FileUploadField)
+def convert_form_field_to_upload(field):
+    return Upload()
+
+
+class FileUploadsField(forms.FileField):
+    pass
+
+
+@convert_form_field.register(FileUploadsField)
+def convert_form_field_to_uploads(field):
+    return graphene.List(Upload)
 
 
 class ImageGraphene(graphene.Scalar):
@@ -391,13 +411,84 @@ class ProductWishlistCreateMutation(DjangoModelFormMutation):
         form_class = ProductWishlistCreateForm
 
 
-# class GuestCreateMutation(graphene.Mutation):
-#     guest = graphene.Field(GuestType)
-#
-#     @classmethod
-#     def mutate(cls, root, info):
-#         return GuestCreateMutation(guest=Guest.objects.create())
-#
-#
+class ProductWishlistDeleteMutation(ClientIDMutation):
+    class Input:
+        product = graphene.GlobalID(required=True)
+        guest_uuid = graphene.UUID(required=False)
+
+    @classmethod
+    def mutate_and_get_payload(cls, root, info, **input):
+        guest_uuid = input.get('guest_uuid')
+        product_id = input.get('product')
+
+        errors = []
+        user = info.context.user
+
+        if product_id:
+            product = Product.objects.filter(id=from_global_id(product_id)[1]).first()
+
+            if product:
+                if user.is_authenticated:
+                    if not ProductWishlist.objects.filter(product=product, user=user).exists():
+                        errors.append(ErrorType(field='product', messages=['Такого продукта нет в избранном']))
+                    else:
+                        ProductWishlist.objects.filter(product=product, user=user).delete()
+                else:
+                    if guest_uuid:
+                        guest = Guest.objects.filter(uuid=guest_uuid).first()
+                        if guest:
+                            if not ProductWishlist.objects.filter(product=product, guest=guest).exists():
+                                errors.append(ErrorType(field='product', messages=['Такого продукта нет в избранном']))
+                            else:
+                                ProductWishlist.objects.filter(product=product, guest=guest).delete()
+                        else:
+                            errors.append(ErrorType(field='user', messages=['Такого гостя не существует']))
+                    else:
+                        errors.append(ErrorType(field='user', messages=['Вы не авторизованы']))
+            else:
+                errors.append(ErrorType(field='id', messages=['Такого продукта не существует']))
+
+        return ProductWishlistDeleteMutation(errors=errors)
+
+
+class FeedbackCreateForm(forms.ModelForm):
+    images = FileUploadsField(required=False)
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        cleaned_data = dict([(k, v) for k, v in self.cleaned_data.items() if v != ""])
+        return instance
+
+    class Meta:
+        model = Feedback
+        fields = ('star', 'product', 'size', 'color', 'text')
+
+
+class FeedbackCreateMutation(DjangoModelFormMutation):
+    @classmethod
+    def perform_mutate(cls, form, info):
+        kwargs = {}
+        errors = []
+        user = info.context.user
+        obj = form.save(commit=False)
+
+        if user.is_authenticated:
+            print(info.context.FILES)
+
+            obj.user = user
+            obj.save()
+            kwargs = {cls._meta.return_field_name: obj}
+        else:
+            errors.append(ErrorType(field='user', messages=['Вы не авторизованы']))
+
+        return cls(errors=errors, **kwargs)
+
+    class Meta:
+        form_class = FeedbackCreateForm
+
+
 class Mutation(graphene.ObjectType):
     product_wishlist_create = ProductWishlistCreateMutation.Field()
+    product_wishlist_delete = ProductWishlistDeleteMutation.Field()
+
+    feedback_create = FeedbackCreateMutation.Field()

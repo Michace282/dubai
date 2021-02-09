@@ -70,14 +70,13 @@ class RefreshJSONWebToken(graphql_jwt.Refresh):
 
 class RegistrationForm(forms.ModelForm):
     guest_uuid = forms.UUIDField(required=False)
-    name = forms.CharField(required=True)
     email = forms.EmailField(required=True)
     password = forms.CharField(widget=forms.PasswordInput(), required=True)
     password_repeat = forms.CharField(widget=forms.PasswordInput(), required=True)
 
     class Meta:
         model = User
-        fields = ('name', 'email', 'password', 'password_repeat', 'guest_uuid')
+        fields = ('email', 'password', 'password_repeat', 'guest_uuid')
 
     def clean(self):
         cleaned_data = super().clean()
@@ -103,7 +102,6 @@ class RegistrationForm(forms.ModelForm):
         cleaned_data = dict([(k, v) for k, v in self.cleaned_data.items() if v != ""])
         instance.username = cleaned_data.get('email')
         instance.email = cleaned_data.get('email')
-        instance.first_name = cleaned_data.get('name')
 
         if commit:
             instance.set_password(instance.password)

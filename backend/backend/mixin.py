@@ -1,5 +1,8 @@
 from django.db import models
-from graphene_django.forms.mutation import DjangoModelFormMutation as DjangoModelFormMutationBase
+from graphene_django.forms.mutation import DjangoModelFormMutation as DjangoModelFormMutationBase, \
+    ClientIDMutation as ClientIDMutationBase
+from graphene_django.types import ErrorType
+import graphene
 from graphql_relay import from_global_id
 
 
@@ -34,3 +37,10 @@ class DjangoModelFormMutation(DjangoModelFormMutationBase):
             kwargs["request"] = info.context
 
         return kwargs
+
+
+class ClientIDMutation(ClientIDMutationBase):
+    errors = graphene.List(ErrorType)
+
+    class Meta:
+        abstract = True

@@ -13,8 +13,28 @@ from django import forms
 from backend.mixin import DjangoModelFormMutation, ClientIDMutation
 from django.conf import settings
 from image_cropping.fields import ImageCropField
+from graphene_django.forms.converter import convert_form_field
 from graphene_django.converter import convert_django_field
+from graphene_file_upload.scalars import Upload
 from django.db import models
+
+
+class FileUploadField(forms.FileField):
+    pass
+
+
+@convert_form_field.register(FileUploadField)
+def convert_form_field_to_upload(field):
+    return Upload()
+
+
+class FileUploadsField(forms.FileField):
+    pass
+
+
+@convert_form_field.register(FileUploadsField)
+def convert_form_field_to_uploads(field):
+    return graphene.List(Upload)
 
 
 class ImageGraphene(graphene.Scalar):
@@ -431,6 +451,44 @@ class ProductWishlistDeleteMutation(ClientIDMutation):
         return ProductWishlistDeleteMutation(errors=errors)
 
 
+class FeedbackCreateForm(forms.ModelForm):
+    images = FileUploadsField(required=False)
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        cleaned_data = dict([(k, v) for k, v in self.cleaned_data.items() if v != ""])
+        return instance
+
+    class Meta:
+        model = Feedback
+        fields = ('star', 'product', 'size', 'color', 'text')
+
+
+class FeedbackCreateMutation(DjangoModelFormMutation):
+    @classmethod
+    def perform_mutate(cls, form, info):
+        kwargs = {}
+        errors = []
+        user = info.context.user
+        obj = form.save(commit=False)
+
+        if user.is_authenticated:
+            print(info.context.FILES)
+
+            obj.user = user
+            obj.save()
+            kwargs = {cls._meta.return_field_name: obj}
+        else:
+            errors.append(ErrorType(field='user', messages=['Вы не авторизованы']))
+
+        return cls(errors=errors, **kwargs)
+
+    class Meta:
+        form_class = FeedbackCreateForm
+
+
 class Mutation(graphene.ObjectType):
     product_wishlist_create = ProductWishlistCreateMutation.Field()
     product_wishlist_delete = ProductWishlistDeleteMutation.Field()
+
+    feedback_create = FeedbackCreateMutation.Field()

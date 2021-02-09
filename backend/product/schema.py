@@ -417,7 +417,7 @@ class ProductWishlistDeleteMutation(ClientIDMutation):
                     if guest_uuid:
                         guest = Guest.objects.filter(uuid=guest_uuid).first()
                         if guest:
-                            if not ProductWishlist.objects.filter(product=obj.product, guest=guest).exists():
+                            if not ProductWishlist.objects.filter(product=product, guest=guest).exists():
                                 errors.append(ErrorType(field='product', messages=['Такого продукта нет в избранном']))
                             else:
                                 ProductWishlist.objects.filter(product=product, guest=guest).delete()

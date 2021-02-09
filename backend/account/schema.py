@@ -144,11 +144,31 @@ from graphql_jwt.decorators import token_auth
 class Test(graphql_jwt.ObtainJSONWebToken):
     user = graphene.Field(UserType)
 
+    class Arguments:
+        guest_uuid = graphene.UUID(required=False)
+
     @classmethod
     def resolve(cls, root, info, **kwargs):
         user = None
         if info.context.user.is_authenticated:
             user = info.context.user
+
+            guest_uuid = kwargs.get('guest_uuid')
+
+            if guest_uuid:
+                guest = Guest.objects.filter(uuid=guest_uuid).first()
+                if guest:
+                    for productwishlist in guest.productwishlist_set.all():
+                        productwishlist.user = user
+                        productwishlist.save()
+
+                    for feedback in guest.feedback_set.all():
+                        feedback.user = user
+                        feedback.save()
+
+                    for basket in guest.basket_set.all():
+                        basket.user = user
+                        basket.save()
         return cls(user=user)
 
     @classmethod
@@ -164,5 +184,6 @@ class Mutation(graphene.ObjectType):
     refresh_token = RefreshJSONWebToken.Field()
     social_auth = graphql_social_auth.relay.SocialAuthJWT.Field()
     registration = RegistrationMutation.Field()
+
     # subscribe_create = SubscribeCreateMutation.Field()
     # contact_create = ContactCreateMutation.Field()

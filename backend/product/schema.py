@@ -10,7 +10,7 @@ import django_filters
 from .models import *
 import math
 from django import forms
-from backend.mixin import DjangoModelFormMutation
+from backend.mixin import DjangoModelFormMutation, ClientIDMutation
 from django.conf import settings
 from image_cropping.fields import ImageCropField
 from graphene_django.converter import convert_django_field
@@ -391,13 +391,46 @@ class ProductWishlistCreateMutation(DjangoModelFormMutation):
         form_class = ProductWishlistCreateForm
 
 
-# class GuestCreateMutation(graphene.Mutation):
-#     guest = graphene.Field(GuestType)
-#
-#     @classmethod
-#     def mutate(cls, root, info):
-#         return GuestCreateMutation(guest=Guest.objects.create())
-#
-#
+class ProductWishlistDeleteMutation(ClientIDMutation):
+    class Input:
+        product = graphene.GlobalID(required=True)
+        guest_uuid = graphene.UUID(required=False)
+
+    @classmethod
+    def mutate_and_get_payload(cls, root, info, **input):
+        guest_uuid = input.get('guest_uuid')
+        product_id = input.get('product')
+
+        errors = []
+        user = info.context.user
+
+        if product_id:
+            product = Product.objects.filter(id=from_global_id(product_id)[1]).first()
+
+            if product:
+                if user.is_authenticated:
+                    if not ProductWishlist.objects.filter(product=product, user=user).exists():
+                        errors.append(ErrorType(field='product', messages=['Такого продукта нет в избранном']))
+                    else:
+                        ProductWishlist.objects.filter(product=product, user=user).delete()
+                else:
+                    if guest_uuid:
+                        guest = Guest.objects.filter(uuid=guest_uuid).first()
+                        if guest:
+                            if not ProductWishlist.objects.filter(product=obj.product, guest=guest).exists():
+                                errors.append(ErrorType(field='product', messages=['Такого продукта нет в избранном']))
+                            else:
+                                ProductWishlist.objects.filter(product=product, guest=guest).delete()
+                        else:
+                            errors.append(ErrorType(field='user', messages=['Такого гостя не существует']))
+                    else:
+                        errors.append(ErrorType(field='user', messages=['Вы не авторизованы']))
+            else:
+                errors.append(ErrorType(field='id', messages=['Такого продукта не существует']))
+
+        return ProductWishlistDeleteMutation(errors=errors)
+
+
 class Mutation(graphene.ObjectType):
     product_wishlist_create = ProductWishlistCreateMutation.Field()
+    product_wishlist_delete = ProductWishlistDeleteMutation.Field()

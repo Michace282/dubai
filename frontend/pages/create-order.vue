@@ -12,7 +12,7 @@
             </div>
             <div class="form-group">
                 <contact-form btnName="buy">
-                    <div class="subtitle">
+                    <div class="subtitle" v-if="!$store.state.user.user">
                         Would you like to save this information for the next time??
                         <!--TODO: По клику на ссылку открыть модалку -->
                         <a href.prevent class="link">Sign Up!</a>

@@ -14,7 +14,7 @@
                     <div class="row mt-45" v-if="data.productWishlistList.edges.length > 0">
                         <div
                             class="col-2"
-                            v-for="product in data.productWishlistList.edges"
+                            v-for="(product, index) in data.productWishlistList.edges"
                             :key="product.node.product.id"
                         >
                             <product-item
@@ -24,6 +24,7 @@
                                 :price="product.node.product.price"
                                 :isWishlist="true"
                                 :colorsGroup="product.node.product.productsizecolorSet"
+                                @removeItem="data.productWishlistList.edges.splice(index, 1)"
                             />
                         </div>
                     </div>
@@ -33,7 +34,7 @@
                 </div>
             </template>
         </ApolloQuery>
-        <div class="bg-gray">
+        <div class="bg-gray" v-if="!$store.state.user.user">
             <div class="text">Would you like to save information about all your orders? Sign Up now!</div>
             <button class="btn btn-black">Sign Up</button>
         </div>
@@ -48,7 +49,7 @@
         data() {
             return {
                 cursor: null,
-            }
+            };
         },
         created() {
             this.$store.commit('set_breadcrumbs', [{ route: '', name: 'personal account' }]);

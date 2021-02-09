@@ -19,7 +19,7 @@
                 </div>
                 <button class="btn btn-black">Place the order</button>
             </div>
-            <div class="sign-up-group">
+            <div class="sign-up-group" v-if="!$store.state.user.user">
                 <div class="basket-title">Would you like to track your order? Sign Up now!</div>
                 <div class="text-right mt-30">
                     <button class="btn btn-outline-black" @click="$emit('showRegModal')">Sign Up</button>

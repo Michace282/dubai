@@ -1,10 +1,10 @@
 query productWishlistList($guestUuid: UUID, $first: Int, $after: String) {
     productWishlistList(guestUuid: $guestUuid, first: $first, after: $after) {
-        # pagesCursor {
-        #     startCursor
-        #     endCursor
-        #     cursor
-        # }
+        pagesCursor {
+            startCursor
+            endCursor
+            cursor
+        }
         edges {
             node {
                 product {

@@ -1,12 +1,8 @@
 <template>
     <div class="product">
-        <a hrev.prevent class="favorites-icon" :class="{ active: isFavourite }" @click="toggleFavourite(id)">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                    d="M10 19.3332L9.66527 19.0206C2.0502 12.4113 0 10.0891 0 6.29329C0 3.1673 2.38493 0.666504 5.27196 0.666504C7.69874 0.666504 9.07949 2.14018 10 3.25661C10.9205 2.14018 12.3013 0.666504 14.728 0.666504C17.6569 0.666504 20 3.21195 20 6.29329C20 10.0891 17.9498 12.4113 10.3347 19.0206L10 19.3332ZM5.27196 1.82758C2.97071 1.82758 1.08786 3.83715 1.08786 6.29329C1.08786 9.55326 3.01255 11.6968 10 17.8148C16.9874 11.6968 18.9121 9.55326 18.9121 6.29329C18.9121 3.83715 17.0293 1.82758 14.728 1.82758C12.636 1.82758 11.5063 3.1673 10.6276 4.23907L10 4.99824L9.37238 4.23907C8.49372 3.1673 7.36401 1.82758 5.27196 1.82758Z"
-                    fill="black"
-                />
-            </svg>
+        <a hrev.prevent class="favorites-icon" @click="toggleFavourite(id)">
+            <img src="~/assets/images/icons/favorites-fill.svg" v-if="isFavourite" />
+            <img src="~/assets/images/icons/favorites-icon.svg" v-else />
         </a>
         <client-only v-if="colorsGroup && colorsGroup.edges[activeColor].node.productimageSet.edges.length > 0">
             <b-carousel
@@ -80,6 +76,14 @@
                 slide: 0,
             };
         },
+        mounted() {
+            console.log(sessionStorage);
+            if (sessionStorage.getItem('isFavorite' + this.id) == 'false') {
+                this.isFavourite = false;
+            } else if (sessionStorage.getItem('isFavorite' + this.id) == 'true') {
+                this.isFavourite = true;
+            }
+        },
         methods: {
             toggleFavourite(id) {
                 if (this.isFavourite) {
@@ -94,7 +98,8 @@
                         .then((data) => {
                             if (data && data.data.productWishlistDelete.errors.length == 0) {
                                 this.isFavourite = false;
-                                this.$emit('removeItem');
+                                sessionStorage.setItem('isFavorite' + this.id, false);
+                                this.$emit('refetch');
                             } else {
                                 this.$bvToast.toast(data.data.productWishlistDelete.errors[0].messages, {
                                     title: 'Favourites',
@@ -114,6 +119,7 @@
                         .then((data) => {
                             if (data && data.data.productWishlistCreate.errors.length == 0) {
                                 this.isFavourite = true;
+                                sessionStorage.setItem('isFavorite' + this.id, true);
                             } else {
                                 this.$bvToast.toast(data.data.productWishlistCreate.errors[0].messages, {
                                     title: 'Favourites',
@@ -216,6 +222,10 @@
             right: 10px;
             z-index: 100;
             cursor: pointer;
+
+            img {
+                width: 20px;
+            }
 
             @media @medium {
                 top: 5px;

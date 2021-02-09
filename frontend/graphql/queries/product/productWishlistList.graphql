@@ -15,22 +15,16 @@ query productWishlistList($guestUuid: UUID, $first: Int, $after: String) {
                         edges {
                             node {
                                 id
+                                productimageSet {
+                                    edges {
+                                        node {
+                                            image
+                                        }
+                                    }
+                                }
                                 color {
                                     id
                                     color
-                                    productsizecolorSet {
-                                        edges {
-                                            node {
-                                                productimageSet {
-                                                    edges {
-                                                        node {
-                                                            image
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
                                 }
                             }
                         }

@@ -8,7 +8,7 @@
                 />
             </svg>
         </a>
-        <client-only v-if="activePreviewImages && activePreviewImages.length > 0">
+        <client-only v-if="colorsGroup && colorsGroup.edges[activeColor].node.productimageSet.edges.length > 0">
             <b-carousel
                 :interval="0"
                 indicators
@@ -18,9 +18,12 @@
                 img-width="255"
                 img-height="300"
             >
-                <b-carousel-slide v-for="(img, index) in activePreviewImages" :key="index">
+                <b-carousel-slide
+                    v-for="(img, index) in colorsGroup.edges[activeColor].node.productimageSet.edges"
+                    :key="index"
+                >
                     <template #img>
-                        <img class="d-block img-fluid w-100 preview" :src="img.image" :alt="index" />
+                        <img class="d-block img-fluid w-100 preview" :src="img.node.image" :alt="index" />
                     </template>
                 </b-carousel-slide>
             </b-carousel>
@@ -76,30 +79,6 @@
                 activeColor: 0,
                 slide: 0,
             };
-        },
-        computed: {
-            activePreviewImages() {
-                if (
-                    this.colorsGroup &&
-                    this.colorsGroup.edges[this.activeColor] &&
-                    this.colorsGroup.edges[this.activeColor].node.color &&
-                    this.colorsGroup.edges[this.activeColor].node.color.productsizecolorSet.edges
-                ) {
-                    let imagesGroup = this.colorsGroup.edges[this.activeColor].node.color.productsizecolorSet.edges;
-                    let images = [];
-                    this.slide = 0;
-                    for (let i in imagesGroup) {
-                        if (imagesGroup[i].node.productimageSet.edges.length > 0) {
-                            for (let j in imagesGroup[i].node.productimageSet.edges) {
-                                images.push(imagesGroup[i].node.productimageSet.edges[j].node);
-                            }
-                        }
-                    }
-
-                    return images;
-                }
-                return null;
-            },
         },
         methods: {
             toggleFavourite(id) {

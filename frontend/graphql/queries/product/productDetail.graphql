@@ -34,23 +34,17 @@ query productDetail($id: ID!) {
                             }
                         }
                     }
+                    productimageSet {
+                        edges {
+                            node {
+                                id
+                                image
+                            }
+                        }
+                    }
                     color {
                         id
                         color
-                        productsizecolorSet {
-                            edges {
-                                node {
-                                    productimageSet {
-                                        edges {
-                                            node {
-                                                id
-                                                image
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
                     }
                 }
             }

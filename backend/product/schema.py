@@ -342,7 +342,6 @@ class ProductWishlistCreateForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super().clean()
         guest_uuid = cleaned_data.get("guest_uuid")
-        product = cleaned_data.get("product")
 
         if guest_uuid:
             if not Guest.objects.filter(uuid=guest_uuid).exists():

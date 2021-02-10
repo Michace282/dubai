@@ -262,7 +262,7 @@ class ProductFilter(django_filters.FilterSet):
 
     guest_uuid = django_filters.UUIDFilter(method='guest_uuid_filter')
 
-    ids = GlobalIDFilter(method='ids_filter')
+    ids = GlobalIDMultipleChoiceFilter(method='ids_filter')
     exclude_id = GlobalIDFilter(method='exclude_id_filter')
 
     def price__gte_filter(self, queryset, name, value):

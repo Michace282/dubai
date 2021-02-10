@@ -261,6 +261,8 @@ class ProductFilter(django_filters.FilterSet):
 
     guest_uuid = django_filters.UUIDFilter(method='guest_uuid_filter')
 
+    exclude_id = GlobalIDFilter(method='exclude_id_filter')
+
     def price__gte_filter(self, queryset, name, value):
         return queryset.filter(price__gte=value)
 
@@ -283,6 +285,9 @@ class ProductFilter(django_filters.FilterSet):
 
     def guest_uuid_filter(self, queryset, name, value):
         return queryset
+
+    def exclude_id_filter(self, queryset, name, value):
+        return queryset.exclude(id=from_global_id(value)[1])
 
     class Meta:
         model = Product

@@ -125,6 +125,7 @@ class Product(TimeStampedModel):
                                    null=True)
 
     data = models.TextField(blank=True, null=True)
+    works_best_with = models.ManyToManyField('product.Product', verbose_name='Works best with', blank=True, null=True)
 
     def __str__(self):
         return self.name

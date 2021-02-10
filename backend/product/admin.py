@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Product, ProductSizeColor, ProductImage, Color, SizeChart, Size, Feedback, FeedbackImage
+from .models import Product, ProductSizeColor, ProductImage, Color, SizeChart, Size, Feedback, FeedbackImage, Basket, \
+    ProductBasket
 from django_summernote.widgets import SummernoteWidget
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
@@ -111,3 +112,19 @@ class FeedbackImageInline(admin.StackedInline):
 @admin.register(Feedback)
 class FeedbackAdmin(admin.ModelAdmin):
     inlines = (FeedbackImageInline,)
+
+
+class ProductBasketInline(admin.StackedInline):
+    model = ProductBasket
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def has_add_permission(self, request):
+        return False
+
+
+@admin.register(Basket)
+class BasketAdmin(admin.ModelAdmin):
+    inlines = (ProductBasketInline,)
+    readonly_fields = ('code', 'guest', 'user')

@@ -8,6 +8,7 @@ from graphql_relay.connection.arrayconnection import offset_to_cursor
 from graphql_relay import from_global_id
 import django_filters
 from .models import *
+from account.models import Code, UseCode
 import math
 from django import forms
 from backend.mixin import DjangoModelFormMutation, ClientIDMutation
@@ -261,7 +262,7 @@ class ProductFilter(django_filters.FilterSet):
 
     guest_uuid = django_filters.UUIDFilter(method='guest_uuid_filter')
 
-    ids = GlobalIDFilter(method='ids_filter')
+    ids = GlobalIDMultipleChoiceFilter(method='ids_filter')
     exclude_id = GlobalIDFilter(method='exclude_id_filter')
 
     def price__gte_filter(self, queryset, name, value):
@@ -542,8 +543,109 @@ class FeedbackCreateMutation(DjangoModelFormMutation):
         form_class = FeedbackCreateForm
 
 
+class ProductsBasketCreateInput(graphene.InputObjectType):
+    product = graphene.GlobalID()
+    color = graphene.GlobalID()
+    size = graphene.GlobalID()
+    count = graphene.Int()
+
+
+class BasketCreateMutation(ClientIDMutation):
+    class Input:
+        code = graphene.String(required=False)
+        guest_uuid = graphene.UUID(required=False)
+        products_basket = graphene.List(ProductsBasketCreateInput)
+
+    @classmethod
+    def mutate_and_get_payload(cls, root, info, **input):
+
+        guest_uuid = input.get('guest_uuid')
+        products_basket = input.get('products_basket')
+        code = input.get('code')
+
+        errors = []
+        user = info.context.user
+        guest = None
+
+        if not user.is_authenticated:
+            if guest_uuid:
+                guest = Guest.objects.filter(uuid=guest_uuid).first()
+                if not guest:
+                    errors.append(ErrorType(field='user', messages=['Такого гостя не существует']))
+            else:
+                errors.append(ErrorType(field='user', messages=['Вы не авторизованы']))
+
+        if not products_basket or len(products_basket) == 0:
+            errors.append(ErrorType(field='products_basket', messages=['Вы ничего не выбрали']))
+        else:
+            total_price = 0
+            for product_basket in products_basket:
+                product = Product.objects.filter(id=from_global_id(product_basket.product)[1]).first()
+
+                if product:
+                    total_price += product_basket.count * product.price
+
+        if code:
+            c = Code.objects.filter(code=code, status=Code.StatusType.published).first()
+            if c:
+                if c.count <= c.count_use_code():
+                    errors.append(ErrorType(field='code', messages=['Количество кодов кончилось']))
+                else:
+                    if c.min_price > total_price:
+                        errors.append(ErrorType(field='code', messages=[
+                            'Для акцтивации кода нужно набрать на ' + str(
+                                c.min_price) + ' AED или больше. Сейчас у вас на ' + str(total_price) + ' AED']))
+
+            else:
+                errors.append(ErrorType(field='code', messages=['Такого кода нет']))
+
+        if len(errors) == 0:
+            basket = Basket()
+
+            c = Code.objects.filter(code=code, status=Code.StatusType.published).first()
+
+            if c:
+                basket.code = c
+                basket.discount = c.discount
+
+                use_code = UseCode()
+                use_code.code = c
+
+                if guest:
+                    use_code.guest = guest
+
+                if user.is_authenticated:
+                    use_code.user = user
+
+                use_code.save()
+
+            if guest:
+                basket.guest = guest
+
+            if user.is_authenticated:
+                basket.user = user
+
+            basket.save()
+
+            for product_basket in products_basket:
+                product = Product.objects.filter(id=from_global_id(product_basket.product)[1]).first()
+                color = Color.objects.filter(id=from_global_id(product_basket.color)[1]).first()
+                size = Size.objects.filter(id=from_global_id(product_basket.size)[1]).first()
+                if product and color and size and product_basket.count > 0:
+                    ProductBasket.objects.create(basket=basket,
+                                                 product=product,
+                                                 size=size,
+                                                 color=color,
+                                                 price=product.price,
+                                                 count=product_basket.count)
+
+        return BasketCreateMutation(errors=errors)
+
+
 class Mutation(graphene.ObjectType):
     product_wishlist_create = ProductWishlistCreateMutation.Field()
     product_wishlist_delete = ProductWishlistDeleteMutation.Field()
 
     feedback_create = FeedbackCreateMutation.Field()
+
+    basket_create = BasketCreateMutation.Field()

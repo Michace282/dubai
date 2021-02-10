@@ -67,6 +67,7 @@ class Code(TimeStampedModel):
     name = models.CharField(verbose_name='Name', max_length=255)
     code = models.CharField(verbose_name='Code', max_length=10, default=get_random_6, blank=True, null=True)
     min_price = models.IntegerField(verbose_name='Min price')
+    discount = models.IntegerField(verbose_name='Discount')
     count = models.IntegerField(verbose_name='Count code')
 
     def __str__(self):

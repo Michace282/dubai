@@ -45,7 +45,7 @@
                                         <div
                                             class="color-group"
                                             v-for="(colorGroup, index) in colorsGroup"
-                                            :key="index"
+                                            :key="'color' + index"
                                         >
                                             <input
                                                 type="radio"
@@ -66,12 +66,16 @@
                                 <div class="mt-30">
                                     <div class="bold">Sizes</div>
                                     <div class="sizes mt-15" v-if="currentSizes && currentSizes.length > 0">
-                                        <div class="size-box" v-for="(size, index) in currentSizes" :key="index">
+                                        <div
+                                            class="size-box"
+                                            v-for="(size, index) in currentSizes"
+                                            :key="'size' + index"
+                                        >
                                             <input
                                                 type="radio"
                                                 name="sizes"
                                                 v-model="sizeVal"
-                                                :value="size.node.id"
+                                                :value="index"
                                                 :id="size.node.id"
                                             />
                                             <label class="label-size" :for="size.node.id">{{ size.node.name }}</label>
@@ -86,14 +90,12 @@
                                 ></p>
                                 <div class="row mt-60">
                                     <div class="col-6">
-                                        <button class="btn btn-yellow">Add to cart</button>
+                                        <button class="btn btn-yellow" @click="addToBasket">Add to cart</button>
                                     </div>
                                     <div class="col-6">
                                         <button
                                             class="btn btn-outline-yellow"
-                                            @click="
-                                                toggleFavouriteMixin($route.params.slug, isFavorite)
-                                            "
+                                            @click="toggleFavouriteMixin($route.params.slug, isFavorite)"
                                         >
                                             {{ wishListBtnLabel }}
                                         </button>
@@ -227,7 +229,7 @@
             return {
                 countRatings: [],
                 colorVal: 0,
-                sizeVal: null,
+                sizeVal: 0,
                 colorsGroup: [],
                 metaData: null,
                 showForm: false,
@@ -258,7 +260,7 @@
                 return [];
             },
             currentSizes() {
-                this.sizeVal = null;
+                this.sizeVal = 0;
                 if (this.colorsGroup.length > 0) {
                     return this.colorsGroup[this.colorVal].node.sizes.edges;
                 }
@@ -266,6 +268,39 @@
             },
         },
         methods: {
+            addToBasket() {
+                let v = this;
+                let basket = v.$cookies.get('basket') ? v.$cookies.get('basket') : [];
+                let product = {
+                    id: `${v.$route.params.slug}_${v.colorsGroup[v.colorVal].node.color.id}_${
+                        v.currentSizes[v.sizeVal].node.id
+                    }`,
+                    color: v.colorsGroup[v.colorVal].node.color.id,
+                    size: v.currentSizes[v.sizeVal].node.id,
+                    product: this.$route.params.slug,
+                    count: 1,
+                };
+                if (basket && basket.length > 0) {
+                    let setNewItem = true;
+                    for (let i in basket) {
+                        if (basket[i].id == product.id) {
+                            basket[i].count = basket[i].count + 1;
+                            setNewItem = false;
+                            break;
+                        }
+                    }
+                    if (setNewItem) {
+                        basket.push(product);
+                    }
+                } else {
+                    basket = [product];
+                }
+                v.$cookies.set('basket', JSON.stringify(basket));
+                v.$bvToast.toast('The product was successfully added to the cart', {
+                    title: 'Add to cart',
+                    variant: 'success',
+                });
+            },
             getRatingPrecent(feedbackCount, allFeedbacksCount) {
                 return Math.floor((feedbackCount / allFeedbacksCount) * 100);
             },

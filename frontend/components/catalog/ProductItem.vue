@@ -77,7 +77,6 @@
             };
         },
         mounted() {
-            console.log(sessionStorage);
             if (sessionStorage.getItem('isFavorite' + this.id) == 'false') {
                 this.isFavourite = false;
             } else if (sessionStorage.getItem('isFavorite' + this.id) == 'true') {

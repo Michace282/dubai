@@ -21,6 +21,14 @@ query productDetail($id: ID!) {
             id
             name
             table
+            sizeSet {
+                edges {
+                    node {
+                        id
+                        name
+                    }
+                }
+            }
         }
         data
         productsizecolorSet {
@@ -45,6 +53,7 @@ query productDetail($id: ID!) {
                     color {
                         id
                         color
+                        name
                     }
                 }
             }

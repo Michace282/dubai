@@ -127,8 +127,31 @@
                         <product-items-carousel class="mt-45" />
 
                         <div class="bold text-uppercase mt-90">Reviews</div>
+                        <comment-form
+                            v-if="showForm"
+                            class="mt-45"
+                            :sizes="data.productDetail.sizeChart.sizeSet.edges"
+                            :colors="colors"
+                            :productId="$route.params.slug"
+                            @hideForm="showForm = false"
+                            @error="
+                                (error) => {
+                                    $bvToast.toast(error, {
+                                        title: 'Review',
+                                        variant: 'danger',
+                                    });
+                                }
+                            "
+                            @success="
+                                $bvToast.toast('The review was sent for moderation', {
+                                    title: 'Review',
+                                    variant: 'success',
+                                });
+                                showForm = false;
+                            "
+                        />
                         <div class="d-flex justify-content-between w-100">
-                            <comment-group :id="$route.params.slug" />
+                            <comment-group />
                             <div class="right-block mt-30">
                                 <div class="d-flex align-items-center justify-content-between mb-3">
                                     <rating-group :rating="Math.floor(data.productDetail.avgFeedback)" :size="20" />
@@ -150,7 +173,9 @@
                                         <div class="label">{{ ratingGroup.count }}</div>
                                     </div>
                                 </template>
-                                <button class="btn btn-black" v-if="false">Write a rewiew</button>
+                                <button class="btn btn-black" @click="showForm = true" v-if="$store.state.user.user">
+                                    Write a rewiew
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -161,13 +186,14 @@
 </template>
 <script>
     import CommentGroup from '../../components/comment/CommentGroup.vue';
+    import CommentForm from '../../components/comment/CommentForm.vue';
     import RatingGroup from '../../components/comment/RatingGroup.vue';
     import ProductCarousel from '../../components/product/ProductCarousel.vue';
     import ProductItemsCarousel from '../../components/product/ProductItemsCarousel.vue';
 
     export default {
         name: 'product',
-        components: { CommentGroup, RatingGroup, ProductCarousel, ProductItemsCarousel },
+        components: { CommentGroup, RatingGroup, ProductCarousel, ProductItemsCarousel, CommentForm },
         data() {
             return {
                 countRatings: [],
@@ -175,12 +201,28 @@
                 sizeVal: null,
                 colorsGroup: [],
                 metaData: null,
+                showForm: false,
             };
         },
         head() {
             return this.metaData;
         },
         computed: {
+            colors() {
+                if (this.colorsGroup.length > 0) {
+                    let colors = [];
+                    for (let i in this.colorsGroup) {
+                        colors.push({
+                            node: {
+                                id: this.colorsGroup[i].node.color.id,
+                                name: this.colorsGroup[i].node.color.name,
+                            },
+                        });
+                    }
+                    return colors;
+                }
+                return [];
+            },
             currentSizes() {
                 this.sizeVal = null;
                 if (this.colorsGroup.length > 0) {

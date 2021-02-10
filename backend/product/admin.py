@@ -72,6 +72,8 @@ class ProductAdmin(admin.ModelAdmin):
     list_display = ('__str__', 'status', 'product_type', 'profile_type', 'price',)
     list_filter = ('status', 'product_type', 'ladies_type', 'mens_type', 'accessories_type', 'dance_shoes_type')
     inlines = (ProductSizeColorInline,)
+    autocomplete_fields = ('works_best_with',)
+    search_fields = ('name', 'data', 'description', 'model_description')
 
     def profile_type(self, obj):
         if obj.product_type == 'ladies':
@@ -92,7 +94,8 @@ class ProductAdmin(admin.ModelAdmin):
                 ('name', 'product_type', 'ladies_type', 'mens_type', 'accessories_type', 'dance_shoes_type',),
                 'price',
                 'description',
-                'size_chart'
+                'size_chart',
+                'works_best_with'
             )
         }),
     )

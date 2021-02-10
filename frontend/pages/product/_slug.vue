@@ -89,7 +89,14 @@
                                         <button class="btn btn-yellow">Add to cart</button>
                                     </div>
                                     <div class="col-6">
-                                        <button class="btn btn-outline-yellow">Add to wishlist</button>
+                                        <button
+                                            class="btn btn-outline-yellow"
+                                            @click="
+                                                toggleFavouriteMixin($route.params.slug, data.productDetail.isWishlist)
+                                            "
+                                        >
+                                            {{ wishListBtnLabel }}
+                                        </button>
                                     </div>
                                 </div>
                                 <div class="row mt-30">
@@ -125,7 +132,6 @@
                         </div>
                         <div class="bold text-uppercase mt-90">Works best with</div>
                         <product-items-carousel class="mt-45" />
-
                         <div class="bold text-uppercase mt-90">Reviews</div>
                         <comment-form
                             v-if="showForm"
@@ -190,6 +196,7 @@
     import RatingGroup from '../../components/comment/RatingGroup.vue';
     import ProductCarousel from '../../components/product/ProductCarousel.vue';
     import ProductItemsCarousel from '../../components/product/ProductItemsCarousel.vue';
+    import toggleFavouriteMixin from '~/mixins/toggleFavouriteMixin';
 
     export default {
         name: 'product',
@@ -202,12 +209,17 @@
                 colorsGroup: [],
                 metaData: null,
                 showForm: false,
+                isFavorite: false,
             };
         },
+        mixins: [toggleFavouriteMixin],
         head() {
             return this.metaData;
         },
         computed: {
+            wishListBtnLabel() {
+                return this.isFavorite ? 'Remove from wish-list' : 'Add to wish-list';
+            },
             colors() {
                 if (this.colorsGroup.length > 0) {
                     let colors = [];
@@ -247,6 +259,8 @@
                             },
                         ],
                     };
+
+                    this.isFavorite = data.data.productDetail.isWishlist;
 
                     let breadcrumbs = [
                         { route: '/', name: 'Home' },
@@ -510,9 +524,10 @@
     }
 
     .btn-outline-yellow {
+        width: 100%;
         color: @yellow;
         background: @white;
-        padding: 7px 47px;
+        padding: 7px 17px;
         border: 1px solid @yellow;
 
         &:hover {

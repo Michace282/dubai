@@ -140,7 +140,6 @@
                             },
                         })
                         .then((data) => {
-                            console.log(data);
                             if (data && data.data.feedbackCreate.errors.length == 0) {
                                 v.$emit('success');
                             } else {

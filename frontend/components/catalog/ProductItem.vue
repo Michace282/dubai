@@ -1,7 +1,7 @@
 <template>
     <div class="product">
-        <a hrev.prevent class="favorites-icon" @click="toggleFavourite(id)">
-            <img src="~/assets/images/icons/favorites-fill.svg" v-if="isFavourite" />
+        <a hrev.prevent class="favorites-icon" @click="toggleFavouriteMixin(id, isFavorite)">
+            <img src="~/assets/images/icons/favorites-fill.svg" v-if="isFavorite" />
             <img src="~/assets/images/icons/favorites-icon.svg" v-else />
         </a>
         <client-only v-if="colorsGroup && colorsGroup.edges[activeColor].node.productimageSet.edges.length > 0">
@@ -40,6 +40,8 @@
     </div>
 </template>
 <script>
+    import toggleFavouriteMixin from '~/mixins/toggleFavouriteMixin';
+
     export default {
         name: 'ProductItem',
         props: {
@@ -71,64 +73,12 @@
         },
         data() {
             return {
-                isFavourite: this.isWishlist,
+                isFavorite: this.isWishlist,
                 activeColor: 0,
                 slide: 0,
             };
         },
-        mounted() {
-            if (sessionStorage.getItem('isFavorite' + this.id) == 'false') {
-                this.isFavourite = false;
-            } else if (sessionStorage.getItem('isFavorite' + this.id) == 'true') {
-                this.isFavourite = true;
-            }
-        },
-        methods: {
-            toggleFavourite(id) {
-                if (this.isFavourite) {
-                    this.$apollo
-                        .mutate({
-                            mutation: require('~/graphql/mutations/favourite/productWishlistDelete.graphql'),
-                            variables: {
-                                guestUuid: this.$store.state.user.guestUuid,
-                                product: id,
-                            },
-                        })
-                        .then((data) => {
-                            if (data && data.data.productWishlistDelete.errors.length == 0) {
-                                this.isFavourite = false;
-                                sessionStorage.setItem('isFavorite' + this.id, false);
-                                this.$emit('refetch');
-                            } else {
-                                this.$bvToast.toast(data.data.productWishlistDelete.errors[0].messages, {
-                                    title: 'Favourites',
-                                    variant: 'danger',
-                                });
-                            }
-                        });
-                } else {
-                    this.$apollo
-                        .mutate({
-                            mutation: require('~/graphql/mutations/favourite/productWishlistCreate.graphql'),
-                            variables: {
-                                guestUuid: this.$store.state.user.guestUuid,
-                                product: id,
-                            },
-                        })
-                        .then((data) => {
-                            if (data && data.data.productWishlistCreate.errors.length == 0) {
-                                this.isFavourite = true;
-                                sessionStorage.setItem('isFavorite' + this.id, true);
-                            } else {
-                                this.$bvToast.toast(data.data.productWishlistCreate.errors[0].messages, {
-                                    title: 'Favourites',
-                                    variant: 'danger',
-                                });
-                            }
-                        });
-                }
-            },
-        },
+        mixins: [toggleFavouriteMixin],
     };
 </script>
 <style lang="less" scoped>

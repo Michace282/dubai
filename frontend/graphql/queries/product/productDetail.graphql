@@ -17,6 +17,7 @@ query productDetail($id: ID!) {
         countFeedbackStar5
         avgFeedback
         countFeedback
+        isWishlist
         sizeChart {
             id
             name

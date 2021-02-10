@@ -2,7 +2,7 @@
     <div class="product-item-carousel">
         <client-only>
             <VueSlickCarousel class="nav-slider" v-bind="slickOptions" :key="1">
-                <div v-for="i in 10" :key="i">
+                <div v-for="i in 1" :key="i">
                     <product-item class="product-sm" :id="'1'" :name="'123213'" :price="321321" :isWishlist="false"/>
                 </div>
                 <template #prevArrow>

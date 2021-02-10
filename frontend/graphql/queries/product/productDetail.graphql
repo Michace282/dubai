@@ -32,6 +32,34 @@ query productDetail($id: ID!) {
             }
         }
         data
+        worksBestWith {
+            edges {
+                node {
+                    id
+                    name
+                    price
+                    isWishlist
+                    productsizecolorSet {
+                        edges {
+                            node {
+                                productimageSet {
+                                    edges {
+                                        node {
+                                            id
+                                            image
+                                        }
+                                    }
+                                }
+                                color {
+                                    id
+                                    name
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
         productsizecolorSet {
             edges {
                 node {

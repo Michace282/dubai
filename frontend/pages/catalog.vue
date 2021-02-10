@@ -73,8 +73,6 @@
                                         :price="product.node.price"
                                         :isWishlist="product.node.isWishlist"
                                         :colorsGroup="product.node.productsizecolorSet"
-                                        @activateIsWishlist="product.node.isWishlist = true"
-                                        @removeItem="product.node.isWishlist = false"
                                     />
                                 </div>
                             </div>

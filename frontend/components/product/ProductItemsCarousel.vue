@@ -2,8 +2,14 @@
     <div class="product-item-carousel">
         <client-only>
             <VueSlickCarousel class="nav-slider" v-bind="slickOptions" :key="1">
-                <div v-for="i in 1" :key="i">
-                    <product-item class="product-sm" :id="'1'" :name="'123213'" :price="321321" :isWishlist="false"/>
+                <div v-for="(product, index) in items" :key="index">
+                    <product-item
+                        :id="product.node.id"
+                        :name="product.node.name"
+                        :price="product.node.price"
+                        :isWishlist="product.node.isWishlist"
+                        :colorsGroup="product.node.productsizecolorSet"
+                    />
                 </div>
                 <template #prevArrow>
                     <div class="custom-arrow prev"><img src="~/assets/images/icons/arrow-collapse.svg" /></div>
@@ -21,6 +27,15 @@
         name: 'ProductItemCarousel',
         components: {
             ProductItem,
+        },
+        props: {
+            items: {
+                type: Array,
+                required: true,
+                default: () => {
+                    return [];
+                },
+            },
         },
         data() {
             return {

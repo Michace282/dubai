@@ -92,7 +92,7 @@
                                         <button
                                             class="btn btn-outline-yellow"
                                             @click="
-                                                toggleFavouriteMixin($route.params.slug, data.productDetail.isWishlist)
+                                                toggleFavouriteMixin($route.params.slug, isFavorite)
                                             "
                                         >
                                             {{ wishListBtnLabel }}
@@ -130,8 +130,30 @@
                                 <div class="text mw-290">If you have any questions please contact us</div>
                             </div>
                         </div>
-                        <div class="bold text-uppercase mt-90">Works best with</div>
-                        <product-items-carousel class="mt-45" />
+                        <div v-if="data.productDetail.worksBestWith.edges.length > 0">
+                            <div class="bold text-uppercase mt-90">Works best with</div>
+                            <product-items-carousel class="mt-45" :items="data.productDetail.worksBestWith.edges" />
+                        </div>
+                        <ApolloQuery
+                            :query="require('~/graphql/queries/product/productList')"
+                            :variables="{ excludeId: $route.params.slug }"
+                        >
+                            <template v-slot="{ result: { error, data }, isLoading }">
+                                <div v-if="isLoading || error" class="loading apollo mt-85"></div>
+                                <div
+                                    v-else-if="data && data.productList && data.productList.edges.length > 0"
+                                    class="result apollo"
+                                >
+                                    <div class="bold text-uppercase mt-90">You also may like</div>
+                                    <product-items-carousel class="mt-45" :items="data.productList.edges" />
+                                </div>
+                            </template>
+                        </ApolloQuery>
+                        <product-items-carousel
+                            class="mt-45"
+                            v-if="data.productDetail.worksBestWith.edges.length > 0"
+                            :items="data.productDetail.worksBestWith.edges"
+                        />
                         <div class="bold text-uppercase mt-90">Reviews</div>
                         <comment-form
                             v-if="showForm"
@@ -209,7 +231,7 @@
                 colorsGroup: [],
                 metaData: null,
                 showForm: false,
-                isFavorite: false,
+                isFavorite: null,
             };
         },
         mixins: [toggleFavouriteMixin],
@@ -260,7 +282,9 @@
                         ],
                     };
 
-                    this.isFavorite = data.data.productDetail.isWishlist;
+                    if (this.isFavorite == null) {
+                        this.isFavorite = data.data.productDetail.isWishlist;
+                    }
 
                     let breadcrumbs = [
                         { route: '/', name: 'Home' },

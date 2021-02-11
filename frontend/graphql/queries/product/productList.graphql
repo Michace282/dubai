@@ -63,6 +63,7 @@ query productList(
                             color {
                                 id
                                 color
+                                image
                             }
                         }
                     }

@@ -22,10 +22,14 @@
                 </b-collapse>
                 <b-navbar-nav class="ml-auto icons" :class="{ hide: !showIcons }">
                     <b-nav-item to="/account/wish-list"><img src="../assets/images/icons/heart.svg" /></b-nav-item>
-                    <b-nav-item @click="$emit('showBasket')"
-                        ><img src="../assets/images/icons/basket.svg"
-                    /></b-nav-item>
-                    <b-nav-item @click="!$store.state.user.user? $emit('showRegModal'): $router.push({name: 'account-contact'})"
+                    <b-nav-item @click="$emit('showBasket')">
+                        <img src="../assets/images/icons/basket.svg" />
+                        <span class="products-count" v-if="productCount > 0">+{{ productCount }}</span>
+                    </b-nav-item>
+                    <b-nav-item
+                        @click="
+                            !$store.state.user.user ? $emit('showRegModal') : $router.push({ name: 'account-contact' })
+                        "
                         ><img src="../assets/images/icons/account.svg"
                     /></b-nav-item>
                 </b-navbar-nav>
@@ -45,6 +49,12 @@
             user() {
                 return this.$store.state.user.user;
             },
+            productCount() {
+                return this.$store.state.product.itemsCount;
+            },
+        },
+        created() {
+            this.$store.commit('product/update_items_count');
         },
     };
 </script>
@@ -67,12 +77,21 @@
         }
 
         .icons {
+            .products-count {
+                position: absolute;
+                color: @yellow;
+                font-size: 14px;
+                top: -17px;
+                left: 11px;
+                white-space: nowrap;
+            }
             .nav-item {
                 &:not(:last-child) {
                     margin-right: 15px;
                 }
 
                 .nav-link {
+                    position: relative;
                     padding: 0px;
                 }
             }

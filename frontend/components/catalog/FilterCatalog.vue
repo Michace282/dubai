@@ -83,7 +83,10 @@
                 <div class="color-group" v-for="color in colors" :key="color.id">
                     <input type="checkbox" name="checkbox" v-model="filter.colors" :value="color.id" :id="color.id" />
                     <label class="label-color" :for="color.id">
-                        <div class="color" :style="`background: ${color.color}`"></div>
+                        <div
+                            class="color"
+                            :style="`background: ${color.image ? 'url(' + color.image + ')' : color.color}`"
+                        ></div>
                     </label>
                 </div>
             </div>

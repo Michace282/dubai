@@ -18,6 +18,7 @@ from graphene_django.forms.converter import convert_form_field
 from graphene_django.converter import convert_django_field
 from graphene_file_upload.scalars import Upload
 from django.db import models
+from graphql.language.ast import StringValue
 
 
 class FileUploadField(forms.FileField):
@@ -54,7 +55,8 @@ class ImageGraphene(graphene.Scalar):
 
     @staticmethod
     def parse_literal(ast):
-        return ast.value
+        if isinstance(ast, StringValue):
+            return ast.value
 
 
 @convert_django_field.register(ImageCropField)

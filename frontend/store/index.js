@@ -1,8 +1,12 @@
 export const state = () => ({
     breadcrumbs: false,
+    favorites: {},
 });
 
 export const mutations = {
+    update_favorites(state, el) {
+        state.favorites[el.id] = el.isFavorite;
+    },
     set_breadcrumbs(state, breadcrumbs) {
         state.breadcrumbs = breadcrumbs;
     },

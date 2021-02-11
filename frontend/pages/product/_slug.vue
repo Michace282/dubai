@@ -45,7 +45,7 @@
                                         <div
                                             class="color-group"
                                             v-for="(colorGroup, index) in colorsGroup"
-                                            :key="index"
+                                            :key="'color' + index"
                                         >
                                             <input
                                                 type="radio"
@@ -66,12 +66,16 @@
                                 <div class="mt-30">
                                     <div class="bold">Sizes</div>
                                     <div class="sizes mt-15" v-if="currentSizes && currentSizes.length > 0">
-                                        <div class="size-box" v-for="(size, index) in currentSizes" :key="index">
+                                        <div
+                                            class="size-box"
+                                            v-for="(size, index) in currentSizes"
+                                            :key="'size' + index"
+                                        >
                                             <input
                                                 type="radio"
                                                 name="sizes"
                                                 v-model="sizeVal"
-                                                :value="size.node.id"
+                                                :value="index"
                                                 :id="size.node.id"
                                             />
                                             <label class="label-size" :for="size.node.id">{{ size.node.name }}</label>
@@ -86,10 +90,15 @@
                                 ></p>
                                 <div class="row mt-60">
                                     <div class="col-6">
-                                        <button class="btn btn-yellow">Add to cart</button>
+                                        <button class="btn btn-yellow" @click="addToBasket">Add to cart</button>
                                     </div>
                                     <div class="col-6">
-                                        <button class="btn btn-outline-yellow">Add to wishlist</button>
+                                        <button
+                                            class="btn btn-outline-yellow"
+                                            @click="toggleFavouriteMixin($route.params.slug, isFavorite)"
+                                        >
+                                            {{ wishListBtnLabel }}
+                                        </button>
                                     </div>
                                 </div>
                                 <div class="row mt-30">
@@ -123,12 +132,56 @@
                                 <div class="text mw-290">If you have any questions please contact us</div>
                             </div>
                         </div>
-                        <div class="bold text-uppercase mt-90">Works best with</div>
-                        <product-items-carousel class="mt-45" />
-
+                        <div v-if="data.productDetail.worksBestWith.edges.length > 0">
+                            <div class="bold text-uppercase mt-90">Works best with</div>
+                            <product-items-carousel class="mt-45" :items="data.productDetail.worksBestWith.edges" />
+                        </div>
+                        <ApolloQuery
+                            :query="require('~/graphql/queries/product/productList')"
+                            :variables="{ excludeId: $route.params.slug }"
+                        >
+                            <template v-slot="{ result: { error, data }, isLoading }">
+                                <div v-if="isLoading || error" class="loading apollo mt-85"></div>
+                                <div
+                                    v-else-if="data && data.productList && data.productList.edges.length > 0"
+                                    class="result apollo"
+                                >
+                                    <div class="bold text-uppercase mt-90">You also may like</div>
+                                    <product-items-carousel class="mt-45" :items="data.productList.edges" />
+                                </div>
+                            </template>
+                        </ApolloQuery>
+                        <product-items-carousel
+                            class="mt-45"
+                            v-if="data.productDetail.worksBestWith.edges.length > 0"
+                            :items="data.productDetail.worksBestWith.edges"
+                        />
                         <div class="bold text-uppercase mt-90">Reviews</div>
+                        <comment-form
+                            v-if="showForm"
+                            class="mt-45"
+                            :sizes="data.productDetail.sizeChart.sizeSet.edges"
+                            :colors="colors"
+                            :productId="$route.params.slug"
+                            @hideForm="showForm = false"
+                            @error="
+                                (error) => {
+                                    $bvToast.toast(error, {
+                                        title: 'Review',
+                                        variant: 'danger',
+                                    });
+                                }
+                            "
+                            @success="
+                                $bvToast.toast('The review was sent for moderation', {
+                                    title: 'Review',
+                                    variant: 'success',
+                                });
+                                showForm = false;
+                            "
+                        />
                         <div class="d-flex justify-content-between w-100">
-                            <comment-group :id="$route.params.slug" />
+                            <comment-group />
                             <div class="right-block mt-30">
                                 <div class="d-flex align-items-center justify-content-between mb-3">
                                     <rating-group :rating="Math.floor(data.productDetail.avgFeedback)" :size="20" />
@@ -150,7 +203,9 @@
                                         <div class="label">{{ ratingGroup.count }}</div>
                                     </div>
                                 </template>
-                                <button class="btn btn-black" v-if="false">Write a rewiew</button>
+                                <button class="btn btn-black" @click="showForm = true" v-if="$store.state.user.user">
+                                    Write a rewiew
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -161,28 +216,51 @@
 </template>
 <script>
     import CommentGroup from '../../components/comment/CommentGroup.vue';
+    import CommentForm from '../../components/comment/CommentForm.vue';
     import RatingGroup from '../../components/comment/RatingGroup.vue';
     import ProductCarousel from '../../components/product/ProductCarousel.vue';
     import ProductItemsCarousel from '../../components/product/ProductItemsCarousel.vue';
+    import toggleFavouriteMixin from '~/mixins/toggleFavouriteMixin';
 
     export default {
         name: 'product',
-        components: { CommentGroup, RatingGroup, ProductCarousel, ProductItemsCarousel },
+        components: { CommentGroup, RatingGroup, ProductCarousel, ProductItemsCarousel, CommentForm },
         data() {
             return {
                 countRatings: [],
                 colorVal: 0,
-                sizeVal: null,
+                sizeVal: 0,
                 colorsGroup: [],
                 metaData: null,
+                showForm: false,
+                isFavorite: null,
             };
         },
+        mixins: [toggleFavouriteMixin],
         head() {
             return this.metaData;
         },
         computed: {
+            wishListBtnLabel() {
+                return this.isFavorite ? 'Remove from wish-list' : 'Add to wish-list';
+            },
+            colors() {
+                if (this.colorsGroup.length > 0) {
+                    let colors = [];
+                    for (let i in this.colorsGroup) {
+                        colors.push({
+                            node: {
+                                id: this.colorsGroup[i].node.color.id,
+                                name: this.colorsGroup[i].node.color.name,
+                            },
+                        });
+                    }
+                    return colors;
+                }
+                return [];
+            },
             currentSizes() {
-                this.sizeVal = null;
+                this.sizeVal = 0;
                 if (this.colorsGroup.length > 0) {
                     return this.colorsGroup[this.colorVal].node.sizes.edges;
                 }
@@ -190,6 +268,44 @@
             },
         },
         methods: {
+            addToBasket() {
+                let v = this;
+                let basket = v.$cookies.get('basket') ? v.$cookies.get('basket') : {};
+                let product = {
+                    id: `${v.$route.params.slug}_${v.colorsGroup[v.colorVal].node.color.id}_${
+                        v.currentSizes[v.sizeVal].node.id
+                    }`,
+                    color: v.colorsGroup[v.colorVal].node.color.id,
+                    size: v.currentSizes[v.sizeVal].node.id,
+                    product: this.$route.params.slug,
+                    count: 1,
+                };
+                if (basket[product.id]) {
+                    basket[product.id].count += 1;
+                } else {
+                    basket[product.id] = product;
+                }
+                // if (basket && basket.length > 0) {
+                //     let setNewItem = true;
+                //     for (let i in basket) {
+                //         if (basket[i].id == product.id) {
+                //             basket[i].count = basket[i].count + 1;
+                //             setNewItem = false;
+                //             break;
+                //         }
+                //     }
+                //     if (setNewItem) {
+                //         basket.push(product);
+                //     }
+                // } else {
+                //     basket = [product];
+                // }
+                v.$cookies.set('basket', JSON.stringify(basket));
+                v.$bvToast.toast('The product was successfully added to the cart', {
+                    title: 'Add to cart',
+                    variant: 'success',
+                });
+            },
             getRatingPrecent(feedbackCount, allFeedbacksCount) {
                 return Math.floor((feedbackCount / allFeedbacksCount) * 100);
             },
@@ -205,6 +321,10 @@
                             },
                         ],
                     };
+
+                    if (this.isFavorite == null) {
+                        this.isFavorite = data.data.productDetail.isWishlist;
+                    }
 
                     let breadcrumbs = [
                         { route: '/', name: 'Home' },
@@ -468,9 +588,10 @@
     }
 
     .btn-outline-yellow {
+        width: 100%;
         color: @yellow;
         background: @white;
-        padding: 7px 47px;
+        padding: 7px 17px;
         border: 1px solid @yellow;
 
         &:hover {

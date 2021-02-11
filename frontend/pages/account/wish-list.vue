@@ -9,7 +9,7 @@
                 after: cursor,
             }"
             @result="updateCursors"
-            fetchPolicy='network-only'
+            fetchPolicy='no-cache'
         >
             <template v-slot="{ result: { error, data }, isLoading, query }">
                 <div v-if="isLoading || error" class="loading apollo mt-85"></div>
@@ -17,7 +17,7 @@
                     <div class="row mt-45" v-if="data.productWishlistList.edges.length > 0">
                         <div
                             class="col-2"
-                            v-for="product in data.productWishlistList.edges"
+                            v-for="(product, index) in data.productWishlistList.edges"
                             :key="product.node.product.id"
                         >
                             <product-item
@@ -27,7 +27,7 @@
                                 :price="product.node.product.price"
                                 :isWishlist="true"
                                 :colorsGroup="product.node.product.productsizecolorSet"
-                                @refetch="query.refetch()"
+                                @remove="data.productWishlistList.edges.splice(index, 1)"
                             />
                         </div>
                     </div>

@@ -55,6 +55,7 @@
                         after: cursor,
                         ...this.$route.query,
                     }"
+                    ref="catalog"
                     @result="updateCursors"
                 >
                     <template v-slot="{ result: { error, data }, isLoading }">
@@ -72,8 +73,6 @@
                                         :price="product.node.price"
                                         :isWishlist="product.node.isWishlist"
                                         :colorsGroup="product.node.productsizecolorSet"
-                                        @activateIsWishlist="product.node.isWishlist = true"
-                                        @removeItem="product.node.isWishlist = false"
                                     />
                                 </div>
                             </div>
@@ -96,7 +95,6 @@
     import ProductItem from '../components/catalog/ProductItem.vue';
     import FilterCatalog from '../components/catalog/FilterCatalog.vue';
     import Pagination from '../components/catalog/Pagination';
-
     export default {
         components: { ProductItem, FilterCatalog, Pagination },
         name: 'catalog',

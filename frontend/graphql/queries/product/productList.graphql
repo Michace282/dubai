@@ -10,6 +10,8 @@ query productList(
     $sizes: [ID]
     $price_Gte: Float
     $price_Lte: Float
+    $ids: [ID]
+    $excludeId: ID
 ) {
     productList(
         first: $first
@@ -23,6 +25,8 @@ query productList(
         sizes: $sizes
         price_Gte: $price_Gte
         price_Lte: $price_Lte
+        ids: $ids
+        excludeId: $excludeId
     ) {
         pagesCursor {
             startCursor
@@ -45,6 +49,14 @@ query productList(
                                 edges {
                                     node {
                                         image
+                                    }
+                                }
+                            }
+                            sizes {
+                                edges {
+                                    node {
+                                        id
+                                        name
                                     }
                                 }
                             }

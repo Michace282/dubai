@@ -47,6 +47,7 @@ query productDetail($id: ID!) {
                                         node {
                                             id
                                             image
+                                            imageCropping
                                         }
                                     }
                                 }
@@ -76,6 +77,7 @@ query productDetail($id: ID!) {
                             node {
                                 id
                                 image
+                                imageCropping
                             }
                         }
                     }

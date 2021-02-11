@@ -19,7 +19,7 @@
                     :key="index"
                 >
                     <template #img>
-                        <img class="d-block img-fluid w-100 preview" :src="img.node.image" :alt="index" />
+                        <img class="d-block img-fluid w-100 preview" :src="img.node.imageCropping" :alt="index" />
                     </template>
                 </b-carousel-slide>
             </b-carousel>

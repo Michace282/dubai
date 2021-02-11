@@ -19,6 +19,7 @@ query productWishlistList($guestUuid: UUID, $first: Int, $after: String) {
                                     edges {
                                         node {
                                             image
+                                            imageCropping
                                         }
                                     }
                                 }

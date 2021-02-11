@@ -14,7 +14,7 @@
                     "
                 >
                     <div v-for="(image, index) in images" :key="index">
-                        <img class="carousel-img" :class="{ active: index == activeIndex }" :src="image.node.image" />
+                        <img class="carousel-img" :class="{ active: index == activeIndex }" :src="image.node.imageCropping" />
                     </div>
                     <template #prevArrow>
                         <div class="custom-arrow prev"><img src="~/assets/images/icons/arrow-collapse.svg" /></div>

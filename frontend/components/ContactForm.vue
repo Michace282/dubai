@@ -40,9 +40,11 @@
                 </div>
             </div>
             <div class="row mt-30 justify-content-center justify-content-lg-end">
-                <div class="col-auto pr-2"><button class="btn btn-outline-black">Cancel</button></div>
                 <div class="col-auto pr-2">
-                    <button class="btn btn-black">{{ btnName }}</button>
+                    <button class="btn btn-outline-black" @click="$router.go(-2)">Cancel</button>
+                </div>
+                <div class="col-auto pr-2">
+                    <button class="btn btn-black" @click="$emit('buy')">{{ btnName }}</button>
                 </div>
             </div>
         </div>

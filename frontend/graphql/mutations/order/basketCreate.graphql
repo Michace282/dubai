@@ -1,0 +1,8 @@
+mutation basketCreate($code: String, $guestUuid: UUID, $productsBasket: [ProductsBasketCreateInput]) {
+    basketCreate(input: { code: $code, guestUuid: $guestUuid, productsBasket: $productsBasket }) {
+        errors {
+            field
+            messages
+        }
+    }
+}

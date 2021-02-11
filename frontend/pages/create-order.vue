@@ -6,7 +6,7 @@
                 <basket-container />
             </div>
             <div class="form-group">
-                <contact-form btnName="buy">
+                <contact-form btnName="buy" @buy="createOrder">
                     <div class="subtitle" v-if="!$store.state.user.user">
                         Would you like to save this information for the next time??
                         <!--TODO: По клику на ссылку открыть модалку -->
@@ -26,6 +26,46 @@
         name: 'create-order',
         created() {
             this.$store.commit('set_breadcrumbs', null);
+        },
+        methods: {
+            createOrder() {
+                let productsBasket = [];
+                let cookieBasket = this.$cookies.get('basket');
+                for (let i in cookieBasket) {
+                    productsBasket.push({
+                        product: cookieBasket[i].product,
+                        color: cookieBasket[i].color,
+                        size: cookieBasket[i].size,
+                        count: cookieBasket[i].count,
+                    });
+                }
+                console.log(cookieBasket);
+                console.log(productsBasket);
+                this.$apollo
+                    .mutate({
+                        mutation: require('~/graphql/mutations/order/basketCreate.graphql'),
+                        variables: {
+                            guestUuid: this.$store.state.user.guestUuid,
+                            productsBasket: productsBasket,
+                        },
+                    })
+                    .then((data) => {
+                        if (data && data.data.basketCreate.errors.length == 0) {
+                            console.log(123);
+                            this.$store.commit('product/update_basket', []);
+                            this.$cookies.set('basket', {});
+                        } else {
+                            this.$bvToast.toast(data.data.basketCreate.errors[0].messages[0], {
+                                title: 'Create order',
+                                variant: 'danger',
+                            });
+                        }
+                        console.log(data);
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            },
         },
     };
 </script>

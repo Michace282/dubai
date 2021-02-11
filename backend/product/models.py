@@ -2,7 +2,7 @@ from django.db import models
 from djchoices import DjangoChoices, ChoiceItem
 from backend.mixin import TimeStampedModel
 from colorfield.fields import ColorField
-from account.models import Guest
+from account.models import Guest, Code
 from django.contrib.auth.models import User
 
 
@@ -125,6 +125,7 @@ class Product(TimeStampedModel):
                                    null=True)
 
     data = models.TextField(blank=True, null=True)
+    works_best_with = models.ManyToManyField('product.Product', verbose_name='Works best with', blank=True, null=True)
 
     def __str__(self):
         return self.name
@@ -172,16 +173,20 @@ class ProductWishlist(TimeStampedModel):
 
 class Basket(TimeStampedModel):
     class StatusType(DjangoChoices):
-        published = ChoiceItem(label='Published', value='published')
-        unpublished = ChoiceItem(label='Unpublished', value='unpublished')
-        moderated = ChoiceItem(label='Moderated', value='moderated')
+        completed = ChoiceItem(label='Completed', value='completed')
+        sent = ChoiceItem(label='Sent', value='sent')
+        processing = ChoiceItem(label='Processing', value='processing')
+        new = ChoiceItem(label='New', value='new')
+        rejected = ChoiceItem(label='rejected', value='rejected')
 
+    code = models.ForeignKey(Code, verbose_name='Code', on_delete=models.CASCADE, blank=True, null=True)
+    discount = models.IntegerField(verbose_name='Discount', default=0)
     guest = models.ForeignKey(Guest, verbose_name='Guest', on_delete=models.CASCADE, blank=True, null=True)
     user = models.ForeignKey(User, verbose_name='User', on_delete=models.CASCADE, blank=True, null=True)
     status = models.CharField(verbose_name='Status',
                               max_length=30,
                               choices=StatusType.choices,
-                              default=StatusType.published)
+                              default=StatusType.new)
 
 
 class ProductBasket(TimeStampedModel):

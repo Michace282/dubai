@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Product, ProductSizeColor, ProductImage, Color, SizeChart, Size, Feedback, FeedbackImage
+from .models import Product, ProductSizeColor, ProductImage, Color, SizeChart, Size, Feedback, FeedbackImage, Basket, \
+    ProductBasket
 from django_summernote.widgets import SummernoteWidget
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
@@ -72,6 +73,8 @@ class ProductAdmin(admin.ModelAdmin):
     list_display = ('__str__', 'status', 'product_type', 'profile_type', 'price',)
     list_filter = ('status', 'product_type', 'ladies_type', 'mens_type', 'accessories_type', 'dance_shoes_type')
     inlines = (ProductSizeColorInline,)
+    autocomplete_fields = ('works_best_with',)
+    search_fields = ('name', 'data', 'description', 'model_description')
 
     def profile_type(self, obj):
         if obj.product_type == 'ladies':
@@ -92,7 +95,8 @@ class ProductAdmin(admin.ModelAdmin):
                 ('name', 'product_type', 'ladies_type', 'mens_type', 'accessories_type', 'dance_shoes_type',),
                 'price',
                 'description',
-                'size_chart'
+                'size_chart',
+                'works_best_with'
             )
         }),
     )
@@ -108,3 +112,19 @@ class FeedbackImageInline(admin.StackedInline):
 @admin.register(Feedback)
 class FeedbackAdmin(admin.ModelAdmin):
     inlines = (FeedbackImageInline,)
+
+
+class ProductBasketInline(admin.StackedInline):
+    model = ProductBasket
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def has_add_permission(self, request):
+        return False
+
+
+@admin.register(Basket)
+class BasketAdmin(admin.ModelAdmin):
+    inlines = (ProductBasketInline,)
+    readonly_fields = ('code', 'guest', 'user')

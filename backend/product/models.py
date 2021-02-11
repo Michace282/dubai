@@ -4,6 +4,8 @@ from backend.mixin import TimeStampedModel
 from colorfield.fields import ColorField
 from account.models import Guest, Code
 from django.contrib.auth.models import User
+from image_cropping import ImageRatioField
+from image_cropping.utils import get_backend
 
 
 class SizeChart(TimeStampedModel):
@@ -156,9 +158,23 @@ class ProductImage(TimeStampedModel):
     product_size_color = models.ForeignKey(ProductSizeColor, verbose_name='Product Size Color',
                                            on_delete=models.CASCADE)
     image = models.ImageField(verbose_name='Image', upload_to='product/image')
+    cropping = ImageRatioField('image', '210x300')
 
     def __str__(self):
         return str(self.product_size_color)
+
+    @property
+    def image_cropping(self):
+        if self.image:
+            return get_backend().get_thumbnail_url(self.image, {
+                'box': self.cropping,
+                'size': (210, 300),
+                'crop': True,
+                'detail': True,
+            })
+            return
+        else:
+            return ''
 
     class Meta:
         verbose_name = 'Product image'

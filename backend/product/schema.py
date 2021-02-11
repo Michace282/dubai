@@ -18,6 +18,7 @@ from graphene_django.forms.converter import convert_form_field
 from graphene_django.converter import convert_django_field
 from graphene_file_upload.scalars import Upload
 from django.db import models
+from graphql.language.ast import StringValue
 
 
 class FileUploadField(forms.FileField):
@@ -42,7 +43,11 @@ class ImageGraphene(graphene.Scalar):
     @staticmethod
     def coerce_float(value):
         try:
-            return settings.BACKEND_URL + 'media/' + str(value)
+            if str(value) == '':
+                s = ''
+            else:
+                s = settings.BACKEND_URL + 'media/' + str(value)
+            return s
         except ValueError:
             return None
 
@@ -51,7 +56,8 @@ class ImageGraphene(graphene.Scalar):
 
     @staticmethod
     def parse_literal(ast):
-        return ast.value
+        if isinstance(ast, StringValue):
+            return ast.value
 
 
 @convert_django_field.register(ImageCropField)
@@ -69,6 +75,13 @@ class PagesCursor(graphene.ObjectType):
 
 
 class ProductImageType(DjangoObjectType):
+    image_cropping = graphene.String()
+
+    def resolve_image_cropping(self, info):
+        if self.image:
+            return f'{settings.BACKEND_URL[:-1]}{self.image_cropping}'
+        return None
+    
     class Meta:
         model = ProductImage
         interfaces = (relay.Node,)

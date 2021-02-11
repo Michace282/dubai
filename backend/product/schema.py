@@ -75,6 +75,13 @@ class PagesCursor(graphene.ObjectType):
 
 
 class ProductImageType(DjangoObjectType):
+    image_cropping = graphene.String()
+
+    def resolve_image_cropping(self, info):
+        if self.image:
+            return f'{settings.BACKEND_URL[:-1]}{self.image_cropping}'
+        return None
+    
     class Meta:
         model = ProductImage
         interfaces = (relay.Node,)

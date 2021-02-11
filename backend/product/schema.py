@@ -42,7 +42,10 @@ class ImageGraphene(graphene.Scalar):
     @staticmethod
     def coerce_float(value):
         try:
-            return settings.BACKEND_URL + 'media/' + str(value)
+            if value:
+                return settings.BACKEND_URL + 'media/' + str(value)
+            else:
+                return None
         except ValueError:
             return None
 

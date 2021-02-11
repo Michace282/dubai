@@ -3,7 +3,6 @@ export default {
         let id = this.id ? this.id : this.$route.params.slug;
         if (sessionStorage.getItem('isFavourite' + id) != null) {
             this.isFavorite = sessionStorage.getItem('isFavourite' + id) == 'true';
-            console.log(this.isFavorite);
         }
     },
     methods: {

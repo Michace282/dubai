@@ -270,7 +270,7 @@
         methods: {
             addToBasket() {
                 let v = this;
-                let basket = v.$cookies.get('basket') ? v.$cookies.get('basket') : [];
+                let basket = v.$cookies.get('basket') ? v.$cookies.get('basket') : {};
                 let product = {
                     id: `${v.$route.params.slug}_${v.colorsGroup[v.colorVal].node.color.id}_${
                         v.currentSizes[v.sizeVal].node.id
@@ -280,21 +280,26 @@
                     product: this.$route.params.slug,
                     count: 1,
                 };
-                if (basket && basket.length > 0) {
-                    let setNewItem = true;
-                    for (let i in basket) {
-                        if (basket[i].id == product.id) {
-                            basket[i].count = basket[i].count + 1;
-                            setNewItem = false;
-                            break;
-                        }
-                    }
-                    if (setNewItem) {
-                        basket.push(product);
-                    }
+                if (basket[product.id]) {
+                    basket[product.id].count += 1;
                 } else {
-                    basket = [product];
+                    basket[product.id] = product;
                 }
+                // if (basket && basket.length > 0) {
+                //     let setNewItem = true;
+                //     for (let i in basket) {
+                //         if (basket[i].id == product.id) {
+                //             basket[i].count = basket[i].count + 1;
+                //             setNewItem = false;
+                //             break;
+                //         }
+                //     }
+                //     if (setNewItem) {
+                //         basket.push(product);
+                //     }
+                // } else {
+                //     basket = [product];
+                // }
                 v.$cookies.set('basket', JSON.stringify(basket));
                 v.$bvToast.toast('The product was successfully added to the cart', {
                     title: 'Add to cart',

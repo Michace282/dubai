@@ -10,7 +10,7 @@ query productList(
     $sizes: [ID]
     $price_Gte: Float
     $price_Lte: Float
-    $ids: ID
+    $ids: [ID]
     $excludeId: ID
 ) {
     productList(
@@ -49,6 +49,14 @@ query productList(
                                 edges {
                                     node {
                                         image
+                                    }
+                                }
+                            }
+                            sizes {
+                                edges {
+                                    node {
+                                        id
+                                        name
                                     }
                                 }
                             }

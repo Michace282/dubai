@@ -29,7 +29,14 @@
             <div class="color-group" v-for="(colorGroup, index) in colorsGroup.edges" :key="index">
                 <input type="radio" v-model="activeColor" :value="index" :id="colorGroup.node.id" />
                 <label class="label-color" :for="colorGroup.node.id">
-                    <div class="color" :style="`background: ${colorGroup.node.color.color}`"></div>
+                    <div
+                        class="color"
+                        :style="`background: ${
+                            colorGroup.node.color.image
+                                ? 'url(' + colorGroup.node.color.image + ')'
+                                : colorGroup.node.color.color
+                        }`"
+                    ></div>
                 </label>
             </div>
         </div>
@@ -84,8 +91,11 @@
 <style lang="less" scoped>
     .product {
         &.product-sm {
+            max-width: 160px;
+            margin: 0px;
             .preview {
                 max-height: 220px;
+                margin: 0 auto;
             }
 
             .name,

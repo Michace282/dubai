@@ -1,6 +1,9 @@
 <template>
     <div>
-        <the-navbar @showRegModal="showModal = 'reg'" @showBasket="showModal = 'basket'" />
+        <the-navbar
+            @showRegModal="showModal = 'reg'"
+            @showBasket="$route.name != 'create-order' ? (showModal = 'basket') : ''"
+        />
         <div class="main">
             <transition name="toggle-basket">
                 <basket-modal

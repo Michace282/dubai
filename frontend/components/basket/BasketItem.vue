@@ -1,6 +1,6 @@
 <template>
     <div class="item-group">
-        <a href.prevent class="delete" @click="$emit('remove', index)"><img src="~/assets/images/icons/exit.svg" /></a>
+        <a href.prevent class="delete" @click="$emit('remove')"><img src="~/assets/images/icons/exit.svg" /></a>
         <div class="row">
             <div class="col-auto pr-2 pr-sm-3">
                 <img
@@ -12,23 +12,25 @@
             </div>
             <div class="col params pr-0">
                 <div class="bold name">{{ name }}</div>
-                <item-param label="Color" linkName="Change color">
+                <item-param
+                    label="Color"
+                    linkName="Change color"
+                    @save="
+                        $emit('setColor', colorsGroup.edges[activeColor].node.color.id);
+                        $emit('setSize', colorsGroup.edges[activeColor].node.sizes.edges[0].node.id);
+                    "
+                >
                     <template v-slot:activeItem>
                         <div class="color-group">
-                            <input
-                                type="checkbox"
-                                disabled
-                                checked
-                                id="color"
-                                @save="
-                                    $emit('setColor', colorsGroup.edges[activeColor].node.color.id);
-                                    $emit('setSize', colorsGroup.edges[activeColor].node.sizes.edges[0].node.id);
-                                "
-                            />
+                            <input type="checkbox" disabled checked id="color" />
                             <label class="label-color mb-0" for="color">
                                 <div
                                     class="color"
-                                    :style="`background: ${colorsGroup.edges[activeColor].node.color.color}`"
+                                    :style="`background: ${
+                                        colorsGroup.edges[activeColor].node.color.image
+                                            ? 'url(' + colorsGroup.edges[activeColor].node.color.image + ')'
+                                            : colorsGroup.edges[activeColor].node.color.color
+                                    }; backgrount-size: cover;`"
                                 ></div>
                             </label>
                         </div>
@@ -44,7 +46,14 @@
                                     :id="colorGroup.node.id"
                                 />
                                 <label class="label-color mb-0" :for="colorGroup.node.id">
-                                    <div class="color" :style="`background: ${colorGroup.node.color.color}`"></div>
+                                    <div
+                                        class="color"
+                                        :style="`background: ${
+                                            colorGroup.node.color.image
+                                                ? 'url(' + colorGroup.node.color.image + ')'
+                                                : colorGroup.node.color.color
+                                        }; backgrount-size: cover;`"
+                                    ></div>
                                 </label>
                             </div>
                         </div>
@@ -84,7 +93,7 @@
                     <input type="text" @input="validate" v-model="activeCount" />
                     <a href.prevemt class="control" @click="activeCount++">+</a>
                 </div>
-                <div class="bold mt-30">590 AED</div>
+                <div class="bold mt-30">{{ price }} AED</div>
             </div>
         </div>
     </div>
@@ -96,11 +105,6 @@
         name: 'BasketItem',
         components: { ItemParam },
         props: {
-            index: {
-                type: Number,
-                required: true,
-                default: 0,
-            },
             name: {
                 type: String,
                 required: true,
@@ -138,7 +142,7 @@
         },
         watch: {
             activeCount() {
-                this.$emit('setCount', this.activeCount);
+                this.$emit('setCount', parseInt(this.activeCount));
             },
         },
         created() {
@@ -161,6 +165,8 @@
             validate() {
                 if (this.activeCount * 1 + 0 != this.activeCount || !this.activeCount) {
                     this.activeCount = 1;
+                } else if (this.activeCount > 100) {
+                    this.activeCount = 100;
                 }
             },
         },

@@ -3,12 +3,7 @@
         <div class="order-group">
             <div class="basket-group">
                 <div class="basket-title">Your order</div>
-                <basket-item class="mt-30" />
-                <basket-item />
-                <div class="d-flex justify-content-between mt-30">
-                    <div class="basket-title">Subtotal</div>
-                    <div class="basket-title">1590 aed</div>
-                </div>
+                <basket-container />
             </div>
             <div class="form-group">
                 <contact-form btnName="buy">
@@ -23,11 +18,15 @@
     </div>
 </template>
 <script>
-    import BasketItem from '../components/basket/BasketItem.vue';
+    import BasketContainer from '../components/basket/BasketContainer.vue';
     import ContactForm from '../components/ContactForm.vue';
+
     export default {
-        components: { BasketItem, ContactForm },
+        components: { BasketContainer, ContactForm },
         name: 'create-order',
+        created() {
+            this.$store.commit('set_breadcrumbs', null);
+        },
     };
 </script>
 <style lang="less">

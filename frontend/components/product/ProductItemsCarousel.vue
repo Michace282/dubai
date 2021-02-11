@@ -4,6 +4,7 @@
             <VueSlickCarousel class="nav-slider" v-bind="slickOptions" :key="1">
                 <div v-for="(product, index) in items" :key="index">
                     <product-item
+                        class="product-sm "
                         :id="product.node.id"
                         :name="product.node.name"
                         :price="product.node.price"

@@ -57,7 +57,11 @@
                                             <label class="label-color mb-0" :for="colorGroup.node.color.id">
                                                 <div
                                                     class="color"
-                                                    :style="`background: ${colorGroup.node.color.color}`"
+                                                    :style="`background: ${
+                                                        colorGroup.node.color.image
+                                                            ? 'url(' + colorGroup.node.color.image + ')'
+                                                            : colorGroup.node.color.color
+                                                    }`"
                                                 ></div>
                                             </label>
                                         </div>
@@ -285,22 +289,8 @@
                 } else {
                     basket[product.id] = product;
                 }
-                // if (basket && basket.length > 0) {
-                //     let setNewItem = true;
-                //     for (let i in basket) {
-                //         if (basket[i].id == product.id) {
-                //             basket[i].count = basket[i].count + 1;
-                //             setNewItem = false;
-                //             break;
-                //         }
-                //     }
-                //     if (setNewItem) {
-                //         basket.push(product);
-                //     }
-                // } else {
-                //     basket = [product];
-                // }
                 v.$cookies.set('basket', JSON.stringify(basket));
+                v.$store.commit('product/update_items_count');
                 v.$bvToast.toast('The product was successfully added to the cart', {
                     title: 'Add to cart',
                     variant: 'success',

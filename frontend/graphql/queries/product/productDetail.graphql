@@ -83,6 +83,7 @@ query productDetail($id: ID!) {
                         id
                         color
                         name
+                        image
                     }
                 }
             }

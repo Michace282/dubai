@@ -57,11 +57,13 @@
                                             <label class="label-color mb-0" :for="colorGroup.node.color.id">
                                                 <div
                                                     class="color"
-                                                    :style="`background: ${
+                                                    :style="
                                                         colorGroup.node.color.image
-                                                            ? 'url(' + colorGroup.node.color.image + ')'
-                                                            : colorGroup.node.color.color
-                                                    }`"
+                                                            ? 'background-image: url(' +
+                                                              colorGroup.node.color.image +
+                                                              ')'
+                                                            : 'background:' + colorGroup.node.color.color
+                                                    "
                                                 ></div>
                                             </label>
                                         </div>
@@ -84,7 +86,11 @@
                                             />
                                             <label class="label-size" :for="size.node.id">{{ size.node.name }}</label>
                                         </div>
-                                        <a href.prevent class="modal-label mb-2" v-if="data.productDetail.sizeChart.table" v-b-modal.size-chart-modal
+                                        <a
+                                            href.prevent
+                                            class="modal-label mb-2"
+                                            v-if="data.productDetail.sizeChart.table"
+                                            v-b-modal.size-chart-modal
                                             >Size charts</a
                                         >
                                     </div>

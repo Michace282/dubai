@@ -26,11 +26,13 @@
                             <label class="label-color mb-0" for="color">
                                 <div
                                     class="color"
-                                    :style="`background: ${
+                                    :style="
                                         colorsGroup.edges[activeColor].node.color.image
-                                            ? 'url(' + colorsGroup.edges[activeColor].node.color.image + ')'
-                                            : colorsGroup.edges[activeColor].node.color.color
-                                    }; backgrount-size: cover;`"
+                                            ? 'background-image: url(' +
+                                              colorsGroup.edges[activeColor].node.color.image +
+                                              ')'
+                                            : 'background:' + colorsGroup.edges[activeColor].node.color.color
+                                    ;"
                                 ></div>
                             </label>
                         </div>
@@ -48,11 +50,11 @@
                                 <label class="label-color mb-0" :for="colorGroup.node.id">
                                     <div
                                         class="color"
-                                        :style="`background: ${
+                                        :style="
                                             colorGroup.node.color.image
-                                                ? 'url(' + colorGroup.node.color.image + ')'
-                                                : colorGroup.node.color.color
-                                        }; backgrount-size: cover;`"
+                                                ? 'background-image: url(' + colorGroup.node.color.image + ')'
+                                                : 'background:' + colorGroup.node.color.color
+                                        "
                                     ></div>
                                 </label>
                             </div>

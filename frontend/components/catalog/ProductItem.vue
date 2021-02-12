@@ -31,11 +31,11 @@
                 <label class="label-color" :for="colorGroup.node.id">
                     <div
                         class="color"
-                        :style="`background: ${
+                        :style="
                             colorGroup.node.color.image
-                                ? 'url(' + colorGroup.node.color.image + ')'
-                                : colorGroup.node.color.color
-                        }`"
+                                ? 'background-image: url(' + colorGroup.node.color.image + ')'
+                                : 'background:' + colorGroup.node.color.color
+                        "
                     ></div>
                 </label>
             </div>

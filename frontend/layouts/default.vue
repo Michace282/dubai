@@ -58,22 +58,26 @@
             };
         },
         created() {
-            if (!this.$cookies.get('guestUuid') && !this.$store.state.user.user) {
-                this.$apollo
+            let v = this;
+            if (!v.$cookies.get('guestUuid') && !v.$store.state.user.user) {
+                v.$apollo
                     .mutate({
                         mutation: require('~/graphql/mutations/user/questCreate.graphql'),
                     })
                     .then((data) => {
                         if (data && data.data.guestCreate.guest) {
-                            this.$cookies.set('guestUuid', data.data.guestCreate.guest.uuid);
-                            this.$store.commit('user/update_guestUuid', data.data.guestCreate.guest.uuid);
+                            v.$cookies.set('guestUuid', data.data.guestCreate.guest.uuid);
+                            v.$store.commit('user/update_guestUuid', data.data.guestCreate.guest.uuid);
                         }
                     });
-            } else if (this.$store.state.user.user && this.$cookies.get('guestUuid')) {
-                this.$store.commit('user/update_guestUuid', null);
-            } else if (this.$cookies.get('guestUuid')) {
-                this.$store.commit('user/update_guestUuid', this.$cookies.get('guestUuid'));
+            } else if (v.$store.state.user.user && v.$cookies.get('guestUuid')) {
+                v.$store.commit('user/update_guestUuid', null);
+            } else if (v.$cookies.get('guestUuid')) {
+                v.$store.commit('user/update_guestUuid', v.$cookies.get('guestUuid'));
             }
+            v.$nuxt.$on('show-reg-modal', () => {
+                v.showModal = 'reg';
+            });
         },
         watch: {
             $route() {

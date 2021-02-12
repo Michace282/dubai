@@ -81,7 +81,7 @@
 </template>
 <script>
     import DropDown from '../fields/DropDown.vue';
-    import { required, email } from 'vuelidate/lib/validators';
+    import { required } from 'vuelidate/lib/validators';
 
     export default {
         name: 'CommentForm',

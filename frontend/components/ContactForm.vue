@@ -2,47 +2,100 @@
     <div class="account-contact">
         <base-title class="form-title" title="Contact information" />
         <slot></slot>
-        <div class="form-group">
+        <div class="form-group" v-if="isFormReady">
             <div class="row">
                 <div class="col-12 col-md-6">
-                    <base-input label="first name" />
+                    <base-input
+                        label="first name"
+                        :class="{ error: $v.form.firstName.$error }"
+                        v-model="$v.form.firstName.$model"
+                    />
                 </div>
                 <div class="col-12 col-md-6 mt-30 mt-md-0">
-                    <base-input label="last name" />
+                    <base-input
+                        label="last name"
+                        :class="{ error: $v.form.lastName.$error }"
+                        v-model="$v.form.lastName.$model"
+                    />
                 </div>
             </div>
             <div class="row mt-30">
                 <div class="col-12">
-                    <base-input label="E-mail" />
+                    <base-input
+                        label="E-mail"
+                        :class="{ error: $v.form.email.$error }"
+                        :error="!$v.form.email.email ? 'Enter the correct email' : ''"
+                        v-model="$v.form.email.$model"
+                    />
                 </div>
             </div>
             <div class="row mt-30">
                 <div class="col-12">
-                    <base-input label="address" />
+                    <base-input
+                        label="address"
+                        :class="{ error: $v.form.address.$error }"
+                        v-model="$v.form.address.$model"
+                    />
                 </div>
             </div>
             <div class="row">
                 <div class="col-12 col-md-6 mt-30">
-                    <base-input label="postal code" />
+                    <base-input
+                        label="postal code"
+                        :class="{ error: $v.form.postalCode.$error }"
+                        v-model="$v.form.postalCode.$model"
+                    />
                 </div>
                 <div class="col-12 col-md-6 mt-30">
-                    <base-input label="City" />
+                    <base-input label="City" :class="{ error: $v.form.city.$error }" v-model="$v.form.city.$model" />
                 </div>
             </div>
             <div class="row mt-30">
                 <div class="col-12">
-                    <base-input label="Country" />
+                    <base-input
+                        label="Country"
+                        :class="{ error: $v.form.country.$error }"
+                        v-model="$v.form.country.$model"
+                    />
                 </div>
             </div>
             <div class="row mt-30">
                 <div class="col-12">
-                    <base-input label="Phone number" />
+                    <base-input
+                        label="Phone number"
+                        :class="{ error: $v.form.phone.$error }"
+                        v-model="$v.form.phone.$model"
+                    />
                 </div>
+            </div>
+            <div class="textarea-group mt-30" v-if="showTextarea">
+                <div class="d-flex align-items-center justify-content-between">
+                    <label for="message" class="label m-0">What else should we know to place your order?</label>
+                </div>
+                <textarea
+                    type="text"
+                    id="message"
+                    class="w-100"
+                    v-model="form.message"
+                    @input="form.message.length > 1000 ? (form.message = form.message.substring(0, 1000)) : ''"
+                    placeholder="What else should we know to place your order?"
+                    name="message"
+                ></textarea>
             </div>
             <div class="row mt-30 justify-content-center justify-content-lg-end">
-                <div class="col-auto pr-2"><button class="btn btn-outline-black">Cancel</button></div>
                 <div class="col-auto pr-2">
-                    <button class="btn btn-black">{{ btnName }}</button>
+                    <button class="btn btn-outline-black" @click="$router.push('/catalog/')">Cancel</button>
+                </div>
+                <div class="col-auto pr-2">
+                    <button
+                        class="btn btn-black"
+                        @click="
+                            $v.$touch();
+                            !$v.$error ? $emit('buy', form) : '';
+                        "
+                    >
+                        {{ btnName }}
+                    </button>
                 </div>
             </div>
         </div>
@@ -50,6 +103,7 @@
 </template>
 <script>
     import BaseInput from '../components/fields/BaseInput.vue';
+    import { required, email } from 'vuelidate/lib/validators';
 
     export default {
         name: 'ContactForm',
@@ -60,6 +114,71 @@
                 required: false,
                 default: '',
             },
+            showTextarea: {
+                type: Boolean,
+                default: false,
+            },
+        },
+        data() {
+            return {
+                form: {
+                    firstName: '',
+                    lastName: '',
+                    email: '',
+                    address: '',
+                    postalCode: '',
+                    city: '',
+                    country: '',
+                    phone: '',
+                    message: '',
+                },
+            };
+        },
+        computed: {
+            isFormReady() {
+                return this.$v ? true : false;
+            },
+            user() {
+                return this.$store.state.user.user;
+            },
+        },
+        validations: {
+            form: {
+                firstName: {
+                    required,
+                },
+                lastName: {
+                    required,
+                },
+                email: {
+                    required,
+                    email,
+                },
+                address: {
+                    required,
+                },
+                postalCode: {
+                    required,
+                },
+                city: {
+                    required,
+                },
+                country: {
+                    required,
+                },
+                phone: {
+                    required,
+                },
+            },
+        },
+        created() {
+            if (this.user) {
+                for (let i in this.user) {
+                    if (i in this.form) {
+                        this.form[i] = this.user[i];
+                    }
+                }
+            }
         },
     };
 </script>
@@ -90,6 +209,12 @@
         .form-group {
             max-width: 540px;
             margin: 40px auto 0px;
+
+            .textarea-group {
+                textarea {
+                    background: none;
+                }
+            }
 
             @media @large {
                 margin: 40px 0px 0px 0px;

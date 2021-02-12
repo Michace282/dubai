@@ -49,6 +49,7 @@ query productList(
                                 edges {
                                     node {
                                         image
+                                        imageCropping
                                     }
                                 }
                             }

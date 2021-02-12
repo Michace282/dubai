@@ -28,7 +28,7 @@
                     </b-nav-item>
                     <b-nav-item
                         @click="
-                            !$store.state.user.user ? $emit('showRegModal') : $router.push({ name: 'account-contact' })
+                            !$store.state.user.user ? $emit('showRegModal') : $router.push({ name: 'account' })
                         "
                         ><img src="../assets/images/icons/account.svg"
                     /></b-nav-item>

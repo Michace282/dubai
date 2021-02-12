@@ -3,8 +3,8 @@
         <label v-if="label" :for="label" class="label">{{ label }}</label>
         <input
             :type="type"
-            v-model="value"
-            @input="$emit('input', value)"
+            v-model="model"
+            @input="$emit('input', model)"
             :id="label"
             :placeholder="label"
             :name="name"
@@ -36,10 +36,13 @@
                 required: false,
                 default: 'text',
             },
+            value: {
+                default: '',
+            },
         },
         data() {
             return {
-                value: '',
+                model: this.value,
             };
         },
     };

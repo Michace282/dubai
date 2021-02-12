@@ -12,7 +12,7 @@ export const mutations = {
     },
 };
 
-import user_query from '~/graphql/mutations/user/user.graphql';
+import user_query from '~/graphql/queries/user.graphql';
 import verify_token from '~/graphql/mutations/user/verifyToken.graphql';
 import cookieUniversal from 'cookie-universal';
 

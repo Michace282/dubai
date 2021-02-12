@@ -6,7 +6,7 @@
                 <img
                     v-if="colorsGroup.edges[activeColor].node.productimageSet.edges.length > 0"
                     class="photo"
-                    :src="colorsGroup.edges[activeColor].node.productimageSet.edges[0].node.image"
+                    :src="colorsGroup.edges[activeColor].node.productimageSet.edges[0].node.imageCropping"
                 />
                 <img class="photo" src="~/assets/images/no-photo.jpg" v-else />
             </div>
@@ -257,7 +257,7 @@
                     margin-right: 10px;
 
                     .label-size {
-                        width: 20px;
+                        min-width: 20px;
                         height: 20px;
                         text-align: center;
                     }

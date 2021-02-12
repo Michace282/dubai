@@ -6,11 +6,11 @@
                 <basket-container />
             </div>
             <div class="form-group">
-                <contact-form btnName="buy">
+                <contact-form btnName="buy" @buy="createOrder" :showTextarea="true">
                     <div class="subtitle" v-if="!$store.state.user.user">
                         Would you like to save this information for the next time??
                         <!--TODO: По клику на ссылку открыть модалку -->
-                        <a href.prevent class="link">Sign Up!</a>
+                        <a href.prevent class="link" @click="$nuxt.$emit('show-reg-modal')">Sign Up!</a>
                     </div>
                 </contact-form>
             </div>
@@ -26,6 +26,42 @@
         name: 'create-order',
         created() {
             this.$store.commit('set_breadcrumbs', null);
+        },
+        methods: {
+            createOrder(formInfo) {
+                let productsBasket = [];
+                let cookieBasket = this.$cookies.get('basket');
+                for (let i in cookieBasket) {
+                    productsBasket.push({
+                        product: cookieBasket[i].product,
+                        color: cookieBasket[i].color,
+                        size: cookieBasket[i].size,
+                        count: cookieBasket[i].count,
+                    });
+                }
+                this.$apollo
+                    .mutate({
+                        mutation: require('~/graphql/mutations/order/basketCreate.graphql'),
+                        variables: {
+                            guestUuid: this.$store.state.user.guestUuid,
+                            productsBasket: productsBasket,
+                        },
+                    })
+                    .then((data) => {
+                        if (data && data.data.basketCreate.errors.length == 0) {
+                            this.$store.commit('product/update_basket', []);
+                            this.$cookies.set('basket', {});
+                        } else {
+                            this.$bvToast.toast(data.data.basketCreate.errors[0].messages[0], {
+                                title: 'Create order',
+                                variant: 'danger',
+                            });
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            },
         },
     };
 </script>

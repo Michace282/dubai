@@ -6,11 +6,11 @@
                 <basket-container />
             </div>
             <div class="form-group">
-                <contact-form btnName="buy" @buy="createOrder">
+                <contact-form btnName="buy" @buy="createOrder" :showTextarea="true">
                     <div class="subtitle" v-if="!$store.state.user.user">
                         Would you like to save this information for the next time??
                         <!--TODO: По клику на ссылку открыть модалку -->
-                        <a href.prevent class="link">Sign Up!</a>
+                        <a href.prevent class="link" @click="$nuxt.$emit('show-reg-modal')">Sign Up!</a>
                     </div>
                 </contact-form>
             </div>
@@ -28,7 +28,7 @@
             this.$store.commit('set_breadcrumbs', null);
         },
         methods: {
-            createOrder() {
+            createOrder(formInfo) {
                 let productsBasket = [];
                 let cookieBasket = this.$cookies.get('basket');
                 for (let i in cookieBasket) {
@@ -39,8 +39,6 @@
                         count: cookieBasket[i].count,
                     });
                 }
-                console.log(cookieBasket);
-                console.log(productsBasket);
                 this.$apollo
                     .mutate({
                         mutation: require('~/graphql/mutations/order/basketCreate.graphql'),
@@ -51,7 +49,6 @@
                     })
                     .then((data) => {
                         if (data && data.data.basketCreate.errors.length == 0) {
-                            console.log(123);
                             this.$store.commit('product/update_basket', []);
                             this.$cookies.set('basket', {});
                         } else {
@@ -60,7 +57,6 @@
                                 variant: 'danger',
                             });
                         }
-                        console.log(data);
                     })
                     .catch((error) => {
                         console.log(error);

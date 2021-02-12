@@ -3,5 +3,7 @@ query user {
         id
         username
         firstName
+        lastName
+        email
     }
 }

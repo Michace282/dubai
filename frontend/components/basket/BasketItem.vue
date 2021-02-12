@@ -257,7 +257,7 @@
                     margin-right: 10px;
 
                     .label-size {
-                        width: 20px;
+                        min-width: 20px;
                         height: 20px;
                         text-align: center;
                     }

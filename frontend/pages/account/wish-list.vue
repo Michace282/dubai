@@ -1,6 +1,7 @@
 <template>
     <div class="container">
         <base-title title="Personal account" />
+        <account-head-group />
         <ApolloQuery
             :query="require('~/graphql/queries/product/productWishlistList')"
             :variables="{
@@ -9,7 +10,7 @@
                 after: cursor,
             }"
             @result="updateCursors"
-            fetchPolicy='no-cache'
+            fetchPolicy="no-cache"
         >
             <template v-slot="{ result: { error, data }, isLoading, query }">
                 <div v-if="isLoading || error" class="loading apollo mt-85"></div>
@@ -44,7 +45,7 @@
         />
         <div class="bg-gray" v-if="!$store.state.user.user">
             <div class="text">Would you like to save information about all your orders? Sign Up now!</div>
-            <button class="btn btn-black">Sign Up</button>
+            <button class="btn btn-black" @click="$nuxt.$emit('show-reg-modal')">Sign Up</button>
         </div>
     </div>
 </template>
@@ -52,10 +53,11 @@
     import BaseTitle from '~/components/BaseTitle.vue';
     import ProductItem from '~/components/catalog/ProductItem.vue';
     import Pagination from '~/components/catalog/Pagination';
+    import AccountHeadGroup from '~/components/AccountHeadGroup';
 
     export default {
         name: 'wish-list',
-        components: { BaseTitle, ProductItem, Pagination },
+        components: { BaseTitle, ProductItem, Pagination, AccountHeadGroup },
         data() {
             return {
                 cursor: null,
@@ -92,5 +94,9 @@
         .btn-black {
             padding: 7px 47px;
         }
+    }
+
+    .no-result {
+        padding: 60px 0px;
     }
 </style>

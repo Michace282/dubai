@@ -8,12 +8,12 @@
     >
         <template v-slot="{ result: { error, data }, isLoading, query }">
             <div v-if="isLoading || error" class="loading apollo mt-85"></div>
-            <div v-else-if="data && data.feedbackList.edges.length > 0" class="result apollo mt-90">
+            <div v-else-if="data && data.feedbackList.edges.length > 0" class="comment-item-group mt-90">
                 <comment-item
                     v-for="(comment, index) in data.feedbackList.edges"
                     :key="index"
                     class="mt-30"
-                    user="Anonimus"
+                    :user="`${comment.node.user.firstName} ${comment.node.user.lastName}`"
                     :text="comment.node.text"
                     :color="comment.node.color.name"
                     :size="comment.node.size.name"
@@ -83,6 +83,10 @@
     };
 </script>
 <style lang="less" scoped>
+    .comment-item-group {
+        max-width: 790px;
+    }
+
     .btn-outline-black {
         margin: 45px 0px 0px 65px;
         padding: 11px 35px;

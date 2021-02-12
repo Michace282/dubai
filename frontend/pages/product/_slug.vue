@@ -12,7 +12,13 @@
                 <div v-else-if="data && data.productDetail" class="result apollo">
                     <div class="container">
                         <div class="row">
-                            <div class="col-7">
+                            <div class="col-12 col-lg-7">
+                                <div class="head-group d-block d-lg-none">
+                                    <div class="bold text-uppercase">
+                                        {{ data.productDetail.name }}
+                                    </div>
+                                    <div class="model mt-15">Model №{{ data.productDetail.article }}</div>
+                                </div>
                                 <product-carousel
                                     v-if="
                                         colorsGroup[colorVal] &&
@@ -23,10 +29,12 @@
                                 <img v-else src="~/assets/images/no-photo.jpg" />
                             </div>
                             <div class="col">
-                                <div class="head-group">
+                                <div class="head-group mt-3 mt-lg-0 align-items-center align-items-lg-start">
                                     <div>
-                                        <div class="bold text-uppercase">{{ data.productDetail.name }}</div>
-                                        <div class="d-flex align-items-end mt-15">
+                                        <div class="bold text-uppercase d-none d-lg-block">
+                                            {{ data.productDetail.name }}
+                                        </div>
+                                        <div class="d-flex align-items-end mt-0 mt-lg-3">
                                             <rating-group :rating="Math.floor(data.productDetail.avgFeedback)" />
                                             <div class="label">
                                                 {{ Math.floor(data.productDetail.countFeedback) }} feedbacks
@@ -35,7 +43,9 @@
                                     </div>
                                     <div>
                                         <div class="bold text-uppercase">{{ data.productDetail.price }} aed</div>
-                                        <div class="model">Model №{{ data.productDetail.article }}</div>
+                                        <div class="model d-none d-lg-block">
+                                            Model №{{ data.productDetail.article }}
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="description">{{ data.productDetail.description }}</div>
@@ -139,7 +149,7 @@
                                     Returns & Refunds section for details
                                 </div>
                             </div>
-                            <div class="col-auto text-center">
+                            <div class="col-auto text-center comment-block">
                                 <img src="~/assets/images/icons/comment.svg" />
                                 <div class="text mw-290">If you have any questions please contact us</div>
                             </div>
@@ -192,9 +202,16 @@
                                 showForm = false;
                             "
                         />
+                        <button
+                            class="btn btn-black d-block d-lg-none mt-15"
+                            @click="showForm = true"
+                            v-if="$store.state.user.user && !showForm"
+                        >
+                            Write a rewiew
+                        </button>
                         <div class="d-flex justify-content-between w-100">
                             <comment-group />
-                            <div class="right-block mt-30">
+                            <div class="right-block mt-30 d-none d-lg-block">
                                 <div class="d-flex align-items-center justify-content-between mb-3">
                                     <rating-group :rating="Math.floor(data.productDetail.avgFeedback)" :size="20" />
                                     <div class="bold">{{ Math.floor(data.productDetail.avgFeedback) }}/5</div>
@@ -587,8 +604,43 @@
         margin-top: 60px;
         background: @grey3;
 
+        @media @extraLarge {
+            justify-content: center;
+        }
+
+        @media @large {
+            padding: 30px 20px;
+        }
+
+        @media @small {
+            justify-content: space-between;
+        }
+
+        .col-auto {
+            &:nth-child(2) {
+                @media @large {
+                    margin-top: 35px;
+                    order: 3;
+                }
+            }
+
+            @media @small {
+                padding: 0px;
+            }
+        }
+
+        img {
+            @media @large {
+                width: 30px;
+            }
+        }
+
         .mw-290 {
             max-width: 290px;
+
+            @media @large {
+                max-width: 155px;
+            }
         }
 
         .mw-310 {
@@ -597,12 +649,28 @@
 
         .text {
             margin-top: 15px;
+
+            @media @large {
+                font-size: 12px;
+                margin-top: 5px;
+            }
+        }
+
+        .comment-block {
+            @media @extraLarge {
+                margin-top: 35px;
+            }
+
+            @media @large {
+                margin-top: 0px;
+            }
         }
     }
 
     .head-group {
         display: flex;
         justify-content: space-between;
+        flex-wrap: wrap;
 
         .label {
             font-family: 'Inter-Light';
@@ -613,7 +681,7 @@
         }
 
         .model {
-            margin-top: 15px;
+            margin-top: 12px;
             font-family: 'Inter-Light';
             font-size: 14px;
             color: @grey4;
@@ -655,9 +723,10 @@
     }
 
     .btn-yellow {
+        width: 100%;
         color: @white;
         background: @yellow;
-        padding: 7px 60px;
+        padding: 7px 10px;
         border: 1px solid @yellow;
 
         &:hover {

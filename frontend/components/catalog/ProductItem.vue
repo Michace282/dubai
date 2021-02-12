@@ -92,10 +92,17 @@
     .product {
         &.product-sm {
             max-width: 160px;
+            width: 100%;
             margin: 0px;
+
             .preview {
                 max-height: 220px;
                 margin: 0 auto;
+
+                @media @large {
+                    max-height: 200px;
+                    width: 160px;
+                }
             }
 
             .name,

@@ -89,7 +89,7 @@
                 color: @black;
                 z-index: 10;
 
-                @media (max-width: 1199px) {
+                @media @extraLarge {
                     font-size: 18px;
                 }
 
@@ -100,7 +100,7 @@
                     font-size: 48px;
                     color: @grey2;
 
-                    @media (max-width: 1199px) {
+                    @media @extraLarge {
                         font-size: 28px;
                     }
                 }
@@ -111,7 +111,7 @@
                 height: 530px;
                 background-image: url('../assets/images/category-mans.png');
 
-                @media (max-width: 1199px) {
+                @media @extraLarge {
                     width: 150px;
                     height: 330px;
                 }
@@ -121,7 +121,7 @@
                     top: 111px;
                     left: 40px;
 
-                    @media (max-width: 1199px) {
+                    @media @extraLarge {
                         top: 64px;
                         left: 20px;
                     }
@@ -131,7 +131,7 @@
                         top: -17px;
                         left: -30px;
 
-                        @media (max-width: 1199px) {
+                        @media @extraLarge {
                             top: -9px;
                             left: -15px;
                         }
@@ -146,7 +146,7 @@
                 height: 250px;
                 overflow: hidden;
 
-                @media (max-width: 1199px) {
+                @media @extraLarge {
                     width: 270px;
                     height: 150px;
                 }
@@ -157,7 +157,7 @@
                         position: relative;
                         margin-left: 40px;
 
-                        @media (max-width: 1199px) {
+                        @media @extraLarge {
                             margin-left: 20px;
                         }
 
@@ -166,7 +166,7 @@
                             left: -32px;
                             top: -15px;
 
-                            @media (max-width: 1199px) {
+                            @media @extraLarge {
                                 left: -16px;
                                 top: -7px;
                             }
@@ -183,7 +183,7 @@
                         position: relative;
                         margin-right: 60px;
 
-                        @media (max-width: 1199px) {
+                        @media @extraLarge {
                             margin-right: 17px;
                         }
 
@@ -192,7 +192,7 @@
                             left: -32px;
                             top: -15px;
 
-                            @media (max-width: 1199px) {
+                            @media @extraLarge {
                                 left: -15px;
                                 top: -7px;
                             }
@@ -207,7 +207,7 @@
 
                 background-image: url('../assets/images/category-ladies.png');
 
-                @media (max-width: 1199px) {
+                @media @extraLarge {
                     width: 210px;
                     height: 330px;
                 }
@@ -217,7 +217,7 @@
                     bottom: 110px;
                     right: 60px;
 
-                    @media (max-width: 1199px) {
+                    @media @extraLarge {
                         bottom: 68px;
                         right: 26px;
                     }
@@ -227,7 +227,7 @@
                         left: -37px;
                         top: -15px;
 
-                        @media (max-width: 1199px) {
+                        @media @extraLarge {
                             left: -15px;
                             top: -9px;
                         }

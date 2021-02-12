@@ -188,7 +188,7 @@
             width: fit-content;
             margin: 0 35px 0px auto;
 
-            @media (max-width: 1199px) {
+            @media @extraLarge {
                 margin: 0 -50px 0px auto;
             }
 

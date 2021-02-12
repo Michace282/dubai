@@ -6,7 +6,7 @@
                 <basket-container />
             </div>
             <div class="form-group">
-                <contact-form btnName="buy" @buy="createOrder" :showTextarea="true">
+                <contact-form btnName="buy" @buy="createOrder" :showCreateOrderFields="true">
                     <div class="subtitle" v-if="!$store.state.user.user">
                         Would you like to save this information for the next time??
                         <!--TODO: По клику на ссылку открыть модалку -->

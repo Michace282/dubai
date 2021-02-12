@@ -1,6 +1,5 @@
 <template>
     <div class="container">
-        <base-title title="Personal account" />
         <account-head-group />
         <ApolloQuery
             :query="require('~/graphql/queries/product/productWishlistList')"

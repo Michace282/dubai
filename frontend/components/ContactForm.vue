@@ -6,14 +6,14 @@
             <div class="row">
                 <div class="col-12 col-md-6">
                     <base-input
-                        label="first name"
+                        label="First name"
                         :class="{ error: $v.form.firstName.$error }"
                         v-model="$v.form.firstName.$model"
                     />
                 </div>
                 <div class="col-12 col-md-6 mt-30 mt-md-0">
                     <base-input
-                        label="last name"
+                        label="Last name"
                         :class="{ error: $v.form.lastName.$error }"
                         v-model="$v.form.lastName.$model"
                     />
@@ -32,7 +32,7 @@
             <div class="row mt-30">
                 <div class="col-12">
                     <base-input
-                        label="address"
+                        label="Address"
                         :class="{ error: $v.form.address.$error }"
                         v-model="$v.form.address.$model"
                     />
@@ -41,7 +41,7 @@
             <div class="row">
                 <div class="col-12 col-md-6 mt-30">
                     <base-input
-                        label="postal code"
+                        label="Postal code"
                         :class="{ error: $v.form.postalCode.$error }"
                         v-model="$v.form.postalCode.$model"
                     />

@@ -228,13 +228,17 @@
                 }, 1000);
             },
             clearFilter() {
-                for (let key in this.filter) {
-                    if (Array.isArray(this.filter[key])) {
-                        this.filter = [];
-                    } else if (this.filter[key]) {
-                        this.filter[key] = null;
-                    }
-                }
+                this.filter = {
+                    colors: [],
+                    sizes: [],
+                    productType: null,
+                    ladiesType: null,
+                    mensType: null,
+                    accessoriesType: null,
+                    danceShoesType: null,
+                    price_Gte: null,
+                    price_Lte: null,
+                };
                 this.range.min = null;
                 this.range.max = null;
                 this.breadcrumbs = null;

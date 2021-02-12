@@ -85,7 +85,9 @@
                     <label class="label-color" :for="color.id">
                         <div
                             class="color"
-                            :style="`background: ${color.image ? 'url(' + color.image + ')' : color.color}`"
+                            :style="
+                                color.image ? 'background-image: url(' + color.image + ')' : 'background:' + color.color
+                            "
                         ></div>
                     </label>
                 </div>

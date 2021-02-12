@@ -32,7 +32,7 @@
                                               colorsGroup.edges[activeColor].node.color.image +
                                               ')'
                                             : 'background:' + colorsGroup.edges[activeColor].node.color.color
-                                    ;"
+                                    "
                                 ></div>
                             </label>
                         </div>

@@ -41,7 +41,7 @@
             font-size: 194px !important;
             line-height: 150px;
 
-            @media (max-width: 1199px) {
+            @media @extraLarge {
                 font-size: 72px !important;
                 line-height: 87px;
             }
@@ -55,7 +55,7 @@
                 line-height: 74px;
                 font-size: 96px !important;
 
-                @media (max-width: 1199px) {
+                @media @extraLarge {
                     font-size: 48px !important;
                     line-height: 58px;
                 }
@@ -68,7 +68,7 @@
         position: relative;
         min-height: calc(100vh - 502px);
 
-        @media (max-width: 1199px) {
+        @media @extraLarge {
             max-width: 381px;
             margin: 44px auto 90px;
         }
@@ -77,7 +77,7 @@
             max-width: 660px;
             justify-content: flex-end;
 
-            @media (max-width: 1199px) {
+            @media @extraLarge {
                 justify-content: flex-start;
             }
 
@@ -110,7 +110,7 @@
             right: 0;
             position: absolute;
 
-            @media (max-width: 1199px) {
+            @media @extraLarge {
                 bottom: unset;
                 top: -5px;
 
@@ -138,7 +138,7 @@
             margin-top: 130px;
             justify-content: flex-end;
 
-            @media (max-width: 1199px) {
+            @media @extraLarge {
                 margin-top: 0px;
             }
 
@@ -149,7 +149,7 @@
                 text-transform: uppercase;
                 color: @black;
 
-                @media (max-width: 1199px) {
+                @media @extraLarge {
                     max-width: 155px;
                     margin-top: 60px;
                     font-size: 18px;
@@ -165,7 +165,7 @@
                 line-height: 22px;
                 color: @black;
 
-                @media (max-width: 1199px) {
+                @media @extraLarge {
                     max-width: 155px;
                     font-size: 14px;
                     line-height: 17px;

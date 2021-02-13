@@ -65,6 +65,10 @@
             line-height: 17px;
             text-transform: uppercase;
             color: @grey4;
+
+            @media @small {
+                margin-bottom: 10px;
+            }
         }
 
         .dropdown {
@@ -82,6 +86,10 @@
                 padding-bottom: 10px;
                 border-bottom: 1px solid @black;
                 cursor: pointer;
+
+                @media @small {
+                    font-size: 14px;
+                }
 
                 &.active {
                     border-bottom: 0px;

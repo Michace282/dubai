@@ -6,14 +6,14 @@
             <div class="row">
                 <div class="col-12 col-md-6">
                     <base-input
-                        label="first name"
+                        label="First name"
                         :class="{ error: $v.form.firstName.$error }"
                         v-model="$v.form.firstName.$model"
                     />
                 </div>
                 <div class="col-12 col-md-6 mt-30 mt-md-0">
                     <base-input
-                        label="last name"
+                        label="Last name"
                         :class="{ error: $v.form.lastName.$error }"
                         v-model="$v.form.lastName.$model"
                     />
@@ -32,7 +32,7 @@
             <div class="row mt-30">
                 <div class="col-12">
                     <base-input
-                        label="address"
+                        label="Address"
                         :class="{ error: $v.form.address.$error }"
                         v-model="$v.form.address.$model"
                     />
@@ -41,7 +41,7 @@
             <div class="row">
                 <div class="col-12 col-md-6 mt-30">
                     <base-input
-                        label="postal code"
+                        label="Postal code"
                         :class="{ error: $v.form.postalCode.$error }"
                         v-model="$v.form.postalCode.$model"
                     />
@@ -68,7 +68,7 @@
                     />
                 </div>
             </div>
-            <div class="textarea-group mt-30" v-if="showTextarea">
+            <div class="textarea-group mt-30" v-if="showCreateOrderFields">
                 <div class="d-flex align-items-center justify-content-between">
                     <label for="message" class="label m-0">What else should we know to place your order?</label>
                 </div>
@@ -81,6 +81,38 @@
                     placeholder="What else should we know to place your order?"
                     name="message"
                 ></textarea>
+            </div>
+            <div class="row mt-30" v-if="showCreateOrderFields">
+                <div class="col-12">
+                    <base-input label="Your promo code" v-model="promo" />
+                </div>
+            </div>
+            <div class="row radio-group mt-30" v-if="showCreateOrderFields">
+                <div class="col-auto pr-0">
+                    <div class="label">Payment method</div>
+                </div>
+                <div class="col-auto pr-0">
+                    <div class="color-group">
+                        <input type="radio" name="payment" v-model="payment" :value="false" id="card" />
+                        <label class="radio-label" for="card">
+                            <div class="label-color">
+                                <div class="color" :style="'background: black;'"></div>
+                            </div>
+                            Credit/debit card
+                        </label>
+                    </div>
+                </div>
+                <div class="col-auto pr-0">
+                    <div class="color-group">
+                        <input type="radio" name="payment" v-model="payment" :value="true" id="cash" />
+                        <label class="radio-label" for="cash">
+                            <div class="label-color">
+                                <div class="color" :style="'background: black;'"></div>
+                            </div>
+                            cash on delivery
+                        </label>
+                    </div>
+                </div>
             </div>
             <div class="row mt-30 justify-content-center justify-content-lg-end">
                 <div class="col-auto pr-2">
@@ -114,7 +146,7 @@
                 required: false,
                 default: '',
             },
-            showTextarea: {
+            showCreateOrderFields: {
                 type: Boolean,
                 default: false,
             },
@@ -131,6 +163,8 @@
                     country: '',
                     phone: '',
                     message: '',
+                    promo: '',
+                    payment: false,
                 },
             };
         },
@@ -188,7 +222,7 @@
             width: fit-content;
             margin: 0 35px 0px auto;
 
-            @media (max-width: 1199px) {
+            @media @extraLarge {
                 margin: 0 -50px 0px auto;
             }
 
@@ -202,6 +236,40 @@
                     max-width: 170px;
                     line-height: 29px;
                     bottom: 10px;
+                }
+            }
+        }
+
+        .radio-group {
+            .label {
+                font-family: 'Inter-Regular';
+                font-size: 14px;
+                text-transform: uppercase;
+                color: @grey4;
+            }
+
+            input {
+                &:checked + label {
+                    font-family: 'Inter-Medium';
+                    opacity: 1;
+                }
+            }
+
+            .radio-label {
+                display: flex;
+                align-items: center;
+                font-size: 14px;
+                line-height: 17px;
+                text-transform: uppercase;
+                color: @black;
+                cursor: pointer;
+                opacity: 0.3;
+
+                .label-color {
+                    width: 20px;
+                    height: 20px;
+                    margin-right: 10px;
+                    border-color: @black;
                 }
             }
         }

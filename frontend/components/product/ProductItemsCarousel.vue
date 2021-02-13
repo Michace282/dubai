@@ -4,7 +4,7 @@
             <VueSlickCarousel class="nav-slider" v-bind="slickOptions" :key="1">
                 <div v-for="(product, index) in items" :key="index">
                     <product-item
-                        class="product-sm "
+                        class="product-sm"
                         :id="product.node.id"
                         :name="product.node.name"
                         :price="product.node.price"
@@ -42,9 +42,30 @@
             return {
                 slickOptions: {
                     slidesToShow: 6,
+                    slidesToScroll: 1,
                     arrows: true,
                     rows: 1,
                     initialSlide: 0,
+                    responsive: [
+                        {
+                            breakpoint: 1199,
+                            settings: {
+                                slidesToShow: 4,
+                            },
+                        },
+                        {
+                            breakpoint: 991,
+                            settings: {
+                                slidesToShow: 3,
+                            },
+                        },
+                        {
+                            breakpoint: 767,
+                            settings: {
+                                slidesToShow: 2,
+                            },
+                        },
+                    ],
                 },
             };
         },

@@ -17,12 +17,50 @@ query productDetail($id: ID!) {
         countFeedbackStar5
         avgFeedback
         countFeedback
+        isWishlist
         sizeChart {
             id
             name
             table
+            sizeSet {
+                edges {
+                    node {
+                        id
+                        name
+                    }
+                }
+            }
         }
         data
+        worksBestWith {
+            edges {
+                node {
+                    id
+                    name
+                    price
+                    isWishlist
+                    productsizecolorSet {
+                        edges {
+                            node {
+                                productimageSet {
+                                    edges {
+                                        node {
+                                            id
+                                            image
+                                            imageCropping
+                                        }
+                                    }
+                                }
+                                color {
+                                    id
+                                    name
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
         productsizecolorSet {
             edges {
                 node {
@@ -34,23 +72,20 @@ query productDetail($id: ID!) {
                             }
                         }
                     }
+                    productimageSet {
+                        edges {
+                            node {
+                                id
+                                image
+                                imageCropping
+                            }
+                        }
+                    }
                     color {
                         id
                         color
-                        productsizecolorSet {
-                            edges {
-                                node {
-                                    productimageSet {
-                                        edges {
-                                            node {
-                                                id
-                                                image
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                        name
+                        image
                     }
                 }
             }

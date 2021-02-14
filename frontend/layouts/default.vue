@@ -1,6 +1,9 @@
 <template>
     <div>
-        <the-navbar @showRegModal="showModal = 'reg'" @showBasket="showModal = 'basket'" />
+        <the-navbar
+            @showRegModal="showModal = 'reg'"
+            @showBasket="$route.name != 'create-order' ? (showModal = 'basket') : ''"
+        />
         <div class="main">
             <transition name="toggle-basket">
                 <basket-modal
@@ -54,6 +57,33 @@
                 showModal: false,
             };
         },
+        created() {
+            let v = this;
+            if (!v.$cookies.get('guestUuid') && !v.$store.state.user.user) {
+                v.$apollo
+                    .mutate({
+                        mutation: require('~/graphql/mutations/user/questCreate.graphql'),
+                    })
+                    .then((data) => {
+                        if (data && data.data.guestCreate.guest) {
+                            v.$cookies.set('guestUuid', data.data.guestCreate.guest.uuid);
+                            v.$store.commit('user/update_guestUuid', data.data.guestCreate.guest.uuid);
+                        }
+                    });
+            } else if (v.$store.state.user.user && v.$cookies.get('guestUuid')) {
+                v.$store.commit('user/update_guestUuid', null);
+            } else if (v.$cookies.get('guestUuid')) {
+                v.$store.commit('user/update_guestUuid', v.$cookies.get('guestUuid'));
+            }
+            v.$nuxt.$on('show-reg-modal', () => {
+                v.showModal = 'reg';
+            });
+        },
+        watch: {
+            $route() {
+                this.showModal = false;
+            },
+        },
         computed: {
             breadcrumbs() {
                 return this.$store.state.breadcrumbs;
@@ -76,7 +106,7 @@
             transition: opacity 0.3s;
 
             &.hide {
-                opacity: 0;
+                opacity: 0.1;
             }
 
             &.opacity {

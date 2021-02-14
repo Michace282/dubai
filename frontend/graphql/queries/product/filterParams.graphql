@@ -3,6 +3,7 @@ query productList {
         colorsAvailable {
             id
             color
+            image
         }
         sizesAvailable {
             id

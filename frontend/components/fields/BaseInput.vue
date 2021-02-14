@@ -1,7 +1,15 @@
 <template>
     <div class="input-box">
         <label v-if="label" :for="label" class="label">{{ label }}</label>
-        <input type="text" :id="label" :placeholder="label" :name="name" />
+        <input
+            :type="type"
+            v-model="model"
+            @input="$emit('input', model)"
+            :id="label"
+            :placeholder="label"
+            :name="name"
+        />
+        <div class="error-text" v-if="error">{{ error }}</div>
     </div>
 </template>
 <script>
@@ -18,14 +26,41 @@
                 required: false,
                 default: '',
             },
+            error: {
+                type: String,
+                required: false,
+                default: '',
+            },
+            type: {
+                type: String,
+                required: false,
+                default: 'text',
+            },
+            value: {
+                default: '',
+            },
+        },
+        data() {
+            return {
+                model: this.value,
+            };
         },
     };
 </script>
 <style lang="less" scoped>
     .input-box {
         display: flex;
+        position: relative;
         border-bottom: 1px solid @black;
         padding: 0px 0px 7px 0px;
+
+        &.error {
+            border-color: @red;
+
+            .label {
+                color: @red;
+            }
+        }
 
         &.dark {
             border-color: @white;
@@ -38,6 +73,13 @@
             .label {
                 color: @grey4;
             }
+        }
+
+        .error-text {
+            position: absolute;
+            color: @red;
+            font-size: 12px;
+            bottom: -20px;
         }
 
         .label {
@@ -58,7 +100,6 @@
             border: none;
             font-family: 'Inter-Regular';
             font-size: 14px;
-            text-transform: uppercase;
             background: @grey3;
             color: @black;
 

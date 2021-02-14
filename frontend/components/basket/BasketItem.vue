@@ -1,67 +1,101 @@
 <template>
     <div class="item-group">
-        <a href.prevent class="delete"><img src="~/assets/images/icons/exit.svg" /></a>
+        <a href.prevent class="delete" @click="$emit('remove')"><img src="~/assets/images/icons/exit.svg" /></a>
         <div class="row">
             <div class="col-auto pr-2 pr-sm-3">
-                <img class="photo" src="~/assets/images/product-preview.png" />
+                <img
+                    v-if="colorsGroup.edges[activeColor].node.productimageSet.edges.length > 0"
+                    class="photo"
+                    :src="colorsGroup.edges[activeColor].node.productimageSet.edges[0].node.imageCropping"
+                />
+                <img class="photo" src="~/assets/images/no-photo.jpg" v-else />
             </div>
             <div class="col params pr-0">
-                <div class="bold name">Dress</div>
-                <item-param label="Color" linkName="Change color">
+                <div class="bold name">{{ name }}</div>
+                <item-param
+                    label="Color"
+                    linkName="Change color"
+                    @save="
+                        $emit('setColor', colorsGroup.edges[activeColor].node.color.id);
+                        $emit('setSize', colorsGroup.edges[activeColor].node.sizes.edges[0].node.id);
+                    "
+                >
                     <template v-slot:activeItem>
                         <div class="color-group">
                             <input type="checkbox" disabled checked id="color" />
                             <label class="label-color mb-0" for="color">
-                                <div class="color"></div>
+                                <div
+                                    class="color"
+                                    :style="
+                                        colorsGroup.edges[activeColor].node.color.image
+                                            ? 'background-image: url(' +
+                                              colorsGroup.edges[activeColor].node.color.image +
+                                              ')'
+                                            : 'background:' + colorsGroup.edges[activeColor].node.color.color
+                                    "
+                                ></div>
                             </label>
                         </div>
                     </template>
                     <template v-slot:options>
                         <div class="colors">
-                            <div class="color-group">
-                                <input type="radio" name="colors" id="color" />
-                                <label class="label-color mb-0" for="color">
-                                    <div class="color"></div>
-                                </label>
-                            </div>
-                            <div class="color-group">
-                                <input type="radio" name="colors" id="color2" />
-                                <label class="label-color mb-0" for="color2">
-                                    <div class="color"></div>
-                                </label>
-                            </div>
-                            <div class="color-group">
-                                <input type="radio" name="colors" id="color3" />
-                                <label class="label-color mb-0" for="color3">
-                                    <div class="color"></div>
+                            <div class="color-group" v-for="(colorGroup, index) in colorsGroup.edges" :key="index">
+                                <input
+                                    type="radio"
+                                    v-model="activeColor"
+                                    @input="activeSize = 0"
+                                    :value="index"
+                                    :id="colorGroup.node.id"
+                                />
+                                <label class="label-color mb-0" :for="colorGroup.node.id">
+                                    <div
+                                        class="color"
+                                        :style="
+                                            colorGroup.node.color.image
+                                                ? 'background-image: url(' + colorGroup.node.color.image + ')'
+                                                : 'background:' + colorGroup.node.color.color
+                                        "
+                                    ></div>
                                 </label>
                             </div>
                         </div>
                     </template>
                 </item-param>
-                <item-param label="Size" linkName="Change size">
+                <item-param
+                    label="Size"
+                    linkName="Change size"
+                    @save="$emit('setSize', colorsGroup.edges[activeColor].node.sizes.edges[activeSize].node.id)"
+                >
                     <template v-slot:activeItem>
-                        <div class="bold d-flex align-items-end d-xs-block">XS</div>
+                        <div class="bold d-flex align-items-end d-xs-block">
+                            {{ colorsGroup.edges[activeColor].node.sizes.edges[activeSize].node.name }}
+                        </div>
                     </template>
                     <template v-slot:options>
                         <div class="sizes">
-                            <div class="size-box">
-                                <input type="radio" name="sizes" id="size3" />
-                                <label class="label-size" for="size3">XS</label>
-                            </div>
-                            <div class="size-box">
-                                <input type="radio" name="sizes" id="size2" />
-                                <label class="label-size" for="size2">S</label>
+                            <div
+                                class="size-box"
+                                v-for="(size, index) in colorsGroup.edges[activeColor].node.sizes.edges"
+                                :key="`size ${index}`"
+                            >
+                                <input
+                                    type="radio"
+                                    v-model="activeSize"
+                                    :value="index"
+                                    name="sizes"
+                                    :id="`size${index}`"
+                                />
+                                <label class="label-size" :for="`size${index}`">{{ size.node.name }}</label>
                             </div>
                         </div>
                     </template>
                 </item-param>
                 <div class="count-group">
-                    <a href.prevemt class="control" @click="count > 1 ? count-- : ''">-</a>
-                    <input type="text" @input="validate" v-model="count" />
-                    <a href.prevemt class="control" @click="count++">+</a>
+                    <a href.prevemt class="control" @click="activeCount > 1 ? activeCount-- : ''">-</a>
+                    <input type="text" @input="validate" v-model="activeCount" />
+                    <a href.prevemt class="control" @click="activeCount++">+</a>
                 </div>
-                <div class="bold mt-30">590 AED</div>
+                <div class="bold mt-30">{{ price }} AED</div>
             </div>
         </div>
     </div>
@@ -72,15 +106,69 @@
     export default {
         name: 'BasketItem',
         components: { ItemParam },
+        props: {
+            name: {
+                type: String,
+                required: true,
+                default: '',
+            },
+            price: {
+                type: Number,
+                required: true,
+                default: null,
+            },
+            colorsGroup: {
+                type: Object,
+                required: false,
+                default: null,
+            },
+            color: {
+                type: String,
+                default: '',
+            },
+            size: {
+                type: String,
+                default: '',
+            },
+            count: {
+                type: Number,
+                default: 1,
+            },
+        },
         data() {
             return {
-                count: 1,
+                activeCount: this.count,
+                activeColor: 0,
+                activeSize: 0,
             };
+        },
+        watch: {
+            activeCount() {
+                this.$emit('setCount', parseInt(this.activeCount));
+            },
+        },
+        created() {
+            if (this.color) {
+                for (let i in this.colorsGroup.edges) {
+                    if (this.colorsGroup.edges[i].node.color.id == this.color) {
+                        this.activeColor = i;
+                    }
+                }
+            }
+            if (this.size) {
+                for (let i in this.colorsGroup.edges[this.activeColor].node.sizes.edges) {
+                    if (this.colorsGroup.edges[this.activeColor].node.sizes.edges[i].node.id == this.size) {
+                        this.activeSize = i;
+                    }
+                }
+            }
         },
         methods: {
             validate() {
-                if (this.count * 1 + 0 != this.count || !this.count) {
-                    this.count = 1;
+                if (this.activeCount * 1 + 0 != this.activeCount || !this.activeCount) {
+                    this.activeCount = 1;
+                } else if (this.activeCount > 100) {
+                    this.activeCount = 100;
                 }
             },
         },
@@ -171,7 +259,7 @@
                     margin-right: 10px;
 
                     .label-size {
-                        width: 20px;
+                        min-width: 20px;
                         height: 20px;
                         text-align: center;
                     }

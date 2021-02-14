@@ -19,7 +19,12 @@ export default {
             { property: 'og:description', content: '' },
             { property: 'og:image', content: '' },
         ],
-        link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+        link: [
+            { rel: 'shortcut icon', href: '/favicon.ico' },
+            { rel: 'icon', type: 'image/vnd.microsoft.icon', href: '/favicon.ico' },
+            { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+            { rel: 'icon', href: '/favicon.ico' },
+        ],
     },
     /*
      ** Customize the progress-bar color
@@ -37,6 +42,7 @@ export default {
         // '~plugins/axios',
         '~plugins/components.server.js',
         '~/plugins/global-components.js',
+        { src: '~/plugins/vuelidate.js', mode: 'client' },
         { src: '~plugins/components.client.js', ssr: false },
         { src: '~/plugins/vuejs-paginate.js', ssr: false },
         { src: '~/plugins/vue-slick-carousel.js', ssr: false },

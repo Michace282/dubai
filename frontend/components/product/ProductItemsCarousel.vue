@@ -2,8 +2,15 @@
     <div class="product-item-carousel">
         <client-only>
             <VueSlickCarousel class="nav-slider" v-bind="slickOptions" :key="1">
-                <div v-for="i in 10" :key="i">
-                    <product-item class="product-sm" :id="'1'" :name="'123213'" :price="321321" />
+                <div v-for="(product, index) in items" :key="index">
+                    <product-item
+                        class="product-sm"
+                        :id="product.node.id"
+                        :name="product.node.name"
+                        :price="product.node.price"
+                        :isWishlist="product.node.isWishlist"
+                        :colorsGroup="product.node.productsizecolorSet"
+                    />
                 </div>
                 <template #prevArrow>
                     <div class="custom-arrow prev"><img src="~/assets/images/icons/arrow-collapse.svg" /></div>
@@ -22,13 +29,43 @@
         components: {
             ProductItem,
         },
+        props: {
+            items: {
+                type: Array,
+                required: true,
+                default: () => {
+                    return [];
+                },
+            },
+        },
         data() {
             return {
                 slickOptions: {
                     slidesToShow: 6,
+                    slidesToScroll: 1,
                     arrows: true,
                     rows: 1,
                     initialSlide: 0,
+                    responsive: [
+                        {
+                            breakpoint: 1199,
+                            settings: {
+                                slidesToShow: 4,
+                            },
+                        },
+                        {
+                            breakpoint: 991,
+                            settings: {
+                                slidesToShow: 3,
+                            },
+                        },
+                        {
+                            breakpoint: 767,
+                            settings: {
+                                slidesToShow: 2,
+                            },
+                        },
+                    ],
                 },
             };
         },
@@ -36,7 +73,6 @@
 </script>
 <style lang="less">
     .product-item-carousel {
-
         .custom-arrow {
             display: flex;
             align-items: center;

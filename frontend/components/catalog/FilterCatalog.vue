@@ -83,7 +83,12 @@
                 <div class="color-group" v-for="color in colors" :key="color.id">
                     <input type="checkbox" name="checkbox" v-model="filter.colors" :value="color.id" :id="color.id" />
                     <label class="label-color" :for="color.id">
-                        <div class="color" :style="`background: ${color.color}`"></div>
+                        <div
+                            class="color"
+                            :style="
+                                color.image ? 'background-image: url(' + color.image + ')' : 'background:' + color.color
+                            "
+                        ></div>
                     </label>
                 </div>
             </div>
@@ -225,13 +230,17 @@
                 }, 1000);
             },
             clearFilter() {
-                for (let key in this.filter) {
-                    if (Array.isArray(this.filter[key])) {
-                        this.filter = [];
-                    } else if (this.filter[key]) {
-                        this.filter[key] = null;
-                    }
-                }
+                this.filter = {
+                    colors: [],
+                    sizes: [],
+                    productType: null,
+                    ladiesType: null,
+                    mensType: null,
+                    accessoriesType: null,
+                    danceShoesType: null,
+                    price_Gte: null,
+                    price_Lte: null,
+                };
                 this.range.min = null;
                 this.range.max = null;
                 this.breadcrumbs = null;

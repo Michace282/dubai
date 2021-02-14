@@ -5,14 +5,17 @@
                 <div class="avatar default"></div>
             </div>
             <div class="col">
-                <div class="row">
+                <div class="row justify-content-between justify-content-sm-start">
                     <div class="col-auto medium name">{{ user }}</div>
-                    <div class="col-auto grey-light">
+                    <div class="col-auto d-sm-none">
+                        <rating-group :size="20" :rating="parseInt(rating.split('A_')[1])" />
+                    </div>
+                    <div class="col-12 col-sm-auto date grey-light">
                         {{ $moment(publicateDate).format('DD.MM.YYYY HH:SS') }}
                     </div>
                 </div>
-                <div class="row mt-15">
-                    <div class="col-auto">
+                <div class="row mt-2 mt-sm-3">
+                    <div class="col-auto d-none d-sm-block">
                         <rating-group :size="20" :rating="parseInt(rating.split('A_')[1])" />
                     </div>
                     <div class="col-auto d-flex align-items-end">
@@ -31,13 +34,13 @@
         <div class="text ml-65">
             {{ text }}
         </div>
-        <!-- <div class="row ml-65 mt-15" v-if="images && images.length > 0">
-            <div class="col-auto pl-0" v-for="image in images" :key="image.node.id">
+        <div class="row ml-65 mt-15" v-if="images && images.length > 0">
+            <div class="col-auto pl-md-0 pr-0 pr-md-3" v-for="image in images" :key="image.node.id">
                 <a :href="image.node.image" target="_blank">
                     <img class="comment-photo" :src="image.node.image" />
                 </a>
             </div>
-        </div> -->
+        </div>
     </div>
 </template>
 <script>
@@ -56,12 +59,12 @@
                 required: true,
                 default: '',
             },
-            // images: {
-            //     type: Array,
-            //     default: () => {
-            //         return [];
-            //     },
-            // },
+            images: {
+                type: Array,
+                default: () => {
+                    return [];
+                },
+            },
             color: {
                 type: String,
                 default: '',
@@ -85,13 +88,25 @@
 </script>
 <style lang="less" scoped>
     .ml-65 {
-        margin-left: 65px;
+        @media (min-width: 767px) {
+            margin-left: 65px;
+        }
     }
 
     .grey-light {
         font-family: 'Inter-Light';
         font-size: 14px;
         color: @grey4;
+
+        @media @small {
+            font-size: 12px;
+        }
+
+        &.date {
+            @media @small {
+                font-size: 10px;
+            }
+        }
     }
 
     .avatar {
@@ -99,6 +114,11 @@
         height: 50px;
         object-fit: cover;
         border-radius: 50%;
+
+        @media @small {
+            width: 60px;
+            height: 60px;
+        }
 
         &.default {
             background: @grey5;
@@ -112,6 +132,10 @@
         &.name {
             line-height: 22px;
             font-size: 18px;
+
+            @media @small {
+                font-size: 14px;
+            }
         }
     }
 
@@ -121,9 +145,17 @@
         line-height: 22px;
         color: @black;
         margin-top: 15px;
+
+        @media @small {
+            font-size: 14px;
+        }
     }
 
     .comment-photo {
         max-width: 160px;
+
+        @media @small {
+            max-width: 59px;
+        }
     }
 </style>

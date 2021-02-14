@@ -10,6 +10,8 @@ query productList(
     $sizes: [ID]
     $price_Gte: Float
     $price_Lte: Float
+    $ids: [ID]
+    $excludeId: ID
 ) {
     productList(
         first: $first
@@ -23,6 +25,8 @@ query productList(
         sizes: $sizes
         price_Gte: $price_Gte
         price_Lte: $price_Lte
+        ids: $ids
+        excludeId: $excludeId
     ) {
         pagesCursor {
             startCursor
@@ -36,26 +40,31 @@ query productList(
                 name
                 productType
                 price
+                isWishlist
                 productsizecolorSet {
                     edges {
                         node {
                             id
+                            productimageSet {
+                                edges {
+                                    node {
+                                        image
+                                        imageCropping
+                                    }
+                                }
+                            }
+                            sizes {
+                                edges {
+                                    node {
+                                        id
+                                        name
+                                    }
+                                }
+                            }
                             color {
                                 id
                                 color
-                                productsizecolorSet {
-                                    edges {
-                                        node {
-                                            productimageSet {
-                                                edges {
-                                                    node {
-                                                        image
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
+                                image
                             }
                         }
                     }

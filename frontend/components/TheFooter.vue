@@ -55,7 +55,9 @@
                     </ul>
                 </div>
             </div>
-            <div class="copyright">© Elite Performance Garments and Shoes L.L.C. {{ $moment(new Date()).format('YYYY') }}</div>
+            <div class="copyright">
+                © Elite Performance Garments and Shoes L.L.C. {{ $moment(new Date()).format('YYYY') }}
+            </div>
         </div>
     </footer>
 </template>
@@ -121,6 +123,12 @@
                     font-size: 14px;
                     text-transform: uppercase;
                     color: @black;
+
+                    @media @small {
+                        @media @medium {
+                            padding: 9px 57px 8px 58px;
+                        }
+                    }
 
                     &:hover {
                         border: 1px solid @white;

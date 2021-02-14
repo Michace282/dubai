@@ -8,6 +8,7 @@
     export default {
         components: { ContactForm },
         name: 'contact',
+        middleware: 'authenticated',
         created() {
             this.$store.commit('set_breadcrumbs', [
                 { route: { name: 'account' }, name: 'personal account' },

@@ -254,8 +254,9 @@ body {
         }
 
         .label-size {
-            width: 30px;
+            min-width: 30px;
             height: 30px;
+            padding: 0px 5px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -293,8 +294,8 @@ body {
         .color {
             width: 100%;
             height: 100%;
-            background: red;
             border-radius: 50%;
+            background-position: center;
         }
     }
 }
@@ -308,3 +309,35 @@ body {
     cursor: pointer;
 }
 
+.textarea-group {
+    .label {
+        margin: 0px;
+        font-family: 'Inter-Regular';
+        font-size: 14px;
+        color: @grey4;
+        text-transform: uppercase;
+        @media @medium {
+            display: none;
+        }
+    }
+
+    textarea {
+        height: 43px;
+        border: none;
+        border-bottom: 1px solid @black;
+        resize: none;
+        background: @grey3;
+
+        @media @medium {
+            height: 77px;
+        }
+
+        &::placeholder {
+            font-size: 14px;
+            opacity: 0;
+            @media @medium {
+                opacity: 1;
+            }
+        }
+    }
+}

@@ -1,7 +1,10 @@
 <template>
     <div class="product">
-        <a hrev.prevent class="favorites-icon"><img src="~/assets/images/icons/favorites-icon.svg" /></a>
-        <client-only v-if="activePreviewImages && activePreviewImages.length > 0">
+        <a hrev.prevent class="favorites-icon" @click="toggleFavouriteMixin(id, isFavorite)">
+            <img src="~/assets/images/icons/favorites-fill.svg" v-if="isFavorite" />
+            <img src="~/assets/images/icons/favorites-icon.svg" v-else />
+        </a>
+        <client-only v-if="colorsGroup && colorsGroup.edges[activeColor].node.productimageSet.edges.length > 0">
             <b-carousel
                 :interval="0"
                 indicators
@@ -11,9 +14,12 @@
                 img-width="255"
                 img-height="300"
             >
-                <b-carousel-slide v-for="(img, index) in activePreviewImages" :key="index">
+                <b-carousel-slide
+                    v-for="(img, index) in colorsGroup.edges[activeColor].node.productimageSet.edges"
+                    :key="index"
+                >
                     <template #img>
-                        <img class="d-block img-fluid w-100 preview" :src="img.image" :alt="index" />
+                        <img class="d-block img-fluid w-100 preview" :src="img.node.imageCropping" :alt="index" />
                     </template>
                 </b-carousel-slide>
             </b-carousel>
@@ -23,7 +29,14 @@
             <div class="color-group" v-for="(colorGroup, index) in colorsGroup.edges" :key="index">
                 <input type="radio" v-model="activeColor" :value="index" :id="colorGroup.node.id" />
                 <label class="label-color" :for="colorGroup.node.id">
-                    <div class="color" :style="`background: ${colorGroup.node.color.color}`"></div>
+                    <div
+                        class="color"
+                        :style="
+                            colorGroup.node.color.image
+                                ? 'background-image: url(' + colorGroup.node.color.image + ')'
+                                : 'background:' + colorGroup.node.color.color
+                        "
+                    ></div>
                 </label>
             </div>
         </div>
@@ -34,6 +47,8 @@
     </div>
 </template>
 <script>
+    import toggleFavouriteMixin from '~/mixins/toggleFavouriteMixin';
+
     export default {
         name: 'ProductItem',
         props: {
@@ -57,49 +72,49 @@
                 required: false,
                 default: null,
             },
+            isWishlist: {
+                type: Boolean,
+                required: true,
+                default: false,
+            },
         },
         data() {
             return {
+                isFavorite: this.isWishlist,
                 activeColor: 0,
                 slide: 0,
             };
         },
-        computed: {
-            activePreviewImages() {
-                if (
-                    this.colorsGroup &&
-                    this.colorsGroup.edges[this.activeColor] &&
-                    this.colorsGroup.edges[this.activeColor].node.color &&
-                    this.colorsGroup.edges[this.activeColor].node.color.productsizecolorSet.edges
-                ) {
-                    let imagesGroup = this.colorsGroup.edges[this.activeColor].node.color.productsizecolorSet.edges;
-                    let images = [];
-                    this.slide = 0;
-                    for (let i in imagesGroup) {
-                        if (imagesGroup[i].node.productimageSet.edges.length > 0) {
-                            for (let j in imagesGroup[i].node.productimageSet.edges) {
-                                images.push(imagesGroup[i].node.productimageSet.edges[j].node);
-                            }
-                        }
-                    }
-
-                    return images;
-                }
-                return null;
-            },
-        },
+        mixins: [toggleFavouriteMixin],
     };
 </script>
 <style lang="less" scoped>
     .product {
         &.product-sm {
+            max-width: 160px;
+            width: 100%;
+            margin: 0px;
+
             .preview {
                 max-height: 220px;
+                margin: 0 auto;
+
+                @media @large {
+                    max-height: 200px;
+                    width: 160px;
+                }
             }
 
             .name,
             .price {
                 font-size: 14px;
+            }
+
+            .colors {
+                .color-group {
+                    width: 18px;
+                    height: 18px;
+                }
             }
         }
     }
@@ -173,6 +188,10 @@
             right: 10px;
             z-index: 100;
             cursor: pointer;
+
+            img {
+                width: 20px;
+            }
 
             @media @medium {
                 top: 5px;

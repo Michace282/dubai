@@ -142,40 +142,5 @@
         text-transform: uppercase;
         color: @black;
     }
-
-    .textarea-group {
-        .label {
-            margin: 0px;
-            font-family: 'Inter-Regular';
-            font-size: 14px;
-            text-transform: uppercase;
-            color: @grey4;
-            text-transform: uppercase;
-            @media @medium {
-                display: none;
-            }
-        }
-
-        textarea {
-            height: 43px;
-            border: none;
-            text-transform: uppercase;
-            border-bottom: 1px solid @black;
-            resize: none;
-            background: @grey3;
-
-            @media @medium {
-                height: 77px;
-            }
-
-            &::placeholder {
-                font-size: 14px;
-                opacity: 0;
-                @media @medium {
-                    opacity: 1;
-                }
-            }
-        }
-    }
 }
 </style>

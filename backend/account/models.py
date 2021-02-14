@@ -10,6 +10,11 @@ import uuid
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    address = models.CharField(verbose_name='Address', max_length=255, blank=True, null=True)
+    postal_code = models.CharField(verbose_name='P.O. Box', max_length=255, blank=True, null=True)
+    city = models.CharField(verbose_name='City', max_length=255, blank=True, null=True)
+    country = models.CharField(verbose_name='Country', max_length=255, blank=True, null=True)
+    phone = models.CharField(verbose_name='Phone', max_length=255, blank=True, null=True)
 
 
 @receiver(post_save, sender=User)
@@ -25,6 +30,21 @@ def save_user_profile(sender, instance, **kwargs):
 
 class Guest(TimeStampedModel):
     uuid = models.UUIDField(verbose_name='UUID', default=uuid.uuid4, unique=True)
+    first_name = models.CharField(verbose_name='First name', max_length=255, blank=True, null=True)
+    last_name = models.CharField(verbose_name='Last name', max_length=255, blank=True, null=True)
+    address = models.CharField(verbose_name='Address', max_length=255, blank=True, null=True)
+    postal_code = models.CharField(verbose_name='P.O. Box', max_length=255, blank=True, null=True)
+    city = models.CharField(verbose_name='City', max_length=255, blank=True, null=True)
+    country = models.CharField(verbose_name='Country', max_length=255, blank=True, null=True)
+    phone = models.CharField(verbose_name='Phone', max_length=255, blank=True, null=True)
+    email = models.EmailField(verbose_name='E-Mail', blank=True, null=True)
+
+    def __str__(self):
+        return self.first_name + ' ' + self.last_name
+
+    class Meta:
+        verbose_name = 'Subscribe'
+        verbose_name_plural = 'Subscribes'
 
 
 class Subscribe(TimeStampedModel):

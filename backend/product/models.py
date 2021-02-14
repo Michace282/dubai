@@ -188,12 +188,26 @@ class ProductWishlist(TimeStampedModel):
 
 
 class Basket(TimeStampedModel):
+    class PayType(DjangoChoices):
+        card = ChoiceItem(label='Card', value='Card')
+        delivery = ChoiceItem(label='Delivery', value='Delivery')
+
     class StatusType(DjangoChoices):
         completed = ChoiceItem(label='Completed', value='completed')
         sent = ChoiceItem(label='Sent', value='sent')
         processing = ChoiceItem(label='Processing', value='processing')
         new = ChoiceItem(label='New', value='new')
         rejected = ChoiceItem(label='rejected', value='rejected')
+
+    first_name = models.CharField(verbose_name='First name', max_length=255, blank=True, null=True)
+    last_name = models.CharField(verbose_name='Last name', max_length=255, blank=True, null=True)
+    address = models.CharField(verbose_name='Address', max_length=255, blank=True, null=True)
+    postal_code = models.CharField(verbose_name='P.O. Box', max_length=255, blank=True, null=True)
+    city = models.CharField(verbose_name='City', max_length=255, blank=True, null=True)
+    country = models.CharField(verbose_name='Country', max_length=255, blank=True, null=True)
+    phone = models.CharField(verbose_name='Phone', max_length=255, blank=True, null=True)
+    email = models.EmailField(verbose_name='E-Mail', blank=True, null=True)
+    description = models.EmailField(verbose_name='Description', blank=True, null=True)
 
     code = models.ForeignKey(Code, verbose_name='Code', on_delete=models.CASCADE, blank=True, null=True)
     discount = models.IntegerField(verbose_name='Discount', default=0)
@@ -203,6 +217,20 @@ class Basket(TimeStampedModel):
                               max_length=30,
                               choices=StatusType.choices,
                               default=StatusType.new)
+
+    pay = models.CharField(verbose_name='Pay',
+                           max_length=30,
+                           choices=PayType.choices,
+                           default=PayType.delivery)
+
+    def __str__(self):
+        if self.first_name or self.last_name:
+            return str(self.first_name) + ' ' + str(self.last_name)
+        return super().__str__()
+
+    class Meta:
+        verbose_name = 'Basket'
+        verbose_name_plural = 'Baskets'
 
 
 class ProductBasket(TimeStampedModel):

@@ -81,7 +81,7 @@ class ProductImageType(DjangoObjectType):
         if self.image:
             return f'{settings.BACKEND_URL[:-1]}{self.image_cropping}'
         return None
-    
+
     class Meta:
         model = ProductImage
         interfaces = (relay.Node,)
@@ -563,22 +563,39 @@ class ProductsBasketCreateInput(graphene.InputObjectType):
     count = graphene.Int()
 
 
+class BasketCreateInput(graphene.InputObjectType):
+    first_name = graphene.String()
+    last_name = graphene.String()
+    country = graphene.String()
+    city = graphene.String()
+    address = graphene.String()
+    postal_code = graphene.String()
+    email = graphene.String()
+    phone = graphene.String()
+    description = graphene.String()
+
+
 class BasketCreateMutation(ClientIDMutation):
+    id_basket = graphene.String()
+
     class Input:
         code = graphene.String(required=False)
         guest_uuid = graphene.UUID(required=False)
         products_basket = graphene.List(ProductsBasketCreateInput)
+        basket_create = BasketCreateInput()
 
     @classmethod
     def mutate_and_get_payload(cls, root, info, **input):
 
         guest_uuid = input.get('guest_uuid')
         products_basket = input.get('products_basket')
+        basket_create = input.get('basket_create')
         code = input.get('code')
 
         errors = []
         user = info.context.user
         guest = None
+        id_basket = None
 
         if not user.is_authenticated:
             if guest_uuid:
@@ -632,13 +649,48 @@ class BasketCreateMutation(ClientIDMutation):
 
                 use_code.save()
 
+            basket.description = basket_create.description
+            basket.first_name = basket_create.first_name
+            basket.last_name = basket_create.last_name
+            basket.address = basket_create.address
+            basket.postal_code = basket_create.postal_code
+            basket.city = basket_create.city
+            basket.country = basket_create.country
+            basket.phone = basket_create.phone
+            basket.email = basket_create.email
+
             if guest:
                 basket.guest = guest
+
+                guest.description = basket_create.description
+                guest.first_name = basket_create.first_name
+                guest.last_name = basket_create.last_name
+                guest.address = basket_create.address
+                guest.postal_code = basket_create.postal_code
+                guest.city = basket_create.city
+                guest.country = basket_create.country
+                guest.phone = basket_create.phone
+                guest.email = basket_create.email
+
+                guest.save()
 
             if user.is_authenticated:
                 basket.user = user
 
+                user.profile.description = basket_create.description
+                user.first_name = basket_create.first_name
+                user.last_name = basket_create.last_name
+                user.profile.address = basket_create.address
+                user.profile.postal_code = basket_create.postal_code
+                user.profile.city = basket_create.city
+                user.profile.country = basket_create.country
+                user.profile.phone = basket_create.phone
+                user.email = basket_create.email
+                user.save()
+
             basket.save()
+
+            id_basket = str('{:09}'.format(basket.id))
 
             for product_basket in products_basket:
                 product = Product.objects.filter(id=from_global_id(product_basket.product)[1]).first()
@@ -652,7 +704,7 @@ class BasketCreateMutation(ClientIDMutation):
                                                  price=product.price,
                                                  count=product_basket.count)
 
-        return BasketCreateMutation(errors=errors)
+        return BasketCreateMutation(errors=errors, id_basket=id_basket)
 
 
 class Mutation(graphene.ObjectType):

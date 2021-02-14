@@ -3,7 +3,7 @@
         <div class="order-group">
             <div class="basket-group">
                 <div class="basket-title">Your order</div>
-                <basket-container />
+                <basket-container/>
             </div>
             <div class="form-group">
                 <contact-form btnName="buy" @buy="createOrder" :showCreateOrderFields="true">
@@ -22,7 +22,7 @@
     import ContactForm from '../components/ContactForm.vue';
 
     export default {
-        components: { BasketContainer, ContactForm },
+        components: {BasketContainer, ContactForm},
         name: 'create-order',
         created() {
             this.$store.commit('set_breadcrumbs', null);
@@ -30,6 +30,18 @@
         methods: {
             createOrder(formInfo) {
                 let productsBasket = [];
+                let basketCreate = {
+                    firstName: formInfo.firstName,
+                    lastName: formInfo.lastName,
+                    country: formInfo.country,
+                    city: formInfo.city,
+                    address: formInfo.address,
+                    postalCode: formInfo.postalCode,
+                    email: formInfo.email,
+                    phone: formInfo.phone,
+                    description: formInfo.message,
+                    pay: formInfo.payment ? 'card' : 'delivery'
+                };
                 let cookieBasket = this.$cookies.get('basket');
                 for (let i in cookieBasket) {
                     productsBasket.push({
@@ -43,14 +55,21 @@
                     .mutate({
                         mutation: require('~/graphql/mutations/order/basketCreate.graphql'),
                         variables: {
+                            code: formInfo.promo,
                             guestUuid: this.$store.state.user.guestUuid,
                             productsBasket: productsBasket,
+                            basketCreate: basketCreate,
                         },
                     })
                     .then((data) => {
                         if (data && data.data.basketCreate.errors.length == 0) {
                             this.$store.commit('product/update_basket', []);
                             this.$cookies.set('basket', {});
+
+                            this.$bvToast.toast('You have successfully placed your order. Our manager will contact you soon!', {
+                                title: 'Successful order processing',
+                                variant: 'success',
+                            });
                         } else {
                             this.$bvToast.toast(data.data.basketCreate.errors[0].messages[0], {
                                 title: 'Create order',
@@ -66,65 +85,65 @@
     };
 </script>
 <style lang="less">
-    .form-group {
-        .form-title {
-            margin: 0px;
+.form-group {
+    .form-title {
+        margin: 0px;
 
-            @media (min-width: 991px) {
-                white-space: nowrap;
-            }
+        @media (min-width: 991px) {
+            white-space: nowrap;
         }
     }
+}
 </style>
 <style lang="less" scoped>
-    .order-group {
-        display: flex;
-        justify-content: flex-start;
-        overflow: hidden;
+.order-group {
+    display: flex;
+    justify-content: flex-start;
+    overflow: hidden;
 
-        .basket-group {
-            max-width: 550px;
-            width: 100%;
-            background: @grey3;
-            padding: 30px 45px;
+    .basket-group {
+        max-width: 550px;
+        width: 100%;
+        background: @grey3;
+        padding: 30px 45px;
 
-            @media (max-width: 1024px) {
-                padding: 30px 15px;
-            }
-
-            @media @large {
-                display: none;
-            }
+        @media (max-width: 1024px) {
+            padding: 30px 15px;
         }
 
-        .form-group {
-            max-width: 540px;
-            padding-left: 50px;
-            margin-top: 75px;
-
-            @media (max-width: 1024px) {
-                padding-left: 10px;
-                max-width: 480px;
-            }
-
-            @media @large {
-                max-width: unset;
-                margin: 30px auto;
-                padding: 0px;
-            }
-        }
-
-        .subtitle {
-            margin-top: 30px;
-            font-family: 'Inter-Medium';
-            font-size: 14px;
-            text-transform: uppercase;
-            color: @black;
-
-            .link {
-                text-decoration: underline;
-                cursor: pointer;
-            }
+        @media @large {
+            display: none;
         }
     }
+
+    .form-group {
+        max-width: 540px;
+        padding-left: 50px;
+        margin-top: 75px;
+
+        @media (max-width: 1024px) {
+            padding-left: 10px;
+            max-width: 480px;
+        }
+
+        @media @large {
+            max-width: unset;
+            margin: 30px auto;
+            padding: 0px;
+        }
+    }
+
+    .subtitle {
+        margin-top: 30px;
+        font-family: 'Inter-Medium';
+        font-size: 14px;
+        text-transform: uppercase;
+        color: @black;
+
+        .link {
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    }
+}
 </style>

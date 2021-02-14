@@ -1,6 +1,6 @@
 <template>
     <div class="account-contact">
-        <base-title class="form-title" title="Contact information" />
+        <base-title class="form-title" title="Contact information"/>
         <slot></slot>
         <div class="form-group" v-if="isFormReady">
             <div class="row">
@@ -41,13 +41,12 @@
             <div class="row">
                 <div class="col-12 col-md-6 mt-30">
                     <base-input
-                        label="Postal code"
-                        :class="{ error: $v.form.postalCode.$error }"
-                        v-model="$v.form.postalCode.$model"
+                        label="P.O. Box"
+                        v-model="form.postalCode"
                     />
                 </div>
                 <div class="col-12 col-md-6 mt-30">
-                    <base-input label="City" :class="{ error: $v.form.city.$error }" v-model="$v.form.city.$model" />
+                    <base-input label="City" :class="{ error: $v.form.city.$error }" v-model="$v.form.city.$model"/>
                 </div>
             </div>
             <div class="row mt-30">
@@ -84,16 +83,16 @@
             </div>
             <div class="row mt-30" v-if="showCreateOrderFields">
                 <div class="col-12">
-                    <base-input label="Your promo code" v-model="promo" />
+                    <base-input label="Your promo code" v-model="promo"/>
                 </div>
             </div>
-            <div class="row radio-group mt-30" v-if="showCreateOrderFields">
+            <div class="row radio-group mt-30" v-if="showCreateOrderFields" :class="{ error: $v.form.payment.$error }">
                 <div class="col-auto pr-0">
                     <div class="label">Payment method</div>
                 </div>
                 <div class="col-auto pr-0">
                     <div class="color-group">
-                        <input type="radio" name="payment" v-model="payment" :value="false" id="card" />
+                        <input type="radio" name="payment" v-model="$v.form.payment.$model" :value="false" id="card"/>
                         <label class="radio-label" for="card">
                             <div class="label-color">
                                 <div class="color" :style="'background: black;'"></div>
@@ -104,7 +103,7 @@
                 </div>
                 <div class="col-auto pr-0">
                     <div class="color-group">
-                        <input type="radio" name="payment" v-model="payment" :value="true" id="cash" />
+                        <input type="radio" name="payment" v-model="$v.form.payment.$model" :value="true" id="cash"/>
                         <label class="radio-label" for="cash">
                             <div class="label-color">
                                 <div class="color" :style="'background: black;'"></div>
@@ -135,11 +134,11 @@
 </template>
 <script>
     import BaseInput from '../components/fields/BaseInput.vue';
-    import { required, email } from 'vuelidate/lib/validators';
+    import {required, email} from 'vuelidate/lib/validators';
 
     export default {
         name: 'ContactForm',
-        components: { BaseInput },
+        components: {BaseInput},
         props: {
             btnName: {
                 type: String,
@@ -164,7 +163,7 @@
                     phone: '',
                     message: '',
                     promo: '',
-                    payment: false,
+                    payment: null,
                 },
             };
         },
@@ -191,9 +190,6 @@
                 address: {
                     required,
                 },
-                postalCode: {
-                    required,
-                },
                 city: {
                     required,
                 },
@@ -201,6 +197,9 @@
                     required,
                 },
                 phone: {
+                    required,
+                },
+                payment: {
                     required,
                 },
             },
@@ -217,94 +216,103 @@
     };
 </script>
 <style lang="less">
-    .account-contact {
-        .form-title {
-            width: fit-content;
-            margin: 0 35px 0px auto;
+.account-contact {
+    .form-title {
+        width: fit-content;
+        margin: 0 35px 0px auto;
 
-            @media @extraLarge {
-                margin: 0 -50px 0px auto;
-            }
-
-            @media @large {
-                line-height: 44px;
-                margin: unset;
-            }
-
-            .front-title {
-                @media @large {
-                    max-width: 170px;
-                    line-height: 29px;
-                    bottom: 10px;
-                }
-            }
+        @media @extraLarge {
+            margin: 0 -50px 0px auto;
         }
 
-        .radio-group {
-            .label {
-                font-family: 'Inter-Regular';
-                font-size: 14px;
-                text-transform: uppercase;
-                color: @grey4;
-            }
-
-            input {
-                &:checked + label {
-                    font-family: 'Inter-Medium';
-                    opacity: 1;
-                }
-            }
-
-            .radio-label {
-                display: flex;
-                align-items: center;
-                font-size: 14px;
-                line-height: 17px;
-                text-transform: uppercase;
-                color: @black;
-                cursor: pointer;
-                opacity: 0.3;
-
-                .label-color {
-                    width: 20px;
-                    height: 20px;
-                    margin-right: 10px;
-                    border-color: @black;
-                }
-            }
+        @media @large {
+            line-height: 44px;
+            margin: unset;
         }
 
-        .form-group {
-            max-width: 540px;
-            margin: 40px auto 0px;
-
-            .textarea-group {
-                textarea {
-                    background: none;
-                }
-            }
-
+        .front-title {
             @media @large {
-                margin: 40px 0px 0px 0px;
-            }
-
-            .btn-black {
-                padding: 7px 59px;
-
-                @media (max-width: 366px) {
-                    margin-top: 10px;
-                }
-            }
-
-            .btn-outline-black {
-                padding: 8px 51px;
-            }
-
-            .input-box {
-                input {
-                    background: @white;
-                }
+                max-width: 170px;
+                line-height: 29px;
+                bottom: 10px;
             }
         }
     }
+
+    .radio-group {
+        .label {
+            font-family: 'Inter-Regular';
+            font-size: 14px;
+            text-transform: uppercase;
+            color: @grey4;
+        }
+
+
+        &.error {
+            border-color: @red;
+
+            .label {
+                color: @red;
+            }
+        }
+
+        input {
+            &:checked + label {
+                font-family: 'Inter-Medium';
+                opacity: 1;
+            }
+        }
+
+        .radio-label {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            line-height: 17px;
+            text-transform: uppercase;
+            color: @black;
+            cursor: pointer;
+            opacity: 0.3;
+
+            .label-color {
+                width: 20px;
+                height: 20px;
+                margin-right: 10px;
+                border-color: @black;
+            }
+        }
+    }
+
+    .form-group {
+        max-width: 540px;
+        margin: 40px auto 0px;
+
+        .textarea-group {
+            textarea {
+                background: none;
+            }
+        }
+
+        @media @large {
+            margin: 40px 0px 0px 0px;
+        }
+
+        .btn-black {
+            padding: 7px 59px;
+
+            @media (max-width: 366px) {
+                margin-top: 10px;
+            }
+        }
+
+        .btn-outline-black {
+            padding: 8px 51px;
+        }
+
+        .input-box {
+            input {
+                background: @white;
+            }
+        }
+    }
+}
 </style>

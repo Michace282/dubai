@@ -573,6 +573,7 @@ class BasketCreateInput(graphene.InputObjectType):
     email = graphene.String()
     phone = graphene.String()
     description = graphene.String()
+    pay = graphene.String()
 
 
 class BasketCreateMutation(ClientIDMutation):
@@ -658,6 +659,7 @@ class BasketCreateMutation(ClientIDMutation):
             basket.country = basket_create.country
             basket.phone = basket_create.phone
             basket.email = basket_create.email
+            basket.pay = basket_create.pay
 
             if guest:
                 basket.guest = guest

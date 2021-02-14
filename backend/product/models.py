@@ -158,7 +158,7 @@ class ProductImage(TimeStampedModel):
     product_size_color = models.ForeignKey(ProductSizeColor, verbose_name='Product Size Color',
                                            on_delete=models.CASCADE)
     image = models.ImageField(verbose_name='Image', upload_to='product/image')
-    cropping = ImageRatioField('image', '210x300')
+    cropping = ImageRatioField('image', '350x500')
 
     def __str__(self):
         return str(self.product_size_color)
@@ -168,7 +168,7 @@ class ProductImage(TimeStampedModel):
         if self.image:
             return get_backend().get_thumbnail_url(self.image, {
                 'box': self.cropping,
-                'size': (210, 300),
+                'size': (350, 500),
                 'crop': True,
                 'detail': True,
             })

@@ -5,9 +5,16 @@ from backend.mixin import DjangoModelFormMutation
 from graphql_jwt.decorators import login_required
 import graphql_social_auth
 import graphql_jwt
-from .forms import SubscribeForm, ContactForm, Guest, Profile
+from .forms import SubscribeForm, ContactForm, Guest, Profile, PayLink
 from django.contrib.auth.models import User
 from django import forms
+from graphql_relay import from_global_id
+
+
+class PayLinkType(DjangoObjectType):
+    class Meta:
+        model = PayLink
+        interfaces = (graphene.relay.Node,)
 
 
 class UserType(DjangoObjectType):
@@ -31,6 +38,7 @@ class GuestType(DjangoObjectType):
 class Query(graphene.ObjectType):
     user = graphene.Field(UserType)
     guest_detail = graphene.Field(GuestType, uuid=graphene.String())
+    pay_link_detail = graphene.Field(PayLinkType, id=graphene.ID())
 
     @login_required
     def resolve_user(self, info, **Nodekwargs):
@@ -38,6 +46,9 @@ class Query(graphene.ObjectType):
 
     def resolve_guest_detail(self, info, uuid):
         return Guest.objects.filter(uuid=uuid).first()
+
+    def resolve_pay_link_detail(self, info, id):
+        return PayLink.objects.filter(id=from_global_id(id)[1]).first()
 
 
 class GuestCreateMutation(graphene.Mutation):

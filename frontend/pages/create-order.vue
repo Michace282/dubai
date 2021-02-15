@@ -68,6 +68,11 @@
                             if (data.data.basketCreate.urlPay) {
                                 this.$store.commit('set_pay_link', data.data.basketCreate.urlPay);
                                 this.$router.push({ name: 'pay-slug' });
+                            } else if (!data.data.basketCreate.urlPay && formInfo.payment) {
+                                this.$bvToast.toast('Something went wrong, try again later.', {
+                                    title: 'Create order',
+                                    variant: 'danger',
+                                });
                             } else {
                                 this.$nuxt.$emit(
                                     'show-confirm-modal',

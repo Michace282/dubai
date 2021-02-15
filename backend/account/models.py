@@ -40,7 +40,9 @@ class Guest(TimeStampedModel):
     email = models.EmailField(verbose_name='E-Mail', blank=True, null=True)
 
     def __str__(self):
-        return self.first_name + ' ' + self.last_name
+        if self.first_name or self.last_name:
+            return str(self.first_name) + ' ' + str(self.last_name)
+        return super().__str__()
 
     class Meta:
         verbose_name = 'Subscribe'

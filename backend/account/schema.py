@@ -38,7 +38,7 @@ class GuestType(DjangoObjectType):
 class Query(graphene.ObjectType):
     user = graphene.Field(UserType)
     guest_detail = graphene.Field(GuestType, uuid=graphene.String())
-    pay_link_detail = graphene.Field(PayLinkType, id=graphene.GlobalID())
+    pay_link_detail = graphene.Field(PayLinkType, id=graphene.ID())
 
     @login_required
     def resolve_user(self, info, **Nodekwargs):

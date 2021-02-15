@@ -112,8 +112,8 @@
 
             .colors {
                 .color-group {
-                    width: 18px;
-                    height: 18px;
+                    width: 1.2rem;
+                    height: 1.2rem;
                 }
             }
         }
@@ -166,8 +166,8 @@
             margin-top: 10px;
 
             .color-group {
-                width: 22px;
-                height: 22px;
+                width: 1.4rem;
+                height: 1.4rem;
                 margin-right: 10px;
 
                 .label-color {

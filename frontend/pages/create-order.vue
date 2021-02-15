@@ -65,8 +65,15 @@
                         if (data && data.data.basketCreate.errors.length == 0) {
                             this.$store.commit('product/update_basket', []);
                             this.$cookies.set('basket', {});
-                            this.$store.commit('set_pay_link', data.data.basketCreate.urlPay);
-                            this.$router.push({ name: 'pay-slug' });
+                            if (data.data.basketCreate.urlPay) {
+                                this.$store.commit('set_pay_link', data.data.basketCreate.urlPay);
+                                this.$router.push({ name: 'pay-slug' });
+                            } else {
+                                this.$nuxt.$emit(
+                                    'show-confirm-modal',
+                                    'Your order has been placed! In the near future, our Manager will contact you.',
+                                );
+                            }
                         } else {
                             this.$bvToast.toast(data.data.basketCreate.errors[0].messages[0], {
                                 title: 'Create order',

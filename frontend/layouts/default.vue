@@ -110,10 +110,6 @@
         mounted() {
             if (this.$route.query.success) {
                 v.confirmModalText = 'Your order has been placed! In the near future, our Manager will contact you.';
-                // this.$nuxt.$emit(
-                //                 'show-confirm-modal',
-                //                 'Your order has been placed! In the near future, our Manager will contact you.',
-                //             );
                 this.$refs['confirm-order-modal'].show();
             }
         },

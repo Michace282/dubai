@@ -152,51 +152,6 @@
         },
     };
 </script>
-<style lang="less">
-    #present-modal {
-        background: @grey_opacity;
-
-        .modal-dialog {
-            max-width: 540px;
-
-            .modal-header {
-                padding: 30px;
-                border: 0px;
-
-                a {
-                    cursor: pointer;
-                }
-
-                h5 {
-                    margin: 0 auto;
-                    font-family: 'Inter-Medium';
-                    font-size: 24px;
-                    line-height: 29px;
-                    text-transform: uppercase;
-                    color: @black;
-                }
-            }
-
-            .modal-body {
-                padding: 0px 45px 30px 45px;
-
-                p {
-                    margin: 0px;
-                    font-family: 'Inter-Light';
-                    font-size: 18px;
-                    line-height: 22px;
-                    color: @black;
-                }
-
-                .btn-black {
-                    margin-top: 30px;
-                    font-size: 14px;
-                    padding: 11px 28px;
-                }
-            }
-        }
-    }
-</style>
 <style lang="less" scoped>
     .advantages-group {
         margin-top: 90px;

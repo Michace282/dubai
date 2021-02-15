@@ -1,7 +1,7 @@
 from telegram.bot import Bot
 
 TOKEN = '1678733652:AAGScC8WJtsIXq--nhtXT4eG477xUtXdk5s'
-GROUP_ID = '-496730455'
+GROUP_ID = '-580988581'
 
 bot = Bot(token=TOKEN)
 

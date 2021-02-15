@@ -1,4 +1,5 @@
 aniso8601==6.0.0
+APScheduler==3.6.3
 asgiref==3.3.1
 Babel==2.9.0
 certifi==2020.12.5
@@ -35,7 +36,8 @@ promise==2.3
 psycopg2==2.8.4
 py-moneyed==0.8.0
 pycparser==2.20
-#PyJWT==1.7.0
+PyJWT==1.7.1
+python-telegram-bot==13.2
 python3-openid==3.2.0
 pytz==2020.4
 requests==2.25.1
@@ -46,4 +48,6 @@ six==1.15.0
 social-auth-app-django==4.0.0
 social-auth-core==4.0.3
 sqlparse==0.4.1
+tornado==6.1
+tzlocal==2.1
 urllib3==1.26.2

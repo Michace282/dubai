@@ -19,6 +19,8 @@ from graphene_django.converter import convert_django_field
 from graphene_file_upload.scalars import Upload
 from django.db import models
 from graphql.language.ast import StringValue
+from backend.bot import send_message
+from backend.ccav.ccav import pay
 
 
 class FileUploadField(forms.FileField):
@@ -578,6 +580,7 @@ class BasketCreateInput(graphene.InputObjectType):
 
 class BasketCreateMutation(ClientIDMutation):
     id_basket = graphene.String()
+    url_pay = graphene.String()
 
     class Input:
         code = graphene.String(required=False)
@@ -694,6 +697,91 @@ class BasketCreateMutation(ClientIDMutation):
 
             id_basket = str('{:09}'.format(basket.id))
 
+            text = f'<b>Order number: {id_basket}</b>\n'
+
+            if basket_create.first_name:
+                text += f'<b>First name</b>: {basket_create.first_name}\n'
+
+            if basket_create.last_name:
+                text += f'<b>Last name</b>: {basket_create.last_name}\n'
+
+            if basket_create.address:
+                text += f'<b>Address</b>: {basket_create.address}\n'
+
+            if basket_create.postal_code:
+                text += f'<b>P.O. Box</b>: {basket_create.postal_code}\n'
+
+            if basket_create.city:
+                text += f'<b>City</b>: {basket_create.city}\n'
+
+            if basket_create.country:
+                text += f'<b>Country</b>: {basket_create.country}\n'
+
+            if basket_create.phone:
+                text += f'<b>Phone</b>: {basket_create.phone}\n'
+
+            if basket_create.email:
+                text += f'<b>E-mail</b>: {basket_create.email}\n'
+
+            if basket_create.pay:
+                text += f'<b>Type pay</b>: {basket_create.pay}\n'
+
+            if basket_create.description:
+                text += f'<b>Message</b>: {basket_create.description}\n'
+
+            p_customer_identifier = 'guest'
+
+            if guest:
+                text += f'<b>Type user</b>: guest\n'
+                p_customer_identifier = f'guest_{str(guest.id)}'
+
+            if user.is_authenticated:
+                text += f'<b>Type user</b>: user'
+                p_customer_identifier = f'user_{str(user.id)}'
+
+            p_delivery_name = f'{basket_create.first_name} {basket_create.last_name}'
+
+            send_message(text)
+
+            url_pay = None
+
+            if basket_create.pay == 'card':
+                options = {
+                    'p_order_id': id_basket,
+                    'p_currency': 'INR',
+                    'p_amount': str(total_price),
+                    'p_redirect_url': settings.FRONTEND_URL[:-1] + '?success=true',
+                    'p_cancel_url': settings.FRONTEND_URL[:-1] + '?success=false',
+                    'p_language': 'EN',
+                    ####
+                    'p_customer_identifier': p_customer_identifier,
+                    'p_delivery_name': p_delivery_name,
+                    'p_delivery_address': basket_create.address,
+                    'p_delivery_city': basket_create.city,
+                    'p_delivery_state': '',
+                    'p_delivery_zip': basket_create.postal_code if basket_create.postal_code else '',
+                    'p_delivery_country': basket_create.country,
+                    'p_delivery_tel': basket_create.phone,
+                    ###
+                    'p_billing_name': p_delivery_name,
+                    'p_billing_address': basket_create.address,
+                    'p_billing_city': basket_create.city,
+                    'p_billing_state': '',
+                    'p_billing_zip': basket_create.postal_code if basket_create.postal_code else '',
+                    'p_billing_country': basket_create.country,
+                    'p_billing_tel': basket_create.phone,
+                    'p_billing_email': basket_create.email,
+                    ###
+                    'p_promo_code': c.code if c else None,
+                    ###
+                    'p_merchant_param1': basket_create.description if basket_create.description else None
+                }
+
+                try:
+                    url_pay = pay(**options)
+                except Exception:
+                    pass
+
             for product_basket in products_basket:
                 product = Product.objects.filter(id=from_global_id(product_basket.product)[1]).first()
                 color = Color.objects.filter(id=from_global_id(product_basket.color)[1]).first()
@@ -706,7 +794,7 @@ class BasketCreateMutation(ClientIDMutation):
                                                  price=product.price,
                                                  count=product_basket.count)
 
-        return BasketCreateMutation(errors=errors, id_basket=id_basket)
+        return BasketCreateMutation(errors=errors, id_basket=id_basket, url_pay=url_pay)
 
 
 class Mutation(graphene.ObjectType):

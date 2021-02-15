@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="row d-none d-дп-flex">
+        <div class="row d-none d-lg-flex">
             <div class="col-auto">
                 <client-only>
                     <VueSlickCarousel
@@ -35,7 +35,7 @@
                 <img class="active-image" v-else src="~/assets/images/no-photo.jpg" />
             </div>
         </div>
-        <div class="d-block d-дп-none mt-15">
+        <div class="d-block d-lg-none mt-15">
             <client-only>
                 <b-carousel
                     id="photo-carousel"

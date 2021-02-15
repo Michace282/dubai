@@ -15,6 +15,7 @@
                 <item-param
                     label="Color"
                     linkName="Change color"
+                    :isAvailable="!colorsGroup || !colorsGroup.edges[activeColor].node.isAvailable"
                     @save="
                         $emit('setColor', colorsGroup.edges[activeColor].node.color.id);
                         $emit('setSize', colorsGroup.edges[activeColor].node.sizes.edges[0].node.id);
@@ -39,7 +40,12 @@
                     </template>
                     <template v-slot:options>
                         <div class="colors">
-                            <div class="color-group" v-for="(colorGroup, index) in colorsGroup.edges" :key="index">
+                            <div
+                                class="color-group"
+                                :class="{ opacity: !colorGroup.node.isAvailable }"
+                                v-for="(colorGroup, index) in colorsGroup.edges"
+                                :key="index"
+                            >
                                 <input
                                     type="radio"
                                     v-model="activeColor"

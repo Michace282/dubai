@@ -42,6 +42,7 @@ query productDetail($id: ID!) {
                     productsizecolorSet {
                         edges {
                             node {
+                                isAvailable
                                 productimageSet {
                                     edges {
                                         node {
@@ -64,6 +65,7 @@ query productDetail($id: ID!) {
         productsizecolorSet {
             edges {
                 node {
+                    isAvailable
                     sizes {
                         edges {
                             node {

@@ -36,7 +36,11 @@ body {
     text-transform: uppercase;
     border-radius: 2px;
 
-    &:hover {
+    &:disabled:hover {
+        color: @white;
+    }
+
+    &:not(:disabled):hover {
         background: @white;
         color: @black;
         border: 1px solid @black;
@@ -54,7 +58,7 @@ body {
     text-transform: uppercase;
     color: @black;
 
-    &:hover {
+    &:not(:disabled):hover {
         color: @white !important;
         background: @black;
     }
@@ -239,7 +243,8 @@ body {
     opacity: 0 !important;
 }
 
-#present-modal, #confirm-order-modal {
+#present-modal,
+#confirm-order-modal {
     background: @grey_opacity;
 
     .modal-dialog {
@@ -328,6 +333,10 @@ body {
 }
 
 .color-group {
+    &.opacity {
+        opacity: 0.5;
+    }
+
     input {
         display: none;
 

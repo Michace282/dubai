@@ -45,6 +45,7 @@ query productList(
                     edges {
                         node {
                             id
+                            isAvailable
                             productimageSet {
                                 edges {
                                     node {

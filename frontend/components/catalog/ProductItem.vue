@@ -26,7 +26,12 @@
         </client-only>
         <img class="preview" src="~/assets/images/no-photo.jpg" v-else />
         <div class="colors" v-if="colorsGroup && colorsGroup.edges.length > 0">
-            <div class="color-group" v-for="(colorGroup, index) in colorsGroup.edges" :key="index">
+            <div
+                class="color-group"
+                :class="{ opacity: !colorGroup.node.isAvailable }"
+                v-for="(colorGroup, index) in colorsGroup.edges"
+                :key="index"
+            >
                 <input type="radio" v-model="activeColor" :value="index" :id="colorGroup.node.id" />
                 <label class="label-color" :for="colorGroup.node.id">
                     <div

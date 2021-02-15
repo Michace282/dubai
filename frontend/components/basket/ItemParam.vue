@@ -10,10 +10,8 @@
                 <div class="text-right mt-15">
                     <button
                         class="btn btn-black"
-                        @click="
-                            $emit('save');
-                            showChangeBlock = false;
-                        "
+                        @click="!isAvailable ? ($emit('save'), (showChangeBlock = false)) : ''"
+                        :disabled="isAvailable"
                     >
                         Apply
                     </button>
@@ -38,6 +36,10 @@
                 type: String,
                 required: false,
                 default: '',
+            },
+            isAvailable: {
+                type: Boolean,
+                default: true,
             },
         },
         data() {

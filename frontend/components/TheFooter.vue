@@ -2,7 +2,7 @@
     <footer class="footer">
         <div class="container">
             <div class="row">
-                <div class="col col-md-auto order-1 order-md-0 p-0">
+                <div class="col col-md-auto order-1 order-md-0">
                     <ul class="menu">
                         <li>
                             <nuxt-link to="/payment/">Payment & Delivery</nuxt-link>
@@ -23,24 +23,24 @@
                             <nuxt-link to="/page/privacy_policy">Privacy Policy</nuxt-link>
                         </li>
                         <li>
-                            <nuxt-link to="/page/terms_condition">Terms&Condition</nuxt-link>
+                            <nuxt-link to="/page/terms_condition">Terms & Condition</nuxt-link>
                         </li>
                     </ul>
                 </div>
-                <div class="col-12 col-md order-0 order-md-1 p-0">
+                <div class="col-12 col-md order-0 order-md-1">
                     <div class="form-box">
                         <div class="description">Subscribe to receive updates, access to exclusive deals and more</div>
                         <div class="row form">
                             <div class="col pr-2 pr-lg-3 d-flex align-items-end">
                                 <base-input class="dark" label="email" name="email" />
                             </div>
-                            <div class="col-auto input-box pr-0">
+                            <div class="col-auto input-box">
                                 <button class="btn btn-send">Send</button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-auto order-2 order-md-2 p-0">
+                <div class="col-auto order-2 order-md-2">
                     <ul class="menu contacts">
                         <li>
                             <a href="tel: +971506553470">+971 50 655 3470</a>
@@ -55,8 +55,10 @@
                     </ul>
                 </div>
             </div>
-            <div class="copyright">
-                © Elite Performance Garments and Shoes L.L.C. {{ $moment(new Date()).format('YYYY') }}
+            <div class="row">
+                <div class="col-12 copyright">
+                    © Elite Performance Garments and Shoes L.L.C. {{ $moment(new Date()).format('YYYY') }}
+                </div>
             </div>
         </div>
     </footer>

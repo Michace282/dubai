@@ -8,7 +8,7 @@ from graphql_relay.connection.arrayconnection import offset_to_cursor
 from graphql_relay import from_global_id
 import django_filters
 from .models import *
-from account.models import Code, UseCode
+from account.models import Code, UseCode, PayLink
 import math
 from django import forms
 from backend.mixin import DjangoModelFormMutation, ClientIDMutation
@@ -779,6 +779,18 @@ class BasketCreateMutation(ClientIDMutation):
 
                 try:
                     url_pay = pay(**options)
+
+                    pay_link = PayLink()
+                    pay_link.link = url_pay
+                    if guest:
+                        pay_link.guest = guest
+
+                    if user.is_authenticated:
+                        pay_link.user = user
+
+                    pay_link.save()
+
+
                 except Exception:
                     pass
 

@@ -110,3 +110,9 @@ class UseCode(TimeStampedModel):
     code = models.ForeignKey(Code, verbose_name='Guest', on_delete=models.CASCADE, blank=True, null=True)
     guest = models.ForeignKey(Guest, verbose_name='Guest', on_delete=models.CASCADE, blank=True, null=True)
     user = models.ForeignKey(User, verbose_name='User', on_delete=models.CASCADE, blank=True, null=True)
+
+
+class PayLink(TimeStampedModel):
+    link = models.TextField(verbose_name='Link')
+    guest = models.ForeignKey(Guest, verbose_name='Guest', on_delete=models.CASCADE, blank=True, null=True)
+    user = models.ForeignKey(User, verbose_name='User', on_delete=models.CASCADE, blank=True, null=True)

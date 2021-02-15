@@ -729,6 +729,12 @@ class BasketCreateMutation(ClientIDMutation):
             if basket_create.description:
                 text += f'<b>Message</b>: {basket_create.description}\n'
 
+            if total_price:
+                text += f'<b>Total price</b>: {str(total_price)}\n'
+
+            if len(products_basket) > 0:
+                text += f'<b>Count of products</b>: {str(len(products_basket))}\n'
+
             p_customer_identifier = 'guest'
 
             if guest:

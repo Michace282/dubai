@@ -189,8 +189,8 @@ class ProductWishlist(TimeStampedModel):
 
 class Basket(TimeStampedModel):
     class PayType(DjangoChoices):
-        card = ChoiceItem(label='Card', value='Card')
-        delivery = ChoiceItem(label='Delivery', value='Delivery')
+        card = ChoiceItem(label='Card', value='card')
+        delivery = ChoiceItem(label='Delivery', value='delivery')
 
     class StatusType(DjangoChoices):
         completed = ChoiceItem(label='Completed', value='completed')

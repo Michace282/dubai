@@ -25,7 +25,10 @@ def create_user_profile(sender, instance, created, **kwargs):
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save()
+    if Profile.objects.filter(user=instance).exists():
+        instance.profile.save()
+    else:
+        Profile.objects.create(user=instance)
 
 
 class Guest(TimeStampedModel):

@@ -65,4 +65,4 @@ def pay(
 
     encryption = encrypt(merchant_data, working_key)
 
-    return f"https://secure.ccavenue.com/transaction/transaction.do?command=initiateTransaction&merchant_id={p_merchant_id}&encRequest={encryption}&access_code={access_code}"
+    return f"https://secure.ccavenue.ae/transaction/transaction.do?command=initiateTransaction&merchant_id={p_merchant_id}&encRequest={encryption}&access_code={access_code}"

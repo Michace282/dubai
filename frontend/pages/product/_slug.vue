@@ -474,10 +474,6 @@
     };
 </script>
 <style lang="less">
-    .modal-backdrop {
-        opacity: 0;
-    }
-
     #size-chart-modal {
         background: @grey_opacity;
 

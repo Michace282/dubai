@@ -754,7 +754,7 @@ class BasketCreateMutation(ClientIDMutation):
             if basket_create.pay == 'card':
                 options = {
                     'p_order_id': id_basket,
-                    'p_currency': 'INR',
+                    'p_currency': 'AED',
                     'p_amount': str(total_price),
                     'p_redirect_url': settings.FRONTEND_URL[:-1] + '?success=true',
                     'p_cancel_url': settings.FRONTEND_URL[:-1] + '?success=false',

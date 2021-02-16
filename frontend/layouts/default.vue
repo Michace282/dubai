@@ -109,7 +109,7 @@
         },
         mounted() {
             if (this.$route.query.success) {
-                v.confirmModalText = 'Your order has been placed! In the near future, our Manager will contact you.';
+                this.confirmModalText = 'Your order has been placed! In the near future, our Manager will contact you.';
                 this.$refs['confirm-order-modal'].show();
             }
         },

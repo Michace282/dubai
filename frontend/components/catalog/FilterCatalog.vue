@@ -144,7 +144,7 @@
                         subCategories: [
                             { key: 'body', label: 'Body' },
                             { key: 'blouses', label: 'Blouses' },
-                            { key: 'shirts', label: 'Shirts' },
+                            { key: 'skirts', label: 'Skirts' },
                             { key: 'dresses', label: 'Dresses' },
                             { key: 'trousers', label: 'Trousers' },
                             { key: 'jumpsuits', label: 'Jumpsuits' },
@@ -159,7 +159,7 @@
                         subCategories: [
                             { key: 'trousers', label: 'Trousers' },
                             { key: 'waistcoasts', label: 'Waistcoasts' },
-                            { key: 'shirts', label: 'Skirts' },
+                            { key: 'shirts', label: 'Shirts' },
                             { key: 't_shirts', label: 'T-shirts' },
                         ],
                     },

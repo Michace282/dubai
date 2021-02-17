@@ -144,7 +144,7 @@
                         subCategories: [
                             { key: 'body', label: 'Body' },
                             { key: 'blouses', label: 'Blouses' },
-                            { key: 'skirts', label: 'Skirts' },
+                            { key: 'shirts', label: 'Shirts' },
                             { key: 'dresses', label: 'Dresses' },
                             { key: 'trousers', label: 'Trousers' },
                             { key: 'jumpsuits', label: 'Jumpsuits' },

@@ -7,7 +7,7 @@ query productList(
     $accessoriesType: String
     $danceShoesType: String
     $colors: [ID]
-    $sizes: [ID]
+    $sizes: [String]
     $price_Gte: Float
     $price_Lte: Float
     $ids: [ID]

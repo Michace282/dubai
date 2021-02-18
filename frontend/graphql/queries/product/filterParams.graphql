@@ -8,6 +8,7 @@ query productList {
         sizesAvailable {
             id
             name
+            size
         }
     }
 }

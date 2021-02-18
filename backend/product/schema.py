@@ -158,7 +158,7 @@ class ProductConnection(graphene.Connection):
         if dance_shoes_type:
             options['productsizecolor__product__dance_shoes_type'] = dance_shoes_type
 
-        return Color.objects.filter(**options).filter(is_available=True).distinct()
+        return Color.objects.filter(**options).filter(productsizecolor__is_available=True).distinct()
 
     def resolve_sizes_available(self, info, **kwargs):
         params = info.variable_values

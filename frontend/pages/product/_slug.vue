@@ -366,6 +366,7 @@
                 return Math.floor((feedbackCount / allFeedbacksCount) * 100);
             },
             result(data) {
+                console.log(data);
                 if (data && data.data.productDetail) {
                     this.metaData = {
                         title: data.data.productDetail.name,

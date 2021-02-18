@@ -54,11 +54,15 @@ query productList(
                                     }
                                 }
                             }
-                            sizes {
+                            productsizecolorsizeSet {
                                 edges {
                                     node {
-                                        id
-                                        name
+                                        count
+                                        isAvailable
+                                        size {
+                                            id
+                                            name
+                                        }
                                     }
                                 }
                             }

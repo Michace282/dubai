@@ -93,9 +93,12 @@
                                                 name="sizes"
                                                 v-model="sizeVal"
                                                 :value="index"
-                                                :id="size.node.id"
+                                                :id="size.node.size.id"
+                                                :disabled="size.node.count == 0 || !size.node.isAvailable"
                                             />
-                                            <label class="label-size" :for="size.node.id">{{ size.node.name }}</label>
+                                            <label class="label-size" :for="size.node.size.id">{{
+                                                size.node.size.name
+                                            }}</label>
                                         </div>
                                         <a
                                             href.prevent
@@ -322,7 +325,14 @@
             currentSizes() {
                 this.sizeVal = 0;
                 if (this.colorsGroup.length > 0) {
-                    return this.colorsGroup[this.colorVal].node.sizes.edges;
+                    let sizes = this.colorsGroup[this.colorVal].node.productsizecolorsizeSet.edges;
+                    for (let i in sizes) {
+                        if (sizes[i].node.count > 0 && sizes[i].node.isAvailable) {
+                            this.sizeVal = i;
+                            break;
+                        }
+                    }
+                    return sizes;
                 }
                 return null;
             },
@@ -333,10 +343,10 @@
                 let basket = v.$cookies.get('basket') ? v.$cookies.get('basket') : {};
                 let product = {
                     id: `${v.$route.params.slug}_${v.colorsGroup[v.colorVal].node.color.id}_${
-                        v.currentSizes[v.sizeVal].node.id
+                        v.currentSizes[v.sizeVal].node.size.id
                     }`,
                     color: v.colorsGroup[v.colorVal].node.color.id,
-                    size: v.currentSizes[v.sizeVal].node.id,
+                    size: v.currentSizes[v.sizeVal].node.size.id,
                     product: this.$route.params.slug,
                     count: 1,
                 };

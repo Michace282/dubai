@@ -6,7 +6,9 @@
                     <VueSlickCarousel
                         class="nav-slider"
                         v-bind="slickOptions"
+                        ref="nav-slider"
                         :key="images.length"
+                        :asNavFor="$refs.c2"
                         :style="{ 'max-height': '695px' }"
                         @afterChange="
                             (index) => {
@@ -30,9 +32,15 @@
                     </VueSlickCarousel>
                 </client-only>
             </div>
-            <div class="col">
+            <div class="col active-image-group">
+                <a href.prevent class="carousel-control" @click="$refs['nav-slider'].prev()"
+                    ><img src="~/assets/images/icons/arrow-carousel.svg"
+                /></a>
                 <img class="active-image" v-if="images[activeIndex]" :src="images[activeIndex].node.image" />
                 <img class="active-image" v-else src="~/assets/images/no-photo.jpg" />
+                <a href.prevent class="carousel-control next" @click="$refs['nav-slider'].next()"
+                    ><img src="~/assets/images/icons/arrow-carousel.svg"
+                /></a>
             </div>
         </div>
         <div class="d-block d-lg-none mt-15">
@@ -130,8 +138,22 @@
         }
     }
 
-    .active-image {
-        max-width: 500px;
-        width: 100%;
+    .carousel-control {
+        left: 32px;
+
+        &.next {
+            left: unset;
+            right: 32px;
+        }
+    }
+
+    .active-image-group {
+        position: relative;
+        height: fit-content;
+
+        .active-image {
+            max-width: 500px;
+            width: 100%;
+        }
     }
 </style>

@@ -309,7 +309,12 @@
     }
 
     .color-group {
-        margin-right: 15px;
+        margin-right: 14px;
+        @media (min-width: 992px) {
+            &:nth-child(6n + 6) {
+                margin-right: 0px;
+            }
+        }
 
         .label-color {
             width: 1.9rem;

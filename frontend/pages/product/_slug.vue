@@ -86,6 +86,7 @@
                                         <div
                                             class="size-box"
                                             v-for="(size, index) in currentSizes"
+                                            v-if="size.node.isAvailable"
                                             :key="'size' + index"
                                         >
                                             <input
@@ -94,7 +95,7 @@
                                                 v-model="sizeVal"
                                                 :value="index"
                                                 :id="size.node.size.id"
-                                                :disabled="size.node.count == 0 || !size.node.isAvailable"
+                                                :disabled="size.node.count == 0"
                                             />
                                             <label class="label-size" :for="size.node.size.id">{{
                                                 size.node.size.name
@@ -292,7 +293,7 @@
             return {
                 countRatings: [],
                 colorVal: 0,
-                sizeVal: 0,
+                sizeVal: null,
                 colorsGroup: [],
                 metaData: null,
                 showForm: false,
@@ -323,7 +324,7 @@
                 return [];
             },
             currentSizes() {
-                this.sizeVal = 0;
+                this.sizeVal = null;
                 if (this.colorsGroup.length > 0) {
                     let sizes = this.colorsGroup[this.colorVal].node.productsizecolorsizeSet.edges;
                     for (let i in sizes) {
@@ -340,33 +341,40 @@
         methods: {
             addToBasket() {
                 let v = this;
-                let basket = v.$cookies.get('basket') ? v.$cookies.get('basket') : {};
-                let product = {
-                    id: `${v.$route.params.slug}_${v.colorsGroup[v.colorVal].node.color.id}_${
-                        v.currentSizes[v.sizeVal].node.size.id
-                    }`,
-                    color: v.colorsGroup[v.colorVal].node.color.id,
-                    size: v.currentSizes[v.sizeVal].node.size.id,
-                    product: this.$route.params.slug,
-                    count: 1,
-                };
-                if (basket[product.id] && basket[product.id].count < v.currentSizes[v.sizeVal].node.count) {
-                    basket[product.id].count += 1;
-                } else if (basket[product.id]) {
-                    v.$bvToast.toast('You have added the maximum number of products available', {
+                if (v.colorVal != null && v.sizeVal != null) {
+                    let basket = v.$cookies.get('basket') ? v.$cookies.get('basket') : {};
+                    let product = {
+                        id: `${v.$route.params.slug}_${v.colorsGroup[v.colorVal].node.color.id}_${
+                            v.currentSizes[v.sizeVal].node.size.id
+                        }`,
+                        color: v.colorsGroup[v.colorVal].node.color.id,
+                        size: v.currentSizes[v.sizeVal].node.size.id,
+                        product: this.$route.params.slug,
+                        count: 1,
+                    };
+                    if (basket[product.id] && basket[product.id].count < v.currentSizes[v.sizeVal].node.count) {
+                        basket[product.id].count += 1;
+                    } else if (basket[product.id]) {
+                        v.$bvToast.toast('You have added the maximum number of products available', {
+                            title: 'Add to cart',
+                            variant: 'danger',
+                        });
+                        return 0;
+                    } else {
+                        basket[product.id] = product;
+                        v.$store.commit('product/update_items_count');
+                    }
+                    v.$cookies.set('basket', JSON.stringify(basket));
+                    v.$bvToast.toast('The product was successfully added to the cart', {
+                        title: 'Add to cart',
+                        variant: 'success',
+                    });
+                } else {
+                    v.$bvToast.toast('Failed to add the item to your cart', {
                         title: 'Add to cart',
                         variant: 'danger',
                     });
-                    return 0;
-                } else {
-                    basket[product.id] = product;
                 }
-                v.$cookies.set('basket', JSON.stringify(basket));
-                v.$store.commit('product/update_items_count');
-                v.$bvToast.toast('The product was successfully added to the cart', {
-                    title: 'Add to cart',
-                    variant: 'success',
-                });
             },
             getRatingPrecent(feedbackCount, allFeedbacksCount) {
                 return Math.floor((feedbackCount / allFeedbacksCount) * 100);

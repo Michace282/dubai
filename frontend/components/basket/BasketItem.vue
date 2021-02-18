@@ -97,15 +97,17 @@
                                     .edges"
                                 :key="`size ${index}`"
                             >
-                                <input
-                                    type="radio"
-                                    v-model="activeSize"
-                                    :value="index"
-                                    name="sizes"
-                                    :disabled="!size.node.isAvailable || size.node.count == 0"
-                                    :id="`size${index}`"
-                                />
-                                <label class="label-size" :for="`size${index}`">{{ size.node.size.name }}</label>
+                                <template v-if="size.node.isAvailable">
+                                    <input
+                                        type="radio"
+                                        v-model="activeSize"
+                                        :value="index"
+                                        name="sizes"
+                                        :disabled="size.node.count == 0"
+                                        :id="`size${index}`"
+                                    />
+                                    <label class="label-size" :for="`size${index}`">{{ size.node.size.name }}</label>
+                                </template>
                             </div>
                         </div>
                     </template>

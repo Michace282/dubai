@@ -117,6 +117,7 @@ class ProductSizeColorType(DjangoObjectType):
 class ProductSizeColorSizeType(DjangoObjectType):
     class Meta:
         model = ProductSizeColorSize
+        filter_fields = ['is_available']
         interfaces = (relay.Node,)
 
 

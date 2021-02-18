@@ -290,9 +290,9 @@ class Basket(TimeStampedModel):
         verbose_name_plural = 'Baskets'
 
 
-@receiver(post_save, sender=Product, dispatch_uid="update_basket")
-def update_basket(sender, instance, **kwargs):
-    if instance.status == Basket.StatusType.completed and not instance.is_completed:
+@receiver(post_save, sender=Basket, dispatch_uid="update_basket")
+def update_basket(sender, instance, created, **kwargs):
+    if created:
         for productbasket in instance.productbasket_set.all():
             product_size_color_size = ProductSizeColorSize.objects.filter(
                 product_size_color__product=productbasket.product,

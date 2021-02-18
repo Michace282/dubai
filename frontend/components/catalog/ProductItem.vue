@@ -4,29 +4,58 @@
             <img src="~/assets/images/icons/favorites-fill.svg" v-if="isFavorite" />
             <img src="~/assets/images/icons/favorites-icon.svg" v-else />
         </a>
-        <client-only v-if="colorsGroup && colorsGroup.edges[activeColor].node.productimageSet.edges.length > 0">
-            <b-carousel
-                :interval="0"
-                indicators
-                v-model="slide"
-                class="product-carousel"
-                :class="{ 'white-mode': false }"
-                img-width="255"
-                img-height="300"
-            >
-                <b-carousel-slide
-                    v-for="(img, index) in colorsGroup.edges[activeColor].node.productimageSet.edges"
-                    :key="index"
-                >
-                    <template #img>
-                        <img class="d-block img-fluid w-100 preview" :src="img.node.imageCropping" :alt="index" />
-                    </template>
-                </b-carousel-slide>
-            </b-carousel>
-        </client-only>
+        <div
+            class="position-relative"
+            v-if="colorsGroup && colorsGroup.edges[activeColor].node.productimageSet.edges.length > 0"
+        >
+            <client-only>
+                <a href.prevent @click="slide != 0 ? (slide = slide - 1) : ''" class="carousel-control"
+                    ><img src="~/assets/images/icons/arrow-carousel.svg"
+                /></a>
+                <nuxt-link :to="{ name: 'product-slug', params: { slug: id } }" class="link-to-product">
+                    <b-carousel
+                        :interval="0"
+                        indicators
+                        v-model="slide"
+                        class="product-carousel w-100"
+                        :class="{ 'white-mode': false }"
+                        img-width="255"
+                        img-height="300"
+                    >
+                        <b-carousel-slide
+                            v-for="(img, index) in colorsGroup.edges[activeColor].node.productimageSet.edges"
+                            :key="index"
+                        >
+                            <template #img>
+                                <img
+                                    class="d-block img-fluid w-100 preview"
+                                    :src="img.node.imageCropping"
+                                    :alt="index"
+                                />
+                            </template>
+                        </b-carousel-slide>
+                    </b-carousel>
+                </nuxt-link>
+                <a
+                    href.prevent
+                    @click="
+                        slide < colorsGroup.edges[activeColor].node.productimageSet.edges.length - 1
+                            ? (slide = slide + 1)
+                            : ''
+                    "
+                    class="carousel-control next"
+                    ><img src="~/assets/images/icons/arrow-carousel.svg"
+                /></a>
+            </client-only>
+        </div>
         <img class="preview" src="~/assets/images/no-photo.jpg" v-else />
         <div class="colors" v-if="colorsGroup && colorsGroup.edges.length > 0">
-            <div class="color-group" v-for="(colorGroup, index) in colorsGroup.edges" :key="index">
+            <div
+                class="color-group"
+                :class="{ opacity: !colorGroup.node.isAvailable }"
+                v-for="(colorGroup, index) in colorsGroup.edges"
+                :key="index"
+            >
                 <input type="radio" v-model="activeColor" :value="index" :id="colorGroup.node.id" />
                 <label class="label-color" :for="colorGroup.node.id">
                     <div

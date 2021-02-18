@@ -83,7 +83,7 @@
             </div>
             <div class="row mt-30" v-if="showCreateOrderFields">
                 <div class="col-12">
-                    <base-input label="Your promo code" v-model="promo"/>
+                    <base-input label="Your promo code" v-model="form.promo"/>
                 </div>
             </div>
             <div class="row radio-group mt-30" v-if="showCreateOrderFields" :class="{ error: $v.form.payment.$error }">
@@ -92,7 +92,7 @@
                 </div>
                 <div class="col-auto pr-0">
                     <div class="color-group">
-                        <input type="radio" name="payment" v-model="$v.form.payment.$model" :value="false" id="card"/>
+                        <input type="radio" name="payment" v-model="$v.form.payment.$model" :value="true" id="card"/>
                         <label class="radio-label" for="card">
                             <div class="label-color">
                                 <div class="color" :style="'background: black;'"></div>
@@ -103,7 +103,7 @@
                 </div>
                 <div class="col-auto pr-0">
                     <div class="color-group">
-                        <input type="radio" name="payment" v-model="$v.form.payment.$model" :value="true" id="cash"/>
+                        <input type="radio" name="payment" v-model="$v.form.payment.$model" :value="false" id="cash"/>
                         <label class="radio-label" for="cash">
                             <div class="label-color">
                                 <div class="color" :style="'background: black;'"></div>

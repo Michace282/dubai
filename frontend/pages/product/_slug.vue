@@ -54,6 +54,7 @@
                                     <div class="colors mt-15">
                                         <div
                                             class="color-group"
+                                            :class="{ opacity: !colorGroup.node.isAvailable }"
                                             v-for="(colorGroup, index) in colorsGroup"
                                             :key="'color' + index"
                                         >
@@ -112,7 +113,17 @@
                                 ></p>
                                 <div class="row mt-60">
                                     <div class="col-6">
-                                        <button class="btn btn-yellow" @click="addToBasket">Add to cart</button>
+                                        <button
+                                            class="btn btn-yellow"
+                                            @click="
+                                                colorsGroup && colorsGroup[colorVal].node.isAvailable
+                                                    ? addToBasket()
+                                                    : ''
+                                            "
+                                            :disabled="!colorsGroup || !colorsGroup[colorVal].node.isAvailable"
+                                        >
+                                            Add to cart
+                                        </button>
                                     </div>
                                     <div class="col-6">
                                         <button
@@ -737,7 +748,7 @@
         padding: 7px 17px;
         border: 1px solid @yellow;
 
-        &:hover {
+        &:not(:disabled):hover {
             background: #dab20e;
             color: @white;
         }

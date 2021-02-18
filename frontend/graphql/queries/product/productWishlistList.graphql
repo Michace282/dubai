@@ -15,6 +15,7 @@ query productWishlistList($guestUuid: UUID, $first: Int, $after: String) {
                         edges {
                             node {
                                 id
+                                isAvailable
                                 productimageSet {
                                     edges {
                                         node {

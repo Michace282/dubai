@@ -21,44 +21,46 @@
                 <div v-if="isLoading || error" class="loading apollo mt-85"></div>
                 <div v-else-if="data && data.stockList" class="result apollo">
                     <div class="row" v-if="data.stockList.edges.length > 0">
-                        <client-only>
-                            <b-carousel
-                                id="carousel-1"
-                                :interval="4000"
-                                indicators
-                                class="index-carousel"
-                                img-width="1024"
-                                img-height="480"
-                            >
-                                <b-carousel-slide v-for="stock in data.stockList.edges" :key="stock.node.id">
-                                    <template #img>
-                                        <img
-                                            class="d-block img-fluid w-100"
-                                            width="1024"
-                                            height="480"
-                                            :src="stock.node.imageCropping"
-                                            alt="image slot"
-                                        />
-                                    </template>
-                                    <div class="box">
-                                        <nuxt-link
-                                            :to="{ name: 'product-slug', params: { slug: stock.node.product.id } }"
-                                            class="carousel-link"
-                                        >
-                                            {{
-                                                stock.node.productName
-                                                    ? stock.node.productName
-                                                    : stock.node.product.name
-                                            }}
-                                        </nuxt-link>
-                                        <div class="caption">
-                                            {{ stock.node.product.price }} AED
-                                            <img src="~/assets/images/icons/arrow-right.svg" />
+                        <div class="col-12">
+                            <client-only>
+                                <b-carousel
+                                    id="carousel-1"
+                                    :interval="4000"
+                                    indicators
+                                    class="index-carousel"
+                                    img-width="1024"
+                                    img-height="480"
+                                >
+                                    <b-carousel-slide v-for="stock in data.stockList.edges" :key="stock.node.id">
+                                        <template #img>
+                                            <img
+                                                class="d-block img-fluid w-100"
+                                                width="1024"
+                                                height="480"
+                                                :src="stock.node.imageCropping"
+                                                alt="image slot"
+                                            />
+                                        </template>
+                                        <div class="box">
+                                            <nuxt-link
+                                                :to="{ name: 'product-slug', params: { slug: stock.node.product.id } }"
+                                                class="carousel-link"
+                                            >
+                                                {{
+                                                    stock.node.productName
+                                                        ? stock.node.productName
+                                                        : stock.node.product.name
+                                                }}
+                                            </nuxt-link>
+                                            <div class="caption">
+                                                {{ stock.node.product.price }} AED
+                                                <img src="~/assets/images/icons/arrow-right.svg" />
+                                            </div>
                                         </div>
-                                    </div>
-                                </b-carousel-slide>
-                            </b-carousel>
-                        </client-only>
+                                    </b-carousel-slide>
+                                </b-carousel>
+                            </client-only>
+                        </div>
                     </div>
                 </div>
             </template>

@@ -36,7 +36,11 @@ body {
     text-transform: uppercase;
     border-radius: 2px;
 
-    &:hover {
+    &:disabled:hover {
+        color: @white;
+    }
+
+    &:not(:disabled):hover {
         background: @white;
         color: @black;
         border: 1px solid @black;
@@ -54,7 +58,7 @@ body {
     text-transform: uppercase;
     color: @black;
 
-    &:hover {
+    &:not(:disabled):hover {
         color: @white !important;
         background: @black;
     }
@@ -87,6 +91,7 @@ body {
     z-index: 1000;
     padding: 0px 20px;
     transition: all 0.5s ease;
+    background: white;
 
     @media (max-width: 320px) {
         padding: 0px 10px;
@@ -239,7 +244,8 @@ body {
     opacity: 0 !important;
 }
 
-#present-modal, #confirm-order-modal {
+#present-modal,
+#confirm-order-modal {
     background: @grey_opacity;
 
     .modal-dialog {
@@ -327,7 +333,29 @@ body {
     }
 }
 
+.carousel-control {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    z-index: 100;
+    cursor: pointer;
+    padding: 5px;
+
+    &.next {
+        left: unset;
+        right: 0;
+        transform: rotate(180deg);
+    }
+}
+
 .color-group {
+    &.opacity {
+        opacity: 0.5;
+    }
+
     input {
         display: none;
 

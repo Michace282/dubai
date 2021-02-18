@@ -1,6 +1,7 @@
 export const state = () => ({
     breadcrumbs: false,
     favorites: {},
+    payLink: null,
 });
 
 export const mutations = {
@@ -9,6 +10,9 @@ export const mutations = {
     },
     set_breadcrumbs(state, breadcrumbs) {
         state.breadcrumbs = breadcrumbs;
+    },
+    set_pay_link(state, link) {
+        state.payLink = link;
     },
 };
 

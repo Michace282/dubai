@@ -12,29 +12,31 @@
             fetchPolicy="no-cache"
         >
             <template v-slot="{ result: { error, data }, isLoading, query }">
-                <div v-if="isLoading || error" class="loading apollo mt-85"></div>
-                <div v-else-if="data && data.productWishlistList" class="result apollo">
-                    <div class="row mt-45" v-if="data.productWishlistList.edges.length > 0">
-                        <div
-                            class="col-2"
-                            v-for="(product, index) in data.productWishlistList.edges"
-                            :key="product.node.product.id"
-                        >
-                            <product-item
-                                class="product-sm"
-                                :id="product.node.product.id"
-                                :name="product.node.product.name"
-                                :price="product.node.product.price"
-                                :isWishlist="true"
-                                :colorsGroup="product.node.product.productsizecolorSet"
-                                @remove="data.productWishlistList.edges.splice(index, 1)"
-                            />
+                <transition name="fade" mode="out-in">
+                    <div v-if="isLoading || error" class="loading apollo mt-85" key="loader"><loader /></div>
+                    <div v-else-if="data && data.productWishlistList" class="result apollo" key="loader">
+                        <div class="row mt-45" v-if="data.productWishlistList.edges.length > 0">
+                            <div
+                                class="col-2"
+                                v-for="(product, index) in data.productWishlistList.edges"
+                                :key="product.node.product.id"
+                            >
+                                <product-item
+                                    class="product-sm"
+                                    :id="product.node.product.id"
+                                    :name="product.node.product.name"
+                                    :price="product.node.product.price"
+                                    :isWishlist="true"
+                                    :colorsGroup="product.node.product.productsizecolorSet"
+                                    @remove="data.productWishlistList.edges.splice(index, 1)"
+                                />
+                            </div>
+                        </div>
+                        <div v-else class="no-result apollo" key="404">
+                            <h3 class="text-center mt-5">Products not found :(</h3>
                         </div>
                     </div>
-                    <div v-else class="no-result apollo">
-                        <h3 class="text-center mt-5">Products not found :(</h3>
-                    </div>
-                </div>
+                </transition>
             </template>
         </ApolloQuery>
         <pagination
@@ -54,10 +56,11 @@
     import ProductItem from '~/components/catalog/ProductItem.vue';
     import Pagination from '~/components/catalog/Pagination';
     import AccountHeadGroup from '~/components/AccountHeadGroup';
+    import Loader from '../../components/Loader.vue';
 
     export default {
         name: 'wish-list',
-        components: { BaseTitle, ProductItem, Pagination, AccountHeadGroup },
+        components: { BaseTitle, ProductItem, Pagination, AccountHeadGroupLoader },
         data() {
             return {
                 cursor: null,

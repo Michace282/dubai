@@ -81,6 +81,7 @@
                     slidesToShow: 5,
                     arrows: true,
                     rows: 1,
+                    speed: 0,
                     vertical: true,
                     verticalSwiping: true,
                     initialSlide: 0,

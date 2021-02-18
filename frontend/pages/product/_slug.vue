@@ -8,7 +8,7 @@
             @result="result"
         >
             <template v-slot="{ result: { error, data }, isLoading }">
-                <div v-if="isLoading || error" class="loading apollo mt-85"></div>
+                <div v-if="isLoading || error" class="loading apollo mt-85"><loader /></div>
                 <div v-else-if="data && data.productDetail" class="result apollo">
                     <div class="container">
                         <div class="row">
@@ -188,11 +188,6 @@
                                 </div>
                             </template>
                         </ApolloQuery>
-                        <product-items-carousel
-                            class="mt-45"
-                            v-if="data.productDetail.worksBestWith.edges.length > 0"
-                            :items="data.productDetail.worksBestWith.edges"
-                        />
                         <div class="bold text-uppercase mt-90">Reviews</div>
                         <comment-form
                             v-if="showForm"
@@ -285,10 +280,11 @@
     import ProductCarousel from '../../components/product/ProductCarousel.vue';
     import ProductItemsCarousel from '../../components/product/ProductItemsCarousel.vue';
     import toggleFavouriteMixin from '~/mixins/toggleFavouriteMixin';
+    import Loader from '../../components/Loader.vue';
 
     export default {
         name: 'product',
-        components: { CommentGroup, RatingGroup, ProductCarousel, ProductItemsCarousel, CommentForm },
+        components: { CommentGroup, RatingGroup, ProductCarousel, ProductItemsCarousel, CommentForm, Loader },
         data() {
             return {
                 countRatings: [],
@@ -380,7 +376,6 @@
                 return Math.floor((feedbackCount / allFeedbacksCount) * 100);
             },
             result(data) {
-                console.log(data);
                 if (data && data.data.productDetail) {
                     this.metaData = {
                         title: data.data.productDetail.name,

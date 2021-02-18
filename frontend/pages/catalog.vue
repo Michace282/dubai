@@ -59,27 +59,29 @@
                     @result="updateCursors"
                 >
                     <template v-slot="{ result: { error, data }, isLoading }">
-                        <div v-if="isLoading || error" class="loading apollo mt-85"></div>
-                        <div v-else-if="data && data.productList" class="result apollo">
-                            <div class="row" v-if="data.productList.edges.length > 0">
-                                <div
-                                    class="col-6 col-md-4"
-                                    v-for="product in data.productList.edges"
-                                    :key="product.node.id"
-                                >
-                                    <product-item
-                                        :id="product.node.id"
-                                        :name="product.node.name"
-                                        :price="product.node.price"
-                                        :isWishlist="product.node.isWishlist"
-                                        :colorsGroup="product.node.productsizecolorSet"
-                                    />
+                        <transition name="fade" mode="out-in">
+                            <div v-if="isLoading || error" class="loading apollo mt-85" key="1"><loader /></div>
+                            <div v-else-if="data && data.productList" class="result apollo" key="2">
+                                <div class="row" v-if="data.productList.edges.length > 0">
+                                    <div
+                                        class="col-6 col-md-4"
+                                        v-for="product in data.productList.edges"
+                                        :key="product.node.id"
+                                    >
+                                        <product-item
+                                            :id="product.node.id"
+                                            :name="product.node.name"
+                                            :price="product.node.price"
+                                            :isWishlist="product.node.isWishlist"
+                                            :colorsGroup="product.node.productsizecolorSet"
+                                        />
+                                    </div>
+                                </div>
+                                <div v-else class="no-result apollo" key="3">
+                                    <h3 class="text-center mt-5">Product not found :(</h3>
                                 </div>
                             </div>
-                            <div v-else class="no-result apollo">
-                                <h3 class="text-center mt-5">Product not found :(</h3>
-                            </div>
-                        </div>
+                        </transition>
                     </template>
                 </ApolloQuery>
                 <pagination
@@ -96,8 +98,9 @@
     import ProductItem from '../components/catalog/ProductItem.vue';
     import FilterCatalog from '../components/catalog/FilterCatalog.vue';
     import Pagination from '../components/catalog/Pagination';
+    import Loader from '../components/Loader.vue';
     export default {
-        components: { ProductItem, FilterCatalog, Pagination },
+        components: { ProductItem, FilterCatalog, Pagination, Loader },
         name: 'catalog',
         data() {
             return {

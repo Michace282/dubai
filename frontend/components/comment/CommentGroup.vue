@@ -7,43 +7,46 @@
         }"
     >
         <template v-slot="{ result: { error, data }, isLoading, query }">
-            <div v-if="isLoading || error" class="loading apollo mt-85"></div>
-            <div v-else-if="data && data.feedbackList.edges.length > 0" class="comment-item-group mt-90">
-                <comment-item
-                    v-for="(comment, index) in data.feedbackList.edges"
-                    :key="index"
-                    class="mt-30"
-                    :user="`${comment.node.user.firstName} ${comment.node.user.lastName}`"
-                    :text="comment.node.text"
-                    :color="comment.node.color.name"
-                    :size="comment.node.size.name"
-                    :rating="comment.node.star"
-                    :publicateDate="comment.node.createdAt"
-                    :images="comment.node.feedbackimageSet.edges"
-                />
-                <button
-                    class="btn btn-outline-black"
-                    @click="
-                        cursor = data.feedbackList.pageInfo.endCursor;
-                        loadMore(query);
-                    "
-                    v-if="data.feedbackList.pageInfo.hasNextPage"
-                >
-                    Show more
-                </button>
-            </div>
-            <div v-else class="mt-4">
-                <div>Reviews not found :(</div>
-            </div>
+            <transition name="fade" mode="out-in">
+                <div v-if="isLoading || error" class="loading apollo mt-85" key="loader"><loader /></div>
+                <div v-else-if="data && data.feedbackList.edges.length > 0" class="comment-item-group mt-90" key="comments">
+                    <comment-item
+                        v-for="(comment, index) in data.feedbackList.edges"
+                        :key="index"
+                        class="mt-30"
+                        :user="`${comment.node.user.firstName} ${comment.node.user.lastName}`"
+                        :text="comment.node.text"
+                        :color="comment.node.color.name"
+                        :size="comment.node.size.name"
+                        :rating="comment.node.star"
+                        :publicateDate="comment.node.createdAt"
+                        :images="comment.node.feedbackimageSet.edges"
+                    />
+                    <button
+                        class="btn btn-outline-black"
+                        @click="
+                            cursor = data.feedbackList.pageInfo.endCursor;
+                            loadMore(query);
+                        "
+                        v-if="data.feedbackList.pageInfo.hasNextPage"
+                    >
+                        Show more
+                    </button>
+                </div>
+                <div v-else class="mt-4" key="404">
+                    <div>Reviews not found :(</div>
+                </div>
+            </transition>
         </template>
     </ApolloQuery>
 </template>
 <script>
     import CommentItem from '../../components/comment/CommentItem.vue';
+    import Loader from '../Loader.vue';
 
     export default {
         name: 'CommentGroup',
-        components: { CommentItem },
+        components: { CommentItem, Loader },
         props: {
             id: {
                 type: String,

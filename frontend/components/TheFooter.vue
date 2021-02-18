@@ -43,10 +43,10 @@
                 <div class="col-auto order-2 order-md-2 p-0">
                     <ul class="menu contacts">
                         <li>
-                            <a href="tel: +971506553470">+971 50 655 3470</a>
+                            <a href="tel:+971585967208">+971 58 596 7208</a>
                         </li>
                         <li>
-                            <a href="tel: +971506553470">+971 50 655 3470</a>
+                            <a href="tel:+971506553470">+971 50 655 3470</a>
                         </li>
                         <li class="text-right">
                             <a href="" class="mr-2"><img src="~/assets/images/icons/whatsApp.svg" /></a>

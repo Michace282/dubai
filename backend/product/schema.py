@@ -113,9 +113,9 @@ class ProductSizeColorType(DjangoObjectType):
         interfaces = (relay.Node,)
 
 
-class ProductSizeColorType(DjangoObjectType):
+class ProductSizeColorSizeType(DjangoObjectType):
     class Meta:
-        model = ProductSizeColor
+        model = ProductSizeColorSize
         interfaces = (relay.Node,)
 
 

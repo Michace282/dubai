@@ -117,6 +117,7 @@ class ProductSizeColorType(DjangoObjectType):
 class ProductSizeColorSizeType(DjangoObjectType):
     class Meta:
         model = ProductSizeColorSize
+        filter_fields = ['is_available']
         interfaces = (relay.Node,)
 
 
@@ -600,6 +601,7 @@ class BasketCreateMutation(ClientIDMutation):
         user = info.context.user
         guest = None
         id_basket = None
+        url_pay = None
 
         if not user.is_authenticated:
             if guest_uuid:
@@ -767,8 +769,6 @@ class BasketCreateMutation(ClientIDMutation):
             p_delivery_name = f'{basket_create.first_name} {basket_create.last_name}'
 
             send_message(text)
-
-            url_pay = None
 
             if basket_create.pay == 'card':
                 options = {

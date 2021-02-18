@@ -70,18 +70,31 @@
                 <item-param
                     label="Size"
                     linkName="Change size"
-                    @save="$emit('setSize', colorsGroup.edges[activeColor].node.sizes.edges[activeSize].node.id)"
+                    :isAvailable="
+                        colorsGroup.edges[activeColor].node.productsizecolorsizeSet.edges[activeSize].node.count == 0 ||
+                        !colorsGroup.edges[activeColor].node.productsizecolorsizeSet.edges[activeSize].node.isAvailable
+                    "
+                    @save="
+                        $emit(
+                            'setSize',
+                            colorsGroup.edges[activeColor].node.productsizecolorsizeSet.edges[activeSize].node.size.id,
+                        )
+                    "
                 >
                     <template v-slot:activeItem>
                         <div class="bold d-flex align-items-end d-xs-block">
-                            {{ colorsGroup.edges[activeColor].node.sizes.edges[activeSize].node.name }}
+                            {{
+                                colorsGroup.edges[activeColor].node.productsizecolorsizeSet.edges[activeSize].node.size
+                                    .name
+                            }}
                         </div>
                     </template>
                     <template v-slot:options>
                         <div class="sizes">
                             <div
                                 class="size-box"
-                                v-for="(size, index) in colorsGroup.edges[activeColor].node.sizes.edges"
+                                v-for="(size, index) in colorsGroup.edges[activeColor].node.productsizecolorsizeSet
+                                    .edges"
                                 :key="`size ${index}`"
                             >
                                 <input
@@ -89,9 +102,10 @@
                                     v-model="activeSize"
                                     :value="index"
                                     name="sizes"
+                                    :disabled="!size.node.isAvailable || size.node.count == 0"
                                     :id="`size${index}`"
                                 />
-                                <label class="label-size" :for="`size${index}`">{{ size.node.name }}</label>
+                                <label class="label-size" :for="`size${index}`">{{ size.node.size.name }}</label>
                             </div>
                         </div>
                     </template>
@@ -162,8 +176,11 @@
                 }
             }
             if (this.size) {
-                for (let i in this.colorsGroup.edges[this.activeColor].node.sizes.edges) {
-                    if (this.colorsGroup.edges[this.activeColor].node.sizes.edges[i].node.id == this.size) {
+                for (let i in this.colorsGroup.edges[this.activeColor].node.productsizecolorsizeSet.edges) {
+                    if (
+                        this.colorsGroup.edges[this.activeColor].node.productsizecolorsizeSet.edges[i].node.size.id ==
+                        this.size
+                    ) {
                         this.activeSize = i;
                     }
                 }

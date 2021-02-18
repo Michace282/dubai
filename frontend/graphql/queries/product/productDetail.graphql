@@ -66,11 +66,15 @@ query productDetail($id: ID!) {
             edges {
                 node {
                     isAvailable
-                    sizes {
+                    productsizecolorsizeSet {
                         edges {
                             node {
-                                id
-                                name
+                                size {
+                                    id
+                                    name
+                                }
+                                count
+                                isAvailable
                             }
                         }
                     }

@@ -273,6 +273,8 @@ class Basket(TimeStampedModel):
                               choices=StatusType.choices,
                               default=StatusType.new)
 
+    is_completed = models.BooleanField(verbose_name='Is completed', default=False, editable=True)
+
     pay = models.CharField(verbose_name='Pay',
                            max_length=30,
                            choices=PayType.choices,
@@ -286,6 +288,20 @@ class Basket(TimeStampedModel):
     class Meta:
         verbose_name = 'Basket'
         verbose_name_plural = 'Baskets'
+
+
+@receiver(post_save, sender=Product, dispatch_uid="update_basket")
+def update_basket(sender, instance, **kwargs):
+    if instance.status == Basket.StatusType.completed and not instance.is_completed:
+        for productbasket in instance.productbasket_set.all():
+            product_size_color_size = ProductSizeColorSize.objects.filter(
+                product_size_color__product=productbasket.product,
+                product_size_color__color=productbasket.color,
+                size=productbasket.size).first()
+
+            if product_size_color_size:
+                product_size_color_size.count = product_size_color_size.count - productbasket.count if product_size_color_size.count - productbasket.count > 0 else 0
+                product_size_color_size.save()
 
 
 class ProductBasket(TimeStampedModel):

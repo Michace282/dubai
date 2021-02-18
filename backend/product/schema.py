@@ -615,6 +615,25 @@ class BasketCreateMutation(ClientIDMutation):
             total_price = 0
             for product_basket in products_basket:
                 product = Product.objects.filter(id=from_global_id(product_basket.product)[1]).first()
+                color = Color.objects.filter(id=from_global_id(product_basket.color)[1]).first()
+                size = Size.objects.filter(id=from_global_id(product_basket.color)[1]).first()
+
+                product_size_color_size = ProductSizeColorSize.objects.filter(product_size_color__product=product,
+                                                                              product_size_color__color=color,
+                                                                              size=size).first()
+                if product_size_color_size:
+                    if not product_size_color_size.is_available:
+                        errors.append(ErrorType(field='products_basket',
+                                                messages=[
+                                                    f'Товара "{str(product)}, {str(color)}, {str(size)}" нет в наличии']))
+                    elif product_size_color_size.count == 0:
+                        errors.append(ErrorType(field='products_basket',
+                                                messages=[
+                                                    f'Товара "{str(product)}, {str(color)}, {str(size)}" нет в наличии']))
+                else:
+                    errors.append(ErrorType(field='products_basket',
+                                            messages=[
+                                                f'Товара "{str(product)}, {str(color)}, {str(size)}" нет в наличии']))
 
                 if product:
                     total_price += product_basket.count * product.price

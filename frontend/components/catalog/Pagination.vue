@@ -2,8 +2,13 @@
     <client-only>
         <paginate
             :page-count="pageCursor.length"
+            :value="currentPage"
             :clickHandler="
                 (page) => {
+                    currentPage = page;
+                    $router.push({
+                        query: { ...$route.query, page: currentPage },
+                    });
                     $emit('changeCursor', pageCursor[page - 1].cursor);
                 }
             "
@@ -28,6 +33,33 @@
                     return [];
                 },
             },
+        },
+        data() {
+            return {
+                currentPage: 1,
+            };
+        },
+        watch: {
+            $route() {
+                if (
+                    this.$route.query.page &&
+                    this.$route.query.page != this.currentPage &&
+                    this.pageCursor[this.currentPage - 1]
+                ) {
+                    this.currentPage = parseInt(this.$route.query.page);
+                    this.$emit('changePage', this.pageCursor[this.currentPage - 1].cursor);
+                }
+            },
+        },
+        mounted() {
+            if (
+                this.$route.query.page &&
+                this.pageCursor.length > 0 &&
+                this.pageCursor[parseInt(this.$route.query.page) - 1]
+            ) {
+                this.currentPage = parseInt(this.$route.query.page);
+                this.$emit('changePage', this.pageCursor[parseInt(this.$route.query.page) - 1].cursor);
+            }
         },
     };
 </script>

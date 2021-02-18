@@ -84,8 +84,9 @@
                 </ApolloQuery>
                 <pagination
                     v-if="pagesCursor && pagesCursor.length > 1"
-                    @changeCursor="(val) => (cursor = val)"
                     :pageCursor="pagesCursor"
+                    @changeCursor="(val) => (cursor = val)"
+                    @changePage="(activeCursor) => (cursor = activeCursor)"
                 />
             </div>
         </div>

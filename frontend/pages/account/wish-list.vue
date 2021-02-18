@@ -39,8 +39,9 @@
         </ApolloQuery>
         <pagination
             v-if="pagesCursor && pagesCursor.length > 1"
-            @changeCursor="(val) => (cursor = val)"
             :pageCursor="pagesCursor"
+            @changeCursor="(val) => (cursor = val)"
+            @changePage="(activeCursor) => (cursor = activeCursor)"
         />
         <div class="bg-gray" v-if="!$store.state.user.user">
             <div class="text">Would you like to save information about all your orders? Sign Up now!</div>

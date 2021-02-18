@@ -136,9 +136,11 @@
                 display: flex;
                 align-items: center;
                 height: 15px;
-                top: 10px;
                 right: 0px;
+                top: 15px;
+
                 transition: all 0.5s;
+                transform: rotate(180deg);
 
                 @media @large {
                     right: 20px;
@@ -149,8 +151,8 @@
                 font-weight: normal;
 
                 &:after {
-                    top: 15px;
-                    transform: rotate(180deg);
+                    top: 10px;
+                    transform: rotate(0deg);
                 }
             }
 

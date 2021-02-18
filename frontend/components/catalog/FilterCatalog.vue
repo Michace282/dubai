@@ -310,6 +310,11 @@
 
     .color-group {
         margin-right: 15px;
+
+        .label-color {
+            width: 1.9rem;
+            height: 1.9rem;
+        }
     }
 
     .colors {

@@ -96,8 +96,8 @@
         <div class="navigation-group">
             <nuxt-link class="navigation" to="/account/">Active Orders</nuxt-link>
             <nuxt-link class="navigation" to="/account/previous-orders/" v-if="user">Previous Orders</nuxt-link>
-            <nuxt-link class="navigation" to="/account/wish-list">wishlist</nuxt-link>
-            <nuxt-link class="navigation" to="/account/track-orders" v-if="user">Track orders</nuxt-link>
+            <nuxt-link class="navigation" to="/account/wish-list/">wishlist</nuxt-link>
+            <nuxt-link class="navigation" to="/account/track-orders/" v-if="user">Track orders</nuxt-link>
         </div>
     </div>
 </template>
@@ -243,6 +243,11 @@
             .btn-outline-black {
                 font-family: 'Inter-Medium';
                 padding: 9px 60px 8px 60px;
+
+                &:hover {
+                    background: #a9a8a8;
+                    color: @black !important;
+                }
 
                 @media @medium {
                     padding: 9px 57px 8px 58px;

@@ -97,8 +97,8 @@
         <filter-accordion class="mt-30" title="Size" name="size">
             <div class="sizes" v-if="sizes && sizes.length > 0">
                 <div class="size-box" v-for="(size, index) in sizes" :key="index">
-                    <input type="checkbox" name="sizes" v-model="filter.sizes" :value="size.id" :id="index" />
-                    <label class="label-size" :for="index">{{ size.name }}</label>
+                    <input type="checkbox" name="sizes" v-model="filter.sizes" :value="size.size.toLowerCase()" :id="index" />
+                    <label class="label-size" :for="index">{{ size.size }}</label>
                 </div>
             </div>
         </filter-accordion>
@@ -159,7 +159,7 @@
                         subCategories: [
                             { key: 'trousers', label: 'Trousers' },
                             { key: 'waistcoasts', label: 'Waistcoasts' },
-                            { key: 'shirts', label: 'Skirts' },
+                            { key: 'shirts', label: 'Shirts' },
                             { key: 't_shirts', label: 'T-shirts' },
                         ],
                     },
@@ -327,6 +327,10 @@
         align-items: center;
         flex-wrap: wrap;
         justify-content: flex-start;
+    }
+
+    .label-size{
+        text-transform: uppercase;
     }
 
     .filter-input {

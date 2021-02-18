@@ -6,6 +6,8 @@ from account.models import Guest, Code
 from django.contrib.auth.models import User
 from image_cropping import ImageRatioField
 from image_cropping.utils import get_backend
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 class SizeChart(TimeStampedModel):
@@ -21,8 +23,19 @@ class SizeChart(TimeStampedModel):
 
 
 class Size(TimeStampedModel):
+    class SizeType(DjangoChoices):
+        xs = ChoiceItem(label='xs', value='xs')
+        s = ChoiceItem(label='s', value='s')
+        m = ChoiceItem(label='m', value='m')
+        l = ChoiceItem(label='l', value='l')
+        xl = ChoiceItem(label='xl', value='xl')
+        xxl = ChoiceItem(label='xxl', value='xxl')
+        xxxl = ChoiceItem(label='xxxl', value='xxxl')
+        xxxxl = ChoiceItem(label='xxxxl', value='xxxxl')
+
     chart = models.ForeignKey(SizeChart, verbose_name='Chart', on_delete=models.CASCADE)
     name = models.CharField(verbose_name='Name size', max_length=30)
+    size = models.CharField(verbose_name='Type size', max_length=30, choices=SizeType.choices, default=SizeType.xs)
 
     def __str__(self):
         return f'{self.name}, ({str(self.chart)})'
@@ -123,8 +136,8 @@ class Product(TimeStampedModel):
     price = models.PositiveIntegerField(verbose_name='Price')
     description = models.TextField(verbose_name='Description')
     model_description = models.TextField(verbose_name='Model description', blank=True, null=True)
-    size_chart = models.ForeignKey(SizeChart, verbose_name='Size Chart', on_delete=models.CASCADE, blank=True,
-                                   null=True)
+    size_chart = models.ForeignKey(SizeChart, verbose_name='Size Chart', on_delete=models.CASCADE,
+                                   help_text='If you change the size table, the old dimensions will be deleted.')
 
     data = models.TextField(blank=True, null=True)
     works_best_with = models.ManyToManyField('product.Product', verbose_name='Works best with', blank=True, null=True)
@@ -152,6 +165,48 @@ class ProductSizeColor(TimeStampedModel):
     class Meta:
         verbose_name = 'Product color'
         verbose_name_plural = 'Product colors'
+
+
+class ProductSizeColorSize(TimeStampedModel):
+    product_size_color = models.ForeignKey(ProductSizeColor, verbose_name='Product color', on_delete=models.CASCADE)
+    size = models.ForeignKey(Size, verbose_name='Size', on_delete=models.CASCADE)
+    count = models.IntegerField(verbose_name='Count', default=0)
+    is_available = models.BooleanField(verbose_name='Is it available?', default=True)
+
+    class Meta:
+        unique_together = ('product_size_color', 'size')
+
+    def __str__(self):
+        return f'{str(self.product_size_color)} + {str(self.size)}'
+
+    class Meta:
+        verbose_name = 'Product color size'
+        verbose_name_plural = 'Product color sizes'
+
+
+@receiver(post_save, sender=Product, dispatch_uid="update_product")
+def update_product(sender, instance, **kwargs):
+    if instance.size_chart:
+
+        first_product_size_color_size = ProductSizeColorSize.objects.filter(
+            product_size_color__product=instance).first()
+
+        if first_product_size_color_size:
+            if first_product_size_color_size.size.chart != instance.size_chart:
+                ProductSizeColorSize.objects.filter(product_size_color__product=instance).delete()
+
+                for color in ProductSizeColor.objects.filter(product=instance):
+                    for size in instance.size_chart.size_set.all():
+                        if not ProductSizeColorSize.objects.filter(size=size, product_size_color=color).exists():
+                            ProductSizeColorSize.objects.create(size=size, product_size_color=color)
+
+
+@receiver(post_save, sender=ProductSizeColor, dispatch_uid="update_product_size_color")
+def update_product_size_color(sender, instance, **kwargs):
+    if instance.product.size_chart:
+        for size in instance.product.size_chart.size_set.all():
+            if not ProductSizeColorSize.objects.filter(size=size, product_size_color=instance).exists():
+                ProductSizeColorSize.objects.create(size=size, product_size_color=instance)
 
 
 class ProductImage(TimeStampedModel):
@@ -218,6 +273,8 @@ class Basket(TimeStampedModel):
                               choices=StatusType.choices,
                               default=StatusType.new)
 
+    is_completed = models.BooleanField(verbose_name='Is completed', default=False, editable=True)
+
     pay = models.CharField(verbose_name='Pay',
                            max_length=30,
                            choices=PayType.choices,
@@ -231,6 +288,20 @@ class Basket(TimeStampedModel):
     class Meta:
         verbose_name = 'Basket'
         verbose_name_plural = 'Baskets'
+
+
+@receiver(post_save, sender=Product, dispatch_uid="update_basket")
+def update_basket(sender, instance, **kwargs):
+    if instance.status == Basket.StatusType.completed and not instance.is_completed:
+        for productbasket in instance.productbasket_set.all():
+            product_size_color_size = ProductSizeColorSize.objects.filter(
+                product_size_color__product=productbasket.product,
+                product_size_color__color=productbasket.color,
+                size=productbasket.size).first()
+
+            if product_size_color_size:
+                product_size_color_size.count = product_size_color_size.count - productbasket.count if product_size_color_size.count - productbasket.count > 0 else 0
+                product_size_color_size.save()
 
 
 class ProductBasket(TimeStampedModel):

@@ -8,6 +8,7 @@ from graphql_relay.connection.arrayconnection import offset_to_cursor
 from graphql_relay import from_global_id
 import django_filters
 from .models import *
+from backend.fields import ArrayFilter
 from account.models import Code, UseCode, PayLink
 import math
 from django import forms
@@ -113,9 +114,9 @@ class ProductSizeColorType(DjangoObjectType):
         interfaces = (relay.Node,)
 
 
-class ProductSizeColorType(DjangoObjectType):
+class ProductSizeColorSizeType(DjangoObjectType):
     class Meta:
-        model = ProductSizeColor
+        model = ProductSizeColorSize
         interfaces = (relay.Node,)
 
 
@@ -157,7 +158,7 @@ class ProductConnection(graphene.Connection):
         if dance_shoes_type:
             options['productsizecolor__product__dance_shoes_type'] = dance_shoes_type
 
-        return Color.objects.filter(**options).distinct()
+        return Color.objects.filter(**options).filter(productsizecolor__is_available=True).distinct()
 
     def resolve_sizes_available(self, info, **kwargs):
         params = info.variable_values
@@ -184,7 +185,8 @@ class ProductConnection(graphene.Connection):
         if dance_shoes_type:
             options['productsizecolor__product__dance_shoes_type'] = dance_shoes_type
 
-        return Size.objects.filter(**options).distinct()
+        return Size.objects.filter(**options).filter(productsizecolorsize__count__gt=0,
+                                                     productsizecolorsize__is_available=True).distinct('size')
 
     def resolve_pages_cursor(self, info, **kwargs):
         params = info.variable_values
@@ -273,7 +275,7 @@ class ProductFilter(django_filters.FilterSet):
     price__lte = django_filters.NumberFilter(label='До цены', method='price__lte_filter')
 
     colors = GlobalIDMultipleChoiceFilter(method='colors_filter')
-    sizes = GlobalIDMultipleChoiceFilter(method='sizes_filter')
+    sizes = ArrayFilter(method='sizes_filter')
 
     guest_uuid = django_filters.UUIDFilter(method='guest_uuid_filter')
 
@@ -294,11 +296,9 @@ class ProductFilter(django_filters.FilterSet):
         return queryset.filter(productsizecolor__color__in=ids)
 
     def sizes_filter(self, queryset, name, value):
-        ids = []
-        for v in value:
-            ids.append(from_global_id(v)[1])
-
-        return queryset.filter(productsizecolor__sizes__in=ids)
+        if len(value) > 0:
+            return queryset.filter(productsizecolor__productsizecolorsize__size__size__in=value)
+        return queryset
 
     def guest_uuid_filter(self, queryset, name, value):
         return queryset
@@ -615,6 +615,25 @@ class BasketCreateMutation(ClientIDMutation):
             total_price = 0
             for product_basket in products_basket:
                 product = Product.objects.filter(id=from_global_id(product_basket.product)[1]).first()
+                color = Color.objects.filter(id=from_global_id(product_basket.color)[1]).first()
+                size = Size.objects.filter(id=from_global_id(product_basket.color)[1]).first()
+
+                product_size_color_size = ProductSizeColorSize.objects.filter(product_size_color__product=product,
+                                                                              product_size_color__color=color,
+                                                                              size=size).first()
+                if product_size_color_size:
+                    if not product_size_color_size.is_available:
+                        errors.append(ErrorType(field='products_basket',
+                                                messages=[
+                                                    f'Товара "{str(product)}, {str(color)}, {str(size)}" нет в наличии']))
+                    elif product_size_color_size.count == 0:
+                        errors.append(ErrorType(field='products_basket',
+                                                messages=[
+                                                    f'Товара "{str(product)}, {str(color)}, {str(size)}" нет в наличии']))
+                else:
+                    errors.append(ErrorType(field='products_basket',
+                                            messages=[
+                                                f'Товара "{str(product)}, {str(color)}, {str(size)}" нет в наличии']))
 
                 if product:
                     total_price += product_basket.count * product.price
@@ -729,6 +748,12 @@ class BasketCreateMutation(ClientIDMutation):
             if basket_create.description:
                 text += f'<b>Message</b>: {basket_create.description}\n'
 
+            if total_price:
+                text += f'<b>Total price</b>: {str(total_price)}\n'
+
+            if len(products_basket) > 0:
+                text += f'<b>Count of products</b>: {str(len(products_basket))}\n'
+
             p_customer_identifier = 'guest'
 
             if guest:
@@ -748,7 +773,7 @@ class BasketCreateMutation(ClientIDMutation):
             if basket_create.pay == 'card':
                 options = {
                     'p_order_id': id_basket,
-                    'p_currency': 'INR',
+                    'p_currency': 'AED',
                     'p_amount': str(total_price),
                     'p_redirect_url': settings.FRONTEND_URL[:-1] + '?success=true',
                     'p_cancel_url': settings.FRONTEND_URL[:-1] + '?success=false',

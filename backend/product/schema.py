@@ -8,6 +8,7 @@ from graphql_relay.connection.arrayconnection import offset_to_cursor
 from graphql_relay import from_global_id
 import django_filters
 from .models import *
+from backend.fields import ArrayFilter
 from account.models import Code, UseCode, PayLink
 import math
 from django import forms
@@ -157,7 +158,7 @@ class ProductConnection(graphene.Connection):
         if dance_shoes_type:
             options['productsizecolor__product__dance_shoes_type'] = dance_shoes_type
 
-        return Color.objects.filter(**options).distinct()
+        return Color.objects.filter(**options).filter(is_available=True).distinct()
 
     def resolve_sizes_available(self, info, **kwargs):
         params = info.variable_values
@@ -184,7 +185,8 @@ class ProductConnection(graphene.Connection):
         if dance_shoes_type:
             options['productsizecolor__product__dance_shoes_type'] = dance_shoes_type
 
-        return Size.objects.filter(**options).distinct()
+        return Size.objects.filter(**options).filter(productsizecolorsize__count__gt=0,
+                                                     productsizecolorsize__is_available=True).distinct('size')
 
     def resolve_pages_cursor(self, info, **kwargs):
         params = info.variable_values
@@ -273,7 +275,7 @@ class ProductFilter(django_filters.FilterSet):
     price__lte = django_filters.NumberFilter(label='До цены', method='price__lte_filter')
 
     colors = GlobalIDMultipleChoiceFilter(method='colors_filter')
-    sizes = GlobalIDMultipleChoiceFilter(method='sizes_filter')
+    sizes = ArrayFilter(method='sizes_filter')
 
     guest_uuid = django_filters.UUIDFilter(method='guest_uuid_filter')
 
@@ -294,11 +296,9 @@ class ProductFilter(django_filters.FilterSet):
         return queryset.filter(productsizecolor__color__in=ids)
 
     def sizes_filter(self, queryset, name, value):
-        ids = []
-        for v in value:
-            ids.append(from_global_id(v)[1])
-
-        return queryset.filter(productsizecolor__sizes__in=ids)
+        if len(value) > 0:
+            return queryset.filter(productsizecolor__productsizecolorsize__size__size__in=value)
+        return queryset
 
     def guest_uuid_filter(self, queryset, name, value):
         return queryset

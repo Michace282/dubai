@@ -113,7 +113,17 @@
                 <div class="count-group">
                     <a href.prevemt class="control" @click="activeCount > 1 ? activeCount-- : ''">-</a>
                     <input type="text" @input="validate" v-model="activeCount" />
-                    <a href.prevemt class="control" @click="activeCount++">+</a>
+                    <a
+                        href.prevemt
+                        class="control"
+                        @click="
+                            activeCount <
+                            colorsGroup.edges[activeColor].node.productsizecolorsizeSet.edges[activeSize].node.count
+                                ? activeCount++
+                                : ''
+                        "
+                        >+</a
+                    >
                 </div>
                 <div class="bold mt-30">{{ price }} AED</div>
             </div>
@@ -190,8 +200,14 @@
             validate() {
                 if (this.activeCount * 1 + 0 != this.activeCount || !this.activeCount) {
                     this.activeCount = 1;
-                } else if (this.activeCount > 100) {
-                    this.activeCount = 100;
+                } else if (
+                    this.activeCount >
+                    this.colorsGroup.edges[this.activeColor].node.productsizecolorsizeSet.edges[this.activeSize].node
+                        .count
+                ) {
+                    this.activeCount = this.colorsGroup.edges[this.activeColor].node.productsizecolorsizeSet.edges[
+                        this.activeSize
+                    ].node.count;
                 }
             },
         },

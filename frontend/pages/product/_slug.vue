@@ -350,8 +350,14 @@
                     product: this.$route.params.slug,
                     count: 1,
                 };
-                if (basket[product.id]) {
+                if (basket[product.id] && basket[product.id].count < v.currentSizes[v.sizeVal].node.count) {
                     basket[product.id].count += 1;
+                } else if (basket[product.id]) {
+                    v.$bvToast.toast('You have added the maximum number of products available', {
+                        title: 'Add to cart',
+                        variant: 'danger',
+                    });
+                    return 0;
                 } else {
                     basket[product.id] = product;
                 }

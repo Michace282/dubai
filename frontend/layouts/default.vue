@@ -108,9 +108,16 @@
             });
         },
         mounted() {
-            if (this.$route.query.success) {
-                this.confirmModalText = 'Your order has been placed! In the near future, our Manager will contact you.';
-                this.$refs['confirm-order-modal'].show();
+            let v = this;
+            if (v.$route.query.success) {
+                v.confirmModalText = 'Your order has been placed! In the near future, our Manager will contact you.';
+                v.$refs['confirm-order-modal'].show();
+            }
+            if (process.client) {
+                v.$store.commit('set_window_width', document.body.clientWidth);
+                window.addEventListener('resize', () => {
+                    v.$store.commit('set_window_width', document.body.clientWidth);
+                });
             }
         },
         watch: {

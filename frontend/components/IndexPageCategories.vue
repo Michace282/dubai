@@ -1,12 +1,15 @@
 <template>
     <div class="mt-45">
         <div class="row categories">
-            <div class="col-auto">
-                <nuxt-link :to="{ name: 'catalog', query: { productType: 'ladies' } }" class="category vertical-large">
+            <div class="col-12 col-md-auto">
+                <nuxt-link
+                    :to="{ name: 'catalog', query: { productType: 'ladies' } }"
+                    class="category vertical-large mt-0"
+                >
                     <div class="name">Ladies</div>
                 </nuxt-link>
             </div>
-            <div class="col-auto">
+            <div class="col-12 col-md-auto">
                 <nuxt-link
                     :to="{ name: 'catalog', query: { productType: 'accessories' } }"
                     class="category horizontal text-left"
@@ -20,28 +23,12 @@
                     <div class="name">Danceshoes</div>
                 </nuxt-link>
             </div>
-            <div class="col-auto">
+            <div class="col-12 col-md-auto">
                 <nuxt-link :to="{ name: 'catalog', query: { productType: 'mens' } }" class="category vertical">
                     <div class="name">Mens</div>
                 </nuxt-link>
             </div>
         </div>
-        <client-only>
-            <b-carousel id="carousel-2" :interval="4000" indicators class="categories-carousel">
-                <b-carousel-slide img-src="~/assets/images/accessories.png">
-                    <nuxt-link :to="{ name: 'catalog', query: { productType: 'accessories' } }"></nuxt-link>
-                </b-carousel-slide>
-                <b-carousel-slide img-src="~/assets/images/danceshoes.png">
-                    <nuxt-link :to="{ name: 'catalog', query: { productType: 'dance_shoes' } }"></nuxt-link>
-                </b-carousel-slide>
-                <b-carousel-slide img-src="~/assets/images/ladies.png">
-                    <nuxt-link :to="{ name: 'catalog', query: { productType: 'ladies' } }"></nuxt-link>
-                </b-carousel-slide>
-                <b-carousel-slide img-src="~/assets/images/mens.png">
-                    <nuxt-link :to="{ name: 'catalog', query: { productType: 'mens' } }"></nuxt-link>
-                </b-carousel-slide>
-            </b-carousel>
-        </client-only>
     </div>
 </template>
 <script>
@@ -49,37 +36,21 @@
         name: 'IndexPageCategories',
     };
 </script>
-<style lang="less">
-    .categories-carousel {
-        display: none;
-
-        @media (max-width: 767px) {
-            display: block;
-        }
-
-        .carousel-caption,
-        .carousel-caption a {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-        }
-    }
-</style>
 <style lang="less" scoped>
     .categories {
         justify-content: center;
 
-        @media (max-width: 767px) {
-            display: none;
-        }
-
         .category {
             position: relative;
             display: block;
-            background: @grey;
+            background: #f3f0ef;
             text-decoration: none !important;
+            background-repeat: no-repeat;
+            background-size: cover;
+
+            @media @medium {
+                margin: 30px auto 0px;
+            }
 
             .name {
                 font-family: 'Inter-Medium';
@@ -116,6 +87,13 @@
                     height: 330px;
                 }
 
+                @media @medium {
+                    width: 270px;
+                    height: 150px;
+                    background-size: 145px;
+                    background-position: 74px -10px;
+                }
+
                 .name {
                     position: absolute;
                     top: 111px;
@@ -149,6 +127,12 @@
                 @media @extraLarge {
                     width: 270px;
                     height: 150px;
+                }
+
+                @media @medium {
+                    width: 270px;
+                    height: 150px;
+                    // background-size: 270px;
                 }
 
                 &.text-left {
@@ -210,6 +194,13 @@
                 @media @extraLarge {
                     width: 210px;
                     height: 330px;
+                }
+
+                @media @medium {
+                    width: 270px;
+                    height: 150px;
+                    // background-size: 160px;
+                    background-position: 20px 0px;
                 }
 
                 .name {

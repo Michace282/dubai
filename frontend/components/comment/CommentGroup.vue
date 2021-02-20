@@ -8,7 +8,7 @@
     >
         <template v-slot="{ result: { error, data }, isLoading, query }">
             <transition name="fade" mode="out-in">
-                <div v-if="isLoading || error" class="loading apollo mt-85" key="loader"><loader /></div>
+                <div v-if="isLoading || error" class="loading apollo mt-85" key="loader"></div>
                 <div v-else-if="data && data.feedbackList.edges.length > 0" class="comment-item-group mt-90" key="comments">
                     <comment-item
                         v-for="(comment, index) in data.feedbackList.edges"
@@ -42,11 +42,10 @@
 </template>
 <script>
     import CommentItem from '../../components/comment/CommentItem.vue';
-    import Loader from '../Loader.vue';
 
     export default {
         name: 'CommentGroup',
-        components: { CommentItem, Loader },
+        components: { CommentItem },
         props: {
             id: {
                 type: String,

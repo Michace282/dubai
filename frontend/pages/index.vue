@@ -18,7 +18,7 @@
         </div>
         <ApolloQuery :query="require('~/graphql/queries/stock/stockList.graphql')">
             <template v-slot="{ result: { error, data }, isLoading }">
-                <div v-if="isLoading || error" class="loading apollo mt-85"><loader /></div>
+                <div v-if="isLoading || error" class="loading apollo mt-85"></div>
                 <div v-else-if="data && data.stockList" class="result apollo">
                     <div class="row" v-if="data.stockList.edges.length > 0">
                         <div class="col-12">
@@ -102,11 +102,10 @@
 
 <script>
     import IndexPageCategories from '../components/IndexPageCategories.vue';
-    import Loader from '../components/Loader.vue';
 
     export default {
         name: 'index',
-        components: { IndexPageCategories, Loader },
+        components: { IndexPageCategories },
         data() {
             return {
                 advantages: [

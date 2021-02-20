@@ -97,13 +97,28 @@
         <filter-accordion class="mt-30" title="Size" name="size">
             <div class="sizes" v-if="sizes && sizes.length > 0">
                 <div class="size-box" v-for="(size, index) in sizes" :key="index">
-                    <input type="checkbox" name="sizes" v-model="filter.sizes" :value="size.size.toLowerCase()" :id="index" />
+                    <input
+                        type="checkbox"
+                        name="sizes"
+                        v-model="filter.sizes"
+                        :value="size.size.toLowerCase()"
+                        :id="index"
+                    />
                     <label class="label-size" :for="index">{{ size.size }}</label>
                 </div>
             </div>
         </filter-accordion>
         <div class="btn-box">
-            <!-- <button class="btn btn-black w-100 mt-45" @click="filterProducts">filter</button> -->
+            <button
+                class="btn btn-black w-100 mt-45"
+                v-if="$store.state.windowWidth < 992"
+                @click="
+                    filterProducts();
+                    $emit('closeFilter');
+                "
+            >
+                Apply
+            </button>
             <button class="btn btn-outline-black w-100 mt-30" @click="clearFilter">reset the filter</button>
         </div>
     </div>
@@ -191,18 +206,9 @@
             },
             filter: {
                 handler() {
-                    let activeFilter = {};
-                    for (let key in this.filter) {
-                        if (Array.isArray(this.filter[key])) {
-                            if (this.filter[key].length > 0) {
-                                activeFilter[key] = this.filter[key];
-                            }
-                        } else if (this.filter[key]) {
-                            activeFilter[key] = this.filter[key];
-                        }
+                    if (this.$store.state.windowWidth > 991) {
+                        this.filterProducts();
                     }
-                    this.$router.push({ query: { ...activeFilter } });
-                    this.$emit('setBreadcrumbs', this.breadcrumbs);
                 },
                 deep: true,
             },
@@ -215,6 +221,20 @@
             this.range.max = this.$route.query.price_Lte;
         },
         methods: {
+            filterProducts() {
+                let activeFilter = {};
+                for (let key in this.filter) {
+                    if (Array.isArray(this.filter[key])) {
+                        if (this.filter[key].length > 0) {
+                            activeFilter[key] = this.filter[key];
+                        }
+                    } else if (this.filter[key]) {
+                        activeFilter[key] = this.filter[key];
+                    }
+                }
+                this.$router.push({ query: { ...activeFilter } });
+                this.$emit('setBreadcrumbs', this.breadcrumbs);
+            },
             setMinValue(val) {
                 let v = this;
                 clearTimeout(v.timer);
@@ -329,7 +349,7 @@
         justify-content: flex-start;
     }
 
-    .label-size{
+    .label-size {
         text-transform: uppercase;
     }
 

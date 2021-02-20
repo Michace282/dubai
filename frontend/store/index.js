@@ -2,6 +2,7 @@ export const state = () => ({
     breadcrumbs: false,
     favorites: {},
     payLink: null,
+    windowWidth: null,
 });
 
 export const mutations = {
@@ -14,6 +15,9 @@ export const mutations = {
     set_pay_link(state, link) {
         state.payLink = link;
     },
+    set_window_width(state, width) {
+        state.windowWidth = width;
+    }
 };
 
 import user_query from '~/graphql/queries/user.graphql';

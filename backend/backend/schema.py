@@ -3,6 +3,7 @@ from graphene_django.debug import DjangoDebug
 from product.schema import Query as ProductQuery, Mutation as ProductMutation
 from stock.schema import Query as StockQuery
 from page.schema import Query as PageQuery
+from gift.schema import Query as GiftQuery
 from account.schema import Query as AccountQuery, Mutation as AccountMutation
 
 
@@ -14,6 +15,7 @@ class Mutation(
 
 
 class Query(
+    GiftQuery,
     ProductQuery,
     PageQuery,
     StockQuery,

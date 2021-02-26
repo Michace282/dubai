@@ -55,7 +55,8 @@ INSTALLED_APPS += [
     'product',
     'account',
     'page',
-    'stock'
+    'stock',
+    'gift'
 ]
 
 MIDDLEWARE = [

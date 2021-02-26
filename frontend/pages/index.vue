@@ -2,17 +2,23 @@
     <div class="container">
         <div class="row caption-group">
             <div class="col-auto head-caption">
-                <img src="~/assets/images/icons/truck.svg" />
+                <img src="~/assets/images/icons/truck.svg"/>
                 Free shipping within UAE
             </div>
+            <ApolloQuery :query="require('~/graphql/queries/gift/giftNewDetail.graphql')"
+                         @result="giftNewDetail">
+                <template v-slot="{ result: { error, data }, isLoading }">
+                    <div v-if="isLoading || error" class="loading apollo mt-85"></div>
+                    <div v-else-if="data && data.giftNewDetail" class="col-auto head-caption">
+                        <a href.prevent v-b-modal.present-modal
+                        ><img src="~/assets/images/icons/present.svg"/>
+                            Get your present!
+                        </a>
+                    </div>
+                </template>
+            </ApolloQuery>
             <div class="col-auto head-caption">
-                <a href.prevent v-b-modal.present-modal
-                    ><img src="~/assets/images/icons/present.svg" />
-                    Get your present!
-                </a>
-            </div>
-            <div class="col-auto head-caption">
-                <img src="~/assets/images/icons/line.svg" />
+                <img src="~/assets/images/icons/line.svg"/>
                 Size charts
             </div>
         </div>
@@ -54,7 +60,7 @@
                                             </nuxt-link>
                                             <div class="caption">
                                                 {{ stock.node.product.price }} AED
-                                                <img src="~/assets/images/icons/arrow-right.svg" />
+                                                <img src="~/assets/images/icons/arrow-right.svg"/>
                                             </div>
                                         </div>
                                     </b-carousel-slide>
@@ -65,19 +71,19 @@
                 </div>
             </template>
         </ApolloQuery>
-        <index-page-categories />
+        <index-page-categories/>
         <div class="advantages-group">
-            <base-title title="Our advantages" />
+            <base-title title="Our advantages"/>
             <div class="row mt-45">
                 <div class="col-6 col-sm-4 col-lg advantage" v-for="(advantage, index) in advantages" :key="index">
-                    <img :src="require(`~/assets/images/icons/${advantage.icon}`)" />
+                    <img :src="require(`~/assets/images/icons/${advantage.icon}`)"/>
                     <div class="name">
                         {{ advantage.name }}
                     </div>
                 </div>
             </div>
         </div>
-        <b-modal id="present-modal" hide-footer centered>
+        <b-modal id="present-modal" hide-footer centered v-if="giftNewText">
             <template #modal-header="{ close }">
                 <h5 class="title">Get your present!</h5>
                 <a href.prevent @click="close()">
@@ -90,8 +96,7 @@
                 </a>
             </template>
             <p>
-                Get a gift for the order when you buy in the amount of 1500 AED or more. As a gift, you can choose a bag
-                for clothes or shoes.
+                {{ giftNewText }}
             </p>
             <div class="text-right">
                 <nuxt-link to="/catalog/" class="btn btn-black">Start buying</nuxt-link>
@@ -105,9 +110,10 @@
 
     export default {
         name: 'index',
-        components: { IndexPageCategories },
+        components: {IndexPageCategories},
         data() {
             return {
+                giftNewText: null,
                 advantages: [
                     {
                         icon: 'laptop.svg',
@@ -152,67 +158,74 @@
         created() {
             this.$store.commit('set_breadcrumbs', null);
         },
+        methods: {
+            giftNewDetail(data) {
+                if (data.data && data.data.giftNewDetail) {
+                    this.giftNewText = data.data.giftNewDetail.description
+                }
+            }
+        }
     };
 </script>
 <style lang="less" scoped>
-    .advantages-group {
-        margin-top: 90px;
+.advantages-group {
+    margin-top: 90px;
 
-        .advantage {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+    .advantage {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
 
-            &:first-child {
-                .name {
-                    margin-top: 9px;
-                }
+        &:first-child {
+            .name {
+                margin-top: 9px;
             }
+        }
+
+        @media @large {
+            margin-bottom: 30px;
+        }
+
+        .name {
+            max-width: 140px;
+            margin-top: 15px;
+            text-align: center;
 
             @media @large {
-                margin-bottom: 30px;
-            }
-
-            .name {
-                max-width: 140px;
-                margin-top: 15px;
-                text-align: center;
-
-                @media @large {
-                    line-height: 22px;
-                }
+                line-height: 22px;
             }
         }
     }
+}
 
-    .caption-group {
-        width: fit-content;
-        margin: 0 auto;
-        padding: 15px 0px;
+.caption-group {
+    width: fit-content;
+    margin: 0 auto;
+    padding: 15px 0px;
 
-        @media @medium {
-            max-width: 235px;
-            overflow-x: auto;
-            display: flex;
-            flex-wrap: nowrap;
+    @media @medium {
+        max-width: 235px;
+        overflow-x: auto;
+        display: flex;
+        flex-wrap: nowrap;
+    }
+
+    .head-caption {
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+
+        &:nth-child(2) {
+            cursor: pointer;
         }
 
-        .head-caption {
-            display: flex;
-            align-items: center;
-            font-size: 14px;
+        &:last-child {
+            margin-right: 22px;
+        }
 
-            &:nth-child(2) {
-                cursor: pointer;
-            }
-
-            &:last-child {
-                margin-right: 22px;
-            }
-
-            img {
-                margin-right: 15px;
-            }
+        img {
+            margin-right: 15px;
         }
     }
+}
 </style>

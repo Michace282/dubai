@@ -1,7 +1,6 @@
-mutation registration($name: String!, $email: String!, $password: String!, $passwordRepeat: String!, $guestUuid: UUID) {
+mutation registration($email: String!, $password: String!, $passwordRepeat: String!, $guestUuid: UUID) {
     registration(
         input: {
-            name: $name
             email: $email
             password: $password
             passwordRepeat: $passwordRepeat

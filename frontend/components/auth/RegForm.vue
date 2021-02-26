@@ -76,7 +76,6 @@
                         .mutate({
                             mutation: require('~/graphql/mutations/user/registration.graphql'),
                             variables: {
-                                name: v.email,
                                 email: v.email,
                                 password: v.pass,
                                 passwordRepeat: v.pass2,

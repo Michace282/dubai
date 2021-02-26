@@ -108,21 +108,41 @@
         components: {ProductItem, FilterCatalog, Pagination, Loader},
         name: 'catalog',
         data() {
+            let sortItems = [
+                {id: 'created_at', label: 'Oldest to Newest'},
+                {id: 'price', label: 'Price, low to high'},
+                {id: '-price', label: 'Price, high to low'},
+                {id: '-selling', label: 'Best Selling'},
+                {id: '-created_at', label: 'Newest to Oldest'},
+            ]
+
+            let sortVal = null;
+            let orderBy = null;
+
+            if (this.$route.query.orderBy) {
+                sortItems.forEach((v) => {
+                    if (v.id == this.$route.query.orderBy) {
+                        sortVal = v;
+                        orderBy = v.id
+                    }
+
+                })
+            }
+
+            if (sortVal == null) {
+                sortVal = sortItems[4];
+            }
+
+
             return {
                 breadcrumbs: null,
                 pagesCursor: null,
-                orderBy: null,
+                orderBy: orderBy,
                 cursor: null,
                 showDropdown: false,
-                sortVal: {id: 'created_at', label: 'Oldest to Newest'},
+                sortVal: sortVal,
                 showFilter: false,
-                sortItems: [
-                    {id: 'created_at', label: 'Oldest to Newest'},
-                    {id: 'price', label: 'Price, low to high'},
-                    {id: '-price', label: 'Price, high to low'},
-                    {id: '-selling', label: 'Best Selling'},
-                    {id: '-created_at', label: 'Newest to Oldest'},
-                ],
+                sortItems: sortItems,
             };
         },
         head() {

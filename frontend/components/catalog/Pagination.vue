@@ -10,6 +10,10 @@
                         query: { ...$route.query, page: currentPage },
                     });
                     $emit('changeCursor', pageCursor[page - 1].cursor);
+                    window.scrollTo({
+                        top: document.getElementsByClassName('navbar-box')[0].clientHeight,
+                        behavior: 'smooth'
+                    });
                 }
             "
             prev-text="prev"

@@ -145,7 +145,7 @@ class Product(TimeStampedModel):
         return self.name
 
     class Meta:
-        ordering = ['created_at']
+        ordering = ['-created_at']
         verbose_name = 'Product'
         verbose_name_plural = 'Products'
 

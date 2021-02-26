@@ -149,7 +149,7 @@
 <style lang="less">
     .filter-group {
         @media @large {
-            position: absolute;
+            position: fixed;
             top: 0px;
             bottom: 0;
             right: 0;

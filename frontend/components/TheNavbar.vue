@@ -2,16 +2,16 @@
     <div class="navbar-box">
         <div class="container">
             <b-navbar toggleable="lg" type="dark">
-                <b-navbar-brand :to="{ name: 'index' }"><img src="~/assets/images/logo.png" /></b-navbar-brand>
                 <b-navbar-toggle target="navbar-toggle-collapse" @click="showIcons = !showIcons">
                     <template>
-                        <img v-if="!showIcons" src="~/assets/images/icons/close-icon.svg" />
-                        <img v-else src="~/assets/images/icons/burger-menu-icon.svg" />
+                        <img v-if="!showIcons" src="~/assets/images/icons/close-icon.svg"/>
+                        <img v-else src="~/assets/images/icons/burger-menu-icon.svg"/>
                     </template>
                 </b-navbar-toggle>
+                <b-navbar-brand :to="{ name: 'index' }"><img src="~/assets/images/logo.png"/></b-navbar-brand>
                 <b-collapse id="navbar-toggle-collapse" is-nav>
                     <b-navbar-nav class="links m-auto">
-                        <b-nav-item to="#">New <img class="star" src="../assets/images/icons/star.png" /></b-nav-item>
+                        <b-nav-item to="#">New <img class="star" src="../assets/images/icons/star.png"/></b-nav-item>
                         <b-nav-item to="/catalog/?productType=ladies">Ladies</b-nav-item>
                         <b-nav-item to="/catalog/?productType=mens">Mens</b-nav-item>
                         <b-nav-item to="/catalog/?productType=dance_shoes">Dance shoes</b-nav-item>
@@ -21,16 +21,16 @@
                     </b-navbar-nav>
                 </b-collapse>
                 <b-navbar-nav class="ml-auto icons" :class="{ hide: !showIcons }">
-                    <b-nav-item to="/account/wish-list"><img src="../assets/images/icons/heart.svg" /></b-nav-item>
+                    <b-nav-item to="/account/wish-list"><img src="../assets/images/icons/heart.svg"/></b-nav-item>
                     <b-nav-item @click="$emit('showBasket')">
-                        <img src="../assets/images/icons/basket.svg" />
+                        <img src="../assets/images/icons/basket.svg"/>
                         <span class="products-count" v-if="productCount > 0">+{{ productCount }}</span>
                     </b-nav-item>
                     <b-nav-item
                         @click="
                             !$store.state.user.user ? $emit('showRegModal') : $router.push({ name: 'account' })
                         "
-                        ><img src="../assets/images/icons/account.svg"
+                    ><img src="../assets/images/icons/account.svg"
                     /></b-nav-item>
                 </b-navbar-nav>
             </b-navbar>
@@ -59,102 +59,107 @@
     };
 </script>
 <style lang="less">
-    .navbar {
-        padding: 0px;
+.navbar {
+    padding: 0px;
+    justify-content: left;
 
-        .navbar-brand {
-            img {
-                width: 135px;
+    .navbar-brand {
+        img {
+            width: 135px;
 
-                @media @large {
-                    width: 100px;
-                }
+            @media @large {
+                width: 100px;
+            }
+        }
+    }
+
+    .navbar-toggler {
+        border: none !important;
+        padding: 0;
+        box-shadow: none !important;
+        margin-right: 15px;
+    }
+
+    .icons {
+        .products-count {
+            position: absolute;
+            color: @yellow;
+            font-size: 14px;
+            top: -17px;
+            left: 11px;
+            white-space: nowrap;
+        }
+
+        .nav-item {
+            &:not(:last-child) {
+                margin-right: 15px;
+            }
+
+            .nav-link {
+                position: relative;
+                padding: 0px;
             }
         }
 
-        .navbar-toggler {
-            border: none;
+        @media @large {
+            position: absolute;
+            right: 0px;
+            top: 32px;
+            flex-direction: row;
+        }
+    }
+
+    .links {
+        @media @large {
+            padding-bottom: 100px;
         }
 
-        .icons {
-            .products-count {
-                position: absolute;
-                color: @yellow;
-                font-size: 14px;
-                top: -17px;
-                left: 11px;
-                white-space: nowrap;
+        .nav-item {
+            &:not(:last-child) {
+                margin-right: 30px;
             }
-            .nav-item {
+
+            @media (max-width: 1200px) {
                 &:not(:last-child) {
                     margin-right: 15px;
                 }
-
-                .nav-link {
-                    position: relative;
-                    padding: 0px;
-                }
             }
 
             @media @large {
-                position: absolute;
-                right: 50px;
-                top: 32px;
-                flex-direction: row;
-            }
-        }
-
-        .links {
-            @media @large {
-                padding-bottom: 100px;
-            }
-
-            .nav-item {
                 &:not(:last-child) {
-                    margin-right: 30px;
+                    margin-right: 0;
                 }
+            }
 
-                @media (max-width: 1200px) {
-                    &:not(:last-child) {
-                        margin-right: 15px;
-                    }
-                }
+            .nav-link {
+                display: flex;
+                align-items: center;
+                font-family: 'Inter-Light';
+                font-size: 14px;
+                line-height: 17px;
+                padding: 0px;
+                text-transform: uppercase;
+                color: @white !important;
 
                 @media @large {
-                    &:not(:last-child) {
-                        margin-right: 0;
-                    }
+                    margin-top: 30px;
+                    justify-content: center;
                 }
 
-                .nav-link {
-                    display: flex;
-                    align-items: center;
-                    font-family: 'Inter-Light';
-                    font-size: 14px;
-                    line-height: 17px;
-                    padding: 0px;
-                    text-transform: uppercase;
-                    color: @white !important;
-
-                    @media @large {
-                        margin-top: 30px;
-                        justify-content: center;
-                    }
-
-                    img {
-                        margin-left: 10px;
-                    }
+                img {
+                    margin-left: 10px;
                 }
             }
         }
     }
+}
 </style>
 <style lang="less" scoped>
-    .hide {
-        display: none;
-    }
+.hide {
+    display: none;
+}
 
-    .navbar-box {
-        background: @black;
-    }
+.navbar-box {
+    background: @black;
+}
 </style>

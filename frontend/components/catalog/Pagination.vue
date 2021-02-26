@@ -10,10 +10,7 @@
                         query: { ...$route.query, page: currentPage },
                     });
                     $emit('changeCursor', pageCursor[page - 1].cursor);
-                    window.scrollTo({
-                        top: document.getElementsByClassName('navbar-box')[0].clientHeight,
-                        behavior: 'smooth'
-                    });
+                    clickPagination();
                 }
             "
             prev-text="prev"
@@ -65,92 +62,104 @@
                 this.$emit('changePage', this.pageCursor[parseInt(this.$route.query.page) - 1].cursor);
             }
         },
+        methods: {
+            clickPagination() {
+                window.scrollTo({
+                    top: document.getElementsByClassName('navbar-box')[0].clientHeight,
+                    behavior: 'smooth'
+                });
+            }
+        }
     };
 </script>
 <style lang="less">
-    .pagination {
-        width: fit-content;
-        margin: 45px auto 0px auto;
-        justify-content: space-between;
-        align-items: center;
-        li {
-            width: 30px;
-            height: 30px;
-            margin-right: 15px;
+.pagination {
+    width: fit-content;
+    margin: 45px auto 0px auto;
+    justify-content: space-between;
+    align-items: center;
 
-            &:not(.break) {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                background: @white;
-                border: 1px solid @black;
-                box-sizing: border-box;
-                border-radius: 2px;
-                cursor: pointer;
-            }
+    li {
+        width: 30px;
+        height: 30px;
+        margin-right: 15px;
 
-            &.break {
-                position: relative;
+        &:not(.break) {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: @white;
+            border: 1px solid @black;
+            box-sizing: border-box;
+            border-radius: 2px;
+            cursor: pointer;
+        }
 
-                &:after {
-                    content: url('../../assets/images/icons/ellipsis.svg');
-                    position: absolute;
-                    bottom: -5px;
-                }
+        &.break {
+            position: relative;
 
-                a {
-                    display: none;
-                }
-            }
-
-            &.prev,
-            &.next {
-                display: none;
-            }
-
-            &.active,
-            &:hover:not(.break) {
-                background: @black;
-                a {
-                    color: @white;
-                    font-weight: 600;
-                }
+            &:after {
+                content: url('../../assets/images/icons/ellipsis.svg');
+                position: absolute;
+                bottom: -5px;
             }
 
             a {
-                width: 100%;
-                height: 100%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-style: normal;
-                font-weight: normal;
-                font-size: 14px;
-                line-height: 16px;
-                cursor: pointer;
-                text-decoration: none;
-            }
-            &:first-child {
-                margin-right: 90px;
-            }
-            &:last-child {
-                margin-left: 50px;
-                margin-right: 0px;
+                display: none;
             }
         }
 
-        @media (max-width: 450px) {
-            & li {
-                margin-right: 10px;
-            }
+        &.prev,
+        &.next {
+            display: none;
+        }
 
-            & li:first-child {
-                margin-right: 10px;
-            }
+        &.active,
+        &:hover:not(.break) {
+            background: @black;
 
-            & li:last-child {
-                margin-left: 0;
+            a {
+                color: @white;
+                font-weight: 600;
             }
+        }
+
+        a {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 14px;
+            line-height: 16px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        &:first-child {
+            margin-right: 90px;
+        }
+
+        &:last-child {
+            margin-left: 50px;
+            margin-right: 0px;
         }
     }
+
+    @media (max-width: 450px) {
+        & li {
+            margin-right: 10px;
+        }
+
+        & li:first-child {
+            margin-right: 10px;
+        }
+
+        & li:last-child {
+            margin-left: 0;
+        }
+    }
+}
 </style>

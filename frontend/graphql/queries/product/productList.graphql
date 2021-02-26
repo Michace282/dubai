@@ -12,6 +12,7 @@ query productList(
     $price_Lte: Float
     $ids: [ID]
     $excludeId: ID
+    $orderBy: String
 ) {
     productList(
         first: $first
@@ -27,6 +28,7 @@ query productList(
         price_Lte: $price_Lte
         ids: $ids
         excludeId: $excludeId
+        orderBy: $orderBy
     ) {
         pagesCursor {
             startCursor

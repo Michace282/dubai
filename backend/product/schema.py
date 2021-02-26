@@ -271,6 +271,15 @@ class ProductType(DjangoObjectType):
         connection_class = ProductConnection
 
 
+class ProductOrderingFilter(django_filters.OrderingFilter):
+    def filter(self, qs, value):
+        if value:
+            if any(v in ['selling', '-selling'] for v in value):
+                qs = qs.annotate(selling=models.Count('productbasket'))
+
+        return super().filter(qs, value)
+
+
 class ProductFilter(django_filters.FilterSet):
     price__gte = django_filters.NumberFilter(label='После цены', method='price__gte_filter')
     price__lte = django_filters.NumberFilter(label='До цены', method='price__lte_filter')
@@ -313,6 +322,14 @@ class ProductFilter(django_filters.FilterSet):
             ids.append(from_global_id(v)[1])
 
         return queryset.filter(id__in=ids)
+
+    order_by = ProductOrderingFilter(
+        fields=(
+            ('price', 'price'),
+            ('created_at', 'created_at'),
+            ('selling', 'selling'),
+        ),
+    )
 
     class Meta:
         model = Product

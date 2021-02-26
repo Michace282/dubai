@@ -130,6 +130,7 @@
     export default {
         name: 'FilterCatalog',
         components: {FilterAccordion},
+        props: ['orderBy'],
         data() {
             return {
                 colors: null,
@@ -151,6 +152,7 @@
                     danceShoesType: null,
                     price_Gte: null,
                     price_Lte: null,
+                    orderBy: null
                 },
                 categories: [
                     {
@@ -213,6 +215,10 @@
                 },
                 deep: true,
             },
+            orderBy() {
+                this.filter.orderBy = this.orderBy
+                this.filterProducts();
+            }
         },
         created() {
             for (let key in this.$route.query) {

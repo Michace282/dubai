@@ -93,7 +93,6 @@ class Product(TimeStampedModel):
         shoe_accessories = ChoiceItem(label='Shoe accessories', value='shoe_accessories')
         bags = ChoiceItem(label='Bags', value='bags')
         ladies_accessories = ChoiceItem(label='Ladies accessories', value='ladies_accessories')
-        t_shirts = ChoiceItem(label='T-shirts', value='t_shirts')
 
     class DanceShoesType(DjangoChoices):
         ladies = ChoiceItem(label='Ladies', value='ladies')

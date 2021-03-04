@@ -1,6 +1,6 @@
 <template>
     <div class="account-head-group">
-        <base-title title="Personal account" />
+        <base-title title="Personal account"/>
         <div class="bg-grey d-none d-lg-flex mt-45" v-if="user">
             <div>
                 <div class="name">{{ user.firstName }} {{ user.lastName }}</div>
@@ -12,36 +12,26 @@
                         $store.commit('user/logout');
                         $apolloHelpers.onLogout();
                     "
-                    >Log out</a
+                >Log out</a
                 >
             </div>
-            <div>
+            <div v-if="user.profile && user.profile.address">
                 <div class="label">Address:</div>
-                <div class="value">UAE, Dubai, Valey street, 456b, apartment 568, 458962</div>
+                <div class="value">{{ user.profile.address }}</div>
             </div>
             <div>
-                <div class="label">Phone:</div>
-                <div class="value">+971-4-1111111</div>
+                <div class="label" v-if="user.profile && user.profile.phone">Phone:</div>
+                <div class="value" v-if="user.profile && user.profile.phone">{{ user.profile.phone }}</div>
                 <div class="label mt-30">E-mail:</div>
                 <div class="value">{{ user.email }}</div>
-            </div>
-            <div>
-                <div class="label">Payment method:</div>
-                <div class="value">Credit/Debit card</div>
-                <div class="value">**** **** **** 1234</div>
             </div>
         </div>
         <div class="bg-grey d-block d-lg-none mt-45" v-if="user">
             <div class="name">{{ user.firstName }} {{ user.lastName }}</div>
-            <div class="row mt-30">
+            <div class="row mt-30" v-if="user.profile && user.profile.address">
                 <div class="col-6">
                     <div class="label">Address:</div>
-                    <div class="value">UAE, Dubai, Valey street, 456b, apartment 568, 458962</div>
-                </div>
-                <div class="col-6">
-                    <div class="label">Payment method:</div>
-                    <div class="value">Credit/Debit card</div>
-                    <div class="value">**** **** **** 1234</div>
+                    <div class="value">{{ user.profile.address }}</div>
                 </div>
             </div>
             <div class="row mt-30">
@@ -49,9 +39,9 @@
                     <div class="label">E-mail:</div>
                     <div class="value">{{ user.email }}</div>
                 </div>
-                <div class="col-6">
+                <div class="col-6" v-if="user.profile && user.profile.phone">
                     <div class="label">Phone:</div>
-                    <div class="value">+971-4-1111111</div>
+                    <div class="value">{{ user.profile.phone }}</div>
                 </div>
             </div>
             <div class="row mt-30">
@@ -66,7 +56,7 @@
                             $store.commit('user/logout');
                             $apolloHelpers.onLogout();
                         "
-                        >Log out</a
+                    >Log out</a
                     >
                 </div>
             </div>
@@ -117,185 +107,185 @@
     };
 </script>
 <style lang="less">
-    .account-head-group {
-        .block-title {
-            @media @small {
-                max-width: 170px;
-                line-height: 44px;
-            }
+.account-head-group {
+    .block-title {
+        @media @small {
+            max-width: 170px;
+            line-height: 44px;
+        }
 
-            .front-title {
-                @media @small {
-                    line-height: 29px;
-                    bottom: 15px;
-                }
+        .front-title {
+            @media @small {
+                line-height: 29px;
+                bottom: 15px;
             }
         }
     }
+}
 </style>
 <style lang="less" scoped>
-    .account-head-group {
-        .block-title {
+.account-head-group {
+    .block-title {
+        @media @small {
+            max-width: 170px;
+            line-height: 44px;
+        }
+
+        .front-title {
             @media @small {
-                max-width: 170px;
-                line-height: 44px;
-            }
-
-            .front-title {
-                @media @small {
-                    line-height: 29px;
-                }
-            }
-        }
-
-        .bg-grey {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            background: @grey3;
-            padding: 30px;
-
-            @media @large {
-                padding: 30px 20px;
-            }
-
-            .name {
-                font-family: 'Inter-Medium';
-                font-size: 24px;
                 line-height: 29px;
-                text-transform: uppercase;
-                color: @black;
-            }
-
-            .link-grey {
-                display: block;
-                margin-top: 15px;
-                font-family: 'Inter-Light';
-                font-size: 14px;
-                line-height: 17px;
-                text-decoration-line: underline;
-                color: @grey4;
-            }
-
-            .label {
-                font-family: 'Inter-Light';
-                font-size: 18px;
-                line-height: 22px;
-                color: @grey4;
-
-                @media @medium {
-                    font-size: 14px;
-                    line-height: 17px;
-                }
-            }
-
-            .value {
-                max-width: 255px;
-                margin-top: 15px;
-                font-family: 'Inter-Medium';
-                font-size: 18px;
-                line-height: 22px;
-                color: @black;
-
-                @media @medium {
-                    margin-top: 10px;
-                    font-size: 14px;
-                    line-height: 17px;
-                }
-            }
-        }
-
-        .bg-black {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            margin-top: 60px;
-            padding: 30px;
-            background: @black;
-
-            @media @small {
-                padding: 30px 20px;
-            }
-
-            .title {
-                font-size: 18px;
-                line-height: 22px;
-                text-transform: uppercase;
-                color: @white;
-
-                @media @medium {
-                    font-size: 14px;
-                    line-height: 17px;
-                }
-            }
-
-            .rating-group {
-                display: flex;
-                align-items: center;
-
-                .rating {
-                    margin-right: 5px;
-                    cursor: pointer;
-                }
-            }
-
-            .btn-outline-black {
-                font-family: 'Inter-Medium';
-                padding: 9px 60px 8px 60px;
-
-                &:hover {
-                    background: #a9a8a8;
-                    color: @black !important;
-                }
-
-                @media @medium {
-                    padding: 9px 57px 8px 58px;
-                }
-
-                @media @small {
-                    padding: 9px 46px 8px 47px;
-                }
-            }
-        }
-
-        .navigation-group {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            margin-top: 60px;
-
-            .navigation {
-                font-family: 'Inter-Medium';
-                font-size: 24px;
-                line-height: 29px;
-                text-transform: uppercase;
-                color: @grey4;
-
-                @media @large {
-                    font-size: 18px;
-                    margin-bottom: 15px;
-                    line-height: 22px;
-                }
-
-                @media @xs {
-                    &:nth-child(2) {
-                        margin-right: 0px !important;
-                    }
-                }
-
-                &:not(:last-child) {
-                    margin-right: 45px;
-
-                    @media @small {
-                        margin-right: 25px;
-                    }
-                }
-
-                &.nuxt-link-exact-active {
-                    color: @black;
-                }
             }
         }
     }
+
+    .bg-grey {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        background: @grey3;
+        padding: 30px;
+
+        @media @large {
+            padding: 30px 20px;
+        }
+
+        .name {
+            font-family: 'Inter-Medium';
+            font-size: 24px;
+            line-height: 29px;
+            text-transform: uppercase;
+            color: @black;
+        }
+
+        .link-grey {
+            display: block;
+            margin-top: 15px;
+            font-family: 'Inter-Light';
+            font-size: 14px;
+            line-height: 17px;
+            text-decoration-line: underline;
+            color: @grey4;
+        }
+
+        .label {
+            font-family: 'Inter-Light';
+            font-size: 18px;
+            line-height: 22px;
+            color: @grey4;
+
+            @media @medium {
+                font-size: 14px;
+                line-height: 17px;
+            }
+        }
+
+        .value {
+            max-width: 255px;
+            margin-top: 15px;
+            font-family: 'Inter-Medium';
+            font-size: 18px;
+            line-height: 22px;
+            color: @black;
+
+            @media @medium {
+                margin-top: 10px;
+                font-size: 14px;
+                line-height: 17px;
+            }
+        }
+    }
+
+    .bg-black {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        margin-top: 60px;
+        padding: 30px;
+        background: @black;
+
+        @media @small {
+            padding: 30px 20px;
+        }
+
+        .title {
+            font-size: 18px;
+            line-height: 22px;
+            text-transform: uppercase;
+            color: @white;
+
+            @media @medium {
+                font-size: 14px;
+                line-height: 17px;
+            }
+        }
+
+        .rating-group {
+            display: flex;
+            align-items: center;
+
+            .rating {
+                margin-right: 5px;
+                cursor: pointer;
+            }
+        }
+
+        .btn-outline-black {
+            font-family: 'Inter-Medium';
+            padding: 9px 60px 8px 60px;
+
+            &:hover {
+                background: #a9a8a8;
+                color: @black !important;
+            }
+
+            @media @medium {
+                padding: 9px 57px 8px 58px;
+            }
+
+            @media @small {
+                padding: 9px 46px 8px 47px;
+            }
+        }
+    }
+
+    .navigation-group {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-top: 60px;
+
+        .navigation {
+            font-family: 'Inter-Medium';
+            font-size: 24px;
+            line-height: 29px;
+            text-transform: uppercase;
+            color: @grey4;
+
+            @media @large {
+                font-size: 18px;
+                margin-bottom: 15px;
+                line-height: 22px;
+            }
+
+            @media @xs {
+                &:nth-child(2) {
+                    margin-right: 0px !important;
+                }
+            }
+
+            &:not(:last-child) {
+                margin-right: 45px;
+
+                @media @small {
+                    margin-right: 25px;
+                }
+            }
+
+            &.nuxt-link-exact-active {
+                color: @black;
+            }
+        }
+    }
+}
 </style>

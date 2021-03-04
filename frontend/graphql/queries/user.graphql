@@ -5,5 +5,12 @@ query user {
         firstName
         lastName
         email
+        profile{
+            address
+            postalCode
+            city
+            country
+            phone
+        }
     }
 }

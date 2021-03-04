@@ -1,18 +1,18 @@
 <template>
     <div class="container">
         <account-head-group />
-        <div class="mt-45">
-            <div class="row order">
-                <div class="col-12 col-lg-5 block-1 pl-0">
-                    <div class="text-black">Order №5745769350</div>
-                    <div class="date">01.01.2021</div>
-                </div>
-                <div class="col-12 col-lg-7 block-2 pr-0">
-                    <div class="text-black">Track number: Rt215165165651CX</div>
-                    <button class="btn btn-outline-black">track</button>
-                </div>
-            </div>
-        </div>
+<!--        <div class="mt-45">-->
+<!--            <div class="row order">-->
+<!--                <div class="col-12 col-lg-5 block-1 pl-0">-->
+<!--                    <div class="text-black">Order №5745769350</div>-->
+<!--                    <div class="date">01.01.2021</div>-->
+<!--                </div>-->
+<!--                <div class="col-12 col-lg-7 block-2 pr-0">-->
+<!--                    <div class="text-black">Track number: Rt215165165651CX</div>-->
+<!--                    <button class="btn btn-outline-black">track</button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
     </div>
 </template>
 <script>

@@ -1,6 +1,6 @@
 import graphene
 from graphene import relay
-from graphene_django.types import DjangoObjectType
+from graphene_django.types import DjangoObjectType, ErrorType
 from backend.mixin import DjangoModelFormMutation
 from graphql_jwt.decorators import login_required
 import graphql_social_auth
@@ -186,6 +186,66 @@ class Test(graphql_jwt.ObtainJSONWebToken):
         return cls.resolve(root, info, **kwargs)
 
 
+class UserUpdateForm(forms.ModelForm):
+    country = forms.CharField(required=False)
+    city = forms.CharField(required=False)
+    address = forms.CharField(required=False)
+    postal_code = forms.CharField(required=False)
+    phone = forms.CharField(required=False)
+
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name', 'email', 'country', 'city', 'address', 'postal_code', 'phone')
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        cleaned_data = dict([(k, v) for k, v in self.cleaned_data.items() if v != ""])
+        instance.username = cleaned_data.get('email')
+        instance.email = cleaned_data.get('email')
+        instance.profile.country = cleaned_data.get('country')
+        instance.profile.city = cleaned_data.get('city')
+        instance.profile.address = cleaned_data.get('address')
+        instance.profile.postal_code = cleaned_data.get('postal_code')
+        instance.profile.phone = cleaned_data.get('phone')
+
+        if commit:
+            instance.save()
+        return instance
+
+
+class UserUpdateMutation(DjangoModelFormMutation):
+    user = graphene.Field(UserType)
+
+    @classmethod
+    def get_form_kwargs(cls, root, info, **input):
+        kwargs = {"data": input}
+
+        if info.context.user.is_authenticated:
+            instance = cls._meta.model._default_manager.get(pk=info.context.user.pk)
+            kwargs["instance"] = instance
+            kwargs["request"] = info.context
+
+        return kwargs
+
+    @classmethod
+    def perform_mutate(cls, form, info):
+        errors = []
+        if info.context.user.is_authenticated:
+            if form.cleaned_data.get('email') != info.context.user.email and User.objects.filter(
+                    email=info.context.user.email).first():
+                errors.append(ErrorType(field='user', messages=['Такой E-mail уже существует']))
+            else:
+                obj = form.save()
+                kwargs = {cls._meta.return_field_name: obj}
+        else:
+            kwargs = {}
+            errors.append(ErrorType(field='user', messages=['Вы не авторизованы']))
+        return cls(errors=errors, **kwargs)
+
+    class Meta:
+        form_class = UserUpdateForm
+
+
 class Mutation(graphene.ObjectType):
     guest_create = GuestCreateMutation.Field()
     token_auth = Test.Field()
@@ -193,6 +253,7 @@ class Mutation(graphene.ObjectType):
     refresh_token = RefreshJSONWebToken.Field()
     social_auth = graphql_social_auth.relay.SocialAuthJWT.Field()
     registration = RegistrationMutation.Field()
+    user_update = UserUpdateMutation.Field()
 
     # subscribe_create = SubscribeCreateMutation.Field()
     # contact_create = ContactCreateMutation.Field()

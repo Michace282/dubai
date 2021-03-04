@@ -175,8 +175,8 @@
                 return this.$store.state.user.user;
             },
         },
-        validations: {
-            form: {
+        validations() {
+            let form = {
                 firstName: {
                     required,
                 },
@@ -199,17 +199,30 @@
                 phone: {
                     required,
                 },
-                payment: {
-                    required,
-                },
-            },
+            }
+
+            if (this.showCreateOrderFields) {
+                form['payment'] = {
+                    required
+                }
+            }
+
+            return {
+                form: form,
+            }
         },
         created() {
             if (this.user) {
-                for (let i in this.user) {
-                    if (i in this.form) {
-                        this.form[i] = this.user[i];
-                    }
+                this.form.firstName = this.user.firstName;
+                this.form.lastName = this.user.lastName;
+                this.form.email = this.user.email;
+
+                if (this.user.profile) {
+                    this.form.address = this.user.address;
+                    this.form.postalCode = this.user.postalCode;
+                    this.form.country = this.user.country;
+                    this.form.city = this.user.city;
+                    this.form.phone = this.user.phone;
                 }
             }
         },

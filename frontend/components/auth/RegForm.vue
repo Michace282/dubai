@@ -3,7 +3,7 @@
         <div class="form-modal">
             <a href.prevent class="exit" @click="$emit('hide')"><img src="~/assets/images/icons/exit.svg" /></a>
             <base-title title="Sign up" />
-            <socials-auth class="mt-30" />
+<!--            <socials-auth class="mt-30" />-->
             <base-input
                 class="mt-45"
                 :class="{ error: $v.email.$error }"

@@ -3,7 +3,7 @@
         <div class="form-modal">
             <a href.prevent class="exit" @click="$emit('hide')"><img src="~/assets/images/icons/exit.svg" /></a>
             <base-title title="Log in" />
-            <socials-auth class="mt-30" />
+<!--            <socials-auth class="mt-30" />-->
             <div class="input-box">
                 <base-input
                     class="mt-45"

@@ -167,7 +167,7 @@ class ProductBasketInline(admin.StackedInline):
 class BasketAdmin(admin.ModelAdmin):
     inlines = (ProductBasketInline,)
     list_display = (
-        'get_id', '__str__', 'get_count_productbasket,' 'total_price', 'status', 'phone', 'country', 'city', 'address',
+        'get_id', '__str__', 'get_count_productbasket', 'total_price', 'status', 'phone', 'country', 'city', 'address',
         'pay', 'guest', 'user')
     list_filter = ('status', 'pay')
     readonly_fields = ('code', 'guest', 'user')

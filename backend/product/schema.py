@@ -635,7 +635,7 @@ class BasketCreateMutation(ClientIDMutation):
             for product_basket in products_basket:
                 product = Product.objects.filter(id=from_global_id(product_basket.product)[1]).first()
                 color = Color.objects.filter(id=from_global_id(product_basket.color)[1]).first()
-                size = Size.objects.filter(id=from_global_id(product_basket.color)[1]).first()
+                size = Size.objects.filter(id=from_global_id(product_basket.size)[1]).first()
 
                 product_size_color_size = ProductSizeColorSize.objects.filter(product_size_color__product=product,
                                                                               product_size_color__color=color,

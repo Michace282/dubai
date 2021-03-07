@@ -85,13 +85,22 @@ class Code(TimeStampedModel):
         published = ChoiceItem(label='Published', value='published')
         unpublished = ChoiceItem(label='Unpublished', value='unpublished')
 
+    class DiscountType(DjangoChoices):
+        percent = ChoiceItem(label='Percent', value='percent')
+        amount = ChoiceItem(label='Amount', value='amount')
+
     status = models.CharField(verbose_name='Status',
                               max_length=30,
                               choices=StatusType.choices,
                               default=StatusType.published)
+
     name = models.CharField(verbose_name='Name', max_length=255)
     code = models.CharField(verbose_name='Code', max_length=10, default=get_random_6, blank=True, null=True)
     min_price = models.IntegerField(verbose_name='Min price')
+    type_discount = models.CharField(verbose_name='Type discount',
+                                     max_length=30,
+                                     choices=DiscountType.choices,
+                                     default=DiscountType.percent)
     discount = models.IntegerField(verbose_name='Discount')
     count = models.IntegerField(verbose_name='Count code')
 

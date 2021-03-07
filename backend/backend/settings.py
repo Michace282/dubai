@@ -185,6 +185,7 @@ GRAPHQL_JWT = {
     'JWT_EXPIRATION_DELTA': timedelta(days=7),
     'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=7),
     # 'JWT_ENCODE_HANDLER': 'backend.utils.jwt_encode',
+    # 'JWT_PAYLOAD_HANDLER': 'graphql_jwt.utils.jwt_payload',
 }
 
 from easy_thumbnails.conf import Settings as thumbnail_settings

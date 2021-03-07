@@ -166,7 +166,9 @@ class ProductBasketInline(admin.StackedInline):
 @admin.register(Basket)
 class BasketAdmin(admin.ModelAdmin):
     inlines = (ProductBasketInline,)
-    list_display = ('get_id', '__str__', 'status', 'phone', 'country', 'city', 'address', 'pay', 'guest', 'user')
+    list_display = (
+        'get_id', '__str__', 'get_count_productbasket,' 'total_price', 'status', 'phone', 'country', 'city', 'address',
+        'pay', 'guest', 'user')
     list_filter = ('status', 'pay')
     readonly_fields = ('code', 'guest', 'user')
 
@@ -174,3 +176,8 @@ class BasketAdmin(admin.ModelAdmin):
         return str('{:09}'.format(obj.id))
 
     get_id.short_description = '№'
+
+    def get_count_productbasket(self, obj):
+        return obj.productbasket_set.count()
+
+    get_id.short_description = 'Count'

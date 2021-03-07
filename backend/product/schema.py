@@ -678,6 +678,12 @@ class BasketCreateMutation(ClientIDMutation):
 
             if c:
                 basket.code = c
+                discount = None
+                if c.type_discount == Code.DiscountType.percent:
+                    discount = total_price / 100 * c.discount
+                elif c.type_discount == Code.DiscountType.amount:
+                    discount = c.discount
+
                 basket.discount = c.discount
 
                 use_code = UseCode()
@@ -691,6 +697,7 @@ class BasketCreateMutation(ClientIDMutation):
 
                 use_code.save()
 
+            basket.total_price = total_price
             basket.description = basket_create.description
             basket.first_name = basket_create.first_name
             basket.last_name = basket_create.last_name

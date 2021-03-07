@@ -266,6 +266,7 @@ class Basket(TimeStampedModel):
 
     code = models.ForeignKey(Code, verbose_name='Code', on_delete=models.CASCADE, blank=True, null=True)
     discount = models.IntegerField(verbose_name='Discount', default=0)
+    total_price = models.IntegerField(verbose_name='Total price', default=0, editable=True)
     guest = models.ForeignKey(Guest, verbose_name='Guest', on_delete=models.CASCADE, blank=True, null=True)
     user = models.ForeignKey(User, verbose_name='User', on_delete=models.CASCADE, blank=True, null=True)
     status = models.CharField(verbose_name='Status',

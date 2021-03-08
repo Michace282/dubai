@@ -153,7 +153,7 @@ class FeedbackAdmin(admin.ModelAdmin):
     inlines = (FeedbackImageInline,)
 
 
-class ProductBasketInline(admin.StackedInline):
+class ProductBasketInline(admin.StackedInlintotal_price:e):
     model = ProductBasket
 
     def has_delete_permission(self, request, obj=None):

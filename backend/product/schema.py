@@ -619,6 +619,7 @@ class BasketCreateMutation(ClientIDMutation):
         guest = None
         id_basket = None
         url_pay = None
+        total_price = 0
 
         if not user.is_authenticated:
             if guest_uuid:
@@ -631,7 +632,6 @@ class BasketCreateMutation(ClientIDMutation):
         if not products_basket or len(products_basket) == 0:
             errors.append(ErrorType(field='products_basket', messages=['Вы ничего не выбрали']))
         else:
-            total_price = 0
             for product_basket in products_basket:
                 product = Product.objects.filter(id=from_global_id(product_basket.product)[1]).first()
                 color = Color.objects.filter(id=from_global_id(product_basket.color)[1]).first()
@@ -777,6 +777,10 @@ class BasketCreateMutation(ClientIDMutation):
             if total_price:
                 text += f'<b>Total price</b>: {str(total_price)}\n'
 
+            if c:
+                text += f'<b>Code</b>: {c.code}\n'
+                text += f'<b>Discount</b>: {str(basket.discount)}\n'
+
             if len(products_basket) > 0:
                 text += f'<b>Count of products</b>: {str(len(products_basket))}\n'
 
@@ -820,8 +824,6 @@ class BasketCreateMutation(ClientIDMutation):
                     'p_billing_country': basket_create.country,
                     'p_billing_tel': basket_create.phone,
                     'p_billing_email': basket_create.email,
-                    ###
-                    'p_promo_code': c.code if c else None,
                     ###
                     'p_merchant_param1': basket_create.description if basket_create.description else None
                 }

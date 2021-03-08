@@ -175,7 +175,7 @@
                         </div>
                         <ApolloQuery
                             :query="require('~/graphql/queries/product/productList')"
-                            :variables="{ excludeId: $route.params.slug }"
+                            :variables="{ excludeId: $route.params.slug, first: 10}"
                         >
                             <template v-slot="{ result: { error, data }, isLoading }">
                                 <div v-if="isLoading || error" class="loading apollo mt-85"></div>

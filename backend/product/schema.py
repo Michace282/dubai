@@ -776,14 +776,14 @@ class BasketCreateMutation(ClientIDMutation):
 
             if total_price:
                 if c and basket.discount:
-                    text += f'<b>Total price</b>: {str(total_price)}\n'
-                    text += f'<b>Total price with a discount</b>: {str(total_price - basket.discount)}\n'
+                    text += f'<b>Total price</b>: {str(total_price)} AED\n'
+                    text += f'<b>Total price with a discount</b>: {str(total_price - basket.discount)} AED\n'
                 else:
                     text += f'<b>Total price</b>: {str(total_price)}\n'
 
             if c and basket.discount:
                 text += f'<b>Code</b>: {c.code}\n'
-                text += f'<b>Discount</b>: {str(basket.discount)}\n'
+                text += f'<b>Discount</b>: {str(basket.discount)} AED\n'
 
             if len(products_basket) > 0:
                 text += f'<b>Count of products</b>: {str(len(products_basket))}\n'

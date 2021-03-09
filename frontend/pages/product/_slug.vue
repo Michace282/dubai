@@ -358,9 +358,9 @@
                         return 0;
                     } else {
                         basket[product.id] = product;
-                        v.$store.commit('product/update_items_count');
                     }
                     v.$cookies.set('basket', JSON.stringify(basket));
+                    v.$store.commit('product/update_items_count');
                     v.$bvToast.toast('The product was successfully added to the cart', {
                         title: 'Add to cart',
                         variant: 'success',

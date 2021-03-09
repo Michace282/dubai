@@ -775,9 +775,13 @@ class BasketCreateMutation(ClientIDMutation):
                 text += f'<b>Message</b>: {basket_create.description}\n'
 
             if total_price:
-                text += f'<b>Total price</b>: {str(total_price)}\n'
+                if c and basket.discount:
+                    text += f'<b>Total price</b>: {str(total_price)}\n'
+                    text += f'<b>Total price with a discount</b>: {str(total_price - basket.discount)}\n'
+                else:
+                    text += f'<b>Total price</b>: {str(total_price)}\n'
 
-            if c:
+            if c and basket.discount:
                 text += f'<b>Code</b>: {c.code}\n'
                 text += f'<b>Discount</b>: {str(basket.discount)}\n'
 
@@ -802,7 +806,7 @@ class BasketCreateMutation(ClientIDMutation):
                 options = {
                     'p_order_id': id_basket,
                     'p_currency': 'AED',
-                    'p_amount': str(total_price),
+                    'p_amount': str(total_price - basket.discount) if c and basket.discount else str(total_price),
                     'p_redirect_url': settings.FRONTEND_URL[:-1] + '?success=true',
                     'p_cancel_url': settings.FRONTEND_URL[:-1] + '?success=false',
                     'p_language': 'EN',

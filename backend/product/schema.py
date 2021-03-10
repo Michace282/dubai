@@ -684,7 +684,7 @@ class BasketCreateMutation(ClientIDMutation):
                 elif c.type_discount == Code.DiscountType.amount:
                     discount = c.discount
 
-                basket.discount = c.discount
+                basket.discount = discount
 
                 use_code = UseCode()
                 use_code.code = c

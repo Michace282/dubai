@@ -8,6 +8,7 @@ from graphql_relay.connection.arrayconnection import offset_to_cursor
 from graphql_relay import from_global_id
 import django_filters
 from .models import *
+from django.db.models import Case, When
 from backend.fields import ArrayFilter
 from account.models import Code, UseCode, PayLink
 import math
@@ -108,16 +109,38 @@ class ColorType(DjangoObjectType):
         interfaces = (relay.Node,)
 
 
-class ProductSizeColorType(DjangoObjectType):
-    class Meta:
-        model = ProductSizeColor
-        interfaces = (relay.Node,)
-
-
 class ProductSizeColorSizeType(DjangoObjectType):
+    sizes = DjangoConnectionField(SizeType)
+
+    def resolve_sizes(self, info):
+        print('####################')
+        return []
+        # preserved = Case(
+        #     *[When(size=size, then=pos) for pos, size in enumerate([choice[0] for choice in Size.SizeType.choices])])
+        #
+        # sizes = Size.objects.filter(**options).filter(productsizecolorsize__count__gt=0,
+        #                                               productsizecolorsize__is_available=True).distinct('size').values(
+        #     'pk')
+        #
+        # return Size.objects.filter(pk__in=sizes).order_by(
+        #     preserved)
+
     class Meta:
         model = ProductSizeColorSize
         filter_fields = ['is_available']
+        interfaces = (relay.Node,)
+
+
+class ProductSizeColorType(DjangoObjectType):
+    productsizecolorsize_set = DjangoConnectionField(ProductSizeColorSizeType)
+
+    def resolve_productsizecolorsize_set(self, info):
+        preserved = Case(*[When(size__size=size, then=pos) for pos, size in
+                           enumerate([choice[0] for choice in Size.SizeType.choices])])
+        return self.productsizecolorsize_set.order_by(preserved)
+
+    class Meta:
+        model = ProductSizeColor
         interfaces = (relay.Node,)
 
 
@@ -186,8 +209,15 @@ class ProductConnection(graphene.Connection):
         if dance_shoes_type:
             options['productsizecolor__product__dance_shoes_type'] = dance_shoes_type
 
-        return Size.objects.filter(**options).filter(productsizecolorsize__count__gt=0,
-                                                     productsizecolorsize__is_available=True).distinct('size')
+        preserved = Case(
+            *[When(size=size, then=pos) for pos, size in enumerate([choice[0] for choice in Size.SizeType.choices])])
+
+        sizes = Size.objects.filter(**options).filter(productsizecolorsize__count__gt=0,
+                                                      productsizecolorsize__is_available=True).distinct('size').values(
+            'pk')
+
+        return Size.objects.filter(pk__in=sizes).order_by(
+            preserved)
 
     def resolve_pages_cursor(self, info, **kwargs):
         params = info.variable_values

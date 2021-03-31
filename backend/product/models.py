@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import When, Case
 from djchoices import DjangoChoices, ChoiceItem
 from backend.mixin import TimeStampedModel
 from colorfield.fields import ColorField

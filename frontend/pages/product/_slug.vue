@@ -453,7 +453,7 @@
                                         name: 'catalog',
                                         query: {
                                             productType: data.data.productDetail.productType.toLowerCase(),
-                                            accessoriesType: data.data.accessoriesType.productType.toLowerCase(),
+                                            accessoriesType: data.data.productDetail.accessoriesType.toLowerCase(),
                                         },
                                     },
                                     name: v.description,

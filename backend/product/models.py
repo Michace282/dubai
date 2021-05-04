@@ -233,6 +233,7 @@ class ProductImage(TimeStampedModel):
             return ''
 
     class Meta:
+        ordering = ['created_at']
         verbose_name = 'Product image'
         verbose_name_plural = 'Product images'
 

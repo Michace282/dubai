@@ -12,24 +12,24 @@ export default {
         title: '',
         titleTemplate: '%s - DC&S Company',
         meta: [
-            { charset: 'utf-8' },
-            { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-            { hid: 'description', name: 'description', content: '' },
-            { property: 'og:title', content: '' },
-            { property: 'og:description', content: '' },
-            { property: 'og:image', content: '' },
+            {charset: 'utf-8'},
+            {name: 'viewport', content: 'width=device-width, initial-scale=1'},
+            {hid: 'description', name: 'description', content: ''},
+            {property: 'og:title', content: ''},
+            {property: 'og:description', content: ''},
+            {property: 'og:image', content: ''},
         ],
         link: [
-            { rel: 'shortcut icon', href: '/favicon.ico' },
-            { rel: 'icon', type: 'image/vnd.microsoft.icon', href: '/favicon.ico' },
-            { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-            { rel: 'icon', href: '/favicon.ico' },
+            {rel: 'shortcut icon', href: '/favicon.ico'},
+            {rel: 'icon', type: 'image/vnd.microsoft.icon', href: '/favicon.ico'},
+            {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'},
+            {rel: 'icon', href: '/favicon.ico'},
         ],
     },
     /*
      ** Customize the progress-bar color
      */
-    loading: { color: '#fff' },
+    loading: {color: '#fff'},
     /*
      ** Global CSS
      */
@@ -42,15 +42,22 @@ export default {
         // '~plugins/axios',
         '~plugins/components.server.js',
         '~/plugins/global-components.js',
-        { src: '~/plugins/vuelidate.js', mode: 'client' },
-        { src: '~plugins/components.client.js', ssr: false },
-        { src: '~/plugins/vuejs-paginate.js', ssr: false },
-        { src: '~/plugins/vue-slick-carousel.js', ssr: false },
+        {src: '~/plugins/vuelidate.js', mode: 'client'},
+        {src: '~plugins/components.client.js', ssr: false},
+        {src: '~/plugins/vuejs-paginate.js', ssr: false},
+        {src: '~/plugins/vue-slick-carousel.js', ssr: false},
     ],
     /*
      ** Nuxt.js dev-modules
      */
-    buildModules: ['@nuxtjs/style-resources'],
+    buildModules: [
+        '@nuxtjs/style-resources',
+        '@nuxtjs/google-analytics'
+    ],
+
+    googleAnalytics: {
+        id: 'UA-194963105-1'
+    },
 
     /*
      ** Nuxt.js modules
@@ -104,6 +111,7 @@ export default {
         /*
          ** You can extend webpack config here
          */
-        extend(config, ctx) {},
+        extend(config, ctx) {
+        },
     },
 };

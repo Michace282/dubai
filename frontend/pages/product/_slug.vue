@@ -8,7 +8,9 @@
             @result="result"
         >
             <template v-slot="{ result: { error, data }, isLoading }">
-                <div v-if="isLoading || error" class="loading apollo mt-85"><loader /></div>
+                <div v-if="isLoading || error" class="loading apollo mt-85">
+                    <loader/>
+                </div>
                 <div v-else-if="data && data.productDetail" class="result apollo">
                     <div class="container">
                         <div class="row">
@@ -26,7 +28,7 @@
                                     "
                                     :images="colorsGroup[colorVal].node.productimageSet.edges"
                                 />
-                                <img v-else src="~/assets/images/no-photo.jpg" />
+                                <img v-else src="~/assets/images/no-photo.jpg"/>
                             </div>
                             <div class="col">
                                 <div class="head-group mt-3 mt-lg-0 align-items-center align-items-lg-start">
@@ -35,7 +37,7 @@
                                             {{ data.productDetail.name }}
                                         </div>
                                         <div class="d-flex align-items-end mt-0 mt-lg-3">
-                                            <rating-group :rating="Math.floor(data.productDetail.avgFeedback)" />
+                                            <rating-group :rating="Math.floor(data.productDetail.avgFeedback)"/>
                                             <div class="label">
                                                 {{ Math.floor(data.productDetail.countFeedback) }} feedbacks
                                             </div>
@@ -65,7 +67,8 @@
                                                 :value="index"
                                                 :id="colorGroup.node.color.id"
                                             />
-                                            <label class="label-color mb-0" :for="colorGroup.node.color.id">
+                                            <label class="label-color mb-0" :for="colorGroup.node.color.id"
+                                                   v-b-tooltip.hover :title="colorGroup.node.color.name">
                                                 <div
                                                     class="color"
                                                     :style="
@@ -98,15 +101,15 @@
                                                 :disabled="size.node.count == 0"
                                             />
                                             <label class="label-size" :for="size.node.size.id">{{
-                                                size.node.size.name
-                                            }}</label>
+                                                    size.node.size.name
+                                                }}</label>
                                         </div>
                                         <a
                                             href.prevent
                                             class="modal-label mb-2"
                                             v-if="data.productDetail.sizeChart.table"
                                             v-b-modal.size-chart-modal
-                                            >Size charts</a
+                                        >Size charts</a
                                         >
                                     </div>
                                 </div>
@@ -116,7 +119,7 @@
                                     v-if="data.productDetail.modelDescription"
                                 ></p>
                                 <div class="row mt-60">
-                                    <div class="col-6">
+                                    <div class="col-6" v-if="isAvailableSizes">
                                         <button
                                             class="btn btn-yellow"
                                             @click="
@@ -127,6 +130,14 @@
                                             :disabled="!colorsGroup || !colorsGroup[colorVal].node.isAvailable"
                                         >
                                             Add to cart
+                                        </button>
+                                    </div>
+                                    <div class="col-6" v-else>
+                                        <button
+                                            class="btn btn-disabled"
+                                            :disabled="true"
+                                        >
+                                            Coming again soon
                                         </button>
                                     </div>
                                     <div class="col-6">
@@ -141,12 +152,12 @@
                                 <div class="row mt-30">
                                     <div class="col-auto">
                                         <nuxt-link class="link" to="/payment/" target="_blank"
-                                            >Payment & Delivery
+                                        >Payment & Delivery
                                         </nuxt-link>
                                     </div>
                                     <div class="col-auto">
                                         <nuxt-link class="link" to="/returns/" target="_blank"
-                                            >Returns & Refunds
+                                        >Returns & Refunds
                                         </nuxt-link>
                                     </div>
                                 </div>
@@ -154,24 +165,24 @@
                         </div>
                         <div class="row bg-gray">
                             <div class="col-auto text-center">
-                                <img src="~/assets/images/icons/delivery-truck.svg" />
+                                <img src="~/assets/images/icons/delivery-truck.svg"/>
                                 <div class="text mw-290">Free shipping for all orders within UAE</div>
                             </div>
                             <div class="col-auto text-center">
-                                <img src="~/assets/images/icons/cash.svg" />
+                                <img src="~/assets/images/icons/cash.svg"/>
                                 <div class="text mw-310">
                                     We shall be happy to refund or exchange any items that aren't right for you. See our
                                     Returns & Refunds section for details
                                 </div>
                             </div>
                             <div class="col-auto text-center comment-block">
-                                <img src="~/assets/images/icons/comment.svg" />
+                                <img src="~/assets/images/icons/comment.svg"/>
                                 <div class="text mw-290">If you have any questions please contact us</div>
                             </div>
                         </div>
                         <div v-if="data.productDetail.worksBestWith.edges.length > 0">
                             <div class="bold text-uppercase mt-90">Works best with</div>
-                            <product-items-carousel class="mt-45" :items="data.productDetail.worksBestWith.edges" />
+                            <product-items-carousel class="mt-45" :items="data.productDetail.worksBestWith.edges"/>
                         </div>
                         <ApolloQuery
                             :query="require('~/graphql/queries/product/productList')"
@@ -184,7 +195,7 @@
                                     class="result apollo"
                                 >
                                     <div class="bold text-uppercase mt-90">You also may like</div>
-                                    <product-items-carousel class="mt-45" :items="data.productList.edges" />
+                                    <product-items-carousel class="mt-45" :items="data.productList.edges"/>
                                 </div>
                             </template>
                         </ApolloQuery>
@@ -220,10 +231,10 @@
                             Write a rewiew
                         </button>
                         <div class="d-flex justify-content-between w-100">
-                            <comment-group />
+                            <comment-group/>
                             <div class="right-block mt-30 d-none d-lg-block">
                                 <div class="d-flex align-items-center justify-content-between mb-3">
-                                    <rating-group :rating="Math.floor(data.productDetail.avgFeedback)" :size="20" />
+                                    <rating-group :rating="Math.floor(data.productDetail.avgFeedback)" :size="20"/>
                                     <div class="bold">{{ Math.floor(data.productDetail.avgFeedback) }}/5</div>
                                 </div>
                                 <template v-if="countRatings && countRatings.length > 0">
@@ -284,7 +295,7 @@
 
     export default {
         name: 'product',
-        components: { CommentGroup, RatingGroup, ProductCarousel, ProductItemsCarousel, CommentForm, Loader },
+        components: {CommentGroup, RatingGroup, ProductCarousel, ProductItemsCarousel, CommentForm, Loader},
         data() {
             return {
                 countRatings: [],
@@ -333,6 +344,16 @@
                 }
                 return null;
             },
+            isAvailableSizes() {
+                let isAvailable = false;
+                for (let i in this.currentSizes) {
+                    if (this.currentSizes[i].node.isAvailable && this.currentSizes[i].node.count > 0) {
+                        isAvailable = true;
+                        break;
+                    }
+                }
+                return isAvailable
+            }
         },
         methods: {
             addToBasket() {
@@ -393,8 +414,8 @@
                     }
 
                     let breadcrumbs = [
-                        { route: '/', name: 'Home' },
-                        { route: { name: 'catalog' }, name: 'Catalogue' },
+                        {route: '/', name: 'Home'},
+                        {route: {name: 'catalog'}, name: 'Catalogue'},
                     ];
 
                     if (data.data.productDetail.productType && data.data.productProductType) {
@@ -403,7 +424,7 @@
                                 breadcrumbs.push({
                                     route: {
                                         name: 'catalog',
-                                        query: { productType: data.data.productDetail.productType.toLowerCase() },
+                                        query: {productType: data.data.productDetail.productType.toLowerCase()},
                                     },
                                     name: v.description,
                                 });
@@ -479,7 +500,7 @@
                         });
                     }
 
-                    breadcrumbs.push({ route: '', name: data.data.productDetail.name });
+                    breadcrumbs.push({route: '', name: data.data.productDetail.name});
                     this.$store.commit('set_breadcrumbs', breadcrumbs);
 
                     if (data.data.productDetail.countFeedback > 0) {
@@ -497,7 +518,7 @@
                     }
                     this.colorsGroup = data.data.productDetail.productsizecolorSet.edges;
                 } else {
-                    this.$root.error({ statusCode: 404 });
+                    this.$root.error({statusCode: 404});
                 }
                 return data;
             },
@@ -505,6 +526,25 @@
     };
 </script>
 <style lang="less">
+    .tooltip.b-tooltip{
+        opacity: 1;
+    }
+    .tooltip-inner {
+        font-family: Inter;
+        background: #FFFFFF;
+        border: 1px solid #E6E6E6;
+        border-radius: 2px;
+        font-weight: 300;
+        font-size: 12px;
+        line-height: 15px;
+        color: rgba(0, 0, 0, 0.5);
+    }
+
+    .bs-tooltip-top .arrow::before {
+        border-top-color: #E6E6E6;
+    }
+
+
     #size-chart-modal {
         background: @grey_opacity;
 
@@ -759,6 +799,15 @@
         &:hover {
             background: #dab20e;
         }
+    }
+
+    .btn-disabled {
+        width: 100%;
+        color: @white;
+        background: rgba(128, 128, 128, 0.5);
+        padding: 7px 10px;
+        border: 1px solid rgba(128, 128, 128, 0.5);
+        text-transform: uppercase;
     }
 
     .btn-outline-yellow {

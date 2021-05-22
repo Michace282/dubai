@@ -47,7 +47,7 @@
                                                 alt="image slot"
                                             />
                                         </template>
-                                        <div class="box">
+                                        <div class="box" v-if="stock.node.product">
                                             <nuxt-link
                                                 :to="{ name: 'product-slug', params: { slug: stock.node.product.id } }"
                                                 class="carousel-link"

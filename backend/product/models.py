@@ -278,6 +278,8 @@ class Basket(TimeStampedModel):
 
     is_completed = models.BooleanField(verbose_name='Is completed', default=False, editable=True)
 
+    code_delivery = models.CharField(verbose_name='Code - delivery', max_length=255, blank=True, null=True)
+
     pay = models.CharField(verbose_name='Pay',
                            max_length=30,
                            choices=PayType.choices,

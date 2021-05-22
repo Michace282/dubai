@@ -368,8 +368,7 @@ class ProductFilter(django_filters.FilterSet):
 
     @property
     def qs(self):
-        return super().qs.filter(status=Product.StatusType.published,
-                                 productsizecolor__is_available=True).distinct()
+        return super().qs.filter(status=Product.StatusType.published).distinct()
 
 
 class ProductWishlistConnection(graphene.Connection):

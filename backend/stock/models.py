@@ -19,10 +19,10 @@ class Stock(TimeStampedModel):
                               choices=StatusType.choices,
                               default=StatusType.published)
 
-    name_product = models.CharField(verbose_name='Name product', max_length=30)
-    product = models.ForeignKey(Product, verbose_name='Product', on_delete=models.CASCADE)
+    name_product = models.CharField(verbose_name='Name product', max_length=30, blank=True, null=True)
+    product = models.ForeignKey(Product, verbose_name='Product', on_delete=models.CASCADE, blank=True, null=True)
     image = models.ImageField(verbose_name='Image')
-    cropping = ImageRatioField('image', '1110x600')
+    cropping = ImageRatioField('image', '1300x702')
     published = models.DateTimeField(verbose_name='Published', default=timezone.now)
 
     @property
@@ -30,7 +30,7 @@ class Stock(TimeStampedModel):
         if self.image:
             return get_backend().get_thumbnail_url(self.image, {
                 'box': self.cropping,
-                'size': (1110, 600),
+                'size': (1300, 702),
                 'crop': True,
                 'detail': True,
             })

@@ -5,7 +5,7 @@
             :query="require('~/graphql/queries/product/basketList.graphql')"
             :variables="{
                 first: 25,
-                status: 'sent'
+                status: 'completed'
             }"
             fetchPolicy="no-cache"
         >
@@ -47,7 +47,7 @@
     import Loader from '~/components/Loader.vue';
 
     export default {
-        name: 'track-orders',
+        name: 'previous-orders',
         created() {
             this.$store.commit('set_breadcrumbs', [{route: '', name: 'personal account'}]);
         },

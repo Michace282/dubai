@@ -301,6 +301,17 @@ class ProductType(DjangoObjectType):
         connection_class = ProductConnection
 
 
+class BasketType(DjangoObjectType):
+    uuid = graphene.String()
+
+    def resolve_uuid(self, info):
+        return str('{:09}'.format(self.id))
+
+    class Meta:
+        model = Basket
+        interfaces = (relay.Node,)
+
+
 class ProductOrderingFilter(django_filters.OrderingFilter):
     def filter(self, qs, value):
         if value:
@@ -452,6 +463,12 @@ class FeedbackImageType(DjangoObjectType):
         interfaces = (relay.Node,)
 
 
+class BasketFilter(django_filters.FilterSet):
+    class Meta:
+        model = Basket
+        fields = ['status']
+
+
 class Query(graphene.ObjectType):
     product_list = DjangoFilterConnectionField(ProductType, filterset_class=ProductFilter)
     product_detail = graphene.relay.Node.Field(ProductType, id=graphene.ID())
@@ -460,6 +477,8 @@ class Query(graphene.ObjectType):
 
     feedback_list = DjangoFilterConnectionField(FeedbackType, filterset_class=FeedbackFilter)
 
+    basket_list = DjangoFilterConnectionField(BasketType, filterset_class=BasketFilter)
+
     def resolve_product_wishlist_list(self, info, **kwargs):
         if 'guest_uuid' in kwargs:
             return ProductWishlistFilter(kwargs).qs
@@ -467,6 +486,12 @@ class Query(graphene.ObjectType):
             user = info.context.user
             if user.is_authenticated:
                 return ProductWishlistFilter(kwargs).qs.filter(user=user)
+        return []
+
+    def resolve_basket_list(self, info, **kwargs):
+        user = info.context.user
+        if user.is_authenticated:
+            return BasketFilter(kwargs).qs.filter(user=user)
         return []
 
 

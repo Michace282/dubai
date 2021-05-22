@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <account-head-group />
+        <account-head-group/>
         <ApolloQuery
             :query="require('~/graphql/queries/product/productWishlistList')"
             :variables="{
@@ -13,7 +13,9 @@
         >
             <template v-slot="{ result: { error, data }, isLoading, query }">
                 <transition name="fade" mode="out-in">
-                    <div v-if="isLoading || error" class="loading apollo mt-85" key="loader"><loader /></div>
+                    <div v-if="isLoading || error" class="loading apollo mt-85" key="loader">
+                        <loader/>
+                    </div>
                     <div v-else-if="data && data.productWishlistList" class="result apollo" key="loader">
                         <div class="row mt-45" v-if="data.productWishlistList.edges.length > 0">
                             <div
@@ -60,7 +62,7 @@
 
     export default {
         name: 'wish-list',
-        components: { BaseTitle, ProductItem, Pagination, AccountHeadGroupLoader },
+        components: {BaseTitle, ProductItem, Pagination, AccountHeadGroup, Loader},
         data() {
             return {
                 cursor: null,
@@ -68,7 +70,7 @@
             };
         },
         created() {
-            this.$store.commit('set_breadcrumbs', [{ route: '', name: 'personal account' }]);
+            this.$store.commit('set_breadcrumbs', [{route: '', name: 'personal account'}]);
         },
         methods: {
             updateCursors(data) {

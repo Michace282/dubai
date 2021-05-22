@@ -1,0 +1,11 @@
+query basketList($status: String) {
+    basketList(status: $status) {
+        edges {
+            node {
+                uuid
+                codeDelivery
+                createdAt
+            }
+        }
+    }
+}

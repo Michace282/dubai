@@ -56,7 +56,6 @@
                                     <div class="colors mt-15">
                                         <div
                                             class="color-group"
-                                            :class="{ opacity: !colorGroup.node.isAvailable }"
                                             v-for="(colorGroup, index) in colorsGroup"
                                             :key="'color' + index"
                                         >

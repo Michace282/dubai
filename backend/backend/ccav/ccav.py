@@ -60,8 +60,8 @@ def pay(
 
     merchant_data += '&' + 'customer_identifier=' + p_customer_identifier
 
-    access_code = 'AVSS03IB70BJ91SSJB'
-    working_key = '366C311E7530CC83CD24B02A50FC034B'
+    access_code = 'AVKE03IB70BD21EKDB'
+    working_key = '4D6E3792B864FEE380685243E2C78324'
 
     encryption = encrypt(merchant_data, working_key)
 

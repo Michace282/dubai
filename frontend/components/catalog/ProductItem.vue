@@ -1,8 +1,8 @@
 <template>
     <div class="product">
         <a hrev.prevent class="favorites-icon" @click="toggleFavouriteMixin(id, isFavorite)">
-            <img src="~/assets/images/icons/favorites-fill.svg" v-if="isFavorite" />
-            <img src="~/assets/images/icons/favorites-icon.svg" v-else />
+            <img src="~/assets/images/icons/favorites-fill.svg" v-if="isFavorite"/>
+            <img src="~/assets/images/icons/favorites-icon.svg" v-else/>
         </a>
         <div
             class="position-relative"
@@ -10,7 +10,7 @@
         >
             <client-only>
                 <a href.prevent @click="slide != 0 ? (slide = slide - 1) : ''" class="carousel-control"
-                    ><img src="~/assets/images/icons/arrow-carousel.svg"
+                ><img src="~/assets/images/icons/arrow-carousel.svg"
                 /></a>
                 <nuxt-link :to="{ name: 'product-slug', params: { slug: id } }" class="link-to-product">
                     <b-carousel
@@ -44,19 +44,18 @@
                             : ''
                     "
                     class="carousel-control next"
-                    ><img src="~/assets/images/icons/arrow-carousel.svg"
+                ><img src="~/assets/images/icons/arrow-carousel.svg"
                 /></a>
             </client-only>
         </div>
-        <img class="preview" src="~/assets/images/no-photo.jpg" v-else />
+        <img class="preview" src="~/assets/images/no-photo.jpg" v-else/>
         <div class="colors" v-if="colorsGroup && colorsGroup.edges.length > 0">
             <div
                 class="color-group"
-                :class="{ opacity: !colorGroup.node.isAvailable }"
                 v-for="(colorGroup, index) in colorsGroup.edges"
                 :key="index"
             >
-                <input type="radio" v-model="activeColor" :value="index" :id="colorGroup.node.id" />
+                <input type="radio" v-model="activeColor" :value="index" :id="colorGroup.node.id"/>
                 <label class="label-color" :for="colorGroup.node.id">
                     <div
                         class="color"

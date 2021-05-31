@@ -32,7 +32,7 @@
                         <div class="description">Subscribe to receive updates, access to exclusive deals and more</div>
                         <div class="row form">
                             <div class="col pr-2 pr-lg-3 d-flex align-items-end">
-                                <base-input class="dark" label="email" name="email" />
+                                <base-input class="dark" label="email" name="email"/>
                             </div>
                             <div class="col-auto input-box">
                                 <button class="btn btn-send">Send</button>
@@ -49,8 +49,10 @@
                             <a href="tel:+971506553470">+971 50 655 3470</a>
                         </li>
                         <li class="text-right">
-                            <a href="" class="mr-2"><img src="~/assets/images/icons/whatsApp.svg" /></a>
-                            <a href=""><img src="~/assets/images/icons/instagram.svg" /></a>
+                            <a href="https://wa.me/971585967208" target="_blank" class="mr-2"><img
+                                src="~/assets/images/icons/whatsApp.svg"/></a>
+                            <a href="https://www.instagram.com/dcs_dancewear/" target="_blank"><img
+                                src="~/assets/images/icons/instagram.svg"/></a>
                         </li>
                     </ul>
                 </div>
@@ -68,7 +70,7 @@
 
     export default {
         name: 'TheFooter',
-        components: { BaseInput },
+        components: {BaseInput},
         data() {
             return {
                 email: '',

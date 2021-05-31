@@ -19,8 +19,10 @@
                     <div class="value">
                         UAE, Dubai, Business Bay, Binary Tower, 20th floor
                         <div class="d-flex align-items-center mt-30">
-                            <a href="" class="mr-3"><img src="~/assets/images/icons/whatsApp-gold.svg"/></a>
-                            <a href="" class="ml-1"><img src="~/assets/images/icons/instagram-gold.svg"/></a>
+                            <a href="https://wa.me/971585967208" target="_blank" class="mr-3"><img
+                                src="~/assets/images/icons/whatsApp-gold.svg"/></a>
+                            <a href="https://www.instagram.com/dcs_dancewear/" target="_blank" class="ml-1"><img
+                                src="~/assets/images/icons/instagram-gold.svg"/></a>
                         </div>
                     </div>
                 </div>
@@ -81,66 +83,66 @@
     };
 </script>
 <style lang="less" scoped>
-.contacts-box {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    margin-top: 15px;
-
-    .contact-group {
+    .contacts-box {
         display: flex;
-        margin-bottom: 30px;
+        align-items: flex-end;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        margin-top: 15px;
 
-        @media @small {
-            flex-direction: column;
-        }
-
-        .label {
-            width: 90px;
-            font-family: 'Inter-Medium';
-            margin-right: 20px;
-            font-style: normal;
-            font-weight: 500;
-            font-size: 18px;
-            text-align: right;
-            color: @black;
+        .contact-group {
+            display: flex;
+            margin-bottom: 30px;
 
             @media @small {
-                text-align: left;
+                flex-direction: column;
             }
-        }
 
-        .value {
-            max-width: 290px;
-            font-family: 'Inter-Light';
-            font-size: 18px;
-            color: @black;
-
-            a {
-                display: block;
+            .label {
+                width: 90px;
+                font-family: 'Inter-Medium';
+                margin-right: 20px;
+                font-style: normal;
+                font-weight: 500;
+                font-size: 18px;
+                text-align: right;
                 color: @black;
+
+                @media @small {
+                    text-align: left;
+                }
+            }
+
+            .value {
+                max-width: 290px;
+                font-family: 'Inter-Light';
+                font-size: 18px;
+                color: @black;
+
+                a {
+                    display: block;
+                    color: @black;
+                }
             }
         }
     }
-}
 
-.form-group {
-    max-width: 635px;
-    width: 100%;
-    padding: 30px 45px 30px 50px;
-    background: @grey3;
-    border-radius: 2px;
+    .form-group {
+        max-width: 635px;
+        width: 100%;
+        padding: 30px 45px 30px 50px;
+        background: @grey3;
+        border-radius: 2px;
 
-    @media @medium {
-        padding: 30px 20px;
+        @media @medium {
+            padding: 30px 20px;
+        }
+
+        .title {
+            font-family: 'Inter-Regular';
+            font-size: 24px;
+            text-transform: uppercase;
+            color: @black;
+        }
     }
-
-    .title {
-        font-family: 'Inter-Regular';
-        font-size: 24px;
-        text-transform: uppercase;
-        color: @black;
-    }
-}
 </style>

@@ -229,103 +229,122 @@
     };
 </script>
 <style lang="less">
-.account-contact {
-    .form-title {
-        width: fit-content;
-        margin: 0 35px 0px auto;
+    .account-contact {
+        .form-title {
+            width: fit-content;
+            margin: 0 35px 0px auto;
 
-        @media @extraLarge {
-            margin: 0 -50px 0px auto;
-        }
+            @media @extraLarge {
+                margin: 0 -50px 0px auto;
+            }
 
-        @media @large {
-            line-height: 44px;
-            margin: unset;
-        }
-
-        .front-title {
             @media @large {
-                max-width: 170px;
-                line-height: 29px;
-                bottom: 10px;
+                line-height: 44px;
+                margin: unset;
+            }
+
+            .front-title {
+                @media @large {
+                    max-width: 170px;
+                    line-height: 29px;
+                    bottom: 10px;
+                }
             }
         }
-    }
 
-    .radio-group {
-        .label {
-            font-family: 'Inter-Regular';
-            font-size: 14px;
-            text-transform: uppercase;
-            color: @grey4;
-        }
-
-
-        &.error {
-            border-color: @red;
-
+        .radio-group {
             .label {
-                color: @red;
+                font-family: 'Inter-Regular';
+                font-size: 14px;
+                text-transform: uppercase;
+                color: @grey4;
             }
-        }
 
-        input {
-            &:checked + label {
-                font-family: 'Inter-Medium';
-                opacity: 1;
+
+            &.error {
+                border-color: @red;
+
+                .label {
+                    color: @red;
+                }
             }
-        }
 
-        .radio-label {
-            display: flex;
-            align-items: center;
-            font-size: 14px;
-            line-height: 17px;
-            text-transform: uppercase;
-            color: @black;
-            cursor: pointer;
-            opacity: 0.3;
-
-            .label-color {
-                width: 20px;
-                height: 20px;
-                margin-right: 10px;
-                border-color: @black;
-            }
-        }
-    }
-
-    .form-group {
-        max-width: 540px;
-        margin: 40px auto 0px;
-
-        .textarea-group {
-            textarea {
-                background: none;
-            }
-        }
-
-        @media @large {
-            margin: 40px 0px 0px 0px;
-        }
-
-        .btn-black {
-            padding: 7px 59px;
-
-            @media (max-width: 366px) {
-                margin-top: 10px;
-            }
-        }
-
-        .btn-outline-black {
-            padding: 8px 51px;
-        }
-
-        .input-box {
             input {
-                background: @white;
+                &:checked + label {
+                    font-family: 'Inter-Medium';
+                    opacity: 1;
+                }
+            }
+
+            .radio-label {
+                display: flex;
+                align-items: center;
+                font-size: 14px;
+                line-height: 17px;
+                text-transform: uppercase;
+                color: @black;
+                cursor: pointer;
+                opacity: 0.3;
+
+
+                .color-group {
+                    width: 20px;
+                    height: 20px;
+
+                    .label-color {
+                        width: 100%;
+                        height: 100%;
+                        margin-right: 10px;
+                        border-color: @black;
+
+
+                        .color {
+                            top: 0;
+                            left: 0;
+                            right: 0;
+                            bottom: 0;
+                            margin: auto;
+                            width: 15px;
+                            height: 15px;
+                        }
+                    }
+
+                }
+
+            }
+        }
+
+        .form-group {
+            max-width: 540px;
+            margin: 40px auto 0px;
+
+            .textarea-group {
+                textarea {
+                    background: none;
+                }
+            }
+
+            @media @large {
+                margin: 40px 0px 0px 0px;
+            }
+
+            .btn-black {
+                padding: 7px 59px;
+
+                @media (max-width: 366px) {
+                    margin-top: 10px;
+                }
+            }
+
+            .btn-outline-black {
+                padding: 8px 51px;
+            }
+
+            .input-box {
+                input {
+                    background: @white;
+                }
             }
         }
     }
-}
 </style>

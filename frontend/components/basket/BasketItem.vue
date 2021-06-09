@@ -1,6 +1,6 @@
 <template>
     <div class="item-group">
-        <a href.prevent class="delete" @click="$emit('remove')"><img src="~/assets/images/icons/exit.svg" /></a>
+        <a href.prevent class="delete" @click="$emit('remove')"><img src="~/assets/images/icons/exit.svg"/></a>
         <div class="row">
             <div class="col-auto pr-2 pr-sm-3">
                 <img
@@ -8,7 +8,7 @@
                     class="photo"
                     :src="colorsGroup.edges[activeColor].node.productimageSet.edges[0].node.imageCropping"
                 />
-                <img class="photo" src="~/assets/images/no-photo.jpg" v-else />
+                <img class="photo" src="~/assets/images/no-photo.jpg" v-else/>
             </div>
             <div class="col params pr-0">
                 <div class="bold name">{{ name }}</div>
@@ -23,7 +23,7 @@
                 >
                     <template v-slot:activeItem>
                         <div class="color-group">
-                            <input type="checkbox" disabled checked id="color" />
+                            <input type="checkbox" disabled checked id="color"/>
                             <label class="label-color mb-0" for="color">
                                 <div
                                     class="color"
@@ -114,7 +114,7 @@
                 </item-param>
                 <div class="count-group">
                     <a href.prevemt class="control" @click="activeCount > 1 ? activeCount-- : ''">-</a>
-                    <input type="text" @input="validate" v-model="activeCount" />
+                    <input type="text" @input="validate" v-model="activeCount"/>
                     <a
                         href.prevemt
                         class="control"
@@ -124,7 +124,7 @@
                                 ? activeCount++
                                 : ''
                         "
-                        >+</a
+                    >+</a
                     >
                 </div>
                 <div class="bold mt-30">{{ price }} AED</div>
@@ -137,7 +137,7 @@
 
     export default {
         name: 'BasketItem',
-        components: { ItemParam },
+        components: {ItemParam},
         props: {
             name: {
                 type: String,
@@ -209,7 +209,7 @@
                 ) {
                     this.activeCount = this.colorsGroup.edges[this.activeColor].node.productsizecolorsizeSet.edges[
                         this.activeSize
-                    ].node.count;
+                        ].node.count;
                 }
             },
         },
@@ -286,13 +286,24 @@
             }
 
             .color-group {
-                display: flex;
-                align-items: center;
+                width: 20px;
+                height: 20px;
 
                 .label-color {
-                    width: 20px;
-                    height: 20px;
+                    width: 100%;
+                    height: 100%;
+
+                    .color {
+                        top: 0;
+                        left: 0;
+                        right: 0;
+                        bottom: 0;
+                        margin: auto;
+                        width: 15px;
+                        height: 15px;
+                    }
                 }
+
             }
 
             .sizes {

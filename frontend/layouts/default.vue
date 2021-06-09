@@ -38,7 +38,7 @@
                         </div>
                     </div>
                 </div>
-                <nuxt />
+                <nuxt/>
             </div>
             <b-modal
                 id="confirm-order-modal"
@@ -64,7 +64,7 @@
                 </div>
             </b-modal>
         </div>
-        <the-footer />
+        <the-footer/>
     </div>
 </template>
 <script>
@@ -73,8 +73,9 @@
     import RegForm from '~/components/auth/RegForm';
     import AuthForm from '~/components/auth/AuthForm';
     import BasketModal from '../components/basket/BasketModal.vue';
+
     export default {
-        components: { TheNavbar, TheFooter, RegForm, AuthForm, BasketModal },
+        components: {TheNavbar, TheFooter, RegForm, AuthForm, BasketModal},
         data() {
             return {
                 showModal: false,
@@ -148,6 +149,15 @@
 
             &.hide {
                 opacity: 0.1;
+                max-height: 90vh;
+                min-height: 90vh;
+                overflow: hidden;
+
+                @media @medium {
+                    min-height: auto;
+                    max-height: initial;
+                    overflow: auto;
+                }
             }
 
             &.opacity {

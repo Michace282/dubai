@@ -9,7 +9,9 @@
             v-if="colorsGroup && colorsGroup.edges[activeColor].node.productimageSet.edges.length > 0"
         >
             <client-only>
-                <a href.prevent @click="slide != 0 ? (slide = slide - 1) : ''" class="carousel-control"
+                <a
+                       v-if="colorsGroup.edges[activeColor].node.productimageSet.edges.length > 1"
+                    href.prevent @click="slide != 0 ? (slide = slide - 1) : ''" class="carousel-control"
                 ><img src="~/assets/images/icons/arrow-carousel.svg"
                 /></a>
                 <nuxt-link :to="{ name: 'product-slug', params: { slug: id } }" class="link-to-product">
@@ -37,6 +39,7 @@
                     </b-carousel>
                 </nuxt-link>
                 <a
+                    v-if="colorsGroup.edges[activeColor].node.productimageSet.edges.length > 1"
                     href.prevent
                     @click="
                         slide < colorsGroup.edges[activeColor].node.productimageSet.edges.length - 1
@@ -140,8 +143,21 @@
 
             .colors {
                 .color-group {
-                    width: 1.2rem;
-                    height: 1.2rem;
+                    width: 16px;
+                    height: 16px;
+
+                    .label-color {
+                        width: 100%;
+                        height: 100%;
+
+                        .color {
+                            left: 2px;
+                            top: 2px;
+                            width: 12px;
+                            height: 12px;
+                        }
+                    }
+
                 }
             }
         }
@@ -194,18 +210,34 @@
             margin-top: 10px;
 
             .color-group {
-                width: 1.4rem;
-                height: 1.4rem;
+                width: 22px;
+                height: 22px;
                 margin-right: 10px;
 
                 .label-color {
                     width: 100%;
                     height: 100%;
+
+                    .color {
+                        left: 2px;
+                        top: 2px;
+                        width: 18px;
+                        height: 18px;
+                    }
                 }
 
                 @media @medium {
                     width: 13px;
                     height: 13px;
+
+                    .label-color {
+                        .color {
+                            left: 2px;
+                            top: 2px;
+                            width: 9px;
+                            height: 9px;
+                        }
+                    }
                 }
             }
         }
@@ -216,6 +248,7 @@
             right: 10px;
             z-index: 100;
             cursor: pointer;
+            z-index: 9;
 
             img {
                 width: 20px;

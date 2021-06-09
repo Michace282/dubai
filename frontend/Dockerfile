@@ -9,4 +9,5 @@ RUN npm install -g nuxt
 COPY package.json /${APP_ROOT}/package.json
 COPY yarn.lock /${APP_ROOT}/yarn.lock
 RUN yarn
+
 COPY . ${APP_ROOT}

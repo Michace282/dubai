@@ -6,6 +6,7 @@
                 <filter-catalog
                     :order-by="orderBy"
                     @closeFilter="showFilter = false"
+                    @changeFilter="changeFilter"
                     @setBreadcrumbs="
                         (val) => {
                             breadcrumbs = [...val];
@@ -55,14 +56,14 @@
                     :variables="{
                         first: 12,
                         after: cursor,
-                        ...this.$route.query,
+                        ...filter,
                     }"
                     ref="catalog"
                     @result="updateCursors"
                 >
                     <template v-slot="{ result: { error, data }, isLoading }">
                         <transition name="fade" mode="out-in">
-                            <div v-if="isLoading || error" class="loading apollo mt-85" key="1">
+                            <div v-if="isLoading && loading || error" class="loading apollo mt-85" key="1">
                                 <loader/>
                             </div>
                             <div v-else-if="data && data.productList" class="result apollo" key="2">
@@ -89,7 +90,7 @@
                     </template>
                 </ApolloQuery>
                 <pagination
-                    v-if="pagesCursor && pagesCursor.length > 1"
+                    v-if="!loading && pagesCursor && pagesCursor.length > 1"
                     :pageCursor="pagesCursor"
                     @changeCursor="(val) => (cursor = val)"
                     @changePage="(activeCursor) => (cursor = activeCursor)"
@@ -143,6 +144,8 @@
                 sortVal: sortVal,
                 showFilter: false,
                 sortItems: sortItems,
+                filter: {},
+                loading: true
             };
         },
         head() {
@@ -158,8 +161,14 @@
             };
         },
         methods: {
+            changeFilter(f) {
+                this.cursor = null;
+                this.filter = f;
+                this.loading = true;
+            },
             updateCursors(data) {
                 if (data.data && data.data.productList) {
+                    this.loading = false;
                     this.pagesCursor = data.data.productList.pagesCursor;
                     this.$store.commit('set_breadcrumbs', [
                         {route: '/', name: 'Home'},
@@ -167,138 +176,139 @@
                     ]);
                 } else {
                     this.pagesCursor = null;
+                    this.loading = false;
                 }
             },
         },
     };
 </script>
 <style lang="less">
-.filter-group {
-    @media @large {
-        position: fixed;
-        top: 0px;
-        bottom: 0;
-        right: 0;
-        width: 100%;
-        height: 100%;
-        padding: 0px;
-        z-index: 1000;
-        left: -1000px;
-        opacity: 0;
-        background: #00000096;
-        transition: opacity 0.1s;
-
-        &.active {
-            left: 0px;
-            opacity: 1;
-
-            .filter {
-                left: 0;
-            }
-        }
-    }
-
-    .filter {
+    .filter-group {
         @media @large {
-            position: absolute;
-            max-width: 375px;
+            position: fixed;
+            top: 0px;
+            bottom: 0;
+            right: 0;
             width: 100%;
             height: 100%;
+            padding: 0px;
+            z-index: 1000;
             left: -1000px;
-            background: @white;
-            transition: left 0.5s;
-            padding-bottom: 20px;
-            overflow: auto;
-        }
-    }
-}
-</style>
-<style lang="less" scoped>
-.prudocts-head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 30px;
-
-    .breadcrumbs {
-        padding: 0px;
-
-        @media @large {
-            display: none;
-        }
-
-        .breadcrumb {
-            text-transform: none;
-            margin: 0px;
-        }
-
-        .separator {
-            font-size: 14px;
-            margin: 0px 10px;
-            color: @grey4;
-        }
-    }
-
-    .sort {
-        display: flex;
-        align-items: center;
-
-        .label {
-            font-size: 14px;
-            color: @black;
-            margin-right: 5px;
-
-            @media @large {
-                font-size: 18px;
-            }
-        }
-
-        .select {
-            position: relative;
-            min-width: 135px;
-            width: 100%;
+            opacity: 0;
+            background: #00000096;
+            transition: opacity 0.1s;
 
             &.active {
-                background: @grey3;
+                left: 0px;
+                opacity: 1;
 
-                .dropdown {
-                    display: block;
+                .filter {
+                    left: 0;
+                }
+            }
+        }
+
+        .filter {
+            @media @large {
+                position: absolute;
+                max-width: 375px;
+                width: 100%;
+                height: 100%;
+                left: -1000px;
+                background: @white;
+                transition: left 0.5s;
+                padding-bottom: 20px;
+                overflow: auto;
+            }
+        }
+    }
+</style>
+<style lang="less" scoped>
+    .prudocts-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 30px;
+
+        .breadcrumbs {
+            padding: 0px;
+
+            @media @large {
+                display: none;
+            }
+
+            .breadcrumb {
+                text-transform: none;
+                margin: 0px;
+            }
+
+            .separator {
+                font-size: 14px;
+                margin: 0px 10px;
+                color: @grey4;
+            }
+        }
+
+        .sort {
+            display: flex;
+            align-items: center;
+
+            .label {
+                font-size: 14px;
+                color: @black;
+                margin-right: 5px;
+
+                @media @large {
+                    font-size: 18px;
                 }
             }
 
-            .selected {
-                padding: 10px;
-                font-size: 14px;
-                text-decoration: underline;
-                color: @black;
-            }
+            .select {
+                position: relative;
+                min-width: 135px;
+                width: 100%;
 
-            a {
-                cursor: pointer;
-            }
+                &.active {
+                    background: @grey3;
 
-            .dropdown {
-                display: none;
-                position: absolute;
-                z-index: 200;
-                padding: 10px;
-                background: @grey3;
-
-                .item {
-                    display: block;
-                    font-size: 14px;
-                    color: @black;
-
-                    &:not(:first-child) {
-                        margin-top: 10px;
+                    .dropdown {
+                        display: block;
                     }
+                }
 
-                    &:hover {
-                        text-decoration: underline;
+                .selected {
+                    padding: 10px;
+                    font-size: 14px;
+                    text-decoration: underline;
+                    color: @black;
+                }
+
+                a {
+                    cursor: pointer;
+                }
+
+                .dropdown {
+                    display: none;
+                    position: absolute;
+                    z-index: 200;
+                    padding: 10px;
+                    background: @grey3;
+
+                    .item {
+                        display: block;
+                        font-size: 14px;
+                        color: @black;
+
+                        &:not(:first-child) {
+                            margin-top: 10px;
+                        }
+
+                        &:hover {
+                            text-decoration: underline;
+                        }
                     }
                 }
             }
         }
     }
-}
 </style>

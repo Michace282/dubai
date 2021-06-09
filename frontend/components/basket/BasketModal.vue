@@ -7,8 +7,8 @@
             <basket-container />
             <div class="d-flex justify-content-between align-items-center mt-30">
                 <div>
-                    <nuxt-link to="" class="link-grey d-block">Payment & Delivery</nuxt-link>
-                    <nuxt-link to="" class="link-grey d-block mt-10">Returns & Refunds</nuxt-link>
+                    <nuxt-link to="/payment/" class="link-grey d-block">Payment & Delivery</nuxt-link>
+                    <nuxt-link to="/returns/" class="link-grey d-block mt-10">Returns & Refunds</nuxt-link>
                 </div>
                 <nuxt-link to="/create-order/" class="btn btn-black" v-if="showBuyBtn"> Place the order </nuxt-link>
             </div>
@@ -23,7 +23,7 @@
 </template>
 <script>
     import BasketContainer from './BasketContainer.vue';
-    
+
     export default {
         name: 'BasketModal',
         components: { BasketContainer },

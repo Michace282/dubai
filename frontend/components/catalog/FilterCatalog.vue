@@ -246,6 +246,7 @@
                     }
                 }
                 this.$router.push({query: {...activeFilter}});
+                this.$emit('changeFilter', activeFilter);
                 this.$emit('setBreadcrumbs', this.breadcrumbs);
             },
             setMinValue(val) {

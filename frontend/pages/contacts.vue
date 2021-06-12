@@ -31,16 +31,20 @@
                 <div class="title">Get in touch</div>
                 <div class="row mt-45">
                     <div class="col-12 col-md-6">
-                        <base-input label="Name" name="name"/>
+                        <base-input label="Name" name="name" v-model="name"/>
                     </div>
                     <div class="col-12 col-md-6 mt-30 mt-md-0">
-                        <base-input label="E-mail or phone" name="phone"/>
+                        <base-input label="E-mail or phone"
+                                    name="text"
+                                    :class="{ error: $v.email_or_phone.$error }"
+                                    v-model="$v.email_or_phone.$model"/>
                     </div>
                 </div>
                 <div class="row mt-30">
-                    <div class="col-12 textarea-group">
+                    <div class="col-12 textarea-group" :class="{ error: $v.message.$error }">
                         <label for="message" class="label">Message</label>
                         <textarea
+                            v-model="$v.message.$model"
                             type="text"
                             id="message"
                             class="w-100"
@@ -50,13 +54,14 @@
                     </div>
                 </div>
                 <div class="text-right">
-                    <button class="btn btn-black mt-30">Send</button>
+                    <button class="btn btn-black mt-30" @click="submit">Send</button>
                 </div>
             </div>
         </div>
     </div>
 </template>
 <script>
+    import {required} from 'vuelidate/lib/validators';
     import BaseInput from '../components/fields/BaseInput.vue';
 
     export default {
@@ -74,15 +79,83 @@
                 ],
             };
         },
+        data() {
+            return {
+                name: null,
+                email_or_phone: null,
+                message: null
+            }
+        },
+        validations: {
+            email_or_phone: {
+                required,
+            },
+            message: {
+                required,
+            },
+        },
         created() {
             this.$store.commit('set_breadcrumbs', [
                 {route: '/', name: 'Home'},
                 {route: {name: 'contacts'}, name: 'Contact us'},
             ]);
         },
+        methods: {
+            submit() {
+                let v = this;
+                v.$v.$touch();
+                if (!v.$v.$error) {
+                    v.$apollo
+                        .mutate({
+                            mutation: require('~/graphql/mutations/user/contactCreate.graphql'),
+                            variables: {
+                                input: {
+                                    emailOrPhone: v.email_or_phone,
+                                    name: v.name,
+                                    text: v.message
+                                }
+                            }
+                        })
+                        .then((data) => {
+                            if (data) {
+                                if (data.data.contactCreate.errors.length > 0) {
+                                    v.$bvToast.toast(data.data.contactCreate.errors[0].messages[0], {
+                                        title: 'CONTACT US',
+                                        variant: 'danger',
+                                    });
+                                } else {
+                                    v.$bvToast.toast('GOOD JOB!', {
+                                        title: 'CONTACT US',
+                                        variant: 'success',
+                                    });
+                                    v.name = '';
+                                    v.email_or_phone = '';
+                                    v.message = '';
+                                    v.$v.$reset();
+                                }
+                            }
+                        });
+
+                }
+
+
+            }
+        }
     };
 </script>
 <style lang="less" scoped>
+    .textarea-group {
+        &.error {
+            label {
+                color: red;
+            }
+
+            textarear {
+                border-bottom-color: red;
+            }
+        }
+    }
+
     .contacts-box {
         display: flex;
         align-items: flex-end;

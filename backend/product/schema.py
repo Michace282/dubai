@@ -921,7 +921,5 @@ class BasketCreateMutation(ClientIDMutation):
 class Mutation(graphene.ObjectType):
     product_wishlist_create = ProductWishlistCreateMutation.Field()
     product_wishlist_delete = ProductWishlistDeleteMutation.Field()
-
     feedback_create = FeedbackCreateMutation.Field()
-
     basket_create = BasketCreateMutation.Field()

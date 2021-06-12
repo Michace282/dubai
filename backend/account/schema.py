@@ -1,14 +1,39 @@
 import graphene
+import graphql_jwt
+import graphql_social_auth
+from django import forms
+from django.contrib.auth.models import User
 from graphene import relay
 from graphene_django.types import DjangoObjectType, ErrorType
-from backend.mixin import DjangoModelFormMutation
 from graphql_jwt.decorators import login_required
-import graphql_social_auth
-import graphql_jwt
-from .forms import SubscribeForm, ContactForm, Guest, Profile, PayLink
-from django.contrib.auth.models import User
-from django import forms
 from graphql_relay import from_global_id
+
+from backend.mixin import DjangoModelFormMutation
+from .models import Subscribe, Contact, Guest, Profile, PayLink
+
+
+class ContactType(DjangoObjectType):
+    class Meta:
+        model = Contact
+        interfaces = (relay.Node,)
+
+
+class SubscribeType(DjangoObjectType):
+    class Meta:
+        model = Subscribe
+        interfaces = (relay.Node,)
+
+
+class SubscribeForm(forms.ModelForm):
+    class Meta:
+        model = Subscribe
+        fields = ['email']
+
+
+class ContactForm(forms.ModelForm):
+    class Meta:
+        model = Contact
+        fields = ['email_or_phone', 'name', 'text']
 
 
 class PayLinkType(DjangoObjectType):
@@ -255,5 +280,5 @@ class Mutation(graphene.ObjectType):
     registration = RegistrationMutation.Field()
     user_update = UserUpdateMutation.Field()
 
+    contact_create = ContactCreateMutation.Field()
     # subscribe_create = SubscribeCreateMutation.Field()
-    # contact_create = ContactCreateMutation.Field()

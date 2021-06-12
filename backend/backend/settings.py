@@ -188,6 +188,13 @@ GRAPHQL_JWT = {
     # 'JWT_PAYLOAD_HANDLER': 'graphql_jwt.utils.jwt_payload',
 }
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'dcsdubai.web@gmail.com'
+EMAIL_HOST_PASSWORD = 'vtdyyxggkrnzqroj'
+
 from easy_thumbnails.conf import Settings as thumbnail_settings
 
 THUMBNAIL_PROCESSORS = (

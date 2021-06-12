@@ -45,6 +45,11 @@
                 model: this.value,
             };
         },
+        watch: {
+            value() {
+                this.model = this.value;
+            }
+        }
     };
 </script>
 <style lang="less" scoped>

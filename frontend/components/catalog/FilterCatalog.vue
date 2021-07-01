@@ -246,6 +246,10 @@ export default {
             }
             this.range.min = this.$route.query.price_Gte;
             this.range.max = this.$route.query.price_Lte;
+
+            if (this.$store.state.windowWidth <= 991) {
+                this.filterProducts();
+            }
         },
         methods: {
             clickFilter() {

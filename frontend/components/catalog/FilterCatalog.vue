@@ -225,6 +225,10 @@ export default {
                     this.range.min = null;
                     this.range.max = null;
                     this.breadcrumbs = null;
+
+                    if (this.$store.state.windowWidth <= 991) {
+                        this.filterProducts();
+                    }
                 }
             },
             filter: {

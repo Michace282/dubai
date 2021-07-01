@@ -143,8 +143,8 @@
 
             .colors {
                 .color-group {
-                    width: 16px;
-                    height: 16px;
+                    width: 18px;
+                    height: 18px;
 
                     .label-color {
                         width: 100%;
@@ -153,8 +153,8 @@
                         .color {
                             left: 2px;
                             top: 2px;
-                            width: 12px;
-                            height: 12px;
+                            width: 14px;
+                            height: 14px;
                         }
                     }
 

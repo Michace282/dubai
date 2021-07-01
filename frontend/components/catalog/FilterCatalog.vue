@@ -125,29 +125,29 @@
     </div>
 </template>
 <script>
-    import FilterAccordion from './FilterAccordion.vue';
+import FilterAccordion from './FilterAccordion.vue';
 
-    export default {
-        name: 'FilterCatalog',
-        components: {FilterAccordion},
-        props: ['orderBy'],
-        data() {
-            return {
-                colors: null,
-                sizes: null,
-                breadcrumbs: null,
-                timer: null,
-                timer2: null,
-                range: {
-                    max: null,
-                    min: null,
-                },
-                filter: {
-                    colors: [],
-                    sizes: [],
-                    productType: null,
-                    ladiesType: null,
-                    mensType: null,
+export default {
+    name: 'FilterCatalog',
+    components: {FilterAccordion},
+    props: ['orderBy'],
+    data() {
+        return {
+            colors: null,
+            sizes: null,
+            breadcrumbs: null,
+            timer: null,
+            timer2: null,
+            range: {
+                max: null,
+                min: null,
+            },
+            filter: {
+                colors: [],
+                sizes: [],
+                productType: null,
+                ladiesType: null,
+                mensType: null,
                     accessoriesType: null,
                     danceShoesType: null,
                     price_Gte: null,
@@ -205,7 +205,27 @@
         },
         watch: {
             '$route.query'() {
-                this.filter.productType = this.$route.query.productType;
+                let f = []
+                for (let key in this.$route.query) {
+                    f.push(key);
+                }
+
+                if (f.length == 1) {
+                    this.filter = {
+                        colors: [],
+                        sizes: [],
+                        productType: this.$route.query.productType,
+                        ladiesType: null,
+                        mensType: null,
+                        accessoriesType: null,
+                        danceShoesType: null,
+                        price_Gte: null,
+                        price_Lte: null,
+                    };
+                    this.range.min = null;
+                    this.range.max = null;
+                    this.breadcrumbs = null;
+                }
             },
             filter: {
                 handler() {

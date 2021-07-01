@@ -13,21 +13,30 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path, include
-
 from django.conf import settings
 from django.conf.urls.static import static
-from graphql_jwt.decorators import jwt_cookie
-from graphene_file_upload.django import FileUploadGraphQLView
+from django.contrib import admin
+from django.contrib.sitemaps.views import sitemap
+from django.urls import include, path
 from django.views.decorators.csrf import csrf_exempt
+from graphene_file_upload.django import FileUploadGraphQLView
+from graphql_jwt.decorators import jwt_cookie
+
 from product.views import upload_images, upload_images_delete
+from .sitemaps import HomeSitemap, ProductSitemap
+
+sitemaps = {
+    'pages': HomeSitemap,
+    'products': ProductSitemap,
+}
 
 urlpatterns = [
     path('graphql', csrf_exempt(jwt_cookie(FileUploadGraphQLView.as_view(graphiql=settings.DEBUG)))),
     path('summernote/', include('django_summernote.urls')),
     path('upload_images', upload_images),
     path('upload_images_delete', upload_images_delete),
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps},
+         name='django.contrib.sitemaps.views.sitemap'),
     path('', admin.site.urls),
 ]
 

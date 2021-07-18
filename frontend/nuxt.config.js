@@ -18,6 +18,7 @@ export default {
             {property: 'og:title', content: ''},
             {property: 'og:description', content: ''},
             {property: 'og:image', content: ''},
+            {name: 'facebook-domain-verification', content: 'u322q9yboq690jp6emjtjoe7qk8yg9'},
         ],
         link: [
             {rel: 'shortcut icon', href: '/favicon.ico'},

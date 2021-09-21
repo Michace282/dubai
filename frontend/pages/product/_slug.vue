@@ -490,7 +490,7 @@
                                         name: 'catalog',
                                         query: {
                                             productType: data.data.productDetail.productType.toLowerCase(),
-                                            danceShoesType: data.data.danceShoesType.productType.toLowerCase(),
+                                            danceShoesType: data.data.productDetail.danceShoesType.toLowerCase(),
                                         },
                                     },
                                     name: v.description,

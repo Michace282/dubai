@@ -10,7 +10,7 @@ from django import forms
 from django.template.loader import render_to_string
 from django.forms.models import BaseInlineFormSet
 import json
-
+from django_summernote.admin import SummernoteModelAdmin
 
 class SizeChartModelForm(forms.ModelForm):
     class Meta:
@@ -108,7 +108,7 @@ class ProductSizeColorAdmin(admin.ModelAdmin):
 
 
 @admin.register(Product)
-class ProductAdmin(admin.ModelAdmin):
+class ProductAdmin(SummernoteModelAdmin):
     list_display = ('__str__', 'status', 'product_type', 'profile_type', 'price',)
     list_filter = ('status', 'product_type', 'ladies_type', 'mens_type', 'accessories_type', 'dance_shoes_type')
     inlines = (ProductSizeColorInline,)

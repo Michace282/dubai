@@ -686,10 +686,40 @@ class BasketCreateMutation(ClientIDMutation):
         if not products_basket or len(products_basket) == 0:
             errors.append(ErrorType(field='products_basket', messages=['Вы ничего не выбрали']))
         else:
+            arr_products_basket = []
+            subtotal_count = 0
             for product_basket in products_basket:
                 product = Product.objects.filter(id=from_global_id(product_basket.product)[1]).first()
-                color = Color.objects.filter(id=from_global_id(product_basket.color)[1]).first()
-                size = Size.objects.filter(id=from_global_id(product_basket.size)[1]).first()
+                arr_products_basket.append({
+                    'product': product_basket.product,
+                    'color': product_basket.color,
+                    'size': product_basket.size,
+                    'count': product_basket.count,
+                    'price': product.price if product else 0,
+                    'discount_price': 0
+                })
+                subtotal_count += product_basket.count
+
+            sort_products_basket = sorted(arr_products_basket, key=lambda v: v['price'])
+
+            k = 0
+
+            for product_basket in sort_products_basket:
+                for j in range(0, product_basket['count']):
+                    if k < int(subtotal_count / 2):
+                        if product_basket['discount_price']:
+                            product_basket['discount_price'] += int(product_basket['price'] / 100 * 30)
+                        else:
+                            product_basket['discount_price'] = int(product_basket['price'] / 100 * 30)
+                        k += 1
+                    else:
+                        break
+
+
+            for product_basket in sort_products_basket:
+                product = Product.objects.filter(id=from_global_id(product_basket['product'])[1]).first()
+                color = Color.objects.filter(id=from_global_id(product_basket['color'])[1]).first()
+                size = Size.objects.filter(id=from_global_id(product_basket['size'])[1]).first()
 
                 product_size_color_size = ProductSizeColorSize.objects.filter(product_size_color__product=product,
                                                                               product_size_color__color=color,
@@ -709,7 +739,7 @@ class BasketCreateMutation(ClientIDMutation):
                                                 f'Товара "{str(product)}, {str(color)}, {str(size)}" нет в наличии']))
 
                 if product:
-                    total_price += product_basket.count * product.price
+                    total_price += product_basket['count'] * product.price - product_basket['discount_price']
 
         if code:
             c = Code.objects.filter(code=code, status=Code.StatusType.published).first()
@@ -719,7 +749,7 @@ class BasketCreateMutation(ClientIDMutation):
                 else:
                     if c.min_price > total_price:
                         errors.append(ErrorType(field='code', messages=[
-                            'Для акцтивации кода нужно набрать на ' + str(
+                            'Для активации кода нужно набрать на ' + str(
                                 c.min_price) + ' AED или больше. Сейчас у вас на ' + str(total_price) + ' AED']))
 
             else:

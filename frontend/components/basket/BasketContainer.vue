@@ -3,7 +3,7 @@
         <div v-if="products && products.length > 0" class="items-container">
             <div class="mt-30">
                 <basket-item
-                    v-for="(product, index) in prodouctsList"
+                    v-for="(product, index) in productList"
                     :key="product.basketIndex"
                     :name="product.name"
                     :price="product.price"
@@ -26,15 +26,28 @@
                             updateBasket('count', count, product.basketIndex, index, 'count');
                         }
                     "
-                    @remove="removeItem(index, product.basketIndex, prodouctsList)"
+                    @remove="removeItem(index, product.basketIndex, productList)"
                 />
             </div>
         </div>
         <div class="mt-30" v-else><h4>The shopping cart is empty :(</h4></div>
-        <div class="d-flex justify-content-between mt-30">
+        <div class="d-flex justify-content-between mt-30" v-if="!subtotal_discount">
             <div class="basket-title">Subtotal</div>
             <div class="basket-title">{{ subtotal }} aed</div>
         </div>
+        <div class="d-flex justify-content-between mt-30 discount" v-if="subtotal_discount">
+            <div class="basket-title">Subtotal</div>
+            <div class="basket-title">{{ subtotal }} aed</div>
+        </div>
+        <div class="d-flex justify-content-between mt-15 discount" v-if="subtotal_discount">
+            <div class="basket-title">Discount</div>
+            <div class="basket-title">{{ subtotal_discount }} aed</div>
+        </div>
+        <div class="d-flex justify-content-between mt-30" v-if="subtotal_discount">
+            <div class="basket-title">Total</div>
+            <div class="basket-title">{{ subtotal - subtotal_discount }} aed</div>
+        </div>
+
     </div>
 </template>
 <script>
@@ -42,30 +55,70 @@
 
     export default {
         name: 'BasketContainer',
-        components: { BasketItem },
+        components: {BasketItem},
         data() {
             return {
                 ids: null,
-                prodouctsList: this.products ? [...this.products] : [],
+                productList: this.products ? [...this.products] : [],
             };
         },
         computed: {
             products() {
                 return this.$store.state.product.basketItems;
             },
+            subtotal_count() {
+                let count = 0;
+                for (let i in this.products) {
+                    count += parseInt(this.products[i].count)
+                }
+                return count;
+            },
+            discountProducts() {
+                let subtotal_count = parseInt(this.subtotal_count / 2)
+                let k = 0;
+                let productList = this.productList.sort(function (a, b) {
+                    return a.price - b.price;
+                })
+
+                for (let i in productList) {
+                    this.productList[i].priceDiscount = 0;
+                    for (let j = 0; j < productList[i].count; j++) {
+                        if (k < subtotal_count) {
+                            if (productList[i].priceDiscount) {
+                                productList[i].priceDiscount += parseInt(productList[i].price / 100 * 30);
+                            } else {
+                                productList[i].priceDiscount = parseInt(productList[i].price / 100 * 30);
+                            }
+                            k += 1;
+                        } else {
+                            break;
+                        }
+                    }
+                }
+                return productList;
+            },
             subtotal() {
                 let price = 0;
-                for (let i in this.products) {
-                    price = price + parseInt(this.products[i].price) * parseInt(this.products[i].count);
+                for (let i in this.discountProducts) {
+                    price = price + parseInt(this.discountProducts[i].price) * parseInt(this.discountProducts[i].count);
                 }
                 return price;
+            },
+            subtotal_discount() {
+                let discount = 0;
+                for (let i in this.discountProducts) {
+                    if (this.discountProducts[i].priceDiscount) {
+                        discount = discount + parseInt(this.discountProducts[i].priceDiscount);
+                    }
+                }
+                return discount;
             },
         },
         watch: {
             products: {
                 deep: true,
                 handler() {
-                    this.prodouctsList = this.products ? [...this.products] : [];
+                    this.productList = this.products ? [...this.products] : [];
                 },
             },
         },
@@ -91,7 +144,7 @@
                 let basket = this.$cookies.get('basket');
                 basket[basketIndex][cookieItemParam] = val;
                 this.$cookies.set('basket', JSON.stringify(basket));
-                this.$store.commit('product/update_item_param', { index: index, param: storeItemParam, val: val });
+                this.$store.commit('product/update_item_param', {index: index, param: storeItemParam, val: val});
             },
         },
         apollo: {
@@ -113,7 +166,7 @@
                         for (let j in basket) {
                             for (let i = 0; i < products.length; i++) {
                                 if (basket[j].product == products[i].node.id) {
-                                    let product = { ...products[i].node };
+                                    let product = {...products[i].node};
                                     product['activeColor'] = basket[j].color;
                                     product['activeSize'] = basket[j].size;
                                     product['count'] = basket[j].count;

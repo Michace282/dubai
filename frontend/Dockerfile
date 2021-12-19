@@ -1,4 +1,4 @@
-FROM node:latest
+FROM node:12
 ENV HOST 0.0.0.0
 EXPOSE 3000
 ENV APP_ROOT /app

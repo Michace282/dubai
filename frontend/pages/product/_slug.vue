@@ -50,7 +50,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="description">{{ data.productDetail.description }}</div>
+                                <div class="description" v-html="data.productDetail.description"></div>
                                 <div class="mt-30">
                                     <div class="bold">Available colors</div>
                                     <div class="colors mt-15">

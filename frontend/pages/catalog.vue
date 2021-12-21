@@ -9,7 +9,7 @@
                     @changeFilter="changeFilter"
                     @setBreadcrumbs="
                         (val) => {
-                            breadcrumbs = [...val];
+                            breadcrumbs = val;
                         }
                     "
                 />
@@ -20,14 +20,6 @@
                         Filter
                         <img src="~/assets/images/icons/filter.svg"/>
                     </a>
-                    <div class="breadcrumbs">
-                        <template v-if="breadcrumbs && breadcrumbs.length > 0">
-                            <div class="breadcrumb" v-for="(breadcrumb, index) in breadcrumbs" :key="index">
-                                {{ breadcrumb }}
-                                <span class="separator" v-if="index != breadcrumbs.length - 1">/</span>
-                            </div>
-                        </template>
-                    </div>
                     <div class="sort">
                         <div class="label">Sort</div>
                         <div class="select" :class="{ active: showDropdown }">
@@ -126,7 +118,6 @@
                         sortVal = v;
                         orderBy = v.id
                     }
-
                 })
             }
 
@@ -136,7 +127,7 @@
 
 
             return {
-                breadcrumbs: null,
+                breadcrumbs: [],
                 pagesCursor: null,
                 orderBy: orderBy,
                 cursor: null,
@@ -170,16 +161,46 @@
                 if (data.data && data.data.productList) {
                     this.loading = false;
                     this.pagesCursor = data.data.productList.pagesCursor;
-                    this.$store.commit('set_breadcrumbs', [
+                    let breadcrumbs = [
                         {route: '/', name: 'Home'},
-                        {route: {name: 'catalog'}, name: 'Catalogue'},
-                    ]);
+                        {route: '/catalog', name: 'Catalogue'},
+                    ]
+
+                    let url = ''
+
+                    if (this.breadcrumbs) {
+                        this.breadcrumbs.forEach((v) => {
+                            url += '/' + v.key
+                            breadcrumbs.push({route: '/catalog' + url, name: v.label})
+                        })
+                    }
+                    this.$store.commit('set_breadcrumbs', breadcrumbs);
                 } else {
                     this.pagesCursor = null;
                     this.loading = false;
                 }
             },
         },
+        watch: {
+            breadcrumb(nv) {
+                let breadcrumbs = [
+                    {route: '/', name: 'Home'},
+                    {route: '/catalog', name: 'Catalogue'},
+                ]
+
+                let url = ''
+
+                if (nv) {
+                    nv.forEach((v) => {
+                        url += '/' + v.key
+                        breadcrumbs.push({route: '/catalog' + url, name: v.label})
+                    })
+                }
+
+                this.$store.commit('set_breadcrumbs', breadcrumbs);
+
+            }
+        }
     };
 </script>
 <style lang="less">

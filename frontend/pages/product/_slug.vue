@@ -422,8 +422,8 @@
                             if (v.name == data.data.productDetail.productType) {
                                 breadcrumbs.push({
                                     route: {
-                                        name: 'catalog',
-                                        query: {productType: data.data.productDetail.productType.toLowerCase()},
+                                        name: 'catalog-product',
+                                        params: {product: data.data.productDetail.productType.toLowerCase()},
                                     },
                                     name: v.description,
                                 });
@@ -436,10 +436,10 @@
                             if (v.name == data.data.productDetail.ladiesType) {
                                 breadcrumbs.push({
                                     route: {
-                                        name: 'catalog',
-                                        query: {
-                                            productType: data.data.productDetail.productType.toLowerCase(),
-                                            ladiesType: data.data.productDetail.ladiesType.toLowerCase(),
+                                        name: 'catalog-product-type',
+                                        params: {
+                                            product: data.data.productDetail.productType.toLowerCase(),
+                                            type: data.data.productDetail.ladiesType.toLowerCase(),
                                         },
                                     },
                                     name: v.description,
@@ -453,10 +453,10 @@
                             if (v.name == data.data.productDetail.mensType) {
                                 breadcrumbs.push({
                                     route: {
-                                        name: 'catalog',
-                                        query: {
-                                            productType: data.data.productDetail.productType.toLowerCase(),
-                                            mensType: data.data.productDetail.mensType.toLowerCase(),
+                                        name: 'catalog-product-type',
+                                        params: {
+                                            product: data.data.productDetail.productType.toLowerCase(),
+                                            type: data.data.productDetail.mensType.toLowerCase(),
                                         },
                                     },
                                     name: v.description,
@@ -470,10 +470,10 @@
                             if (v.name == data.data.productDetail.accessoriesType) {
                                 breadcrumbs.push({
                                     route: {
-                                        name: 'catalog',
-                                        query: {
-                                            productType: data.data.productDetail.productType.toLowerCase(),
-                                            accessoriesType: data.data.productDetail.accessoriesType.toLowerCase(),
+                                        name: 'catalog-product-type',
+                                        params: {
+                                            product: data.data.productDetail.productType.toLowerCase(),
+                                            type: data.data.productDetail.accessoriesType.toLowerCase(),
                                         },
                                     },
                                     name: v.description,
@@ -487,10 +487,10 @@
                             if (v.name == data.data.productDetail.danceShoesType) {
                                 breadcrumbs.push({
                                     route: {
-                                        name: 'catalog',
-                                        query: {
-                                            productType: data.data.productDetail.productType.toLowerCase(),
-                                            danceShoesType: data.data.productDetail.danceShoesType.toLowerCase(),
+                                        name: 'catalog-product-type',
+                                        params: {
+                                            product: data.data.productDetail.productType.toLowerCase(),
+                                            type: data.data.productDetail.danceShoesType.toLowerCase(),
                                         },
                                     },
                                     name: v.description,

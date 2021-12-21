@@ -17,10 +17,10 @@
                     </div>
                 </template>
             </ApolloQuery>
-            <div class="col-auto head-caption">
-                <img src="~/assets/images/icons/line.svg"/>
-                Size charts
-            </div>
+<!--            <div class="col-auto head-caption">-->
+<!--                <img src="~/assets/images/icons/line.svg"/>-->
+<!--                Size charts-->
+<!--            </div>-->
         </div>
         <ApolloQuery :query="require('~/graphql/queries/stock/stockList.graphql')">
             <template v-slot="{ result: { error, data }, isLoading }">

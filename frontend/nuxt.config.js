@@ -96,6 +96,24 @@ export default {
             default: '~/plugins/apollo.js',
         },
     },
+    router: {
+        extendRoutes(routes, resolve) {
+            routes.push({
+                name: 'catalog-product',
+                path: '/catalog/:product',
+                components: {
+                    default: resolve(__dirname, 'pages/catalog.vue'),
+                },
+            });
+            routes.push({
+                name: 'catalog-product-type',
+                path: '/catalog/:product/:type',
+                components: {
+                    default: resolve(__dirname, 'pages/catalog.vue'),
+                },
+            });
+        }
+    },
     watchers: {
         webpack: {
             aggregateTimeout: 300,

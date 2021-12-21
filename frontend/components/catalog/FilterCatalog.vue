@@ -22,7 +22,7 @@
                 filter.mensType = null;
                 filter.accessoriesType = null;
                 filter.danceShoesType = null;
-                breadcrumbs = [category.label];
+                breadcrumbs = [{key:category.key, label:category.label}];
             "
             visible
             isLink
@@ -42,7 +42,7 @@
                             filter.danceShoesType = null;
                             filter.productType = category.key;
                             filter[category.filterName] = subCategory.key;
-                            breadcrumbs = [category.label, subCategory.label];
+                            breadcrumbs = [{key: category.key, label:category.label}, {key:subCategory.key, label:subCategory.label}];
                         "
                         v-for="subCategory in category.subCategories"
                         :key="subCategory.key"
@@ -125,29 +125,29 @@
     </div>
 </template>
 <script>
-import FilterAccordion from './FilterAccordion.vue';
+    import FilterAccordion from './FilterAccordion.vue';
 
-export default {
-    name: 'FilterCatalog',
-    components: {FilterAccordion},
-    props: ['orderBy'],
-    data() {
-        return {
-            colors: null,
-            sizes: null,
-            breadcrumbs: null,
-            timer: null,
-            timer2: null,
-            range: {
-                max: null,
-                min: null,
-            },
-            filter: {
-                colors: [],
-                sizes: [],
-                productType: null,
-                ladiesType: null,
-                mensType: null,
+    export default {
+        name: 'FilterCatalog',
+        components: {FilterAccordion},
+        props: ['orderBy'],
+        data() {
+            return {
+                colors: null,
+                sizes: null,
+                breadcrumbs: [],
+                timer: null,
+                timer2: null,
+                range: {
+                    max: null,
+                    min: null,
+                },
+                filter: {
+                    colors: [],
+                    sizes: [],
+                    productType: null,
+                    ladiesType: null,
+                    mensType: null,
                     accessoriesType: null,
                     danceShoesType: null,
                     price_Gte: null,
@@ -214,7 +214,7 @@ export default {
                     this.filter = {
                         colors: [],
                         sizes: [],
-                        productType: this.$route.query.productType,
+                        productType: this.$route.params.product,
                         ladiesType: null,
                         mensType: null,
                         accessoriesType: null,
@@ -224,7 +224,7 @@ export default {
                     };
                     this.range.min = null;
                     this.range.max = null;
-                    this.breadcrumbs = null;
+                    this.breadcrumbs = [];
 
                     if (this.$store.state.windowWidth <= 991) {
                         this.filterProducts();
@@ -248,6 +248,16 @@ export default {
             for (let key in this.$route.query) {
                 this.filter[key] = this.$route.query[key];
             }
+
+            if (this.$route.params.product) {
+                this.filter.productType = this.$route.params.product;
+                let products = this.categories.filter((v) => v.key == this.filter.productType)
+
+                if (products.length > 0) {
+                    this.filter[products[0].filterName] = this.$route.params.type;
+                }
+            }
+
             this.range.min = this.$route.query.price_Gte;
             this.range.max = this.$route.query.price_Lte;
 
@@ -264,16 +274,54 @@ export default {
             },
             filterProducts() {
                 let activeFilter = {};
+                let queryFilter = {};
                 for (let key in this.filter) {
+
                     if (Array.isArray(this.filter[key])) {
                         if (this.filter[key].length > 0) {
                             activeFilter[key] = this.filter[key];
+                            if (['colors', 'sizes', 'price_Gte', 'price_Lte'].indexOf(key) != -1) {
+                                queryFilter[key] = this.filter[key];
+                            }
                         }
                     } else if (this.filter[key]) {
                         activeFilter[key] = this.filter[key];
+                        if (['colors', 'sizes', 'price_Gte', 'price_Lte'].indexOf(key) != -1) {
+                            queryFilter[key] = this.filter[key];
+                        }
+                    }
+
+                }
+
+                let breadcrumbs = []
+
+                let url = '/catalog'
+
+                if (this.filter.productType) {
+                    let products = this.categories.filter((v) => v.key == this.filter.productType)
+                    url += '/' + this.filter.productType
+                    if (products.length > 0) {
+                        breadcrumbs.push({
+                            key: products[0].key,
+                            label: products[0].label,
+                        })
+                        if (this.filter[products[0].filterName]) {
+                            let subCategories = products[0].subCategories.filter((v) => v.key == this.filter[products[0].filterName])
+                            url += '/' + this.filter[products[0].filterName]
+
+                            if (subCategories.length > 0) {
+                                breadcrumbs.push({
+                                    key: subCategories[0].key,
+                                    label: subCategories[0].label,
+                                })
+                            }
+                        }
                     }
                 }
-                this.$router.push({query: {...activeFilter}});
+
+                this.breadcrumbs = breadcrumbs;
+
+                this.$router.push({path: url, query: {...queryFilter}});
                 this.$emit('changeFilter', activeFilter);
                 this.$emit('setBreadcrumbs', this.breadcrumbs);
             },
@@ -305,9 +353,9 @@ export default {
                 };
                 this.range.min = null;
                 this.range.max = null;
-                this.breadcrumbs = null;
+                this.breadcrumbs = [];
                 this.$emit('setBreadcrumbs', this.breadcrumbs);
-                this.$router.push({query: {}});
+                this.$router.push({path: '/catalog', query: {}});
             },
         },
         apollo: {
@@ -325,128 +373,128 @@ export default {
     };
 </script>
 <style lang="less" scoped>
-.btn {
-    padding: 11px 15px;
+    .btn {
+        padding: 11px 15px;
 
-    @media @large {
-        max-width: 155px;
-        margin: 0px;
-        font-size: 14px;
-        padding: 9px 14px;
-    }
-
-    @media (max-width: 320px) {
-        max-width: 100%;
-        width: 100%;
-        &:not(:first-child) {
-            margin-top: 20px;
-        }
-    }
-}
-
-.btn-box {
-    @media @large {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        flex-direction: row-reverse;
-        padding: 0px 20px;
-        margin-top: 45px;
-    }
-
-    @media (max-width: 320px) {
-        display: block;
-    }
-}
-
-.mobile-head {
-    display: none;
-
-    @media @large {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 30px 20px;
-    }
-}
-
-.color-group {
-    margin-right: 14px;
-    @media (min-width: 992px) {
-        &:nth-child(6n + 6) {
-            margin-right: 0px;
-        }
-    }
-
-    .label-color {
-        width: 1.9rem;
-        height: 1.9rem;
-    }
-}
-
-.colors {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-}
-
-.label-size {
-    text-transform: uppercase;
-}
-
-.filter-input {
-    max-width: 110px;
-    width: 100%;
-    font-family: 'Inter-Light';
-    font-size: 14px;
-    color: @grey4;
-    padding: 4px 10px;
-    background: @white;
-    border: 1px solid @black;
-    box-sizing: border-box;
-    border-radius: 2px;
-
-    @media @large {
-        max-width: 154px;
-    }
-}
-
-.hyphen {
-    margin: 0px 15px;
-    font-weight: bold;
-    color: @black;
-
-    @media @large {
-        margin: 0px 10px;
-    }
-}
-
-.category-box {
-    margin-top: -15px;
-
-    .categories {
-        &:not(:first-child) {
-            margin-top: 15px;
+        @media @large {
+            max-width: 155px;
+            margin: 0px;
+            font-size: 14px;
+            padding: 9px 14px;
         }
 
-        padding-left: 10px;
-        text-decoration: none;
-        list-style: none;
-
-        .category {
-            cursor: pointer;
-            margin-top: 5px;
-            line-height: 22px;
-            font-family: 'Inter-Light';
-            font-size: 18px;
-            color: @black;
-
-            &.active {
-                font-family: 'Inter-Regular';
-                color: @yellow;
+        @media (max-width: 320px) {
+            max-width: 100%;
+            width: 100%;
+            &:not(:first-child) {
+                margin-top: 20px;
             }
         }
     }
-}
+
+    .btn-box {
+        @media @large {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-direction: row-reverse;
+            padding: 0px 20px;
+            margin-top: 45px;
+        }
+
+        @media (max-width: 320px) {
+            display: block;
+        }
+    }
+
+    .mobile-head {
+        display: none;
+
+        @media @large {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 30px 20px;
+        }
+    }
+
+    .color-group {
+        margin-right: 14px;
+        @media (min-width: 992px) {
+            &:nth-child(6n + 6) {
+                margin-right: 0px;
+            }
+        }
+
+        .label-color {
+            width: 1.9rem;
+            height: 1.9rem;
+        }
+    }
+
+    .colors {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+    }
+
+    .label-size {
+        text-transform: uppercase;
+    }
+
+    .filter-input {
+        max-width: 110px;
+        width: 100%;
+        font-family: 'Inter-Light';
+        font-size: 14px;
+        color: @grey4;
+        padding: 4px 10px;
+        background: @white;
+        border: 1px solid @black;
+        box-sizing: border-box;
+        border-radius: 2px;
+
+        @media @large {
+            max-width: 154px;
+        }
+    }
+
+    .hyphen {
+        margin: 0px 15px;
+        font-weight: bold;
+        color: @black;
+
+        @media @large {
+            margin: 0px 10px;
+        }
+    }
+
+    .category-box {
+        margin-top: -15px;
+
+        .categories {
+            &:not(:first-child) {
+                margin-top: 15px;
+            }
+
+            padding-left: 10px;
+            text-decoration: none;
+            list-style: none;
+
+            .category {
+                cursor: pointer;
+                margin-top: 5px;
+                line-height: 22px;
+                font-family: 'Inter-Light';
+                font-size: 18px;
+                color: @black;
+
+                &.active {
+                    font-family: 'Inter-Regular';
+                    color: @yellow;
+                }
+            }
+        }
+    }
 </style>

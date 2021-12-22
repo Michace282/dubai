@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <base-title title="Catalogue" class="mt-15"/>
+        <base-title :title="h1" class="mt-15"/>
         <div class="row mt-45">
             <div class="col-12 col-lg-3 filter-group" :class="{ active: showFilter }">
                 <filter-catalog
@@ -136,7 +136,8 @@
                 showFilter: false,
                 sortItems: sortItems,
                 filter: {},
-                loading: true
+                loading: true,
+                h1: '',
             };
         },
         head() {
@@ -172,8 +173,13 @@
                         this.breadcrumbs.forEach((v) => {
                             url += '/' + v.key
                             breadcrumbs.push({route: '/catalog' + url, name: v.label})
+                            this.h1 = v.label;
                         })
                     }
+                    if (breadcrumbs.length == 2) {
+                        this.h1 = 'Catalogue';
+                    }
+
                     this.$store.commit('set_breadcrumbs', breadcrumbs);
                 } else {
                     this.pagesCursor = null;
@@ -194,7 +200,13 @@
                     nv.forEach((v) => {
                         url += '/' + v.key
                         breadcrumbs.push({route: '/catalog' + url, name: v.label})
+
+                        this.h1 = v.label;
                     })
+                }
+
+                if (breadcrumbs.length == 2) {
+                    this.h1 = 'Catalogue';
                 }
 
                 this.$store.commit('set_breadcrumbs', breadcrumbs);

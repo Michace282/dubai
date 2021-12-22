@@ -1,7 +1,9 @@
 <template>
     <b-card no-body class="filter-accordion">
         <b-card-header header-tag="header" role="tab">
-            <a v-if="isLink" class="btn-block category-name" href.prevent @click="$emit('setCategory')">{{ title }}</a>
+            <h2 v-if="isLink" class="btn-block category-name" href.prevent @click="$emit('setCategory')">{{
+                    title
+                }}</h2>
             <b-button block v-b-toggle="name">{{ title }}</b-button>
         </b-card-header>
         <b-collapse :id="name" :accordion="name" role="tabpanel" :visible="visible">
@@ -55,6 +57,7 @@
         &.arrow-descktop-hide {
             .btn-block {
                 opacity: 0;
+
                 &:after {
                     @media (min-width: 992px) {
                         content: none;

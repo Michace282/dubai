@@ -75,11 +75,13 @@ class Product(TimeStampedModel):
         dance_shoes = ChoiceItem(label='Dance shoes', value='dance_shoes')
 
     class LadiesType(DjangoChoices):
-        body = ChoiceItem(label='Body', value='body')
+        leotards = ChoiceItem(label='Leotards', value='leotards')
+        body = ChoiceItem(label='Body(old)', value='body')
         blouses = ChoiceItem(label='Blouses', value='blouses')
         skirts = ChoiceItem(label='Skirts', value='skirts')
         dresses = ChoiceItem(label='Dresses', value='dresses')
-        trousers = ChoiceItem(label='Trousers', value='trousers')
+        pants = ChoiceItem(label='Pants', value='pants')
+        trousers = ChoiceItem(label='Trousers(old)', value='trousers')
         jumpsuits = ChoiceItem(label='Jumpsuits', value='jumpsuits')
         tops = ChoiceItem(label='Tops', value='tops')
         shorts = ChoiceItem(label='Shorts', value='shorts')

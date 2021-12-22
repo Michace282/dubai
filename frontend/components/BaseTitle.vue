@@ -1,7 +1,7 @@
 <template>
     <div class="block-title">
         {{ title }}
-        <span class="front-title">{{ title }}</span>
+        <h1 class="front-title">{{ title }}</h1>
     </div>
 </template>
 <script>

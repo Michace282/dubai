@@ -47,7 +47,7 @@
                         v-for="subCategory in category.subCategories"
                         :key="subCategory.key"
                     >
-                        {{ subCategory.label }}
+                        <h2>{{ subCategory.label }}</h2>
                     </li>
                 </ul>
             </div>
@@ -157,14 +157,14 @@
                 categories: [
                     {
                         key: 'ladies',
-                        label: 'Ladies',
+                        label: 'Women dancewear',
                         filterName: 'ladiesType',
                         subCategories: [
-                            {key: 'body', label: 'Body'},
+                            {key: 'leotards', label: 'Leotards'},
                             {key: 'blouses', label: 'Blouses'},
                             {key: 'skirts', label: 'Skirts'},
                             {key: 'dresses', label: 'Dresses'},
-                            {key: 'trousers', label: 'Trousers'},
+                            {key: 'pants', label: 'Pants'},
                             {key: 'jumpsuits', label: 'Jumpsuits'},
                             {key: 'tops', label: 'Tops'},
                             {key: 'shorts', label: 'Shorts'},
@@ -172,7 +172,7 @@
                     },
                     {
                         key: 'mens',
-                        label: 'Mens',
+                        label: 'Mens dancewear',
                         filterName: 'mensType',
                         subCategories: [
                             {key: 'trousers', label: 'Trousers'},
@@ -483,16 +483,21 @@
             list-style: none;
 
             .category {
-                cursor: pointer;
-                margin-top: 5px;
-                line-height: 22px;
-                font-family: 'Inter-Light';
-                font-size: 18px;
-                color: @black;
+                h2 {
+                    cursor: pointer;
+                    margin-top: 5px;
+                    line-height: 22px;
+                    font-family: 'Inter-Light';
+                    font-size: 18px;
+                    color: @black;
+                    margin-bottom: 0;
+                }
 
                 &.active {
-                    font-family: 'Inter-Regular';
-                    color: @yellow;
+                    h2 {
+                        font-family: 'Inter-Regular';
+                        color: @yellow;
+                    }
                 }
             }
         }

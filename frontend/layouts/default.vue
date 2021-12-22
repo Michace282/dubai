@@ -1,6 +1,12 @@
 <template>
     <div>
         <the-navbar
+            class="navbar-mobile"
+            @showRegModal="showModal = 'reg'"
+            @showBasket="$route.name != 'create-order' ? (showModal = 'basket') : ''"
+        />
+        <the-navbar-p-c
+            class="navbar-pc"
             @showRegModal="showModal = 'reg'"
             @showBasket="$route.name != 'create-order' ? (showModal = 'basket') : ''"
         />
@@ -73,9 +79,10 @@
     import RegForm from '~/components/auth/RegForm';
     import AuthForm from '~/components/auth/AuthForm';
     import BasketModal from '../components/basket/BasketModal.vue';
+    import TheNavbarPC from "~/components/TheNavbarPC";
 
     export default {
-        components: {TheNavbar, TheFooter, RegForm, AuthForm, BasketModal},
+        components: {TheNavbarPC, TheNavbar, TheFooter, RegForm, AuthForm, BasketModal},
         data() {
             return {
                 showModal: false,
@@ -134,6 +141,21 @@
     };
 </script>
 <style lang="less" scoped>
+
+    .navbar-mobile {
+        display: none;
+        @media @large {
+            display: block;
+        }
+    }
+
+    .navbar-pc {
+        display: block;
+        @media @large {
+            display: none;
+        }
+    }
+
     .main {
         position: relative;
         min-height: calc(100vh - 458px);

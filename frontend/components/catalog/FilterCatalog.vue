@@ -210,15 +210,16 @@
                     f.push(key);
                 }
 
-                if (f.length == 1) {
+
+                if (f.length == 0) {
                     this.filter = {
                         colors: [],
                         sizes: [],
                         productType: this.$route.params.product,
-                        ladiesType: null,
-                        mensType: null,
-                        accessoriesType: null,
-                        danceShoesType: null,
+                        ladiesType: this.$route.params.product == 'ladies' ? this.$route.params.type : null,
+                        mensType: this.$route.params.product == 'mens' ? this.$route.params.type : null,
+                        accessoriesType: this.$route.params.product == 'accessories' ? this.$route.params.type : null,
+                        danceShoesType: this.$route.params.product == 'dance_shoes' ? this.$route.params.type : null,
                         price_Gte: null,
                         price_Lte: null,
                     };
@@ -318,6 +319,8 @@
                         }
                     }
                 }
+
+                console.log(url);
 
                 this.breadcrumbs = breadcrumbs;
 

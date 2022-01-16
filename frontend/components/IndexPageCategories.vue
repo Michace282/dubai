@@ -1,6 +1,6 @@
 <template>
     <div class="mt-45">
-        <div class="row categories" v-if="$device.isMobile">
+        <div class="row categories-mob" v-if="$device.isMobile">
             <div class="col-12 col-md-auto">
                 <nuxt-link
                     :to="{ path: '/catalog/ladies',  }"
@@ -32,32 +32,38 @@
             </div>
 
         </div>
-        <div class="row categories" v-else>
-            <div class="col-12 col-md-auto">
+        <div class="row categories-pc" v-else>
+            <div class="col-12 col-md-3">
                 <nuxt-link
                     :to="{ path: '/catalog/ladies',  }"
-                    class="category vertical-large mt-0"
+                    class="category category-img-ladies"
                 >
                     <div class="name">Ladies</div>
+                    <div class="sub-name">Ladies</div>
                 </nuxt-link>
             </div>
-            <div class="col-12 col-md-auto">
-                <nuxt-link
-                    :to="{ path: '/catalog/accessories',  }"
-                    class="category horizontal text-left"
-                >
-                    <div class="name">Accessories</div>
-                </nuxt-link>
+            <div class="col-12 col-md-3">
                 <nuxt-link
                     :to="{ path: '/catalog/dance_shoes',  }"
-                    class="category horizontal text-right"
+                    class="category category-img-danceshoes"
                 >
                     <div class="name">Danceshoes</div>
+                    <div class="sub-name">Danceshoes</div>
                 </nuxt-link>
             </div>
-            <div class="col-12 col-md-auto">
-                <nuxt-link :to="{ path: '/catalog/mens',  }" class="category vertical">
+            <div class="col-12 col-md-3">
+                <nuxt-link
+                    :to="{ path: '/catalog/accessories',  }"
+                    class="category category-img-acessories"
+                >
+                    <div class="name">Accessories</div>
+                    <div class="sub-name">Accessories</div>
+                </nuxt-link>
+            </div>
+            <div class="col-12 col-md-3">
+                <nuxt-link :to="{ path: '/catalog/mens',  }" class="category category-img-mens">
                     <div class="name">Mens</div>
+                    <div class="sub-name">Mens</div>
                 </nuxt-link>
             </div>
         </div>
@@ -69,7 +75,81 @@
     };
 </script>
 <style lang="less" scoped>
-    .categories {
+    .categories-pc {
+        justify-content: center;
+
+        .col-md-3 {
+            padding: 0 5px;
+        }
+
+        .category {
+            position: relative;
+            display: block;
+            background: #f3f0ef;
+            text-decoration: none !important;
+            background-repeat: no-repeat;
+            background-size: cover;
+            height: 530px;
+
+            @media @medium {
+                margin: 30px auto 0px;
+            }
+
+            .sub-name {
+                font-family: 'Inter';
+                font-size: 30px;
+                line-height: 36px;
+                text-transform: uppercase;
+                color: @grey2;
+                position: absolute;
+                top: 20px;
+                left: 20px;
+                z-index: 1;
+
+                @media @extraLarge {
+                    font-size: 28px;
+                }
+
+            }
+
+            .name {
+                position: absolute;
+                top: 40px;
+                left: 40px;
+                z-index: 1;
+                font-family: 'Inter-Medium';
+                font-size: 24px;
+                line-height: 29px;
+                text-transform: uppercase;
+                color: @black;
+                z-index: 10;
+
+                @media @extraLarge {
+                    font-size: 18px;
+                }
+            }
+
+
+        }
+
+        .category-img-mens {
+            background-image: url('../assets/images/category-mans-pc.png');
+        }
+
+        .category-img-danceshoes {
+            background-image: url('../assets/images/category-danceshoe-pc.png');
+        }
+
+        .category-img-acessories {
+            background-image: url('../assets/images/category-acessories-pc.png');
+        }
+
+        .category-img-ladies {
+            background-image: url('../assets/images/category-ladies-pc.png');
+        }
+    }
+
+    .categories-mob {
         justify-content: center;
 
         .category {

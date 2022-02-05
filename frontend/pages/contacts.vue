@@ -10,7 +10,7 @@
                 <div class="contact-group">
                     <div class="label">Telephone</div>
                     <div class="value">
-                        <a href="tel:+971506553479">+971 50 655 3479</a>
+                        <a href="tel:+971506553479">+971 50 655 3470</a>
                         <a href="tel:+971585967208">+971 58 596 7208</a>
                     </div>
                 </div>

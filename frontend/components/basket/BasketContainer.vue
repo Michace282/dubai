@@ -84,12 +84,12 @@
                     this.productList[i].priceDiscount = 0;
                     for (let j = 0; j < productList[i].count; j++) {
                         if (k < subtotal_count) {
-                            if (productList[i].priceDiscount) {
-                                productList[i].priceDiscount += parseInt(productList[i].price / 100 * 30);
-                            } else {
-                                productList[i].priceDiscount = parseInt(productList[i].price / 100 * 30);
-                            }
-                            k += 1;
+                            // if (productList[i].priceDiscount) {
+                            //     productList[i].priceDiscount += parseInt(productList[i].price / 100 * 30);
+                            // } else {
+                            //     productList[i].priceDiscount = parseInt(productList[i].price / 100 * 30);
+                            // }
+                            // k += 1;
                         } else {
                             break;
                         }

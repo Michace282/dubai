@@ -707,10 +707,10 @@ class BasketCreateMutation(ClientIDMutation):
             for product_basket in sort_products_basket:
                 for j in range(0, product_basket['count']):
                     if k < int(subtotal_count / 2):
-                        if product_basket['discount_price']:
-                            product_basket['discount_price'] += int(product_basket['price'] / 100 * 30)
-                        else:
-                            product_basket['discount_price'] = int(product_basket['price'] / 100 * 30)
+                        # if product_basket['discount_price']:
+                        #     product_basket['discount_price'] += int(product_basket['price'] / 100 * 30)
+                        # else:
+                        #     product_basket['discount_price'] = int(product_basket['price'] / 100 * 30)
                         k += 1
                     else:
                         break

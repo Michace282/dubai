@@ -158,27 +158,124 @@
                     {
                         key: 'ladies',
                         label: 'Women dancewear',
+                        meta: {
+                            title: 'Women dancewear. Dance outfit for ladies| DC&S Dubai',
+                            description: 'We are happy to present you our stunning dancewear collection for ladies. Here you can find dancing leotards, skirts, pants, dresses, crop-tops, blouses, jumpsuits etc.',
+                            keywords: "Wonem's dancewear. Dance outfit for ladies.",
+                            h1: "Women's dancewear"
+                        },
                         filterName: 'ladiesType',
                         subCategories: [
-                            {key: 'leotards', label: 'Leotards'},
-                            {key: 'blouses', label: 'Blouses'},
-                            {key: 'skirts', label: 'Skirts'},
-                            {key: 'dresses', label: 'Dresses'},
-                            {key: 'pants', label: 'Pants'},
-                            {key: 'jumpsuits', label: 'Jumpsuits'},
-                            {key: 'tops', label: 'Tops'},
-                            {key: 'shorts', label: 'Shorts'},
+                            {
+                                key: 'leotards', label: 'Leotards',
+                                meta: {
+                                    title: 'Dancing leotard. Dancing bodies. Dance body Dubai| DC&S Dubai',
+                                    description: 'Large collection of dance bodysuits/leotards. Classic bodies, latin bodies, many different colors and designs. Big size range. Availeble for order online and at our partners stores.',
+                                    keywords: 'Dance bodysuit. Dance leotards. Dancing bodies.',
+                                    h1: 'WOMENS DANCE LEOTARDS',
+                                }
+                            },
+                            {
+                                key: 'blouses', label: 'Blouses', meta: {
+                                    title: 'Long sleeved dance tops, tunic dance tops. Dancing blouses| DC&S Dubai',
+                                    description: 'Beautiful collection of dance blouses, long sleeve dance tops and tunics. Different designs, colors and all sizes are available for order online and at our partners stores.',
+                                    keywords: 'Dancing blouses. Long sleeve dance top.',
+                                    h1: 'WOMENS DANCE BLOUSES',
+                                }
+                            },
+                            {
+                                key: 'skirts', label: 'Skirts', meta: {
+                                    title: 'Dancewear dance skirts. Ballroom dancing skirt. Latin skirt| DC&S Dubai',
+                                    description: 'Your welcome to chose any dancing skirt from our big collection: ballroom dancing skirts, latin skirts, wrap dance skirts, black dance skirts.',
+                                    keywords: 'Dancing skirts. Dancewer skirts.Ballroom dancing skirts.',
+                                    h1: 'WOMENS DANCE SKIRT',
+                                }
+                            },
+                            {
+                                key: 'dresses', label: 'Dresses', meta: {
+                                    title: 'Dacewear dresses. Latin, Salsa & Ballroom dancing dresses| DC&S Dubai',
+                                    description: 'Unique dresses for Ballroom, Latin, Salsa dances. Extensive assortment - dresses with fringe, classic ballroom or exotic dance dresses.',
+                                    keywords: 'Dancewear dresses. Dancing dresses. Dresses for dancers.',
+                                    h1: 'WOMENS DANCE DRESSES',
+                                }
+                            },
+                            {
+                                key: 'pants', label: 'Pants', meta: {
+                                    title: 'Women\'s dancing pants. Leggings for dance| DC&S Dubai',
+                                    description: 'Many lovely variants of women\'s dancing pants for Latin and Ballroom dance. Leggings for any kind of dance and fitness in unique designs are available for online order and at partners stores.',
+                                    keywords: 'Dancing pants. Leggings dance outfit. Women\'s dance pants.',
+                                    h1: 'WOMENS DANCE PANTS',
+                                }
+                            },
+                            {
+                                key: 'jumpsuits', label: 'Jumpsuits', meta: {
+                                    title: 'Dancing jumpsuits. Best jumpsuits for dance| DC&S Dubai',
+                                    description: 'Perfect jumpsuits for dance lovers, super comfortable designs and high quality materials make you feel and look amazing in our jumpsuits. Available for order online and at our partners stores.',
+                                    keywords: 'Jumpsuit for dancing. Jumpsuit dance costume.',
+                                    h1: 'WOMENS DANCE JUMPSUITS',
+                                }
+                            },
+                            {
+                                key: 'tops', label: 'Tops', meta: {
+                                    title: 'Dancewear tops, bra tops. Dancing crop top| DC&S Dubai',
+                                    description: 'Beautiful lady\'s tops and bra tops for dancing or other activities at many different colors and designs available for order online or at our sale representor\'s stores.',
+                                    keywords: 'Dancewear tops. Dancing crop tops.',
+                                    h1: 'WOMENS DANCE TOPS',
+                                }
+                            },
+                            {
+                                key: 'shorts', label: 'Shorts', meta: {
+                                    title: 'Women\'s dancewear shorts | DC&S Dubai',
+                                    description: 'Women\'s dancing shorts. Shorts under dress/skirt, high waist shorts. Dance shop in Dubai| DC&S Company',
+                                    keywords: 'Dancewear shorts women\'s',
+                                    h1: 'WOMENS DANCE SHORTS',
+                                }
+                            },
                         ],
                     },
                     {
                         key: 'mens',
                         label: 'Mens dancewear',
                         filterName: 'mensType',
+                        meta: {
+                            title: 'Men\'s dancewear. Ballroom dance costume for male| DC&S Dubai',
+                            description: 'We have a massive collection of dancewear for men. Dance pants, ballroom shirts, T-shirts, turtlenecks, long sleeves, shoes. All sizes are available.',
+                            keywords: 'Men\'s dancewear. Male ballroom dance costumes.',
+                            h1: 'MENS DANCEWEAR',
+                        },
                         subCategories: [
-                            {key: 'trousers', label: 'Trousers'},
-                            {key: 'waistcoasts', label: 'Waistcoasts'},
-                            {key: 'shirts', label: 'Shirts'},
-                            {key: 't_shirts', label: 'T-shirts'},
+                            {
+                                key: 'trousers', label: 'Trousers', meta: {
+                                    title: 'Dance trousers mens. Ballroom dance pants for man| DC&S Dubai',
+                                    description: 'Classic Ballroom and Latin dance trousers for men. Dance trousers for practicing. All sizes are available for order online and at our sale representors stores.',
+                                    keywords: 'Mens ballroom dance trousers',
+                                    h1: 'MENS DANCE TROUSERS',
+                                }
+                            },
+                            {
+                                key: 'waistcoasts', label: 'Waistcoasts', meta: {
+                                    title: 'Waistcoat for men. Waistcoat for dance| DC&S Dubai',
+                                    description: 'Classic men\'s waistcoats a perfect chose for special occasions or dance events high quality material and unique design. Available for order online or at our partners stores.',
+                                    keywords: 'Waistcoats for men',
+                                    h1: 'MENS WAISTCOATS',
+                                }
+                            },
+                            {
+                                key: 'shirts', label: 'Shirts', meta: {
+                                    title: 'Shirts for dance. Men\'s dance shirts. Dance shirts for guys| DC&S Dubai',
+                                    description: 'The largest collection of dance shirts for guys in UAE. Distinct designs and wide sizes range let you choose a shirt perfectly matched your individuality.',
+                                    keywords: 'Shirts for dance. Dance shorts for guys.',
+                                    h1: 'MENS DANCE SHIRTS',
+                                }
+                            },
+                            {
+                                key: 't_shirts', label: 'T-shirts', meta: {
+                                    title: 'T-shirts for dance. Dance T-shirts online| DC&S Dubai',
+                                    description: 'Ultra comfortable and stylish T-shirts for any type of dances are available at all sizes and  colors for order online or at our partners stores.',
+                                    keywords: 'Dance t-shirts. Dancers t-shirts.',
+                                    h1: 'MENS DANCE T-SHIRTS',
+                                }
+                            },
                         ],
                     },
                     {
@@ -305,6 +402,7 @@
                         breadcrumbs.push({
                             key: products[0].key,
                             label: products[0].label,
+                            meta: products[0].meta,
                         })
                         if (this.filter[products[0].filterName]) {
                             let subCategories = products[0].subCategories.filter((v) => v.key == this.filter[products[0].filterName])
@@ -314,6 +412,7 @@
                                 breadcrumbs.push({
                                     key: subCategories[0].key,
                                     label: subCategories[0].label,
+                                    meta: subCategories[0].meta,
                                 })
                             }
                         }

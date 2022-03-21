@@ -22,6 +22,7 @@
 <!--                Size charts-->
 <!--            </div>-->
         </div>
+        <h1 class="d-none">Dance Clothes & Shoes Company</h1>
         <ApolloQuery :query="require('~/graphql/queries/stock/stockList.graphql')">
             <template v-slot="{ result: { error, data }, isLoading }">
                 <div v-if="isLoading || error" class="loading apollo mt-85"></div>

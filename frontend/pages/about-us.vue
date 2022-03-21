@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <base-title title="about-us" class="mt-30"/>
+        <base-title title="Dance Clothes & Shoes Company" class="mt-30"/>
         <div class="text-box">
             <div class="text mr-60">
                 <p>
@@ -55,12 +55,17 @@
         name: 'about-us',
         head() {
             return {
-                title: 'About as',
+                title: 'Dance shop Dubai UAE. Dance company Dubai| DC&S Dubai',
                 meta: [
                     {
                         hid: 'description',
                         name: 'description',
-                        content: 'About as',
+                        content: 'Dance Clothes & Shoes Company was founded in 2020 and based in Dubai Our mission – to bring the freshest clothing, shoes and accessories for all the dance community in the UAE!',
+                    },
+                    {
+                        hid: 'keywords',
+                        name: 'keywords',
+                        content: 'Dance shop Dubai. Dance company Dubai.',
                     },
                 ],
             };
@@ -74,78 +79,78 @@
     };
 </script>
 <style lang="less">
-.text {
-    .block-title {
-        font-family: 'Inter-Medium';
-        text-align: center;
-        line-height: 77px;
-
-        @media @large {
-            max-width: 335px;
-
-            margin: 0 auto;
-            line-height: 50px;
-        }
-
-        .front-title {
-            bottom: unset;
-            top: 30px;
-            left: 0;
-            right: 0;
-            margin: auto;
+    .text {
+        .block-title {
+            font-family: 'Inter-Medium';
+            text-align: center;
+            line-height: 77px;
 
             @media @large {
-                top: 24px;
+                max-width: 335px;
+
+                margin: 0 auto;
+                line-height: 50px;
+            }
+
+            .front-title {
+                bottom: unset;
+                top: 30px;
+                left: 0;
+                right: 0;
+                margin: auto;
+
+                @media @large {
+                    top: 24px;
+                }
             }
         }
     }
-}
 </style>
 <style lang="less" scoped>
-.text-box {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 60px;
+    .text-box {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 60px;
 
-    @media @large {
-        width: fit-content;
-        flex-direction: column;
-        justify-content: flex-start;
-        margin-top: 45px;
-    }
-
-    .text {
-        max-width: 530px;
-        font-family: 'Inter-Light';
-        font-size: 18px;
-        color: @black;
-
-        @media @medium {
-            line-height: 22px;
-        }
-
-        &.mr-60 {
-            @media (min-width: 992px) {
-                margin-right: 60px;
-            }
-        }
-    }
-
-    .photo {
         @media @large {
             width: fit-content;
-            margin: 0px auto 45px;
+            flex-direction: column;
+            justify-content: flex-start;
+            margin-top: 45px;
         }
 
-        img {
-            @media (max-width: 450px) {
-                width: 240px;
+        .text {
+            max-width: 530px;
+            font-family: 'Inter-Light';
+            font-size: 18px;
+            color: @black;
+
+            @media @medium {
+                line-height: 22px;
             }
 
-            @media (min-width: 992px) {
-                width: 100%;
+            &.mr-60 {
+                @media (min-width: 992px) {
+                    margin-right: 60px;
+                }
+            }
+        }
+
+        .photo {
+            @media @large {
+                width: fit-content;
+                margin: 0px auto 45px;
+            }
+
+            img {
+                @media (max-width: 450px) {
+                    width: 240px;
+                }
+
+                @media (min-width: 992px) {
+                    width: 100%;
+                }
             }
         }
     }
-}
 </style>

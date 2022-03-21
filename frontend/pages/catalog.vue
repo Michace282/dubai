@@ -138,16 +138,24 @@
                 filter: {},
                 loading: true,
                 h1: '',
+                title: '',
+                description: '',
+                keywords: ''
             };
         },
         head() {
             return {
-                title: 'Catalogue',
+                title: this.title,
                 meta: [
                     {
                         hid: 'description',
                         name: 'description',
-                        content: 'Catalogue',
+                        content: this.description,
+                    },
+                    {
+                        hid: 'keywords',
+                        name: 'keywords',
+                        content: this.keywords,
                     },
                 ],
             };
@@ -174,6 +182,13 @@
                             url += '/' + v.key
                             breadcrumbs.push({route: '/catalog' + url, name: v.label})
                             this.h1 = v.label;
+
+                            if (v.meta) {
+                                this.h1 = v.meta.h1;
+                                this.title = v.meta.title;
+                                this.description = v.meta.description;
+                                this.keywords = v.meta.keywords;
+                            }
                         })
                     }
                     if (breadcrumbs.length == 2) {

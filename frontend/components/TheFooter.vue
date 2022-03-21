@@ -11,13 +11,7 @@
                             <nuxt-link to="/contacts/">Contact us</nuxt-link>
                         </li>
                         <li>
-                            <nuxt-link to="/">Size charts</nuxt-link>
-                        </li>
-                        <li>
                             <nuxt-link to="/returns/">Returns & Refunds</nuxt-link>
-                        </li>
-                        <li>
-                            <nuxt-link to="/">Our advantages</nuxt-link>
                         </li>
                         <li>
                             <nuxt-link to="/page/privacy_policy">Privacy Policy</nuxt-link>

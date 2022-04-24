@@ -36,7 +36,7 @@
                                 <b-nav-item to="/catalog/?orderBy=-created_at">New Collection <img class="star"
                                                                                                    src="../assets/images/icons/star.png"/>
                                 </b-nav-item>
-                                <b-nav-item to="/catalog/ladies">Women’s dancewear</b-nav-item>
+                                <b-nav-item to="/catalog/womens_dancewear">Women’s dancewear</b-nav-item>
                                 <b-nav-item to="/catalog/mens">Men’s dancewear</b-nav-item>
                                 <b-nav-item to="/catalog/dance_shoes">Dance shoes</b-nav-item>
                                 <b-nav-item to="/catalog/accessories">Dance Accessories</b-nav-item>

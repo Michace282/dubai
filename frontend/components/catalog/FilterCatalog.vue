@@ -13,16 +13,16 @@
             v-for="category in categories"
             :key="category.key"
             class="arrow-descktop-hide"
-            :class="{ active: filter.productType == category.key && !filter[category.filterName] }"
+            :class="{ active: filter.productType == category.url && !filter[category.filterName] }"
             :name="category.label"
             :title="category.label"
             @setCategory="
-                filter.productType = category.key;
+                filter.productType = category.url;
                 filter.ladiesType = null;
                 filter.mensType = null;
                 filter.accessoriesType = null;
                 filter.danceShoesType = null;
-                breadcrumbs = [{key:category.key, label:category.label}];
+                breadcrumbs = [{key:category.key, url:category.url, label:category.label}];
             "
             visible
             isLink
@@ -33,16 +33,16 @@
                         class="category"
                         :class="{
                             active:
-                                subCategory.key == filter[category.filterName] && filter.productType == category.key,
+                                subCategory.key == filter[category.filterName] && filter.productType == category.url,
                         }"
                         @click="
                             filter.ladiesType = null;
                             filter.mensType = null;
                             filter.accessoriesType = null;
                             filter.danceShoesType = null;
-                            filter.productType = category.key;
+                            filter.productType = category.url;
                             filter[category.filterName] = subCategory.key;
-                            breadcrumbs = [{key: category.key, label:category.label}, {key:subCategory.key, label:subCategory.label}];
+                            breadcrumbs = [{key: category.key,url: category.url, label:category.label}, {key:subCategory.key, label:subCategory.label}];
                         "
                         v-for="subCategory in category.subCategories"
                         :key="subCategory.key"
@@ -126,7 +126,7 @@
 </template>
 <script>
     import FilterAccordion from './FilterAccordion.vue';
-
+    // Sa6A8qKHFYKsW77Q3RQU
     export default {
         name: 'FilterCatalog',
         components: {FilterAccordion},
@@ -157,7 +157,8 @@
                 categories: [
                     {
                         key: 'ladies',
-                        label: 'Women dancewear',
+                        url: 'womens_dancewear',
+                        label: 'Women’s dancewear',
                         meta: {
                             title: 'Women dancewear. Dance outfit for ladies| DC&S Dubai',
                             description: 'We are happy to present you our stunning dancewear collection for ladies. Here you can find dancing leotards, skirts, pants, dresses, crop-tops, blouses, jumpsuits etc.',
@@ -235,6 +236,7 @@
                     },
                     {
                         key: 'mens',
+                        url: 'mens_dancewear',
                         label: 'Mens dancewear',
                         filterName: 'mensType',
                         meta: {
@@ -280,8 +282,15 @@
                     },
                     {
                         key: 'accessories',
+                        url: 'accessories',
                         label: 'Accessories',
                         filterName: 'accessoriesType',
+                        meta: {
+                            title: 'Dancing accessories. Dance accessories and gifts | DC&S Dubai',
+                            description: 'Dozens of useful, beautiful and needful things for dancers and many different gifts ideas for dance lovers you can find here for order online or at our partners stores',
+                            keywords: "Dance accessories and gifts",
+                            h1: "DANCE ACCESSORIES"
+                        },
                         subCategories: [
                             {key: 'shoe_accessories', label: 'Shoe accessories'},
                             {key: 'bags', label: 'Bags'},
@@ -290,8 +299,15 @@
                     },
                     {
                         key: 'dance_shoes',
+                        url: 'dance_shoes',
                         label: 'Dance shoes',
                         filterName: 'danceShoesType',
+                        meta: {
+                            title: 'Women\'s dance shoes. Dancing heels. Ladies Ballroom shoes | DC&S Dubai.',
+                            description: 'Vide range of dance shoes for ladies. Shoes for Latin, Salsa, Ballroom in different designs and colours with high and low heel are available for order online and at our partners stores',
+                            keywords: "Dancing shoes women's. Dancing heels. Dance shoes for ladies. Women's salsa shoes. Women's ballroom shoes",
+                            h1: "WOMEN’S DANCE SHOES"
+                        },
                         subCategories: [
                             {key: 'ladies', label: 'Ladies'},
                             {key: 'mens', label: 'Mens'},
@@ -313,8 +329,8 @@
                         colors: [],
                         sizes: [],
                         productType: this.$route.params.product,
-                        ladiesType: this.$route.params.product == 'ladies' ? this.$route.params.type : null,
-                        mensType: this.$route.params.product == 'mens' ? this.$route.params.type : null,
+                        ladiesType: this.$route.params.product == 'womens_dancewear' ? this.$route.params.type : null,
+                        mensType: this.$route.params.product == 'mens_dancewear' ? this.$route.params.type : null,
                         accessoriesType: this.$route.params.product == 'accessories' ? this.$route.params.type : null,
                         danceShoesType: this.$route.params.product == 'dance_shoes' ? this.$route.params.type : null,
                         price_Gte: null,
@@ -349,7 +365,7 @@
 
             if (this.$route.params.product) {
                 this.filter.productType = this.$route.params.product;
-                let products = this.categories.filter((v) => v.key == this.filter.productType)
+                let products = this.categories.filter((v) => v.url == this.filter.productType)
 
                 if (products.length > 0) {
                     this.filter[products[0].filterName] = this.$route.params.type;
@@ -396,11 +412,12 @@
                 let url = '/catalog'
 
                 if (this.filter.productType) {
-                    let products = this.categories.filter((v) => v.key == this.filter.productType)
+                    let products = this.categories.filter((v) => v.url == this.filter.productType)
                     url += '/' + this.filter.productType
                     if (products.length > 0) {
                         breadcrumbs.push({
                             key: products[0].key,
+                            url: products[0].url,
                             label: products[0].label,
                             meta: products[0].meta,
                         })
@@ -411,6 +428,7 @@
                             if (subCategories.length > 0) {
                                 breadcrumbs.push({
                                     key: subCategories[0].key,
+                                    url: subCategories[0].key,
                                     label: subCategories[0].label,
                                     meta: subCategories[0].meta,
                                 })

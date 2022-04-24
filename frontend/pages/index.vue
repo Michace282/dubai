@@ -145,14 +145,18 @@
         },
         head() {
             return {
-                title: 'Dance Clothes & Shoes',
+                title: '“Dance Clothes & Shoes Company| DC&S Dubai',
                 meta: [
                     {
                         hid: 'description',
                         name: 'description',
-                        content:
-                            '“DC&S Company” was founded in 2020 and based in Dubai. Our mission – to bring the freshest clothing, shoes and accessories for all the dance community in the UAE!\n',
+                        content: 'Stunning collection of beautiful dance costumes, dance shoes and accessories. Free shipping within the UAE. From classic and elegant to chic and sexy'
                     },
+                    {
+                        hid: 'keywords',
+                        name: 'keywords',
+                        content: 'Dancewear, Dance clothes, Ballroom dancewear'
+                    }
                 ],
             };
         },

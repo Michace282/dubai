@@ -3,7 +3,7 @@
         <div class="row categories-mob" v-if="$device.isMobile">
             <div class="col-12 col-md-auto">
                 <nuxt-link
-                    :to="{ path: '/catalog/ladies',  }"
+                    :to="{ path: '/catalog/womens_dancewear',  }"
                     class="category vertical-large mt-0"
                 >
                     <div class="name">Ladies</div>
@@ -35,7 +35,7 @@
         <div class="row categories-pc" v-else>
             <div class="col-12 col-md-3">
                 <nuxt-link
-                    :to="{ path: '/catalog/ladies',  }"
+                    :to="{ path: '/catalog/womens_dancewear',  }"
                     class="category category-img-ladies"
                 >
                     <div class="name">Ladies</div>

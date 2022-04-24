@@ -16,9 +16,9 @@
                         <div class="row">
                             <div class="col-12 col-lg-7">
                                 <div class="head-group d-block d-lg-none">
-                                    <div class="bold text-uppercase">
+                                    <h1 class="bold text-uppercase">
                                         {{ data.productDetail.name }}
-                                    </div>
+                                    </h1>
                                     <div class="model mt-15">Model №{{ data.productDetail.article }}</div>
                                 </div>
                                 <product-carousel
@@ -52,7 +52,7 @@
                                 </div>
                                 <div class="description" v-html="data.productDetail.description"></div>
                                 <div class="mt-30">
-                                    <div class="bold">Available colors</div>
+                                    <h2 class="bold">Available colors</h2>
                                     <div class="colors mt-15">
                                         <div
                                             class="color-group"
@@ -83,7 +83,7 @@
                                     </div>
                                 </div>
                                 <div class="mt-30">
-                                    <div class="bold">Sizes</div>
+                                    <h2 class="bold">Sizes</h2>
                                     <div class="sizes mt-15" v-if="currentSizes && currentSizes.length > 0">
                                         <div
                                             class="size-box"

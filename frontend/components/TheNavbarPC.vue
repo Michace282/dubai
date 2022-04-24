@@ -37,7 +37,7 @@
                                                                                                    src="../assets/images/icons/star.png"/>
                                 </b-nav-item>
                                 <b-nav-item to="/catalog/womens_dancewear">Women’s dancewear</b-nav-item>
-                                <b-nav-item to="/catalog/mens">Men’s dancewear</b-nav-item>
+                                <b-nav-item to="/catalog/mens_dancewear">Men’s dancewear</b-nav-item>
                                 <b-nav-item to="/catalog/dance_shoes">Dance shoes</b-nav-item>
                                 <b-nav-item to="/catalog/accessories">Dance Accessories</b-nav-item>
                                 <b-nav-item to="/about-us/">About us</b-nav-item>

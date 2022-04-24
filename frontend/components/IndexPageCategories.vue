@@ -10,7 +10,7 @@
                 </nuxt-link>
             </div>
             <div class="col-12 col-md-auto">
-                <nuxt-link :to="{ path: '/catalog/mens',  }" class="category vertical">
+                <nuxt-link :to="{ path: '/catalog/mens_dancewear',  }" class="category vertical">
                     <div class="name">Mens</div>
                 </nuxt-link>
             </div>
@@ -61,7 +61,7 @@
                 </nuxt-link>
             </div>
             <div class="col-12 col-md-3">
-                <nuxt-link :to="{ path: '/catalog/mens',  }" class="category category-img-mens">
+                <nuxt-link :to="{ path: '/catalog/mens_dancewear',  }" class="category category-img-mens">
                     <div class="name">Mens</div>
                     <div class="sub-name">Mens</div>
                 </nuxt-link>

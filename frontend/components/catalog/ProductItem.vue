@@ -6,7 +6,7 @@
         </a>
         <div
             class="position-relative"
-            v-if="colorsGroup && colorsGroup.edges[activeColor].node.productimageSet.edges.length > 0"
+            v-if="colorsGroup && colorsGroup.edges.length > 0 && colorsGroup.edges[activeColor].node.productimageSet.edges.length > 0"
         >
             <client-only>
             <img v-if="priceSale > 0" src="~/assets/images/sale.png" class="sala-badge" />

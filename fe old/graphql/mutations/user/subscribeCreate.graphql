@@ -1,0 +1,11 @@
+mutation subscribeCreate($input: SubscribeCreateMutationInput!) {
+    subscribeCreate(input: $input) {
+        subscribe {
+            email
+        }
+        errors {
+            field
+            messages
+        }
+    }
+}

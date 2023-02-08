@@ -44,9 +44,9 @@
                         </li>
                         <li class="text-right">
                             <a href="https://wa.me/971585967208" target="_blank" class="mr-2"><img
-                                src="~/assets/images/icons/whatsApp.svg"/></a>
+                                src="~/assets/images/icons/whatsApp.svg" alt="whatsapp icon" /></a>
                             <a href="https://www.instagram.com/dcs_dancewear/" target="_blank"><img
-                                src="~/assets/images/icons/instagram.svg"/></a>
+                                src="~/assets/images/icons/instagram.svg" alt="instagram icon" /></a>
                         </li>
                     </ul>
                 </div>
@@ -72,6 +72,14 @@
         },
     };
 </script>
+<style>
+    .modal-container {
+       position:relative!important;
+    }
+    .content.hide {
+       display: none
+    }
+</style>
 <style lang="less" scoped>
     .footer {
         background: @black;

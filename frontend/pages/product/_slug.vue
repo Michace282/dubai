@@ -27,15 +27,16 @@
                                         colorsGroup[colorVal].node.productimageSet.edges.length > 0
                                     "
                                     :images="colorsGroup[colorVal].node.productimageSet.edges"
+                                    :name="data.productDetail.name"
                                 />
-                                <img v-else src="~/assets/images/no-photo.jpg"/>
+                                <img v-else src="~/assets/images/no-photo.jpg" alt="no photo"/>
                             </div>
                             <div class="col">
                                 <div class="head-group mt-3 mt-lg-0 align-items-center align-items-lg-start">
                                     <div>
-                                        <div class="bold text-uppercase d-none d-lg-block">
+                                        <h1 class="bold text-uppercase d-none d-lg-block">
                                             {{ data.productDetail.name }}
-                                        </div>
+                                        </h1>
                                         <div class="d-flex align-items-end mt-0 mt-lg-3">
                                             <rating-group :rating="Math.floor(data.productDetail.avgFeedback)"/>
                                             <div class="label">
@@ -118,7 +119,7 @@
                                     v-if="data.productDetail.modelDescription"
                                 ></p>
                                 <div class="row mt-60">
-                                    <div class="col-6" v-if="isAvailableSizes">
+                                    <div class="col-6" v-if="isAvailableSizes && data.productDetail.productType.toLowerCase() !== 'performance_costumes'">
                                         <button
                                             class="btn btn-yellow"
                                             @click="
@@ -129,6 +130,14 @@
                                             :disabled="!colorsGroup || !colorsGroup[colorVal].node.isAvailable"
                                         >
                                             Add to cart
+                                        </button>
+                                    </div>
+                                    <div class="col-6" v-if="data.productDetail.productType.toLowerCase() == 'performance_costumes'">
+                                        <button
+                                            class="btn btn-black"
+                                            @click="showModalPurchase(data.productDetail.name)"
+                                        >
+                                           Request a purchase
                                         </button>
                                     </div>
                                     <div class="col-6" v-else>
@@ -164,18 +173,18 @@
                         </div>
                         <div class="row bg-gray">
                             <div class="col-auto text-center">
-                                <img src="~/assets/images/icons/delivery-truck.svg"/>
+                                <img src="~/assets/images/icons/delivery-truck.svg" alt="delivery"/>
                                 <div class="text mw-290">Free shipping for all orders within UAE</div>
                             </div>
                             <div class="col-auto text-center">
-                                <img src="~/assets/images/icons/cash.svg"/>
+                                <img src="~/assets/images/icons/cash.svg" alt="cash"/>
                                 <div class="text mw-310">
                                     We shall be happy to refund or exchange any items that aren't right for you. See our
                                     Returns & Refunds section for details
                                 </div>
                             </div>
                             <div class="col-auto text-center comment-block">
-                                <img src="~/assets/images/icons/comment.svg"/>
+                                <img src="~/assets/images/icons/comment.svg" alt="comment"/>
                                 <div class="text mw-290">If you have any questions please contact us</div>
                             </div>
                         </div>
@@ -230,7 +239,7 @@
                             Write a rewiew
                         </button>
                         <div class="d-flex justify-content-between w-100">
-                            <comment-group/>
+                            <comment-group :id="$route.params.slug" />
                             <div class="right-block mt-30 d-none d-lg-block">
                                 <div class="d-flex align-items-center justify-content-between mb-3">
                                     <rating-group :rating="Math.floor(data.productDetail.avgFeedback)" :size="20"/>
@@ -281,6 +290,27 @@
                 </div>
             </template>
         </ApolloQuery>
+        <b-modal
+                id="purchase-modal"
+                ref="purchase-modal"
+                @hidden="$router.push({ name: 'index', query: {} })"
+                hide-footer
+                centered
+            >
+                <template #modal-header="{ close }">
+                    <h5 class="title purchace-title" ref="purchaseTitle" v-html="confirmModalText"></h5>
+                    <a href.prevent @click="close()">
+                        <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M8.32868 7.501L14.8284 1.00127C15.0572 0.772428 15.0572 0.401413 14.8284 0.172605C14.5996 -0.0562035 14.2285 -0.0562328 13.9997 0.172605L7.49999 6.67234L1.00029 0.172605C0.771451 -0.0562328 0.400436 -0.0562328 0.171628 0.172605C-0.0571801 0.401442 -0.0572094 0.772457 0.171628 1.00127L6.67133 7.50097L0.171628 14.0007C-0.0572094 14.2295 -0.0572094 14.6006 0.171628 14.8294C0.286032 14.9438 0.436003 15.001 0.585973 15.001C0.735943 15.001 0.885885 14.9438 1.00032 14.8294L7.49999 8.32966L13.9997 14.8294C14.1141 14.9438 14.2641 15.001 14.414 15.001C14.564 15.001 14.714 14.9438 14.8284 14.8294C15.0572 14.6005 15.0572 14.2295 14.8284 14.0007L8.32868 7.501Z"
+                                fill="#808080"
+                            />
+                        </svg>
+                    </a>
+                </template>
+                <purchase-form btnName="purchace" @buy="requestPurchace">
+                </purchase-form>
+            </b-modal>
     </div>
 </template>
 <script>
@@ -291,10 +321,11 @@
     import ProductItemsCarousel from '../../components/product/ProductItemsCarousel.vue';
     import toggleFavouriteMixin from '~/mixins/toggleFavouriteMixin';
     import Loader from '../../components/Loader.vue';
+    import PurchaseForm from '../../components/PurchaseForm.vue';
 
     export default {
         name: 'product',
-        components: {CommentGroup, RatingGroup, ProductCarousel, ProductItemsCarousel, CommentForm, Loader},
+        components: {CommentGroup, RatingGroup, ProductCarousel, ProductItemsCarousel, CommentForm, PurchaseForm, Loader},
         data() {
             return {
                 countRatings: [],
@@ -355,6 +386,39 @@
             }
         },
         methods: {
+            showModalPurchase(name) {
+                let v = this;
+                v.confirmModalText = 'Request Purchace of ' + name;
+                v.$refs['purchase-modal'].show();
+            },
+
+            requestPurchace(formInfo) {
+                let v = this;
+                let purchaseRequest = {
+                    productName: v.$refs['purchaseTitle'].innerText, 
+                    firstName: formInfo.firstName,
+                    lastName: formInfo.lastName,
+                    email: formInfo.email,
+                    phone: formInfo.phone,
+                };
+                this.$apollo
+                    .mutate({
+                        mutation: require('~/graphql/mutations/order/purchaseRequest.graphql'),
+                        variables: {
+                            purchaseRequest: purchaseRequest
+                        },
+                    })
+                    .then((data) => {
+                        v.$bvToast.toast('Your request has been placed! In the near future, our Manager will contact you.', {
+                            title: 'Request purchase',
+                            variant: 'success',
+                        });
+                        v.$refs['purchase-modal'].hide();
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            },
             addToBasket() {
                 let v = this;
                 if (v.colorVal != null && v.sizeVal != null) {

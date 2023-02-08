@@ -1,0 +1,8 @@
+mutation productWishlistDelete($product: ID!, $guestUuid: UUID) {
+    productWishlistDelete(input: { product: $product, guestUuid: $guestUuid }) {
+        errors {
+            field
+            messages
+        }
+    }
+}

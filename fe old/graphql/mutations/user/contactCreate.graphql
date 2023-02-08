@@ -1,0 +1,11 @@
+mutation contactCreate($input: ContactCreateMutationInput!) {
+    contactCreate(input: $input) {
+        contact {
+            emailOrPhone
+        }
+        errors {
+            field
+            messages
+        }
+    }
+}

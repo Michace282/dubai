@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row caption-group">
             <div class="col-auto head-caption">
-                <img src="~/assets/images/icons/truck.svg"/>
+                <img src="~/assets/images/icons/truck.svg" alt="truck icon"/>
                 Free shipping within UAE
             </div>
             <ApolloQuery :query="require('~/graphql/queries/gift/giftNewDetail.graphql')"
@@ -11,7 +11,7 @@
                     <div v-if="isLoading || error" class="loading apollo mt-85"></div>
                     <div v-else-if="data && data.giftNewDetail" class="col-auto head-caption">
                         <a href.prevent v-b-modal.present-modal
-                        ><img src="~/assets/images/icons/present.svg"/>
+                        ><img src="~/assets/images/icons/present.svg" alt="present"/>
                             Get your present!
                         </a>
                     </div>
@@ -45,7 +45,7 @@
                                                 width="1024"
                                                 height="480"
                                                 :src="stock.node.imageCropping"
-                                                alt="image slot"
+                                                alt="New Collection"
                                             />
                                         </template>
                                         <div class="box" v-if="stock.node.product">
@@ -61,7 +61,7 @@
                                             </nuxt-link>
                                             <div class="caption">
                                                 {{ stock.node.product.price }} AED
-                                                <img src="~/assets/images/icons/arrow-right.svg"/>
+                                                <img src="~/assets/images/icons/arrow-right.svg" alt="right"/>
                                             </div>
                                         </div>
                                     </b-carousel-slide>
@@ -77,7 +77,7 @@
             <base-title title="Our advantages"/>
             <div class="row mt-45">
                 <div class="col-6 col-sm-4 col-lg advantage" v-for="(advantage, index) in advantages" :key="index">
-                    <img :src="require(`~/assets/images/icons/${advantage.icon}`)"/>
+                    <img :src="require(`~/assets/images/icons/${advantage.icon}`)" alt="icon"/>
                     <div class="name">
                         {{ advantage.name }}
                     </div>
@@ -145,7 +145,7 @@
         },
         head() {
             return {
-                title: '“Dance Clothes & Shoes Company| DC&S Dubai',
+                title: 'Dance Clothes & Shoes Company| DC&S Dubai',
                 meta: [
                     {
                         hid: 'description',
@@ -155,7 +155,7 @@
                     {
                         hid: 'keywords',
                         name: 'keywords',
-                        content: 'Dancewear, Dance clothes, Ballroom dancewear'
+                        content: 'Dancewear, Dance clothes, Ballroom dancewear, women shoes, women clothes, women clothing, dance accessories, shop luxury fashion online, shop luxury designers online, free shipping'
                     }
                 ],
             };

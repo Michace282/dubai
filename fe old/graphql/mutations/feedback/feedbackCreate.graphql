@@ -1,0 +1,10 @@
+mutation feedbackCreate($star: String!, $product: ID!, $size: ID!, $color: ID!, $text: String!, $images: [Upload]) {
+    feedbackCreate(
+        input: { star: $star, product: $product, size: $size, color: $color, text: $text, images: $images }
+    ) {
+        errors {
+            field
+            messages
+        }
+    }
+}

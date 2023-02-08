@@ -1,0 +1,83 @@
+query productList () (
+    $first: Int
+    $after: String
+    $productType: String
+    $ladiesType: String
+    $mensType: String
+    $accessoriesType: String
+    $danceShoesType: String
+    $colors: [ID]
+    $sizes: [String]
+    $price_Gte: Float
+    $price_Lte: Float
+    $ids: [ID]
+    $excludeId: ID
+    $orderBy: String
+) {
+    productList(
+        first: $first
+        after: $after
+        productType: $productType
+        ladiesType: $ladiesType
+        mensType: $mensType
+        accessoriesType: $accessoriesType
+        danceShoesType: $danceShoesType
+        colors: $colors
+        sizes: $sizes
+        price_Gte: $price_Gte
+        price_Lte: $price_Lte
+        ids: $ids
+        excludeId: $excludeId
+        is_new: 1
+        orderBy: $orderBy
+    ) {
+        pagesCursor {
+            startCursor
+            endCursor
+            cursor
+        }
+
+        edges {
+            node {
+                id
+                name
+                productType
+                price
+                isWishlist
+                productsizecolorSet {
+                    edges {
+                        node {
+                            id
+                            isAvailable
+                            productimageSet {
+                                edges {
+                                    node {
+                                        image
+                                        imageCropping
+                                    }
+                                }
+                            }
+                            productsizecolorsizeSet {
+                                edges {
+                                    node {
+                                        count
+                                        isAvailable
+                                        size {
+                                            id
+                                            name
+                                        }
+                                    }
+                                }
+                            }
+                            color {
+                                id
+                                color
+                                image
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

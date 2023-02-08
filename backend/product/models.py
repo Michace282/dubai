@@ -9,6 +9,50 @@ from image_cropping import ImageRatioField
 from image_cropping.utils import get_backend
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.core.validators import FileExtensionValidator
+
+
+class ProductTypeSection(TimeStampedModel):
+    class Type(DjangoChoices):
+        ladies = ChoiceItem(label='Ladies', value='ladies')
+        mens = ChoiceItem(label='Mens', value='mens')
+        accessories = ChoiceItem(label='Accessories', value='Accessories')
+        dance_shoes = ChoiceItem(label='Dance shoes', value='Dance shoes')
+        leotards = ChoiceItem(label='Leotards', value='Leotards')
+        body = ChoiceItem(label='Body(old)', value='Body(old)')
+        blouses = ChoiceItem(label='Blouses', value='Blouses')
+        skirts = ChoiceItem(label='Skirts', value='Skirts')
+        dresses = ChoiceItem(label='Dresses', value='Dresses')
+        pants = ChoiceItem(label='Pants', value='Pants')
+        trousers = ChoiceItem(label='Trousers(old)', value='Trousers(old)')
+        jumpsuits = ChoiceItem(label='Jumpsuits', value='Jumpsuits')
+        tops = ChoiceItem(label='Tops', value='Tops')
+        shorts = ChoiceItem(label='Shorts', value='Shorts')
+        trousers = ChoiceItem(label='Trousers', value='Trousers')
+        waistcoasts = ChoiceItem(label='Waistcoasts', value='Waistcoasts')
+        shirts = ChoiceItem(label='Shirts', value='Shirts')
+        t_shirts = ChoiceItem(label='T-shirts', value='T-shirts')
+        shoe_accessories = ChoiceItem(label='Shoe accessories', value='Shoe accessories')
+        bags = ChoiceItem(label='Bags', value='Bags')
+        ladies_accessories = ChoiceItem(label='Ladies accessories', value='Ladies accessories')
+        ladies = ChoiceItem(label='Ladies', value='Ladies')
+        mens = ChoiceItem(label='Mens', value='Mens')
+    product_type = models.CharField(verbose_name='Product type',
+                                    max_length=30,
+                                    choices=Type.choices)
+    description = models.TextField(verbose_name='Description')
+
+    class Meta:
+        unique_together = ('product_type')
+
+
+    def __str__(self):
+        return self.product_type
+
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = 'Product Type Section'
+        verbose_name_plural = 'Product Types Section'
 
 
 class SizeChart(TimeStampedModel):
@@ -35,7 +79,7 @@ class Size(TimeStampedModel):
         xxxxl = ChoiceItem(label='xxxxl', value='xxxxl')
 
     chart = models.ForeignKey(SizeChart, verbose_name='Chart', on_delete=models.CASCADE)
-    name = models.CharField(verbose_name='Name size', max_length=30)
+    name = models.TextField(verbose_name='Name size', max_length=30)
     size = models.CharField(verbose_name='Type size', max_length=30, choices=SizeType.choices, default=SizeType.xs)
 
     def __str__(self):
@@ -73,6 +117,7 @@ class Product(TimeStampedModel):
         mens = ChoiceItem(label='Mens', value='mens')
         accessories = ChoiceItem(label='Accessories', value='accessories')
         dance_shoes = ChoiceItem(label='Dance shoes', value='dance_shoes')
+        performance_costumes = ChoiceItem(label='Performance costumes', value='performance_costumes')
 
     class LadiesType(DjangoChoices):
         leotards = ChoiceItem(label='Leotards', value='leotards')
@@ -136,13 +181,17 @@ class Product(TimeStampedModel):
 
     article = models.CharField(verbose_name='Article', max_length=30)
     price = models.PositiveIntegerField(verbose_name='Price')
+    price_sale = models.PositiveIntegerField(verbose_name='Price Old')
+    is_new = models.BooleanField(verbose_name='Is New')
+    video = models.FileField(upload_to='product/video',null=True, blank=True,
+    validators=[FileExtensionValidator(allowed_extensions=['MOV','avi','mp4','webm','mkv'])])
     description = models.TextField(verbose_name='Description')
     model_description = models.TextField(verbose_name='Model description', blank=True, null=True)
     size_chart = models.ForeignKey(SizeChart, verbose_name='Size Chart', on_delete=models.CASCADE,
                                    help_text='If you change the size table, the old dimensions will be deleted.')
 
     data = models.TextField(blank=True, null=True)
-    works_best_with = models.ManyToManyField('product.Product', verbose_name='Works best with', blank=True, null=True)
+    works_best_with = models.ManyToManyField('product.Product', verbose_name='Works best with', blank=True)
 
     def __str__(self):
         return self.name
@@ -151,6 +200,9 @@ class Product(TimeStampedModel):
         ordering = ['-created_at']
         verbose_name = 'Product'
         verbose_name_plural = 'Products'
+
+
+
 
 
 class ProductSizeColor(TimeStampedModel):

@@ -1,0 +1,15 @@
+mutation restoreCreate($email: String!, $code: String!, $password: String!, $passwordRepeat: String!) {
+    restoreCreate(
+        input: {
+            email: $email,
+            code: $code,
+            password: $password
+            passwordRepeat: $passwordRepeat
+        }
+    ) {
+        errors {
+            field
+            messages
+        }
+    }
+}

@@ -1,0 +1,130 @@
+query productDetail($id: ID!) {
+    productDetail: productDetail(id: $id) {
+        name
+        productType
+        ladiesType
+        mensType
+        accessoriesType
+        danceShoesType
+        article
+        price
+        description
+        modelDescription
+        countFeedbackStar1
+        countFeedbackStar2
+        countFeedbackStar3
+        countFeedbackStar4
+        countFeedbackStar5
+        avgFeedback
+        countFeedback
+        isWishlist
+        sizeChart {
+            id
+            name
+            table
+            sizeSet {
+                edges {
+                    node {
+                        id
+                        name
+                    }
+                }
+            }
+        }
+        data
+        worksBestWith {
+            edges {
+                node {
+                    id
+                    name
+                    price
+                    isWishlist
+                    productsizecolorSet {
+                        edges {
+                            node {
+                                id
+                                isAvailable
+                                productimageSet {
+                                    edges {
+                                        node {
+                                            image
+                                            imageCropping
+                                        }
+                                    }
+                                }
+                                color {
+                                    id
+                                    name
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        productsizecolorSet {
+            edges {
+                node {
+                    isAvailable
+                    productsizecolorsizeSet {
+                        edges {
+                            node {
+                                size {
+                                    id
+                                    name
+                                }
+                                count
+                                isAvailable
+                            }
+                        }
+                    }
+                    productimageSet {
+                        edges {
+                            node {
+                                id
+                                image
+                                imageCropping
+                            }
+                        }
+                    }
+                    color {
+                        id
+                        color
+                        name
+                        image
+                    }
+                }
+            }
+        }
+    }
+    productProductType: __type(name: "ProductProductType") {
+        enumValues {
+            name
+            description
+        }
+    }
+    productLadiesType: __type(name: "ProductLadiesType") {
+        enumValues {
+            name
+            description
+        }
+    }
+    productMensType: __type(name: "ProductMensType") {
+        enumValues {
+            name
+            description
+        }
+    }
+    productAccessoriesType: __type(name: "ProductAccessoriesType") {
+        enumValues {
+            name
+            description
+        }
+    }
+    productDanceShoesType: __type(name: "ProductDanceShoesType") {
+        enumValues {
+            name
+            description
+        }
+    }
+}

@@ -1,0 +1,22 @@
+mutation userUpdate($input: UserUpdateMutationInput!) {
+    userUpdate(input: $input) {
+        user {
+            id
+            username
+            firstName
+            lastName
+            email
+            profile {
+                address
+                postalCode
+                city
+                country
+                phone
+            }
+        }
+        errors {
+            field
+            messages
+        }
+    }
+}

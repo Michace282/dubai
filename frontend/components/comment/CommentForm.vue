@@ -55,7 +55,7 @@
             <div class="photo-group">
                 <div class="label">Upload photos</div>
                 <div class="photos">
-                    <label for="file" class="photo-label"><img src="~/assets/images/icons/camera.svg" /></label>
+                    <label for="file" class="photo-label"><img src="~/assets/images/icons/camera.svg" alt="camera" /></label>
                     <input
                         type="file"
                         ref="files"
@@ -73,9 +73,9 @@
                                 imagesUrl.splice(index, 1);
                                 files.splice(index, 1);
                             "
-                            ><img src="~/assets/images/icons/exit.svg"
+                            ><img src="~/assets/images/icons/exit.svg" alt="remove"
                         /></a>
-                        <img :src="url" />
+                        <img :src="url" alt="url" />
                     </div>
                 </div>
             </div>

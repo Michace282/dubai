@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Product, ProductSizeColor, ProductImage, Color, SizeChart, Size, Feedback, FeedbackImage, Basket, \
-    ProductBasket, ProductSizeColorSize
+    ProductBasket, ProductSizeColorSize, ProductTypeSection
 from django_summernote.widgets import SummernoteWidget
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
@@ -109,8 +109,8 @@ class ProductSizeColorAdmin(admin.ModelAdmin):
 
 @admin.register(Product)
 class ProductAdmin(SummernoteModelAdmin):
-    list_display = ('__str__', 'status', 'product_type', 'profile_type', 'price',)
-    list_filter = ('status', 'product_type', 'ladies_type', 'mens_type', 'accessories_type', 'dance_shoes_type')
+    list_display = ('__str__', 'status', 'product_type', 'profile_type', 'price','price_sale')
+    list_filter = ('status', 'product_type', 'ladies_type', 'mens_type', 'accessories_type', 'dance_shoes_type','is_new')
     inlines = (ProductSizeColorInline,)
     autocomplete_fields = ('works_best_with',)
     search_fields = ('name', 'data', 'description', 'model_description')
@@ -129,13 +129,14 @@ class ProductAdmin(SummernoteModelAdmin):
     fieldsets = (
         (None, {
             'fields': (
-                'status',
+                ('status','is_new'),
                 'article',
                 ('name', 'product_type', 'ladies_type', 'mens_type', 'accessories_type', 'dance_shoes_type',),
-                'price',
+                ('price','price_sale'),
                 'description',
                 'size_chart',
-                'works_best_with'
+                'works_best_with',
+                'video'
             )
         }),
     )
@@ -146,6 +147,21 @@ class ProductAdmin(SummernoteModelAdmin):
 
 class FeedbackImageInline(admin.StackedInline):
     model = FeedbackImage
+
+
+@admin.register(ProductTypeSection)
+class ProductTypeSectionAdmin(SummernoteModelAdmin):
+    search_fields = ('product_type',)
+
+
+    fieldsets = (
+        (None, {
+            'fields': (
+                'product_type',
+                'description',
+            )
+        }),
+    )
 
 
 @admin.register(Feedback)

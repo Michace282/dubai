@@ -1,9 +1,10 @@
 <template>
     <div class="block-title">
-        {{ title }}
+        <div class="title-shadow">{{ title }}</div>
         <h1 class="front-title">{{ title }}</h1>
     </div>
 </template>
+
 <script>
     export default {
         name: 'BaseTitle',
@@ -20,12 +21,22 @@
 
     .block-title {
         position: relative;
-        font-size: 64px;
+        font-size: 62px;
         color: @grey3;
         text-transform: uppercase;
+        
+        
+        .title-shadow {
+            @media @medium {
+                display: none;
+            }  
+        }
 
         @media @large {
-            font-size: 36px;
+            font-size: 39px;
+        }
+        @media @medium {
+            margin: 60px 0;
         }
 
         .front-title {
@@ -40,8 +51,12 @@
             @media @large {
                 font-size: 24px;
                 left: 19px;
-                bottom: 0px;
+                bottom: -2px;
             }
+            @media @medium {
+                left: 0;
+                // margin: 20px 0;
+            }    
         }
     }
 </style>

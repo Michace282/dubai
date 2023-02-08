@@ -1,0 +1,8 @@
+mutation productWishlistCreate($guestUuid: UUID, $product: ID!) {
+    productWishlistCreate(input: { guestUuid: $guestUuid, product: $product }) {
+        errors {
+            field
+            messages
+        }
+    }
+}

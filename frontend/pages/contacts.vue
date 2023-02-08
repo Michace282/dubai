@@ -17,12 +17,13 @@
                 <div class="contact-group">
                     <div class="label">Registered office</div>
                     <div class="value">
-                        UAE, Dubai, Business Bay, Binary Tower, 20th floor
+                        <!-- UAE, Dubai, Business Bay, Binary Tower, 20th floor -->
+                        Al Qouz 1, 6A steeet, “Palais De Danse” Dance Studio, Dubai, UAE
                         <div class="d-flex align-items-center mt-30">
                             <a href="https://wa.me/971585967208" target="_blank" class="mr-3"><img
-                                src="~/assets/images/icons/whatsApp-gold.svg"/></a>
+                                src="~/assets/images/icons/whatsApp-gold.svg" alt="whatsapp icon"/></a>
                             <a href="https://www.instagram.com/dcs_dancewear/" target="_blank" class="ml-1"><img
-                                src="~/assets/images/icons/instagram-gold.svg"/></a>
+                                src="~/assets/images/icons/instagram-gold.svg" alt="instagram icon"/></a>
                         </div>
                     </div>
                 </div>

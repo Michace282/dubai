@@ -107,16 +107,20 @@ class RefreshJSONWebToken(graphql_jwt.Refresh):
 class RegistrationForm(forms.ModelForm):
     guest_uuid = forms.UUIDField(required=False)
     email = forms.EmailField(required=True)
+    first_name = forms.CharField(required=False)
+    last_name = forms.CharField(required=False)
     password = forms.CharField(widget=forms.PasswordInput(), required=True)
     password_repeat = forms.CharField(widget=forms.PasswordInput(), required=True)
 
     class Meta:
         model = User
-        fields = ('email', 'password', 'password_repeat', 'guest_uuid')
+        fields = ('email', 'first_name','last_name','password', 'password_repeat', 'guest_uuid')
 
     def clean(self):
         cleaned_data = super().clean()
         email = cleaned_data.get("email")
+        first_name = cleaned_data.get("first_name")
+        last_name = cleaned_data.get("last_name")
         password = cleaned_data.get("password")
         password_repeat = cleaned_data.get("password_repeat")
         guest_uuid = cleaned_data.get("guest_uuid")
@@ -137,6 +141,8 @@ class RegistrationForm(forms.ModelForm):
         instance = super().save(commit=False)
         cleaned_data = dict([(k, v) for k, v in self.cleaned_data.items() if v != ""])
         instance.username = cleaned_data.get('email')
+        instance.first_name = cleaned_data.get('first_name')
+        instance.last_name = cleaned_data.get('last_name')
         instance.email = cleaned_data.get('email')
 
         if commit:
@@ -173,6 +179,7 @@ class RegistrationMutation(DjangoModelFormMutation):
 
 
 from graphql_jwt.decorators import token_auth
+
 
 
 class Test(graphql_jwt.ObtainJSONWebToken):

@@ -3,10 +3,10 @@
         <div class="mobile-head">
             <div class="filter-caption">
                 Filter
-                <img src="~/assets/images/icons/filter.svg"/>
+                <img src="~/assets/images/icons/filter.svg" alt="filter"/>
             </div>
             <a href.prevent @click="$emit('closeFilter')">
-                <img src="~/assets/images/icons/exit.svg"/>
+                <img src="~/assets/images/icons/exit.svg" alt="exit"/>
             </a>
         </div>
         <filter-accordion
@@ -18,6 +18,7 @@
             :title="category.label"
             @setCategory="
                 filter.productType = category.url;
+                filter.isNew = null;
                 filter.ladiesType = null;
                 filter.mensType = null;
                 filter.accessoriesType = null;
@@ -41,6 +42,7 @@
                             filter.accessoriesType = null;
                             filter.danceShoesType = null;
                             filter.productType = category.url;
+                            filter.isNew = null;
                             filter[category.filterName] = subCategory.key;
                             breadcrumbs = [{key: category.key,url: category.url, label:category.label}, {key:subCategory.key, label:subCategory.label}];
                         "
@@ -96,15 +98,15 @@
         </filter-accordion>
         <filter-accordion class="mt-30" title="Size" name="size">
             <div class="sizes" v-if="sizes && sizes.length > 0">
-                <div class="size-box" v-for="(size, index) in sizes" :key="index">
+                <div class="size-box" v-for="size in sizes" :key="size.id">
                     <input
                         type="checkbox"
                         name="sizes"
                         v-model="filter.sizes"
-                        :value="size.size.toLowerCase()"
-                        :id="index"
+                        :value="size.id"
+                        :id="size.id"
                     />
-                    <label class="label-size" :for="index">{{ size.size }}</label>
+                    <label class="label-size" :for="size.id">{{ size.size }}</label>
                 </div>
             </div>
         </filter-accordion>
@@ -120,7 +122,7 @@
             >
                 Apply
             </button>
-            <button class="btn btn-outline-black w-100 mt-30" @click="clearFilter">reset the filter</button>
+            <button class="btn btn-outline-black w-100 mt-30" @click="clearFilter">Reset</button>
         </div>
     </div>
 </template>
@@ -135,6 +137,7 @@
             return {
                 colors: null,
                 sizes: null,
+                isNew: null,
                 breadcrumbs: [],
                 timer: null,
                 timer2: null,
@@ -145,6 +148,7 @@
                 filter: {
                     colors: [],
                     sizes: [],
+                    isNew: null,
                     productType: null,
                     ladiesType: null,
                     mensType: null,
@@ -157,12 +161,12 @@
                 categories: [
                     {
                         key: 'ladies',
-                        url: 'womens_dancewear',
+                        url: 'ladies',
                         label: 'Women’s dancewear',
                         meta: {
                             title: 'Women dancewear. Dance outfit for ladies| DC&S Dubai',
                             description: 'We are happy to present you our stunning dancewear collection for ladies. Here you can find dancing leotards, skirts, pants, dresses, crop-tops, blouses, jumpsuits etc.',
-                            keywords: "Wonem's dancewear. Dance outfit for ladies.",
+                            keywords: "Womens dancewear. Dance outfit for ladies.",
                             h1: "Women's dancewear"
                         },
                         filterName: 'ladiesType',
@@ -173,7 +177,7 @@
                                     title: 'Dancing leotard. Dancing bodies. Dance body Dubai| DC&S Dubai',
                                     description: 'Large collection of dance bodysuits/leotards. Classic bodies, latin bodies, many different colors and designs. Big size range. Availeble for order online and at our partners stores.',
                                     keywords: 'Dance bodysuit. Dance leotards. Dancing bodies.',
-                                    h1: 'WOMENS DANCE LEOTARDS',
+                                    h1: 'WOMEN’S DANCE LEOTARDS',
                                 }
                             },
                             {
@@ -181,7 +185,7 @@
                                     title: 'Long sleeved dance tops, tunic dance tops. Dancing blouses| DC&S Dubai',
                                     description: 'Beautiful collection of dance blouses, long sleeve dance tops and tunics. Different designs, colors and all sizes are available for order online and at our partners stores.',
                                     keywords: 'Dancing blouses. Long sleeve dance top.',
-                                    h1: 'WOMENS DANCE BLOUSES',
+                                    h1: 'WOMEN’S DANCE BLOUSES',
                                 }
                             },
                             {
@@ -189,7 +193,7 @@
                                     title: 'Dancewear dance skirts. Ballroom dancing skirt. Latin skirt| DC&S Dubai',
                                     description: 'Your welcome to chose any dancing skirt from our big collection: ballroom dancing skirts, latin skirts, wrap dance skirts, black dance skirts.',
                                     keywords: 'Dancing skirts. Dancewer skirts.Ballroom dancing skirts.',
-                                    h1: 'WOMENS DANCE SKIRT',
+                                    h1: 'WOMEN’S DANCE SKIRT',
                                 }
                             },
                             {
@@ -197,7 +201,7 @@
                                     title: 'Dacewear dresses. Latin, Salsa & Ballroom dancing dresses| DC&S Dubai',
                                     description: 'Unique dresses for Ballroom, Latin, Salsa dances. Extensive assortment - dresses with fringe, classic ballroom or exotic dance dresses.',
                                     keywords: 'Dancewear dresses. Dancing dresses. Dresses for dancers.',
-                                    h1: 'WOMENS DANCE DRESSES',
+                                    h1: 'WOMEN’S DANCE DRESSES',
                                 }
                             },
                             {
@@ -205,7 +209,7 @@
                                     title: 'Women\'s dancing pants. Leggings for dance| DC&S Dubai',
                                     description: 'Many lovely variants of women\'s dancing pants for Latin and Ballroom dance. Leggings for any kind of dance and fitness in unique designs are available for online order and at partners stores.',
                                     keywords: 'Dancing pants. Leggings dance outfit. Women\'s dance pants.',
-                                    h1: 'WOMENS DANCE PANTS',
+                                    h1: 'WOMEN’S DANCE PANTS',
                                 }
                             },
                             {
@@ -213,7 +217,7 @@
                                     title: 'Dancing jumpsuits. Best jumpsuits for dance| DC&S Dubai',
                                     description: 'Perfect jumpsuits for dance lovers, super comfortable designs and high quality materials make you feel and look amazing in our jumpsuits. Available for order online and at our partners stores.',
                                     keywords: 'Jumpsuit for dancing. Jumpsuit dance costume.',
-                                    h1: 'WOMENS DANCE JUMPSUITS',
+                                    h1: 'WOMEN’S DANCE JUMPSUITS',
                                 }
                             },
                             {
@@ -221,7 +225,7 @@
                                     title: 'Dancewear tops, bra tops. Dancing crop top| DC&S Dubai',
                                     description: 'Beautiful lady\'s tops and bra tops for dancing or other activities at many different colors and designs available for order online or at our sale representor\'s stores.',
                                     keywords: 'Dancewear tops. Dancing crop tops.',
-                                    h1: 'WOMENS DANCE TOPS',
+                                    h1: 'WOMEN’S DANCE TOPS',
                                 }
                             },
                             {
@@ -229,29 +233,29 @@
                                     title: 'Women\'s dancewear shorts | DC&S Dubai',
                                     description: 'Women\'s dancing shorts. Shorts under dress/skirt, high waist shorts. Dance shop in Dubai| DC&S Company',
                                     keywords: 'Dancewear shorts women\'s',
-                                    h1: 'WOMENS DANCE SHORTS',
+                                    h1: 'WOMEN’S DANCE SHORTS',
                                 }
                             },
                         ],
                     },
                     {
                         key: 'mens',
-                        url: 'mens_dancewear',
-                        label: 'Mens dancewear',
+                        url: 'mens',
+                        label: 'Men\’s dancewear',
                         filterName: 'mensType',
                         meta: {
                             title: 'Men\'s dancewear. Ballroom dance costume for male| DC&S Dubai',
                             description: 'We have a massive collection of dancewear for men. Dance pants, ballroom shirts, T-shirts, turtlenecks, long sleeves, shoes. All sizes are available.',
-                            keywords: 'Men\'s dancewear. Male ballroom dance costumes.',
-                            h1: 'MENS DANCEWEAR',
+                            keywords: 'Mens dancewear. Male ballroom dance costumes.',
+                            h1: 'MEN\'S DANCEWEAR',
                         },
                         subCategories: [
                             {
                                 key: 'trousers', label: 'Trousers', meta: {
                                     title: 'Dance trousers mens. Ballroom dance pants for man| DC&S Dubai',
                                     description: 'Classic Ballroom and Latin dance trousers for men. Dance trousers for practicing. All sizes are available for order online and at our sale representors stores.',
-                                    keywords: 'Mens ballroom dance trousers',
-                                    h1: 'MENS DANCE TROUSERS',
+                                    keywords: 'mens ballroom dance trousers',
+                                    h1: 'MEN’S DANCE TROUSERS',
                                 }
                             },
                             {
@@ -259,7 +263,7 @@
                                     title: 'Waistcoat for men. Waistcoat for dance| DC&S Dubai',
                                     description: 'Classic men\'s waistcoats a perfect chose for special occasions or dance events high quality material and unique design. Available for order online or at our partners stores.',
                                     keywords: 'Waistcoats for men',
-                                    h1: 'MENS WAISTCOATS',
+                                    h1: 'MEN’S WAISTCOATS',
                                 }
                             },
                             {
@@ -267,7 +271,7 @@
                                     title: 'Shirts for dance. Men\'s dance shirts. Dance shirts for guys| DC&S Dubai',
                                     description: 'The largest collection of dance shirts for guys in UAE. Distinct designs and wide sizes range let you choose a shirt perfectly matched your individuality.',
                                     keywords: 'Shirts for dance. Dance shorts for guys.',
-                                    h1: 'MENS DANCE SHIRTS',
+                                    h1: 'MEN’S DANCE SHIRTS',
                                 }
                             },
                             {
@@ -275,7 +279,7 @@
                                     title: 'T-shirts for dance. Dance T-shirts online| DC&S Dubai',
                                     description: 'Ultra comfortable and stylish T-shirts for any type of dances are available at all sizes and  colors for order online or at our partners stores.',
                                     keywords: 'Dance t-shirts. Dancers t-shirts.',
-                                    h1: 'MENS DANCE T-SHIRTS',
+                                    h1: 'MEN’S DANCE T-SHIRTS',
                                 }
                             },
                         ],
@@ -292,9 +296,27 @@
                             h1: "DANCE ACCESSORIES"
                         },
                         subCategories: [
-                            {key: 'shoe_accessories', label: 'Shoe accessories'},
-                            {key: 'bags', label: 'Bags'},
-                            {key: 'ladies_accessories', label: 'Ladies accessories'},
+                            {key: 'shoe_accessories', label: 'Shoe accessories', meta: {
+                                    title: 'Shoe accessories. Shoe brush. Heel protector for shoes',
+                                    description: 'We have a wide range of many accessories for dance shoes: heel protectors, shoe brushes, heel fullness correctors and comfortable sleepers are available for order.',
+                                    keywords: 'Dance shoes accessories, Heel protectors, Shoe brush online',
+                                    h1: 'Shoe accessories'
+                                }
+                            },
+                            {key: 'bags', label: 'Bags for dancers', meta: {
+                                    title: 'Dancing shoe bags. Dance bags for dancers',
+                                    description: 'In our shop are available many lovely bags for dance lovers: shoe ziplock bags, dance bags for competition, dance small bags and black bags.',
+                                    keywords: 'Shoe bags ziplock. Dance bags black. Shoe bags online.',
+                                    h1: 'Bags for dancers'
+                                }
+                            },
+                            {key: 'ladies_accessories', label: 'Women\’s accessories', meta: {
+                                    title: 'Dance leg warmers, warming jackets, headband, dance tights',
+                                    description: 'Stylish black leg warmers for ladies, warming jackets, aesthetic headbands in different colours and designs and professional dance tights fishnets are available in our dance shop.',
+                                    keywords: 'Leg warmers Dubai. Headband accessories. Dance tights.',
+                                    h1: 'Women\’s accessories'
+                                }
+                            },
                         ],
                     },
                     {
@@ -303,14 +325,43 @@
                         label: 'Dance shoes',
                         filterName: 'danceShoesType',
                         meta: {
-                            title: 'Women\'s dance shoes. Dancing heels. Ladies Ballroom shoes | DC&S Dubai.',
-                            description: 'Vide range of dance shoes for ladies. Shoes for Latin, Salsa, Ballroom in different designs and colours with high and low heel are available for order online and at our partners stores',
-                            keywords: "Dancing shoes women's. Dancing heels. Dance shoes for ladies. Women's salsa shoes. Women's ballroom shoes",
-                            h1: "WOMEN’S DANCE SHOES"
+                            title: 'Dance shoes in Dubai. Salsa, Latin, Ballroom dancing shoes',
+                            description: 'In our DCS dancewear shop we are happy to offer you men\'s and women\'s dance shoes for Salsa, Bachata, Latin, Argentine tango and Ballroom dances.',
+                            keywords: "Dance shoes in Dubai, Ballroom dancing shoes, Salsa dancing shoes",
+                            h1: "DANCE SHOES"
                         },
                         subCategories: [
-                            {key: 'ladies', label: 'Ladies'},
-                            {key: 'mens', label: 'Mens'},
+                            // {key: 'ladies', label: 'Women', meta: {
+                            // {key: 'ladies', url: 'womens_shoes', label: 'Women', meta: {
+                            {key: 'womens_shoes', label: 'Women', meta: {
+                                title: 'Women\'s dance shoes. Dancing heels. Ladies Ballroom shoes',
+                                description: 'Vide range of dance shoes for ladies. Shoes for Latin, Salsa, Ballroom in different designs and colours with high and low heel are available for order online and at our partners stores.',
+                                keywords: 'Dancing shoes womens, Dancing heels, Dance shoes for ladies, Womens salsa shoes, Womens ballroom shoes.',
+                                h1: 'WOMEN’S DANCE SHOES'
+                            }},
+                            // {key: 'mens', label: 'Men', meta: {
+                            // {key: 'mens', url: 'mens_shoes', label: 'Men', meta: {
+                            {key: 'mens_shoes', label: 'Men', meta: {
+                                title: 'Men\'s dance shoes for Salsa, Ballroom and Latin',
+                                description: 'Dancing shoes for men, different designs for different kind of dances: salsa shoes, ballroom shoes, Latin shoes with split sole. Available for order online and at our partners stores',
+                                keywords: 'Mens dance shoes, Mens latin dance shoes, Mens ballroom dance shoes',
+                                h1: 'MEN’S DANCE SHOES'
+                            }},
+                        ],
+                    },
+                    {
+                        key: 'performance_costumes',
+                        url: 'performance_costumes',
+                        label: 'Performance costumes',
+                        filterName: 'performanceCostumesType',
+                        meta: {
+                            title: 'Performance costumes in Dubai.',
+                            description: 'In our DCS dancewear shop we are happy to offer you men\'s and women\'s dance shoes for Salsa, Bachata, Latin, Argentine tango and Ballroom dances.',
+                            keywords: "Performance costumes in Dubai",
+                            h1: "PERFORMANCE CONSUMES"
+                        },
+                        subCategories: [
+                            
                         ],
                     },
                 ],
@@ -323,12 +374,19 @@
                     f.push(key);
                 }
 
-
                 if (f.length == 0) {
+                    let type = this.$route.params.product;
+                    /*if (this.$route.params.product == 'womens_dancewear') {
+                        type = 'ladies'
+                    }
+                    if (this.$route.params.product == 'mens_dancewear') {
+                        type = 'mans'
+                    }*/
                     this.filter = {
                         colors: [],
                         sizes: [],
-                        productType: this.$route.params.product,
+                        isNew: null,
+                        productType: type,
                         ladiesType: this.$route.params.product == 'womens_dancewear' ? this.$route.params.type : null,
                         mensType: this.$route.params.product == 'mens_dancewear' ? this.$route.params.type : null,
                         accessoriesType: this.$route.params.product == 'accessories' ? this.$route.params.type : null,
@@ -363,12 +421,16 @@
                 this.filter[key] = this.$route.query[key];
             }
 
+
+
             if (this.$route.params.product) {
                 this.filter.productType = this.$route.params.product;
                 let products = this.categories.filter((v) => v.url == this.filter.productType)
 
                 if (products.length > 0) {
                     this.filter[products[0].filterName] = this.$route.params.type;
+                    //this.filter.productType = products[0].key
+                    this.filter[products[0].isNew] = null;
                 }
             }
 
@@ -380,6 +442,9 @@
             }
         },
         methods: {
+            log: function (e) {
+              console.log(e);
+            }, 
             clickFilter() {
                 window.scrollTo({
                     top: document.getElementsByClassName('navbar-box')[0].clientHeight,
@@ -394,13 +459,13 @@
                     if (Array.isArray(this.filter[key])) {
                         if (this.filter[key].length > 0) {
                             activeFilter[key] = this.filter[key];
-                            if (['colors', 'sizes', 'price_Gte', 'price_Lte'].indexOf(key) != -1) {
+                            if (['colors', 'sizes', 'price_Gte', 'price_Lte', 'isNew'].indexOf(key) != -1) {
                                 queryFilter[key] = this.filter[key];
                             }
                         }
                     } else if (this.filter[key]) {
                         activeFilter[key] = this.filter[key];
-                        if (['colors', 'sizes', 'price_Gte', 'price_Lte'].indexOf(key) != -1) {
+                        if (['colors', 'sizes', 'price_Gte', 'price_Lte', 'isNew'].indexOf(key) != -1) {
                             queryFilter[key] = this.filter[key];
                         }
                     }
@@ -437,7 +502,7 @@
                     }
                 }
 
-                console.log(url);
+                // console.log(url);
 
                 this.breadcrumbs = breadcrumbs;
 
@@ -463,6 +528,7 @@
                 this.filter = {
                     colors: [],
                     sizes: [],
+                    isNew: null,
                     productType: null,
                     ladiesType: null,
                     mensType: null,
@@ -493,6 +559,9 @@
     };
 </script>
 <style lang="less" scoped>
+    .filter {
+        padding-bottom: 65px !important;
+    }
     .btn {
         padding: 11px 15px;
 
@@ -506,9 +575,9 @@
         @media (max-width: 320px) {
             max-width: 100%;
             width: 100%;
-            &:not(:first-child) {
-                margin-top: 20px;
-            }
+            // &:not(:first-child) {
+            //     margin-top: 20px;
+            // }
         }
     }
 
@@ -518,12 +587,16 @@
             align-items: center;
             justify-content: space-between;
             flex-direction: row-reverse;
-            padding: 0px 20px;
-            margin-top: 45px;
+            padding: 10px 20px;
+            width: 375px;
+            position: fixed;
+            bottom: 0;
+            background-color: #fff;
         }
 
         @media (max-width: 320px) {
-            display: block;
+            // display: block;
+            width: 100%;
         }
     }
 

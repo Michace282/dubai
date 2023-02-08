@@ -1,0 +1,14 @@
+query productList {
+    productList {
+        colorsAvailable {
+            id
+            color
+            image
+        }
+        sizesAvailable {
+            id
+            name
+            size
+        }
+    }
+}

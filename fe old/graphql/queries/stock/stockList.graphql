@@ -1,0 +1,17 @@
+query stockList{
+    stockList {
+        edges {
+            node {
+                name
+                nameProduct
+                image
+                imageCropping
+                product {
+                    id
+                    name
+                    price
+                }
+            }
+        }
+    }
+}

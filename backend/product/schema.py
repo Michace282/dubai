@@ -25,6 +25,12 @@ from backend.bot import send_message
 from backend.ccav.ccav import pay
 
 
+class ProductTypeSectionModel(DjangoObjectType):
+    class Meta:
+        model = ProductTypeSection
+        interfaces = (relay.Node,)
+
+
 class FileUploadField(forms.FileField):
     pass
 
@@ -348,7 +354,10 @@ class ProductFilter(django_filters.FilterSet):
 
     def sizes_filter(self, queryset, name, value):
         if len(value) > 0:
-            return queryset.filter(productsizecolor__productsizecolorsize__size__size__in=value)
+            ids = []
+            for v in value:
+                ids.append(from_global_id(v)[1])
+            return queryset.filter(productsizecolor__productsizecolorsize__size__in=ids, productsizecolor__productsizecolorsize__count__gt=0, productsizecolor__productsizecolorsize__is_available=True)
         return queryset
 
     def guest_uuid_filter(self, queryset, name, value):
@@ -374,7 +383,7 @@ class ProductFilter(django_filters.FilterSet):
 
     class Meta:
         model = Product
-        fields = ['price__gte', 'price__lte', 'product_type', 'ladies_type', 'mens_type', 'accessories_type',
+        fields = ['is_new','price__gte', 'price__lte', 'product_type', 'ladies_type', 'mens_type', 'accessories_type',
                   'dance_shoes_type', 'colors', 'sizes']
 
     @property
@@ -470,6 +479,11 @@ class BasketFilter(django_filters.FilterSet):
 
 
 class Query(graphene.ObjectType):
+    product_type_detail = graphene.Field(ProductTypeSectionModel, product_type=graphene.String())
+
+    def resolve_product_type_detail(self, info, product_type):
+        return ProductTypeSection.objects.filter(product_type=product_type).first()
+
     product_list = DjangoFilterConnectionField(ProductType, filterset_class=ProductFilter)
     product_detail = graphene.relay.Node.Field(ProductType, id=graphene.ID())
 
@@ -648,6 +662,83 @@ class BasketCreateInput(graphene.InputObjectType):
     phone = graphene.String()
     description = graphene.String()
     pay = graphene.String()
+
+from django.utils.crypto import get_random_string
+from django.core.mail import EmailMessage
+
+import datetime
+
+from django.http import HttpResponse
+
+def set_cookie(
+    response: HttpResponse,
+    key: str,
+    value: str,
+    cookie_host: str,
+    days_expire: int = 365,
+):
+    max_age = days_expire * 24 * 60 * 60
+    expires = datetime.datetime.strftime(
+        datetime.datetime.utcnow() + datetime.timedelta(days=days_expire), "%a, %d-%b-%Y %H:%M:%S GMT",
+    )
+    domain = cookie_host.split(":")[0]
+    response.set_cookie(
+        key,
+        value,
+        max_age=max_age,
+        expires=expires,
+        domain=domain,
+        secure=False,
+    )
+
+class RestoreCreateMutation(ClientIDMutation):
+    class Input:
+        email = graphene.String(required=False)
+        code = graphene.String(required=False)
+        password = graphene.String(required=False)
+        passwordRepeat = graphene.String(required=False)
+
+    @classmethod
+    def mutate_and_get_payload(cls, root, info, **input):
+
+        email = input.get('email')
+        code = input.get('code')
+        password = input.get('password')
+        passwordRepeat = input.get('passwordRepeat')
+
+        request = info.context
+
+        errors = []
+
+        if email and code:
+           user = User.objects.filter(email=email).first()
+           if not user:
+              errors.append(ErrorType(field='guest_uuid', messages=['Такого гостя не существует'])) 
+
+           if (user):
+             text = f'You code to restore account: ' + code
+             mail = EmailMessage('Restore account', text, to=[email])
+             mail.send()
+
+        def save(self, commit=True):
+           instance = super().save(commit=False)
+           return instance
+
+        
+        if email and password and passwordRepeat:
+            errors = []
+            user = User.objects.get(email=email)
+            if password != passwordRepeat:
+                errors.append(ErrorType(field='password_repeat', messages=['Пароли не совпадают']))
+            if not user:
+                errors.append(ErrorType(field='guest_uuid', messages=['Такого гостя не существует']))
+            if user:
+                user.set_password(password)
+                user.save()
+
+        
+
+        return cls(errors=errors)
 
 
 class BasketCreateMutation(ClientIDMutation):
@@ -947,9 +1038,46 @@ class BasketCreateMutation(ClientIDMutation):
 
         return BasketCreateMutation(errors=errors, id_basket=id_basket, url_pay=url_pay)
 
+class PurchaseRequestInput(graphene.InputObjectType):
+    product_name = graphene.String()
+    first_name = graphene.String()
+    last_name = graphene.String()
+    email = graphene.String()
+    phone = graphene.String()           
+
+class PurchaseRequestMutation(ClientIDMutation):
+
+    class Input:
+        purchase_request = PurchaseRequestInput()
+
+    @classmethod
+    def mutate_and_get_payload(cls, root, info, **input):
+        purchase_request = input.get('purchase_request')
+        errors = []
+
+        text = f'<b>Product Name: {purchase_request.product_name}</b>\n'
+
+        if purchase_request.first_name:
+            text += f'<b>First name</b>: {purchase_request.first_name}\n'
+
+        if purchase_request.last_name:
+            text += f'<b>Last name</b>: {purchase_request.last_name}\n'
+
+        if purchase_request.phone:
+            text += f'<b>Phone</b>: {purchase_request.phone}\n'
+
+        if purchase_request.email:
+            text += f'<b>E-mail</b>: {purchase_request.email}\n'
+
+        send_message(text)
+   
+        return PurchaseRequestMutation(errors=errors)   
+
 
 class Mutation(graphene.ObjectType):
     product_wishlist_create = ProductWishlistCreateMutation.Field()
     product_wishlist_delete = ProductWishlistDeleteMutation.Field()
     feedback_create = FeedbackCreateMutation.Field()
     basket_create = BasketCreateMutation.Field()
+    purchase_request = PurchaseRequestMutation.Field()
+    restore_create = RestoreCreateMutation.Field()

@@ -4,35 +4,35 @@
             <b-navbar toggleable="lg" type="dark">
                 <b-navbar-toggle target="navbar-toggle-collapse" @click="showIcons = !showIcons">
                     <template>
-                        <img v-if="!showIcons" src="~/assets/images/icons/close-icon.svg"/>
-                        <img v-else src="~/assets/images/icons/burger-menu-icon.svg"/>
+                        <img v-if="!showIcons" src="~/assets/images/icons/close-icon.svg" alt="nav icon" />
+                        <img v-else src="~/assets/images/icons/burger-menu-icon.svg" alt="nav icon" />
                     </template>
                 </b-navbar-toggle>
-                <b-navbar-brand :to="{ name: 'index' }"><img src="~/assets/images/logo.png"/></b-navbar-brand>
+                <b-navbar-brand :to="{ name: 'index' }"><img src="~/assets/images/logo.png" alt="brand logo" /></b-navbar-brand>
                 <b-collapse id="navbar-toggle-collapse" is-nav>
                     <b-navbar-nav class="links m-auto">
-                        <b-nav-item to="/catalog/?orderBy=-created_at">New Collection <img class="star"
-                                                                                           src="../assets/images/icons/star.png"/>
+                        <b-nav-item to="/catalog?isNew=true">New Collection <img class="star"
+                                                                                           src="../assets/images/icons/star.png" alt="star" />
                         </b-nav-item>
-                        <b-nav-item to="/catalog/womens_dancewear">Women’s dancewear</b-nav-item>
-                        <b-nav-item to="/catalog/mens_dancewear">Men’s dancewear</b-nav-item>
-                        <b-nav-item to="/catalog/dance_shoes">Dance shoes</b-nav-item>
+                        <b-nav-item to="/catalog/ladies">Women’s dancewear</b-nav-item>
+                        <b-nav-item to="/catalog/mens">Men’s dancewear</b-nav-item>
                         <b-nav-item to="/catalog/accessories">Dance Accessories</b-nav-item>
+                        <b-nav-item to="/catalog/dance_shoes">Dance shoes</b-nav-item>
                         <b-nav-item to="/about-us/">About us</b-nav-item>
                         <b-nav-item to="/contacts/">Contact us</b-nav-item>
                     </b-navbar-nav>
                 </b-collapse>
                 <b-navbar-nav class="ml-auto icons" :class="{ hide: !showIcons }">
-                    <b-nav-item to="/account/wish-list"><img src="../assets/images/icons/heart.svg"/></b-nav-item>
+                    <b-nav-item to="/account/wish-list"><img src="../assets/images/icons/heart.svg" alt="heart" /></b-nav-item>
                     <b-nav-item @click="$emit('showBasket')">
-                        <img src="../assets/images/icons/basket.svg"/>
+                        <img src="../assets/images/icons/basket.svg" alt="basket" />
                         <span class="products-count" v-if="productCount > 0">+{{ productCount }}</span>
                     </b-nav-item>
                     <b-nav-item
                         @click="
                             !$store.state.user.user ? $emit('showRegModal') : $router.push({ name: 'account' })
                         "
-                    ><img src="../assets/images/icons/account.svg"
+                    ><img src="../assets/images/icons/account.svg" alt="account"
                     /></b-nav-item>
                 </b-navbar-nav>
             </b-navbar>

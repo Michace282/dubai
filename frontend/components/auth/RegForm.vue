@@ -1,9 +1,24 @@
 <template>
     <div class="modal-container">
         <div class="form-modal">
-            <a href.prevent class="exit" @click="$emit('hide')"><img src="~/assets/images/icons/exit.svg" /></a>
+            <a href.prevent class="exit" @click="$emit('hide')"><img src="~/assets/images/icons/exit.svg" alt="exit" /></a>
             <base-title title="Sign up" />
 <!--            <socials-auth class="mt-30" />-->
+            
+            <base-input
+                class="mt-45"
+                v-model="$v.firstName.$model"
+                label="First Name"
+                name="firstName"
+            />
+
+            <base-input
+                class="mt-45"
+                v-model="$v.lastName.$model"
+                label="Last Name"
+                name="lastName"
+            />
+
             <base-input
                 class="mt-45"
                 :class="{ error: $v.email.$error }"
@@ -48,12 +63,20 @@
         name: 'RegForm',
         data() {
             return {
+                firstName: '',
+                lastName: '',
                 email: '',
                 pass: '',
                 pass2: '',
             };
         },
         validations: {
+            firstName: {
+                minLength: minLength(0),
+            },
+            lastName: {
+                minLength: minLength(0),
+            },
             email: {
                 required,
                 email,
@@ -77,6 +100,8 @@
                             mutation: require('~/graphql/mutations/user/registration.graphql'),
                             variables: {
                                 email: v.email,
+                                firstName: v.firstName,
+                                lastName: v.lastName,
                                 password: v.pass,
                                 passwordRepeat: v.pass2,
                                 guestUuid: v.$store.state.user.guestUuid,

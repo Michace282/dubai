@@ -1,0 +1,12 @@
+mutation purchaseRequest(
+    $purchaseRequest: PurchaseRequestInput
+) {
+    purchaseRequest(
+        input: { purchaseRequest: $purchaseRequest }
+    ) {
+        errors {
+            field
+            messages
+        }
+    }
+}

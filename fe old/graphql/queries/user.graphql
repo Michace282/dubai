@@ -1,0 +1,16 @@
+query user {
+    user {
+        id
+        username
+        firstName
+        lastName
+        email
+        profile{
+            address
+            postalCode
+            city
+            country
+            phone
+        }
+    }
+}

@@ -3,15 +3,17 @@
         <div class="row categories-mob" v-if="$device.isMobile">
             <div class="col-12 col-md-auto">
                 <nuxt-link
-                    :to="{ path: '/catalog/womens_dancewear',  }"
+                    :to="{ path: '/catalog/ladies',  }"
                     class="category vertical-large mt-0"
                 >
-                    <div class="name">Ladies</div>
+                    <div style="overflow: hidden; height: 150px;"><img src='../assets/images/category-ladies.png' alt="Women’s dance clothes" class="my-index-category-img"></div>
+                    <div class="name">WOMEN</div>
                 </nuxt-link>
             </div>
             <div class="col-12 col-md-auto">
-                <nuxt-link :to="{ path: '/catalog/mens_dancewear',  }" class="category vertical">
-                    <div class="name">Mens</div>
+                <nuxt-link :to="{ path: '/catalog/mens',  }" class="category vertical">
+                <div style="overflow: hidden; height: 150px; text-align: right;"><img src='../assets/images/category-mans.png' alt="Women’s dance clothes" class="my-index-category-img"></div>
+                    <div class="name">MEN</div>
                 </nuxt-link>
             </div>
             <div class="col-12 col-md-auto">
@@ -19,7 +21,8 @@
                     :to="{ path: '/catalog/dance_shoes',  }"
                     class="category horizontal text-right"
                 >
-                    <div class="name">Danceshoes</div>
+                    <div style="overflow: hidden; height: 150px; width: 49%"><img style="width: 120%;" src='../assets/images/category-danceshoes.png' alt="Women’s dance clothes" class="my-index-category-img"></div>
+                    <div class="name">DANCE SHOES</div>
                 </nuxt-link>
             </div>
             <div class="col-12 col-md-auto">
@@ -27,43 +30,63 @@
                     :to="{ path: '/catalog/accessories',  }"
                     class="category horizontal text-left"
                 >
-                    <div class="name">Accessories</div>
+                    <div class="name">ACCESSORIES</div>
+                    <div style="overflow: hidden; height: 150px"><img src='../assets/images/category-acessories1.png' alt="Women’s dance clothes" class="my-index-category-img"></div>
+                </nuxt-link>
+            </div>
+
+            <div class="col-12 col-md-auto">
+                <nuxt-link
+                    :to="{ path: '/catalog/performance_costumes',  }"
+                    class="category horizontal text-left"
+                >
+                    <div class="name">Competetion Consumes</div>
                 </nuxt-link>
             </div>
 
         </div>
         <div class="row categories-pc" v-else>
-            <div class="col-12 col-md-3">
+            <div class="col-12 col-md-2">
                 <nuxt-link
-                    :to="{ path: '/catalog/womens_dancewear',  }"
+                    :to="{ path: '/catalog/ladies',  }"
                     class="category category-img-ladies"
                 >
-                    <div class="name">Ladies</div>
-                    <div class="sub-name">Ladies</div>
+                    <img src='../assets/images/category-ladies-pc.png' alt="Women’s dance clothes" class="my-index-category-img">
+                    <div class="name">WOMEN</div>
+                    <div class="sub-name">WOMEN</div>
                 </nuxt-link>
             </div>
-            <div class="col-12 col-md-3">
+            <div class="col-12 col-md-2">
                 <nuxt-link
                     :to="{ path: '/catalog/dance_shoes',  }"
                     class="category category-img-danceshoes"
                 >
-                    <div class="name">Danceshoes</div>
-                    <div class="sub-name">Danceshoes</div>
+                    <img src='../assets/images/category-danceshoe-pc.png' alt="Dance shoes" class="my-index-category-img">
+                    <div class="name">DANCE SHOES</div>
+                    <div class="sub-name">DANCE SHOES</div>
                 </nuxt-link>
             </div>
-            <div class="col-12 col-md-3">
+            <div class="col-12 col-md-2">
                 <nuxt-link
                     :to="{ path: '/catalog/accessories',  }"
                     class="category category-img-acessories"
                 >
-                    <div class="name">Accessories</div>
-                    <div class="sub-name">Accessories</div>
+                    <img src='../assets/images/category-acessories-pc.png' alt="Dance accessories" class="my-index-category-img">
+                    <div class="name">ACCESSORIES</div>
+                    <div class="sub-name">ACCESSORIES</div>
                 </nuxt-link>
             </div>
-            <div class="col-12 col-md-3">
-                <nuxt-link :to="{ path: '/catalog/mens_dancewear',  }" class="category category-img-mens">
-                    <div class="name">Mens</div>
-                    <div class="sub-name">Mens</div>
+            <div class="col-12 col-md-2">
+                <nuxt-link :to="{ path: '/catalog/mens',  }" class="category category-img-mens">
+                    <img src='../assets/images/category-mans-pc.png' alt="Men’s dance clothes" class="my-index-category-img">
+                    <div class="name">MEN</div>
+                    <div class="sub-name">MEN</div>
+                </nuxt-link>
+            </div>
+            <div class="col-12 col-md-2">
+                <nuxt-link :to="{ path: '/catalog/performance_costumes',  }" class="category category-performance-costumes">
+                    <div class="name">Competetion Consumes</div>
+                    <div class="sub-name">Competetion Consumes</div>
                 </nuxt-link>
             </div>
         </div>
@@ -74,6 +97,19 @@
         name: 'IndexPageCategories',
     };
 </script>
+<style>
+   .category-performance-costumes {
+       WIDTH: 100%;
+       HEIGHT: 100%;
+   }
+   .category-performance-costumes .name {
+    -webkit-transform: rotate(-90deg) translate(-100px, -100px);
+    -moz-transform: rotate(-90deg);
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+    white-space: nowrap;
+    font-size: 20px!important;
+   }
+</style>
 <style lang="less" scoped>
     .categories-pc {
         justify-content: center;
@@ -89,10 +125,16 @@
             text-decoration: none !important;
             background-repeat: no-repeat;
             background-size: cover;
-            height: 530px;
+            max-height: 530px;
+            overflow: hidden;
 
             @media @medium {
                 margin: 30px auto 0px;
+            }
+
+            .my-index-category-img {
+                object-fit: cover;
+                width: 100%;
             }
 
             .sub-name {
@@ -107,7 +149,10 @@
                 z-index: 1;
 
                 @media @extraLarge {
-                    font-size: 28px;
+                    font-size: 25px;
+                }
+                @media @large {
+                    font-size: 21px;
                 }
 
             }
@@ -132,21 +177,21 @@
 
         }
 
-        .category-img-mens {
-            background-image: url('../assets/images/category-mans-pc.png');
-        }
+        // .category-img-mens {
+        //     background-image: url('../assets/images/category-mans-pc.png');
+        // }
 
-        .category-img-danceshoes {
-            background-image: url('../assets/images/category-danceshoe-pc.png');
-        }
+        // .category-img-danceshoes {
+        //     background-image: url('../assets/images/category-danceshoe-pc.png');
+        // }
 
-        .category-img-acessories {
-            background-image: url('../assets/images/category-acessories-pc.png');
-        }
+        // .category-img-acessories {
+        //     background-image: url('../assets/images/category-acessories-pc.png');
+        // }
 
-        .category-img-ladies {
-            background-image: url('../assets/images/category-ladies-pc.png');
-        }
+        // .category-img-ladies {
+        //     background-image: url('../assets/images/category-ladies-pc.png');
+        // }
     }
 
     .categories-mob {
@@ -162,6 +207,11 @@
 
             @media @medium {
                 margin: 30px auto 0px;
+            }
+            
+            .my-index-category-img {
+                object-fit: cover;
+                width: 100%;
             }
 
             .name {
@@ -192,7 +242,7 @@
             &.vertical {
                 width: 255px;
                 height: 530px;
-                background-image: url('../assets/images/category-mans.png');
+                // background-image: url('../assets/images/category-mans.png');
 
                 @media @extraLarge {
                     width: 150px;
@@ -248,7 +298,7 @@
                 }
 
                 &.text-left {
-                    background-image: url('../assets/images/category-acessories.png');
+                    // background-image: url('../assets/images/category-acessories.png');
 
                     .name {
                         position: relative;
@@ -272,7 +322,7 @@
                 }
 
                 &.text-right {
-                    background-image: url('../assets/images/category-danceshoes.png');
+                    // background-image: url('../assets/images/category-danceshoes.png');
                     justify-content: flex-end;
                     margin-top: 30px;
 
@@ -302,7 +352,7 @@
                 width: 350px;
                 height: 530px;
 
-                background-image: url('../assets/images/category-ladies.png');
+                // background-image: url('../assets/images/category-ladies.png');
 
                 @media @extraLarge {
                     width: 210px;

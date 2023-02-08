@@ -1,0 +1,38 @@
+query productWishlistList($guestUuid: UUID, $first: Int, $after: String) {
+    productWishlistList(guestUuid: $guestUuid, first: $first, after: $after) {
+        pagesCursor {
+            startCursor
+            endCursor
+            cursor
+        }
+        edges {
+            node {
+                product {
+                    id
+                    name
+                    price
+                    productsizecolorSet {
+                        edges {
+                            node {
+                                id
+                                isAvailable
+                                productimageSet {
+                                    edges {
+                                        node {
+                                            image
+                                            imageCropping
+                                        }
+                                    }
+                                }
+                                color {
+                                    id
+                                    color
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

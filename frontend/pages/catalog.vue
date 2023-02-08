@@ -1,6 +1,28 @@
 <template>
     <div class="container">
         <base-title :title="h1" class="mt-15"/>
+        <template class="desc">
+    <div class="container">
+        <ApolloQuery
+            :query="require('~/graphql/queries/product/productType.graphql')"
+            :variables="{
+                productType: h1.charAt(0).toUpperCase() + h1.slice(1).toLowerCase(),
+            }"
+        >
+            <template v-slot="{ result: { error, data }, isLoading }">
+                <div v-if="isLoading || error" class="loading apollo mt-85"><loader /></div>
+                <div v-else-if="data && data.productTypeDetail" class="result apollo">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="text-box" v-html="data.productTypeDetail.description"></div>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </ApolloQuery>
+    </div>
+</template>
+
         <div class="row mt-45">
             <div class="col-12 col-lg-3 filter-group" :class="{ active: showFilter }">
                 <filter-catalog
@@ -48,6 +70,7 @@
                     :variables="{
                         first: 12,
                         after: cursor,
+                        isNew: isNew,
                         ...filter,
                     }"
                     ref="catalog"
@@ -69,6 +92,7 @@
                                             :id="product.node.id"
                                             :name="product.node.name"
                                             :price="product.node.price"
+                                            :priceSale="product.node.priceSale"
                                             :isWishlist="product.node.isWishlist"
                                             :colorsGroup="product.node.productsizecolorSet"
                                         />
@@ -92,6 +116,8 @@
     </div>
 </template>
 <script>
+
+    import { computed, defineComponent, ref } from "vue";
     import ProductItem from '../components/catalog/ProductItem.vue';
     import FilterCatalog from '../components/catalog/FilterCatalog.vue';
     import Pagination from '../components/catalog/Pagination';
@@ -101,6 +127,9 @@
         components: {ProductItem, FilterCatalog, Pagination, Loader},
         name: 'catalog',
         data() {
+
+    
+
             let sortItems = [
                 {id: 'created_at', label: 'Oldest to Newest'},
                 {id: 'price', label: 'Price, low to high'},
@@ -125,6 +154,10 @@
                 sortVal = sortItems[4];
             }
 
+            let isNew = null;  
+            
+            if (this.$route.query.isNew)
+                isNew = true
 
             return {
                 breadcrumbs: [],
@@ -133,6 +166,7 @@
                 cursor: null,
                 showDropdown: false,
                 sortVal: sortVal,
+                isNew: isNew,
                 showFilter: false,
                 sortItems: sortItems,
                 filter: {},
@@ -229,7 +263,33 @@
             }
         }
     };
+
+
 </script>
+<style>
+row.mt-45 {
+    clear: both;
+}
+.block-title {
+    width: 100%;
+}
+.block-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 24px 20px;
+  background-color: skyblue;
+  border-radius: 8px;
+}
+.block-content__paragraph {
+  color: white;
+}
+.block-content__button {
+  color: white;
+  text-decoration: underline;
+}
+</style>
 <style lang="less">
     .filter-group {
         @media @large {
@@ -270,7 +330,10 @@
             }
         }
     }
+
+
 </style>
+
 <style lang="less" scoped>
     .prudocts-head {
         display: flex;
@@ -358,5 +421,9 @@
                 }
             }
         }
+    }
+
+    .block-title {
+       float: left;
     }
 </style>

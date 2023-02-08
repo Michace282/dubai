@@ -1,7 +1,5 @@
 <template>
     <div class="account-contact">
-        <base-title class="form-title" title="Contact information"/>
-        <slot></slot>
         <div class="form-group" v-if="isFormReady">
             <div class="row">
                 <div class="col-12 col-md-6">

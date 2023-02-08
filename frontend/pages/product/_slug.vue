@@ -293,7 +293,6 @@
         <b-modal
                 id="purchase-modal"
                 ref="purchase-modal"
-                @hidden="$router.push({ name: 'index', query: {} })"
                 hide-footer
                 centered
             >

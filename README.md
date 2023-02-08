@@ -8,7 +8,9 @@
 #### Запуск docker
 При запуске создаётся 4 контейнера: postgresql, django, nuxtjs, nginx. Запустить сборку можно командой:
 ```shell script
-docker-compose up --build
+docker-compose -f docker-compose-dev.yml up --build -d
+лог django: docker-compose -f docker-compose-dev.yml logs django
+лог фронта: docker-compose -f docker-compose-dev.yml logs nuxt
 ```
 #### В браузере
 ```lin
